@@ -60,22 +60,22 @@
         display: flex;
         align-items: center;
         min-width: 0;
-        padding: clamp(28px, 2vw, 40px);
-        padding-right: clamp(10px, 1vw, 18px);
+        padding: clamp(40px, 4.2vw, 76px);
+        padding-right: clamp(28px, 3.4vw, 60px);
       }
 
       .story-inner {
-        width: min(100%, 1040px);
+        width: min(100%, 960px);
       }
 
       .intro {
         margin: 0;
-        max-width: 1040px;
-        font-size: clamp(2.5rem, 3.8vw, 3.75rem);
-        font-weight: 700;
-        letter-spacing: -0.045em;
-        line-height: 1.4;
-        word-spacing: 0.025em;
+        max-width: 950px;
+        font-size: clamp(1.85rem, 2.65vw, 2.65rem);
+        font-weight: 600;
+        letter-spacing: -0.037em;
+        line-height: 1.48;
+        word-spacing: 0.01em;
       }
 
       .intro .soft {
@@ -88,7 +88,7 @@
       }
 
       .sentence + .sentence {
-        margin-left: 0.16em;
+        margin-left: 0.12em;
       }
 
       .inline-link,
@@ -140,99 +140,6 @@
         transform: scaleX(1);
       }
 
-      .sticker-word {
-        position: relative;
-        display: inline-block;
-        isolation: isolate;
-      }
-
-      .sticker {
-        position: absolute;
-        z-index: 5;
-        top: -0.42em;
-        left: -0.16em;
-        width: 1.85em;
-        aspect-ratio: 1;
-        cursor: pointer;
-        padding: 0.1em;
-        perspective: 500px;
-        transform: rotate(-7deg);
-        transform-origin: 18% 18%;
-      }
-
-      .sticker img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        pointer-events: none;
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-        filter: drop-shadow(0 0.08em 0.08em rgba(20, 25, 40, 0.2));
-        transform: translateZ(0);
-        transform-origin: 0 0;
-        transition:
-          clip-path 920ms cubic-bezier(0.16, 1, 0.3, 1),
-          filter 920ms cubic-bezier(0.16, 1, 0.3, 1),
-          transform 920ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      .sticker::before {
-        position: absolute;
-        z-index: -1;
-        inset: 14%;
-        border-radius: 32%;
-        background: rgba(28, 31, 40, 0.26);
-        content: "";
-        filter: blur(0.12em);
-        opacity: 0.35;
-        transform: translate3d(0.06em, 0.08em, 0) scale(0.84);
-        transition:
-          opacity 920ms cubic-bezier(0.16, 1, 0.3, 1),
-          transform 920ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      .sticker::after {
-        position: absolute;
-        z-index: 2;
-        right: 0.06em;
-        bottom: 0.08em;
-        width: 68%;
-        height: 68%;
-        border-radius: 12% 18% 46% 18%;
-        background:
-          linear-gradient(138deg, rgba(255,255,255,0.98) 8%, rgba(225,228,242,0.98) 48%, rgba(174,181,218,0.96) 100%);
-        box-shadow: 0.06em 0.1em 0.16em rgba(24, 28, 48, 0.2);
-        clip-path: polygon(100% 0, 100% 100%, 0 100%);
-        content: "";
-        opacity: 0;
-        pointer-events: none;
-        transform: translate3d(0, 0, 0) rotate(0deg) scale(0.02);
-        transform-origin: 100% 100%;
-        transition:
-          opacity 220ms ease,
-          transform 920ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      .sticker:is(:hover, :focus-visible) {
-        outline: none;
-      }
-
-      .sticker:is(:hover, :focus-visible) img {
-        clip-path: polygon(0 0, 100% 0, 100% 18%, 18% 100%, 0 100%);
-        filter: drop-shadow(0 0.1em 0.1em rgba(20, 25, 40, 0.22));
-        transform: rotate3d(1, -1, 0, 7deg);
-      }
-
-      .sticker:is(:hover, :focus-visible)::before {
-        opacity: 0.2;
-        transform: translate3d(0.2em, 0.22em, 0) scale(1.08);
-      }
-
-      .sticker:is(:hover, :focus-visible)::after {
-        opacity: 1;
-        transform: translate3d(0.22em, -0.24em, 0) rotate(-28deg) scale(1);
-      }
-
       .blue { background: var(--blue); }
       .yellow { background: var(--yellow); }
       .green { background: var(--green); }
@@ -246,11 +153,10 @@
         gap: 10px;
         margin-top: clamp(42px, 7vh, 76px);
         color: var(--muted);
-        flex-wrap: nowrap;
-        font-size: clamp(2.5rem, 3.8vw, 3.75rem);
+        font-size: clamp(1.7rem, 2.2vw, 2.4rem);
         font-weight: 450;
-        letter-spacing: -0.045em;
-        line-height: 1.4;
+        letter-spacing: -0.03em;
+        line-height: 1.42;
       }
 
       .footer-link {
@@ -486,13 +392,13 @@
         }
 
         .intro {
-          font-size: clamp(1.75rem, 7vw, 2.35rem);
-          line-height: 1.42;
+          font-size: clamp(1.8rem, 7.2vw, 2.65rem);
+          line-height: 1.36;
         }
 
         .links {
           margin-top: 50px;
-          font-size: clamp(1.75rem, 7vw, 2.35rem);
+          font-size: 1.5rem;
         }
 
         .gallery-wrap {
@@ -514,11 +420,7 @@
         .card-media,
         .window,
         .inline-link,
-        .footer-link,
-        .sticker,
-        .sticker img,
-        .sticker::before,
-        .sticker::after {
+        .footer-link {
           transition-duration: 0.01ms !important;
         }
       }
@@ -537,12 +439,7 @@
             <span class="soft">another short explanation.</span></span><span class="sentence">i keep what moves me in
             <a class="inline-link yellow" href="#gallery">inspiration</a>, think out loud in
             <a class="inline-link blue external-link" href="#">writing</a>, build with
-            <span class="sticker-word">
-              <a class="inline-link purple external-link" href="#">codex</a>
-              <span class="sticker" tabindex="0" role="img" aria-label="Peel the Codex sticker">
-                <img src="media/codex-sticker-transparent.png" alt="" />
-              </span>
-            </span>, and live on
+            <a class="inline-link purple external-link" href="#">codex</a>, and live on
             <a class="inline-link green external-link" href="#">x</a> and
             <a class="inline-link purple external-link" href="#">github</a>.</span>
           </h1>
