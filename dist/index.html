@@ -19,7 +19,7 @@
         color-scheme: light;
         --ink: #171717;
         --muted: #aaa9a4;
-        --paper: #f8f8f6;
+        --paper: #ffffff;
         --line: rgba(23, 23, 23, 0.1);
         --blue: #dce9ff;
         --yellow: #fff0a7;
@@ -52,7 +52,7 @@
 
       .shell {
         display: grid;
-        grid-template-columns: minmax(0, 1.72fr) minmax(340px, 0.88fr);
+        grid-template-columns: minmax(0, 3fr) minmax(330px, 1fr);
         min-height: 100vh;
       }
 
@@ -60,42 +60,21 @@
         display: flex;
         align-items: center;
         min-width: 0;
-        padding: clamp(40px, 7vw, 112px);
-        padding-right: clamp(44px, 6vw, 96px);
+        padding: clamp(40px, 5.5vw, 96px);
+        padding-right: clamp(36px, 4vw, 72px);
       }
 
       .story-inner {
-        width: min(100%, 1060px);
-      }
-
-      .eyebrow {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: clamp(32px, 6vh, 72px);
-        color: #65645f;
-        font-size: 0.86rem;
-        font-weight: 650;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .eyebrow::before {
-        width: 9px;
-        height: 9px;
-        border-radius: 50%;
-        background: #5c76ff;
-        box-shadow: 0 0 0 5px rgba(92, 118, 255, 0.12);
-        content: "";
+        width: min(100%, 960px);
       }
 
       .intro {
         margin: 0;
-        max-width: 990px;
-        font-size: clamp(2rem, 3.05vw, 4rem);
-        font-weight: 690;
-        letter-spacing: -0.045em;
-        line-height: 1.23;
+        max-width: 950px;
+        font-size: clamp(1.85rem, 2.18vw, 2.55rem);
+        font-weight: 560;
+        letter-spacing: -0.037em;
+        line-height: 1.48;
       }
 
       .intro .soft {
@@ -104,7 +83,7 @@
       }
 
       .intro .name {
-        font-weight: 790;
+        font-weight: 700;
       }
 
       .inline-link,
@@ -136,10 +115,10 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 12px 16px;
-        margin-top: clamp(42px, 8vh, 92px);
+        gap: 10px;
+        margin-top: clamp(42px, 7vh, 76px);
         color: var(--muted);
-        font-size: clamp(1.35rem, 2vw, 2.45rem);
+        font-size: clamp(1.7rem, 2.05vw, 2.4rem);
         font-weight: 450;
         letter-spacing: -0.03em;
       }
@@ -154,29 +133,7 @@
         min-width: 0;
         height: 100vh;
         overflow: hidden;
-        border-left: 1px solid var(--line);
-        background: linear-gradient(90deg, rgba(248, 248, 246, 0.2), #f2f2ef);
-      }
-
-      .gallery-wrap::before,
-      .gallery-wrap::after {
-        position: absolute;
-        z-index: 3;
-        right: 0;
-        left: 0;
-        height: 12vh;
-        pointer-events: none;
-        content: "";
-      }
-
-      .gallery-wrap::before {
-        top: 0;
-        background: linear-gradient(var(--paper), transparent);
-      }
-
-      .gallery-wrap::after {
-        bottom: 0;
-        background: linear-gradient(transparent, var(--paper));
+        background: var(--paper);
       }
 
       .gallery {
@@ -198,8 +155,8 @@
 
       .reel {
         display: grid;
-        gap: clamp(22px, 3.2vw, 46px);
-        padding: 10vh clamp(26px, 4vw, 62px);
+        gap: clamp(20px, 2vw, 32px);
+        padding: 2vh clamp(18px, 1.8vw, 34px);
       }
 
       .card {
@@ -208,9 +165,9 @@
         aspect-ratio: 1.55 / 1;
         overflow: hidden;
         border: 1px solid rgba(23, 23, 23, 0.12);
-        border-radius: 28px;
+        border-radius: 22px;
         background: #fff;
-        box-shadow: 0 18px 60px rgba(28, 28, 25, 0.08);
+        box-shadow: 0 8px 28px rgba(28, 28, 25, 0.04);
         transform: rotate(var(--tilt, 0deg));
         transform-origin: center;
       }
@@ -305,6 +262,11 @@
         text-transform: uppercase;
       }
 
+      .meta,
+      .video::after {
+        display: none;
+      }
+
       .dark .meta { color: #fff; }
 
       .type {
@@ -343,27 +305,6 @@
         content: "";
       }
 
-      .gallery-hint {
-        position: absolute;
-        z-index: 4;
-        top: 50%;
-        left: 18px;
-        display: grid;
-        place-items: center;
-        width: 30px;
-        height: 88px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        background: rgba(248, 248, 246, 0.86);
-        color: #777670;
-        font-size: 0.68rem;
-        font-weight: 750;
-        letter-spacing: 0.05em;
-        writing-mode: vertical-rl;
-        transform: translate(-50%, -50%) rotate(180deg);
-        backdrop-filter: blur(10px);
-      }
-
       @media (max-width: 900px) {
         .shell {
           display: block;
@@ -374,13 +315,9 @@
           padding: 72px 26px 56px;
         }
 
-        .eyebrow {
-          margin-bottom: 38px;
-        }
-
         .intro {
-          font-size: clamp(2rem, 8.4vw, 3.4rem);
-          line-height: 1.19;
+          font-size: clamp(1.8rem, 7.2vw, 2.65rem);
+          line-height: 1.36;
         }
 
         .links {
@@ -392,12 +329,6 @@
           height: min(80vh, 760px);
           border-top: 1px solid var(--line);
           border-left: 0;
-        }
-
-        .gallery-hint {
-          left: auto;
-          right: 6px;
-          transform: translateY(-50%) rotate(180deg);
         }
 
         .reel {
@@ -414,31 +345,27 @@
     <main class="shell">
       <section class="story" aria-labelledby="intro-heading">
         <div class="story-inner">
-          <div class="eyebrow">Living portfolio · Singapore</div>
           <h1 class="intro" id="intro-heading">
-            hello, i’m <span class="name">your name.</span> i build
-            <a class="inline-link blue" href="#gallery">products</a>
-            that turn ambitious ideas into useful things.
-            <span class="soft">right now, i’m working across technology, design, and business—learning in public and following the problems that won’t leave me alone.</span>
-            my latest work includes
-            <a class="inline-link yellow" href="#gallery">project one</a>,
-            <a class="inline-link green" href="#gallery">project two</a>, and
-            <a class="inline-link purple" href="#gallery">project three</a>.
-            <span class="soft">this space is the running version of everything i’m building, thinking about, and becoming.</span>
+            hello, i’m <span class="name">your name.</span> i build products where
+            technology, design, and business meet. right now i’m working on
+            <a class="inline-link blue" href="#gallery">project one</a>,
+            <span class="soft">a short explanation.</span> on the side i’m building
+            <a class="inline-link yellow" href="#gallery">project two</a>,
+            <span class="soft">another short explanation.</span> i keep what moves me in
+            <a class="inline-link yellow" href="#gallery">inspiration</a>, think out loud in
+            <a class="inline-link blue" href="#">writing</a>, and live on
+            <a class="inline-link green" href="#">x</a> and
+            <a class="inline-link purple" href="#">github</a>.
           </h1>
 
-          <nav class="links" aria-label="Portfolio links">
-            <span>find me on</span>
-            <a class="footer-link green" href="#">linkedin</a>
-            <a class="footer-link purple" href="#">github</a>
-            <a class="footer-link blue" href="#">x</a>
-            <a class="footer-link peach" href="mailto:hello@example.com">email</a>
-          </nav>
+          <div class="links">
+            <span>got something in mind?</span>
+            <a class="footer-link peach" href="mailto:hello@example.com">work with me</a>
+          </div>
         </div>
       </section>
 
       <aside class="gallery-wrap" aria-label="Selected project gallery">
-        <span class="gallery-hint" aria-hidden="true">scroll</span>
         <div class="gallery" id="gallery" tabindex="0">
           <div class="reel" id="reel">
             <article class="card dark video" style="--glow:#7590ff;--accent:#7948d8">
@@ -493,6 +420,8 @@
         clone.setAttribute('aria-hidden', 'true');
         reel.appendChild(clone);
       });
+
+      gallery.scrollTop = 150;
 
       function pauseAutoScroll(duration = 2400) {
         pausedUntil = performance.now() + duration;
