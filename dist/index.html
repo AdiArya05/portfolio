@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A living portfolio of projects, experiments, and work in progress."
+    />
+    <meta name="theme-color" content="#f8f8f6" />
+    <title>Aditya Arya — Portfolio</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23181818'/%3E%3Cpath d='M17 45 29 17h7l12 28h-8l-2-6H27l-2 6h-8Zm13-13h6l-3-9-3 9Z' fill='%23f7f7f3'/%3E%3C/svg%3E"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #171717;
+        --muted: #aaa9a4;
+        --paper: #f8f8f6;
+        --line: rgba(23, 23, 23, 0.1);
+        --blue: #dce9ff;
+        --yellow: #fff0a7;
+        --green: #d9f4df;
+        --purple: #eadcff;
+        --peach: #ffdcca;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: var(--paper);
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1.72fr) minmax(340px, 0.88fr);
+        min-height: 100vh;
+      }
+
+      .story {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        padding: clamp(40px, 7vw, 112px);
+        padding-right: clamp(44px, 6vw, 96px);
+      }
+
+      .story-inner {
+        width: min(100%, 1060px);
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: clamp(32px, 6vh, 72px);
+        color: #65645f;
+        font-size: 0.86rem;
+        font-weight: 650;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #5c76ff;
+        box-shadow: 0 0 0 5px rgba(92, 118, 255, 0.12);
+        content: "";
+      }
+
+      .intro {
+        margin: 0;
+        max-width: 990px;
+        font-size: clamp(2rem, 3.05vw, 4rem);
+        font-weight: 690;
+        letter-spacing: -0.045em;
+        line-height: 1.23;
+      }
+
+      .intro .soft {
+        color: var(--muted);
+        font-weight: 450;
+      }
+
+      .intro .name {
+        font-weight: 790;
+      }
+
+      .inline-link,
+      .footer-link {
+        display: inline;
+        border-radius: 0.22em;
+        padding: 0.02em 0.16em 0.08em;
+        text-decoration: none;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
+        transition: transform 180ms ease, filter 180ms ease;
+      }
+
+      .inline-link:hover,
+      .inline-link:focus-visible,
+      .footer-link:hover,
+      .footer-link:focus-visible {
+        filter: saturate(1.2) brightness(0.97);
+        outline: none;
+      }
+
+      .blue { background: var(--blue); }
+      .yellow { background: var(--yellow); }
+      .green { background: var(--green); }
+      .purple { background: var(--purple); }
+      .peach { background: var(--peach); }
+
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px 16px;
+        margin-top: clamp(42px, 8vh, 92px);
+        color: var(--muted);
+        font-size: clamp(1.35rem, 2vw, 2.45rem);
+        font-weight: 450;
+        letter-spacing: -0.03em;
+      }
+
+      .footer-link {
+        color: var(--ink);
+        font-weight: 680;
+      }
+
+      .gallery-wrap {
+        position: relative;
+        min-width: 0;
+        height: 100vh;
+        overflow: hidden;
+        border-left: 1px solid var(--line);
+        background: linear-gradient(90deg, rgba(248, 248, 246, 0.2), #f2f2ef);
+      }
+
+      .gallery-wrap::before,
+      .gallery-wrap::after {
+        position: absolute;
+        z-index: 3;
+        right: 0;
+        left: 0;
+        height: 12vh;
+        pointer-events: none;
+        content: "";
+      }
+
+      .gallery-wrap::before {
+        top: 0;
+        background: linear-gradient(var(--paper), transparent);
+      }
+
+      .gallery-wrap::after {
+        bottom: 0;
+        background: linear-gradient(transparent, var(--paper));
+      }
+
+      .gallery {
+        height: 100%;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-width: thin;
+        scrollbar-color: #8e8e89 transparent;
+        scroll-behavior: auto;
+        touch-action: pan-y;
+      }
+
+      .gallery::-webkit-scrollbar { width: 7px; }
+      .gallery::-webkit-scrollbar-track { background: transparent; }
+      .gallery::-webkit-scrollbar-thumb {
+        border-radius: 999px;
+        background: #8e8e89;
+      }
+
+      .reel {
+        display: grid;
+        gap: clamp(22px, 3.2vw, 46px);
+        padding: 10vh clamp(26px, 4vw, 62px);
+      }
+
+      .card {
+        position: relative;
+        display: grid;
+        aspect-ratio: 1.55 / 1;
+        overflow: hidden;
+        border: 1px solid rgba(23, 23, 23, 0.12);
+        border-radius: 28px;
+        background: #fff;
+        box-shadow: 0 18px 60px rgba(28, 28, 25, 0.08);
+        transform: rotate(var(--tilt, 0deg));
+        transform-origin: center;
+      }
+
+      .card:nth-child(3n + 1) { --tilt: -1.8deg; }
+      .card:nth-child(3n + 2) { --tilt: 1.5deg; }
+      .card:nth-child(3n) { --tilt: -0.8deg; }
+
+      .card-art {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 78% 22%, var(--glow, #9fd2ff) 0, transparent 38%),
+          radial-gradient(circle at 18% 85%, var(--accent, #ffd39f) 0, transparent 43%),
+          linear-gradient(145deg, #fff 18%, #efefec 100%);
+      }
+
+      .card.dark .card-art {
+        background:
+          radial-gradient(circle at 70% 24%, rgba(82, 116, 255, 0.65), transparent 32%),
+          radial-gradient(circle at 22% 78%, rgba(132, 54, 255, 0.48), transparent 34%),
+          #111;
+      }
+
+      .window {
+        position: absolute;
+        inset: 18% 12%;
+        border: 1px solid rgba(23, 23, 23, 0.12);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 18px 45px rgba(23, 23, 23, 0.15);
+        backdrop-filter: blur(14px);
+      }
+
+      .dark .window {
+        border-color: rgba(255, 255, 255, 0.14);
+        background: rgba(16, 16, 18, 0.78);
+        color: #fff;
+      }
+
+      .window-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        height: 30px;
+        padding: 0 12px;
+        border-bottom: 1px solid rgba(127, 127, 127, 0.16);
+      }
+
+      .window-bar span {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+        opacity: 0.25;
+      }
+
+      .window-copy {
+        display: grid;
+        gap: 10px;
+        padding: 11% 10%;
+      }
+
+      .window-copy strong {
+        font-size: clamp(1rem, 1.5vw, 1.45rem);
+        letter-spacing: -0.03em;
+      }
+
+      .window-copy i {
+        width: 72%;
+        height: 8px;
+        border-radius: 999px;
+        background: currentColor;
+        opacity: 0.12;
+      }
+
+      .window-copy i:last-child { width: 46%; }
+
+      .meta {
+        position: absolute;
+        z-index: 2;
+        right: 22px;
+        bottom: 20px;
+        left: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .dark .meta { color: #fff; }
+
+      .type {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .type::before {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #5c76ff;
+        content: "";
+      }
+
+      .video .type::before {
+        width: 0;
+        height: 0;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-left: 7px solid #ff725c;
+        border-radius: 0;
+        background: transparent;
+      }
+
+      .video::after {
+        position: absolute;
+        right: 22px;
+        bottom: 50px;
+        left: 22px;
+        z-index: 2;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #ff725c 0 38%, rgba(255,255,255,.28) 38%);
+        content: "";
+      }
+
+      .gallery-hint {
+        position: absolute;
+        z-index: 4;
+        top: 50%;
+        left: 18px;
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 88px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(248, 248, 246, 0.86);
+        color: #777670;
+        font-size: 0.68rem;
+        font-weight: 750;
+        letter-spacing: 0.05em;
+        writing-mode: vertical-rl;
+        transform: translate(-50%, -50%) rotate(180deg);
+        backdrop-filter: blur(10px);
+      }
+
+      @media (max-width: 900px) {
+        .shell {
+          display: block;
+        }
+
+        .story {
+          min-height: auto;
+          padding: 72px 26px 56px;
+        }
+
+        .eyebrow {
+          margin-bottom: 38px;
+        }
+
+        .intro {
+          font-size: clamp(2rem, 8.4vw, 3.4rem);
+          line-height: 1.19;
+        }
+
+        .links {
+          margin-top: 50px;
+          font-size: 1.5rem;
+        }
+
+        .gallery-wrap {
+          height: min(80vh, 760px);
+          border-top: 1px solid var(--line);
+          border-left: 0;
+        }
+
+        .gallery-hint {
+          left: auto;
+          right: 6px;
+          transform: translateY(-50%) rotate(180deg);
+        }
+
+        .reel {
+          padding-inline: 28px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * { scroll-behavior: auto !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="story" aria-labelledby="intro-heading">
+        <div class="story-inner">
+          <div class="eyebrow">Living portfolio · Singapore</div>
+          <h1 class="intro" id="intro-heading">
+            hello, i’m <span class="name">your name.</span> i build
+            <a class="inline-link blue" href="#gallery">products</a>
+            that turn ambitious ideas into useful things.
+            <span class="soft">right now, i’m working across technology, design, and business—learning in public and following the problems that won’t leave me alone.</span>
+            my latest work includes
+            <a class="inline-link yellow" href="#gallery">project one</a>,
+            <a class="inline-link green" href="#gallery">project two</a>, and
+            <a class="inline-link purple" href="#gallery">project three</a>.
+            <span class="soft">this space is the running version of everything i’m building, thinking about, and becoming.</span>
+          </h1>
+
+          <nav class="links" aria-label="Portfolio links">
+            <span>find me on</span>
+            <a class="footer-link green" href="#">linkedin</a>
+            <a class="footer-link purple" href="#">github</a>
+            <a class="footer-link blue" href="#">x</a>
+            <a class="footer-link peach" href="mailto:hello@example.com">email</a>
+          </nav>
+        </div>
+      </section>
+
+      <aside class="gallery-wrap" aria-label="Selected project gallery">
+        <span class="gallery-hint" aria-hidden="true">scroll</span>
+        <div class="gallery" id="gallery" tabindex="0">
+          <div class="reel" id="reel">
+            <article class="card dark video" style="--glow:#7590ff;--accent:#7948d8">
+              <div class="card-art"></div>
+              <div class="window">
+                <div class="window-bar"><span></span><span></span><span></span></div>
+                <div class="window-copy"><strong>Product in motion</strong><i></i><i></i></div>
+              </div>
+              <div class="meta"><span>Project one</span><span class="type">Video</span></div>
+            </article>
+
+            <article class="card" style="--glow:#b8dfff;--accent:#ffd9ad">
+              <div class="card-art"></div>
+              <div class="window">
+                <div class="window-bar"><span></span><span></span><span></span></div>
+                <div class="window-copy"><strong>Project interface</strong><i></i><i></i></div>
+              </div>
+              <div class="meta"><span>Project two</span><span class="type">Image</span></div>
+            </article>
+
+            <article class="card video" style="--glow:#ffb8cc;--accent:#cdbdff">
+              <div class="card-art"></div>
+              <div class="window">
+                <div class="window-bar"><span></span><span></span><span></span></div>
+                <div class="window-copy"><strong>Prototype reel</strong><i></i><i></i></div>
+              </div>
+              <div class="meta"><span>Project three</span><span class="type">Video</span></div>
+            </article>
+
+            <article class="card" style="--glow:#a9f1c1;--accent:#fff0a7">
+              <div class="card-art"></div>
+              <div class="window">
+                <div class="window-bar"><span></span><span></span><span></span></div>
+                <div class="window-copy"><strong>Work in progress</strong><i></i><i></i></div>
+              </div>
+              <div class="meta"><span>Project four</span><span class="type">Image</span></div>
+            </article>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script>
+      const gallery = document.querySelector('#gallery');
+      const reel = document.querySelector('#reel');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let pausedUntil = 0;
+      let lastTime = performance.now();
+
+      [...reel.children].forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        reel.appendChild(clone);
+      });
+
+      function pauseAutoScroll(duration = 2400) {
+        pausedUntil = performance.now() + duration;
+      }
+
+      ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach((eventName) => {
+        gallery.addEventListener(eventName, () => pauseAutoScroll(), { passive: true });
+      });
+
+      function tick(now) {
+        const elapsed = Math.min(now - lastTime, 32);
+        lastTime = now;
+
+        if (!reduceMotion && now > pausedUntil) {
+          gallery.scrollTop += elapsed * 0.024;
+        }
+
+        const resetAt = reel.scrollHeight / 2;
+        if (gallery.scrollTop >= resetAt) gallery.scrollTop -= resetAt;
+        if (gallery.scrollTop < 0) gallery.scrollTop += resetAt;
+
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    </script>
+  </body>
+</html>
