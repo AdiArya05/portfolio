@@ -96,49 +96,59 @@
         vertical-align: baseline;
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
-        transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
-        transform-origin: 50% 72%;
         transition:
-          transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
-          filter 180ms ease,
-          box-shadow 260ms ease;
+          filter 180ms ease;
+      }
+
+      .inline-link::before,
+      .footer-link::before {
+        position: absolute;
+        right: 0.16em;
+        bottom: 0.045em;
+        left: 0.16em;
+        height: 0.055em;
+        border-radius: 999px;
+        background: currentColor;
+        content: "";
+        pointer-events: none;
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .inline-link:hover,
       .inline-link:focus-visible,
       .footer-link:hover,
       .footer-link:focus-visible {
-        filter: saturate(1.2) brightness(0.97);
-        box-shadow: 0 0.16em 0.34em rgba(24, 24, 24, 0.12);
-        transform: translate3d(0, -0.09em, 0) scale(1.035) rotate(-0.55deg);
+        filter: saturate(1.14) brightness(0.98);
         outline: none;
       }
 
-      .inline-link:active,
-      .footer-link:active {
-        box-shadow: 0 0.04em 0.1em rgba(24, 24, 24, 0.08);
-        transform: translate3d(0, 0, 0) scale(0.975) rotate(0deg);
-        transition-duration: 90ms;
+      .inline-link:is(:hover, :focus-visible)::before,
+      .footer-link:is(:hover, :focus-visible)::before {
+        transform: scaleX(1);
       }
 
-      .external-link::after {
+      .inline-link::after,
+      .footer-link::after {
         position: absolute;
         z-index: 2;
-        top: -0.28em;
-        right: -0.3em;
+        top: 50%;
+        right: -0.42em;
         opacity: 0;
         pointer-events: none;
         content: "↗";
-        transform: translate3d(-0.12em, 0.12em, 0) scale(0.6);
-        transform-origin: left bottom;
+        transform: translate3d(-0.14em, -42%, 0) scale(0.54);
+        transform-origin: left center;
         transition:
           opacity 150ms ease,
           transform 230ms cubic-bezier(0.16, 1, 0.3, 1);
       }
 
-      .external-link:is(:hover, :focus-visible)::after {
-        opacity: 0.72;
-        transform: translate3d(0.1em, -0.04em, 0) scale(0.62);
+      .inline-link:is(:hover, :focus-visible)::after,
+      .footer-link:is(:hover, :focus-visible)::after {
+        opacity: 0.68;
+        transform: translate3d(0.04em, -50%, 0) scale(0.58);
       }
 
       .sticker-word {
@@ -150,17 +160,17 @@
       .sticker {
         position: absolute;
         z-index: 5;
-        left: 50%;
-        bottom: -0.18em;
-        width: 1.78em;
+        top: -0.52em;
+        left: -0.24em;
+        width: 0.94em;
         aspect-ratio: 1;
         cursor: pointer;
-        filter: drop-shadow(0 0.1em 0.11em rgba(20, 25, 40, 0.18));
-        transform: translate3d(-50%, 0, 0) rotate(-7deg) scale(1);
-        transform-origin: 58% 72%;
+        filter: drop-shadow(0 0.08em 0.08em rgba(20, 25, 40, 0.2));
+        transform: translate3d(0, 0, 0) rotate(-8deg);
+        transform-origin: 22% 20%;
         transition:
-          transform 720ms cubic-bezier(0.16, 1, 0.3, 1),
-          filter 620ms ease;
+          transform 760ms cubic-bezier(0.16, 1, 0.3, 1),
+          filter 680ms ease;
       }
 
       .sticker img {
@@ -179,8 +189,8 @@
         z-index: -1;
         right: 0.02em;
         bottom: -0.02em;
-        width: 38%;
-        height: 38%;
+        width: 52%;
+        height: 52%;
         border-radius: 50%;
         background: rgba(22, 28, 52, 0.28);
         filter: blur(0.15em);
@@ -198,13 +208,13 @@
         z-index: 2;
         right: 0;
         bottom: 0;
-        width: 41%;
-        height: 41%;
-        background: linear-gradient(135deg, #b9bfdd 0%, #f7f7fc 48%, #c9cde3 100%);
+        width: 54%;
+        height: 54%;
+        background: linear-gradient(135deg, #8f96b4 0%, #ffffff 50%, #b6bdd7 100%);
         clip-path: polygon(100% 0, 0 100%, 100% 100%);
         opacity: 0;
         content: "";
-        transform: scale(0.18) rotate(-16deg);
+        transform: scale(0.1) rotate(-24deg);
         transform-origin: right bottom;
         transition:
           opacity 300ms ease,
@@ -212,19 +222,19 @@
       }
 
       .sticker:is(:hover, :focus-visible) {
-        filter: drop-shadow(0 0.28em 0.2em rgba(20, 25, 40, 0.24));
+        filter: drop-shadow(0.08em 0.16em 0.12em rgba(20, 25, 40, 0.24));
         outline: none;
-        transform: translate3d(-50%, -0.28em, 0) rotate(-2deg) scale(1.055);
+        transform: translate3d(0, -0.06em, 0) rotate(-5deg);
       }
 
       .sticker:is(:hover, :focus-visible) img {
-        clip-path: polygon(0 0, 100% 0, 100% 59%, 59% 100%, 0 100%);
+        clip-path: polygon(0 0, 100% 0, 100% 46%, 46% 100%, 0 100%);
       }
 
       .sticker:is(:hover, :focus-visible)::before,
       .sticker:is(:hover, :focus-visible)::after {
         opacity: 1;
-        transform: scale(1) rotate(0deg);
+        transform: scale(1.08) rotate(1deg);
       }
 
       .blue { background: var(--blue); }
@@ -628,10 +638,8 @@
       const gallery = document.querySelector('#gallery');
       const reel = document.querySelector('#reel');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let pausedUntil = 0;
       let lastTime = performance.now();
-      let isHoveringGallery = false;
-      let scrollRate = 0.045;
+      let scrollRate = 0.065;
       let loopPoint = 0;
 
       const originalCards = [...reel.children];
@@ -651,32 +659,17 @@
 
       gallery.scrollTop = 150;
 
-      function pauseAutoScroll(duration = 2400) {
-        pausedUntil = performance.now() + duration;
-      }
-
-      ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach((eventName) => {
-        gallery.addEventListener(eventName, () => pauseAutoScroll(), { passive: true });
-      });
-
-      gallery.addEventListener('pointerenter', () => {
-        isHoveringGallery = true;
-      });
-
-      gallery.addEventListener('pointerleave', () => {
-        isHoveringGallery = false;
-      });
-
       function tick(now) {
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
 
-        const targetRate = isHoveringGallery ? 0 : 0.045;
-        const easing = 1 - Math.exp(-elapsed / 145);
+        const isHoveringGallery = gallery.matches(':hover');
+        const targetRate = isHoveringGallery ? 0 : 0.065;
+        const easing = 1 - Math.exp(-elapsed / 105);
         scrollRate += (targetRate - scrollRate) * easing;
         if (isHoveringGallery && scrollRate < 0.0005) scrollRate = 0;
 
-        if (!reduceMotion && now > pausedUntil) {
+        if (!reduceMotion) {
           gallery.scrollTop += elapsed * scrollRate;
         }
 
