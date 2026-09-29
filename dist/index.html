@@ -161,15 +161,58 @@
 
       .card {
         position: relative;
+        z-index: 1;
         display: grid;
         aspect-ratio: 1.55 / 1;
         overflow: hidden;
         border: 1px solid rgba(23, 23, 23, 0.12);
         border-radius: 22px;
-        background: #fff;
+        background: rgba(255, 255, 255, 0.72);
         box-shadow: 0 8px 28px rgba(28, 28, 25, 0.04);
         transform: rotate(var(--tilt, 0deg));
         transform-origin: center;
+        transition:
+          transform 620ms cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 420ms ease,
+          box-shadow 620ms cubic-bezier(0.16, 1, 0.3, 1),
+          background 420ms ease;
+        isolation: isolate;
+      }
+
+      .card::before {
+        position: absolute;
+        z-index: 4;
+        inset: 0;
+        border-radius: inherit;
+        background:
+          linear-gradient(135deg, rgba(255,255,255,0.72), transparent 28%),
+          linear-gradient(315deg, rgba(255,255,255,0.34), transparent 36%);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.72),
+          inset 1px 0 0 rgba(255,255,255,0.32),
+          inset 0 -1px 0 rgba(255,255,255,0.18);
+        opacity: 0;
+        pointer-events: none;
+        content: "";
+        transition: opacity 360ms ease;
+      }
+
+      .card:is(:hover, :focus-visible) {
+        z-index: 5;
+        border-color: rgba(255, 255, 255, 0.88);
+        background: rgba(255, 255, 255, 0.46);
+        box-shadow:
+          0 34px 80px rgba(31, 35, 45, 0.17),
+          0 10px 28px rgba(31, 35, 45, 0.09),
+          inset 0 0 0 1px rgba(255,255,255,0.38);
+        transform: translate3d(-9px, -3px, 0) scale(1.045) rotate(0deg);
+        outline: none;
+        backdrop-filter: blur(24px) saturate(1.35);
+        -webkit-backdrop-filter: blur(24px) saturate(1.35);
+      }
+
+      .card:is(:hover, :focus-visible)::before {
+        opacity: 1;
       }
 
       .card:nth-child(3n + 1) { --tilt: -1.8deg; }
@@ -179,10 +222,21 @@
       .card-art {
         position: absolute;
         inset: 0;
+        border-radius: inherit;
         background:
           radial-gradient(circle at 78% 22%, var(--glow, #9fd2ff) 0, transparent 38%),
           radial-gradient(circle at 18% 85%, var(--accent, #ffd39f) 0, transparent 43%),
           linear-gradient(145deg, #fff 18%, #efefec 100%);
+        transition:
+          inset 620ms cubic-bezier(0.16, 1, 0.3, 1),
+          border-radius 620ms cubic-bezier(0.16, 1, 0.3, 1),
+          filter 420ms ease;
+      }
+
+      .card:is(:hover, :focus-visible) .card-art {
+        inset: 7px;
+        border-radius: 16px;
+        filter: saturate(1.04) brightness(1.015);
       }
 
       .card.dark .card-art {
@@ -200,6 +254,11 @@
         background: rgba(255, 255, 255, 0.8);
         box-shadow: 0 18px 45px rgba(23, 23, 23, 0.15);
         backdrop-filter: blur(14px);
+        transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .card:is(:hover, :focus-visible) .window {
+        transform: translateY(-2px) scale(0.98);
       }
 
       .dark .window {
@@ -338,6 +397,12 @@
 
       @media (prefers-reduced-motion: reduce) {
         * { scroll-behavior: auto !important; }
+
+        .card,
+        .card-art,
+        .window {
+          transition-duration: 0.01ms !important;
+        }
       }
     </style>
   </head>
@@ -368,7 +433,7 @@
       <aside class="gallery-wrap" aria-label="Selected project gallery">
         <div class="gallery" id="gallery" tabindex="0">
           <div class="reel" id="reel">
-            <article class="card dark video" style="--glow:#7590ff;--accent:#7948d8">
+            <article class="card dark video" tabindex="0" style="--glow:#7590ff;--accent:#7948d8">
               <div class="card-art"></div>
               <div class="window">
                 <div class="window-bar"><span></span><span></span><span></span></div>
@@ -377,7 +442,7 @@
               <div class="meta"><span>Project one</span><span class="type">Video</span></div>
             </article>
 
-            <article class="card" style="--glow:#b8dfff;--accent:#ffd9ad">
+            <article class="card" tabindex="0" style="--glow:#b8dfff;--accent:#ffd9ad">
               <div class="card-art"></div>
               <div class="window">
                 <div class="window-bar"><span></span><span></span><span></span></div>
@@ -386,7 +451,7 @@
               <div class="meta"><span>Project two</span><span class="type">Image</span></div>
             </article>
 
-            <article class="card video" style="--glow:#ffb8cc;--accent:#cdbdff">
+            <article class="card video" tabindex="0" style="--glow:#ffb8cc;--accent:#cdbdff">
               <div class="card-art"></div>
               <div class="window">
                 <div class="window-bar"><span></span><span></span><span></span></div>
@@ -395,7 +460,7 @@
               <div class="meta"><span>Project three</span><span class="type">Video</span></div>
             </article>
 
-            <article class="card" style="--glow:#a9f1c1;--accent:#fff0a7">
+            <article class="card" tabindex="0" style="--glow:#a9f1c1;--accent:#fff0a7">
               <div class="card-art"></div>
               <div class="window">
                 <div class="window-bar"><span></span><span></span><span></span></div>
@@ -414,10 +479,13 @@
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let pausedUntil = 0;
       let lastTime = performance.now();
+      let isHoveringGallery = false;
+      let scrollRate = 0.024;
 
       [...reel.children].forEach((card) => {
         const clone = card.cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
+        clone.setAttribute('tabindex', '-1');
         reel.appendChild(clone);
       });
 
@@ -431,12 +499,24 @@
         gallery.addEventListener(eventName, () => pauseAutoScroll(), { passive: true });
       });
 
+      gallery.addEventListener('pointerenter', () => {
+        isHoveringGallery = true;
+      });
+
+      gallery.addEventListener('pointerleave', () => {
+        isHoveringGallery = false;
+      });
+
       function tick(now) {
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
 
+        const targetRate = isHoveringGallery ? 0.0045 : 0.024;
+        const easing = 1 - Math.exp(-elapsed / 260);
+        scrollRate += (targetRate - scrollRate) * easing;
+
         if (!reduceMotion && now > pausedUntil) {
-          gallery.scrollTop += elapsed * 0.024;
+          gallery.scrollTop += elapsed * scrollRate;
         }
 
         const resetAt = reel.scrollHeight / 2;
