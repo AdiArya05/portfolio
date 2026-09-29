@@ -164,18 +164,19 @@
         z-index: 1;
         display: grid;
         aspect-ratio: 1.55 / 1;
-        overflow: hidden;
-        border: 1px solid rgba(23, 23, 23, 0.12);
+        overflow: visible;
+        border: 1px solid transparent;
         border-radius: 22px;
-        background: rgba(255, 255, 255, 0.72);
-        box-shadow: 0 8px 28px rgba(28, 28, 25, 0.04);
+        background: transparent;
+        box-shadow: none;
         transform: rotate(var(--tilt, 0deg));
         transform-origin: center;
+        will-change: transform;
         transition:
-          transform 620ms cubic-bezier(0.16, 1, 0.3, 1),
-          border-color 420ms ease,
-          box-shadow 620ms cubic-bezier(0.16, 1, 0.3, 1),
-          background 420ms ease;
+          transform 440ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          border-color 300ms ease,
+          box-shadow 440ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          background-color 300ms ease;
         isolation: isolate;
       }
 
@@ -184,31 +185,26 @@
         z-index: 4;
         inset: 0;
         border-radius: inherit;
-        background:
-          linear-gradient(135deg, rgba(255,255,255,0.72), transparent 28%),
-          linear-gradient(315deg, rgba(255,255,255,0.34), transparent 36%);
+        background: linear-gradient(180deg, rgba(255,255,255,0.48), transparent 34%);
         box-shadow:
-          inset 0 1px 0 rgba(255,255,255,0.72),
-          inset 1px 0 0 rgba(255,255,255,0.32),
-          inset 0 -1px 0 rgba(255,255,255,0.18);
+          inset 0 1px 0 rgba(255,255,255,0.96),
+          inset 0 -1px 0 rgba(0,0,0,0.025);
         opacity: 0;
         pointer-events: none;
         content: "";
-        transition: opacity 360ms ease;
+        transition: opacity 280ms ease;
       }
 
       .card:is(:hover, :focus-visible) {
         z-index: 5;
-        border-color: rgba(255, 255, 255, 0.88);
-        background: rgba(255, 255, 255, 0.46);
+        border-color: rgba(20, 20, 20, 0.065);
+        background-color: rgba(255, 255, 255, 0.93);
         box-shadow:
-          0 34px 80px rgba(31, 35, 45, 0.17),
-          0 10px 28px rgba(31, 35, 45, 0.09),
-          inset 0 0 0 1px rgba(255,255,255,0.38);
-        transform: translate3d(-9px, -3px, 0) scale(1.045) rotate(0deg);
+          0 22px 44px rgba(22, 25, 30, 0.105),
+          0 4px 12px rgba(22, 25, 30, 0.045),
+          inset 0 1px 0 rgba(255,255,255,0.92);
+        transform: translate3d(0, -3px, 0) scale(1.018) rotate(0deg);
         outline: none;
-        backdrop-filter: blur(24px) saturate(1.35);
-        -webkit-backdrop-filter: blur(24px) saturate(1.35);
       }
 
       .card:is(:hover, :focus-visible)::before {
@@ -227,16 +223,39 @@
           radial-gradient(circle at 78% 22%, var(--glow, #9fd2ff) 0, transparent 38%),
           radial-gradient(circle at 18% 85%, var(--accent, #ffd39f) 0, transparent 43%),
           linear-gradient(145deg, #fff 18%, #efefec 100%);
+        box-shadow: 0 0 0 1px rgba(20, 20, 20, 0.08);
+        transform: translateZ(0) scale(1);
+        will-change: transform;
         transition:
-          inset 620ms cubic-bezier(0.16, 1, 0.3, 1),
-          border-radius 620ms cubic-bezier(0.16, 1, 0.3, 1),
-          filter 420ms ease;
+          transform 440ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          border-radius 440ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          filter 300ms ease;
       }
 
       .card:is(:hover, :focus-visible) .card-art {
-        inset: 7px;
-        border-radius: 16px;
-        filter: saturate(1.04) brightness(1.015);
+        border-radius: 18px;
+        filter: saturate(1.015);
+        transform: translateZ(0) scale(0.952);
+      }
+
+      .card-media {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        object-fit: cover;
+        box-shadow: 0 0 0 1px rgba(20, 20, 20, 0.08);
+        transform: translateZ(0) scale(1);
+        will-change: transform;
+        transition:
+          transform 440ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          border-radius 440ms cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+
+      .card:is(:hover, :focus-visible) .card-media {
+        border-radius: 18px;
+        transform: translateZ(0) scale(0.952);
       }
 
       .card.dark .card-art {
@@ -254,11 +273,11 @@
         background: rgba(255, 255, 255, 0.8);
         box-shadow: 0 18px 45px rgba(23, 23, 23, 0.15);
         backdrop-filter: blur(14px);
-        transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 440ms cubic-bezier(0.2, 0.8, 0.2, 1);
       }
 
       .card:is(:hover, :focus-visible) .window {
-        transform: translateY(-2px) scale(0.98);
+        transform: translateY(-2px) scale(0.94);
       }
 
       .dark .window {
@@ -400,6 +419,7 @@
 
         .card,
         .card-art,
+        .card-media,
         .window {
           transition-duration: 0.01ms !important;
         }
@@ -433,13 +453,8 @@
       <aside class="gallery-wrap" aria-label="Selected project gallery">
         <div class="gallery" id="gallery" tabindex="0">
           <div class="reel" id="reel">
-            <article class="card dark video" tabindex="0" style="--glow:#7590ff;--accent:#7948d8">
-              <div class="card-art"></div>
-              <div class="window">
-                <div class="window-bar"><span></span><span></span><span></span></div>
-                <div class="window-copy"><strong>Product in motion</strong><i></i><i></i></div>
-              </div>
-              <div class="meta"><span>Project one</span><span class="type">Video</span></div>
+            <article class="card" tabindex="0" aria-label="Catch Live Activity">
+              <img class="card-media" src="media/catch-live-activity.png" alt="Catch bus arrival Live Activity displayed on an iPhone lock screen" />
             </article>
 
             <article class="card" tabindex="0" style="--glow:#b8dfff;--accent:#ffd9ad">
@@ -480,14 +495,23 @@
       let pausedUntil = 0;
       let lastTime = performance.now();
       let isHoveringGallery = false;
-      let scrollRate = 0.024;
+      let scrollRate = 0.045;
+      let loopPoint = 0;
 
-      [...reel.children].forEach((card) => {
+      const originalCards = [...reel.children];
+      originalCards.forEach((card) => {
         const clone = card.cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
         clone.setAttribute('tabindex', '-1');
         reel.appendChild(clone);
       });
+
+      function refreshLoopPoint() {
+        loopPoint = reel.children[originalCards.length].offsetTop;
+      }
+
+      refreshLoopPoint();
+      window.addEventListener('resize', refreshLoopPoint, { passive: true });
 
       gallery.scrollTop = 150;
 
@@ -511,17 +535,16 @@
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
 
-        const targetRate = isHoveringGallery ? 0.0045 : 0.024;
-        const easing = 1 - Math.exp(-elapsed / 260);
+        const targetRate = isHoveringGallery ? 0.011 : 0.045;
+        const easing = 1 - Math.exp(-elapsed / 210);
         scrollRate += (targetRate - scrollRate) * easing;
 
         if (!reduceMotion && now > pausedUntil) {
           gallery.scrollTop += elapsed * scrollRate;
         }
 
-        const resetAt = reel.scrollHeight / 2;
-        if (gallery.scrollTop >= resetAt) gallery.scrollTop -= resetAt;
-        if (gallery.scrollTop < 0) gallery.scrollTop += resetAt;
+        if (loopPoint > 0 && gallery.scrollTop >= loopPoint) gallery.scrollTop -= loopPoint;
+        if (loopPoint > 0 && gallery.scrollTop < 0) gallery.scrollTop += loopPoint;
 
         requestAnimationFrame(tick);
       }
