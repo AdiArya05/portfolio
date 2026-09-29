@@ -96,8 +96,10 @@
         vertical-align: baseline;
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
+        transform: translate3d(0, 0, 0);
         transition:
-          filter 180ms ease;
+          filter 180ms ease,
+          transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .inline-link::before,
@@ -122,6 +124,7 @@
       .footer-link:focus-visible {
         filter: saturate(1.14) brightness(0.98);
         outline: none;
+        transform: translate3d(0.11em, 0, 0);
       }
 
       .inline-link:is(:hover, :focus-visible)::before,
@@ -169,11 +172,13 @@
         transform: translate3d(0, 0, 0) rotate(-8deg);
         transform-origin: 22% 20%;
         transition:
-          transform 760ms cubic-bezier(0.16, 1, 0.3, 1),
-          filter 680ms ease;
+          transform 640ms cubic-bezier(0.22, 1, 0.36, 1),
+          filter 640ms cubic-bezier(0.22, 1, 0.36, 1);
       }
 
       .sticker img {
+        position: relative;
+        z-index: 1;
         display: block;
         width: 100%;
         height: 100%;
@@ -181,12 +186,12 @@
         object-fit: cover;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         transform: translateZ(0);
-        transition: clip-path 680ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: clip-path 640ms cubic-bezier(0.22, 1, 0.36, 1);
       }
 
       .sticker::before {
         position: absolute;
-        z-index: -1;
+        z-index: 0;
         right: 0.02em;
         bottom: -0.02em;
         width: 52%;
@@ -194,13 +199,13 @@
         border-radius: 50%;
         background: rgba(22, 28, 52, 0.28);
         filter: blur(0.15em);
-        opacity: 0;
+        opacity: 0.01;
         content: "";
-        transform: translate3d(0, 0, 0) scale(0.45);
+        transform: translate3d(-0.02em, -0.02em, 0) scale(0.08);
         transform-origin: right bottom;
         transition:
-          opacity 420ms ease,
-          transform 680ms cubic-bezier(0.16, 1, 0.3, 1);
+          opacity 640ms cubic-bezier(0.22, 1, 0.36, 1),
+          transform 640ms cubic-bezier(0.22, 1, 0.36, 1);
       }
 
       .sticker::after {
@@ -212,13 +217,13 @@
         height: 54%;
         background: linear-gradient(135deg, #8f96b4 0%, #ffffff 50%, #b6bdd7 100%);
         clip-path: polygon(100% 0, 0 100%, 100% 100%);
-        opacity: 0;
+        opacity: 0.01;
         content: "";
-        transform: scale(0.1) rotate(-24deg);
+        transform: perspective(4em) rotateX(82deg) rotateZ(-24deg) scale(0.12);
         transform-origin: right bottom;
         transition:
-          opacity 300ms ease,
-          transform 680ms cubic-bezier(0.16, 1, 0.3, 1);
+          opacity 640ms cubic-bezier(0.22, 1, 0.36, 1),
+          transform 640ms cubic-bezier(0.22, 1, 0.36, 1);
       }
 
       .sticker:is(:hover, :focus-visible) {
@@ -234,7 +239,14 @@
       .sticker:is(:hover, :focus-visible)::before,
       .sticker:is(:hover, :focus-visible)::after {
         opacity: 1;
-        transform: scale(1.08) rotate(1deg);
+      }
+
+      .sticker:is(:hover, :focus-visible)::before {
+        transform: translate3d(0.035em, 0.035em, 0) scale(1.04);
+      }
+
+      .sticker:is(:hover, :focus-visible)::after {
+        transform: perspective(4em) rotateX(10deg) rotateZ(1deg) scale(1.04);
       }
 
       .blue { background: var(--blue); }
@@ -312,23 +324,6 @@
         isolation: isolate;
       }
 
-      .card::before {
-        position: absolute;
-        z-index: 4;
-        inset: 0;
-        border-radius: inherit;
-        background:
-          radial-gradient(circle at 15% 8%, rgba(255,255,255,0.42), transparent 31%),
-          linear-gradient(130deg, rgba(255,255,255,0.18), transparent 45%);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,0.44),
-          inset 0 -1px 0 rgba(255,255,255,0.12);
-        opacity: 0;
-        pointer-events: none;
-        content: "";
-        transition: opacity 280ms ease;
-      }
-
       .card:is(:hover, :focus-visible) {
         z-index: 5;
         border-color: transparent;
@@ -339,10 +334,6 @@
           inset 0 0 0 1px rgba(255,255,255,0.2);
         transform: translate3d(0, -3px, 0) scale(1.018) rotate(0deg);
         outline: none;
-      }
-
-      .card:is(:hover, :focus-visible)::before {
-        opacity: 1;
       }
 
       .card:nth-child(3n + 1) { --tilt: -1.8deg; }
@@ -639,31 +630,58 @@
       const reel = document.querySelector('#reel');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let lastTime = performance.now();
+      let isHoveringGallery = false;
       let scrollRate = 0.065;
       let loopPoint = 0;
 
       const originalCards = [...reel.children];
-      originalCards.forEach((card) => {
-        const clone = card.cloneNode(true);
-        clone.setAttribute('aria-hidden', 'true');
-        clone.setAttribute('tabindex', '-1');
-        reel.appendChild(clone);
-      });
+      for (let copy = 0; copy < 2; copy += 1) {
+        originalCards.forEach((card) => {
+          const clone = card.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          clone.setAttribute('tabindex', '-1');
+          reel.appendChild(clone);
+        });
+      }
 
       function refreshLoopPoint() {
         loopPoint = reel.children[originalCards.length].offsetTop;
       }
 
       refreshLoopPoint();
+      window.addEventListener('load', refreshLoopPoint, { once: true });
       window.addEventListener('resize', refreshLoopPoint, { passive: true });
 
       gallery.scrollTop = 150;
+
+      gallery.addEventListener('pointerenter', () => {
+        isHoveringGallery = true;
+      });
+
+      gallery.addEventListener('pointerleave', () => {
+        isHoveringGallery = false;
+      });
+
+      gallery.addEventListener('pointercancel', () => {
+        isHoveringGallery = false;
+      });
+
+      document.addEventListener('pointermove', (event) => {
+        isHoveringGallery = gallery.contains(event.target);
+      }, { passive: true });
+
+      window.addEventListener('blur', () => {
+        isHoveringGallery = false;
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) isHoveringGallery = false;
+      });
 
       function tick(now) {
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
 
-        const isHoveringGallery = gallery.matches(':hover');
         const targetRate = isHoveringGallery ? 0 : 0.065;
         const easing = 1 - Math.exp(-elapsed / 105);
         scrollRate += (targetRate - scrollRate) * easing;
