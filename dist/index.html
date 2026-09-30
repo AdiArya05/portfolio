@@ -20,6 +20,13 @@
       type="image/svg+xml"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23181818'/%3E%3Cpath d='M17 45 29 17h7l12 28h-8l-2-6H27l-2 6h-8Zm13-13h6l-3-9-3 9Z' fill='%23f7f7f3'/%3E%3C/svg%3E"
     />
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem('portfolio-theme');
+        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = savedTheme || systemTheme;
+      })();
+    </script>
     <style>
       :root {
         color-scheme: light;
@@ -34,12 +41,26 @@
         --peach: #ffdcca;
       }
 
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --ink: #f4f4f1;
+        --muted: #92918b;
+        --paper: #111110;
+        --line: rgba(255, 255, 255, 0.12);
+        --blue: #263f61;
+        --yellow: #66551f;
+        --green: #214b31;
+        --purple: #49345f;
+        --peach: #633d2d;
+      }
+
       * {
         box-sizing: border-box;
       }
 
       html {
         background: var(--paper);
+        transition: background-color 320ms ease;
       }
 
       body {
@@ -50,6 +71,7 @@
         font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
           Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
+        transition: background-color 320ms ease, color 320ms ease;
       }
 
       a {
@@ -60,6 +82,62 @@
         display: grid;
         grid-template-columns: minmax(0, 7fr) minmax(390px, 3fr);
         min-height: 100vh;
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: 22px;
+        left: 22px;
+        z-index: 40;
+        display: grid;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--paper) 86%, transparent);
+        color: var(--ink);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+        font: inherit;
+        backdrop-filter: blur(14px);
+        transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), background-color 320ms ease,
+          color 320ms ease, border-color 320ms ease;
+      }
+
+      .theme-toggle:hover,
+      .theme-toggle:focus-visible {
+        outline: none;
+        transform: translateY(-2px) scale(1.04);
+      }
+
+      .theme-toggle .sun,
+      .theme-toggle .moon {
+        grid-area: 1 / 1;
+        font-size: 1.15rem;
+        line-height: 1;
+        transition: opacity 220ms ease, transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .theme-toggle .sun {
+        opacity: 0;
+        transform: rotate(-45deg) scale(0.7);
+      }
+
+      .theme-toggle .moon {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+      }
+
+      html[data-theme="dark"] .theme-toggle .sun {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+      }
+
+      html[data-theme="dark"] .theme-toggle .moon {
+        opacity: 0;
+        transform: rotate(45deg) scale(0.7);
       }
 
       .story {
@@ -91,6 +169,40 @@
 
       .intro .name {
         font-weight: 600;
+      }
+
+      .name-glow {
+        position: relative;
+        z-index: 0;
+        display: inline-block;
+        border-radius: 0.18em;
+        isolation: isolate;
+        transition: color 280ms ease, text-shadow 360ms ease;
+      }
+
+      .name-glow::after {
+        position: absolute;
+        z-index: -1;
+        inset: -0.16em -0.22em;
+        border-radius: 0.3em;
+        background: linear-gradient(100deg, #ffd66b 0%, #ff8b5d 44%, #ff62aa 100%);
+        content: "";
+        filter: blur(0.36em);
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.82);
+        transition: opacity 320ms ease, transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .name-glow:is(:hover, :focus-visible) {
+        color: #fff8e8;
+        text-shadow: 0 0 0.16em rgba(255, 125, 88, 0.58);
+        outline: none;
+      }
+
+      .name-glow:is(:hover, :focus-visible)::after {
+        opacity: 0.8;
+        transform: scale(1);
       }
 
       .sentence + .sentence {
@@ -178,8 +290,11 @@
       }
 
       .inline-emoji {
+        display: inline-block;
+        margin-left: -0.1em;
         font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
         font-style: normal;
+        vertical-align: -0.04em;
       }
 
       .project-icon {
@@ -212,8 +327,8 @@
         left: 50%;
         padding: 0.2em 0.45em;
         border-radius: 999px;
-        background: #171717;
-        color: #fff;
+        background: var(--ink);
+        color: var(--paper);
         content: attr(data-label);
         font-size: 0.36em;
         font-weight: 500;
@@ -239,11 +354,15 @@
       }
 
       .social-icons {
+        position: relative;
+        z-index: 20;
         display: inline-flex;
         align-items: center;
-        gap: 0.16em;
+        width: 3.55em;
+        height: 1.34em;
         margin-left: 0.08em;
         vertical-align: -0.28em;
+        isolation: isolate;
       }
 
       .social-sentence {
@@ -251,9 +370,25 @@
       }
 
       .social-icon {
+        position: absolute;
+        top: 0;
         margin: 0;
         background: #fff;
         padding: 0.22em;
+      }
+
+      .social-icon:nth-child(1) { left: 0; z-index: 1; }
+      .social-icon:nth-child(2) { left: 1.06em; z-index: 2; }
+      .social-icon:nth-child(3) { left: 2.12em; z-index: 3; }
+
+      .social-icon:is(:hover, :focus-visible) { z-index: 9; }
+
+      .x-icon {
+        background: #101010;
+      }
+
+      .x-icon img {
+        filter: invert(1);
       }
 
       .social-icon img {
@@ -357,12 +492,179 @@
         font-weight: 680;
       }
 
+      .contact-link {
+        border-radius: 0;
+        padding: 0 0 0.08em;
+        background: transparent;
+        isolation: isolate;
+      }
+
+      .contact-link::before {
+        right: 0;
+        left: 0;
+      }
+
+      .contact-link::after {
+        position: absolute;
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: #ff637c;
+        box-shadow:
+          -82px -20px 0 #f8cf52,
+          -61px 22px 0 #8fe0b6,
+          -28px -25px 0 #a58bff,
+          25px 22px 0 #ff8d63,
+          61px -20px 0 #6fcbff,
+          92px 14px 0 #fb6fa8;
+        content: "";
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.4) rotate(-8deg);
+        transition: opacity 180ms ease;
+      }
+
+      .contact-link:is(:hover, :focus-visible)::after {
+        opacity: 1;
+        animation: pixel-drift 920ms steps(4, end) infinite alternate;
+      }
+
+      @keyframes pixel-drift {
+        0% { transform: translate3d(-0.08em, 0.05em, 0) scale(0.72) rotate(-8deg); }
+        100% { transform: translate3d(0.11em, -0.08em, 0) scale(1) rotate(6deg); }
+      }
+
+      .github-link {
+        overflow: visible;
+      }
+
+      .github-link::after {
+        display: none;
+      }
+
+      .github-activity-card {
+        position: absolute;
+        z-index: 30;
+        bottom: calc(100% + 0.55em);
+        left: 50%;
+        display: grid;
+        width: 10.8em;
+        min-width: 270px;
+        padding: 13px;
+        gap: 10px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--paper) 94%, transparent);
+        color: var(--ink);
+        box-shadow: 0 18px 46px rgba(0, 0, 0, 0.16);
+        font-size: 0.34em;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 1.25;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate3d(-50%, 12px, 0) scale(0.94);
+        transform-origin: 50% 100%;
+        transition: opacity 180ms ease, transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+        backdrop-filter: blur(20px);
+      }
+
+      .github-link:is(:hover, :focus-visible) .github-activity-card {
+        opacity: 1;
+        transform: translate3d(-50%, 0, 0) scale(1);
+      }
+
+      .github-activity-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .github-activity-head strong {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .github-activity-head span,
+      .github-meta {
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .github-repos {
+        display: grid;
+        gap: 5px;
+      }
+
+      .github-repo {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        min-width: 0;
+        color: var(--ink);
+        font-size: 11px;
+      }
+
+      .github-repo::before {
+        width: 6px;
+        height: 6px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: #40c463;
+        content: "";
+      }
+
+      .github-repo span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .contribution-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(7, 7px);
+        grid-auto-columns: 7px;
+        gap: 3px;
+        min-height: 67px;
+      }
+
+      .contribution-day {
+        width: 7px;
+        height: 7px;
+        border-radius: 2px;
+        background: color-mix(in srgb, var(--ink) 9%, transparent);
+      }
+
+      .contribution-day[data-level="1"] { background: #9be9a8; }
+      .contribution-day[data-level="2"] { background: #40c463; }
+      .contribution-day[data-level="3"] { background: #30a14e; }
+      .contribution-day[data-level="4"] { background: #216e39; }
+
+      .github-meta {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .github-meta img {
+        width: 20px;
+        height: 20px;
+        padding: 3px;
+        border-radius: 6px;
+        background: #fff;
+      }
+
       .gallery-wrap {
         position: relative;
         min-width: 0;
         height: 100vh;
         overflow: hidden;
         background: var(--paper);
+        transition: background-color 320ms ease;
       }
 
       .gallery {
@@ -398,7 +700,8 @@
         border-radius: 22px;
         background: transparent;
         box-shadow: none;
-        transform: rotate(var(--tilt, 0deg));
+        cursor: zoom-in;
+        transform: translate3d(0, 0, 0) scale(1);
         transform-origin: center;
         will-change: transform;
         transition:
@@ -413,13 +716,167 @@
         box-shadow:
           0 24px 44px rgba(22, 25, 30, 0.14),
           0 7px 16px rgba(22, 25, 30, 0.07);
-        transform: translate3d(0, -2px, 0) scale(1.012) rotate(0deg);
+        transform: translate3d(0, -3px, 0) scale(1.018);
         outline: none;
       }
 
-      .card:nth-child(3n + 1) { --tilt: -1.8deg; }
-      .card:nth-child(3n + 2) { --tilt: 1.5deg; }
-      .card:nth-child(3n) { --tilt: -0.8deg; }
+      .reel-progress {
+        position: absolute;
+        z-index: 12;
+        top: 50%;
+        right: 9px;
+        display: grid;
+        gap: 5px;
+        padding: 10px 7px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--paper) 74%, transparent);
+        box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+        pointer-events: none;
+        transform: translateY(-50%);
+        backdrop-filter: blur(12px);
+      }
+
+      .reel-progress span {
+        width: 4px;
+        height: 15px;
+        border-radius: 999px;
+        background: var(--ink);
+        opacity: 0.18;
+        transform: scaleY(0.72);
+        transition: opacity 300ms ease, transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .reel-progress span.is-near {
+        opacity: 0.48;
+        transform: scaleY(0.9);
+      }
+
+      .reel-progress span.is-active {
+        opacity: 0.96;
+        transform: scaleY(1.38);
+      }
+
+      .project-modal {
+        position: fixed;
+        z-index: 90;
+        inset: 0;
+        display: grid;
+        padding: clamp(24px, 5vw, 72px);
+        place-items: center;
+        background: color-mix(in srgb, var(--paper) 18%, transparent);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 360ms ease;
+        backdrop-filter: blur(22px) saturate(0.72);
+        -webkit-backdrop-filter: blur(22px) saturate(0.72);
+      }
+
+      .project-modal.is-open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-panel {
+        position: relative;
+        width: min(74vw, 1080px);
+        max-width: calc(100vw - 48px);
+        overflow: hidden;
+        border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+        border-radius: 28px;
+        background: var(--paper);
+        box-shadow: 0 44px 110px rgba(0, 0, 0, 0.26);
+        transform: translate3d(0, 18px, 0) scale(0.96);
+        transition: transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .project-modal.is-open .modal-panel {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      .modal-panel img {
+        display: block;
+        width: 100%;
+        max-height: 74vh;
+        object-fit: contain;
+        background: #e8e8e7;
+      }
+
+      .modal-copy {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 22px;
+        padding: 16px 20px 18px;
+      }
+
+      .modal-copy strong {
+        font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+        font-weight: 600;
+        letter-spacing: -0.025em;
+      }
+
+      .modal-copy span {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .modal-close {
+        position: absolute;
+        z-index: 3;
+        top: 14px;
+        right: 14px;
+        display: grid;
+        width: 38px;
+        height: 38px;
+        padding: 0;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.44);
+        border-radius: 50%;
+        background: rgba(20, 20, 20, 0.64);
+        color: #fff;
+        cursor: pointer;
+        font: 400 1.25rem/1 "Space Grotesk", sans-serif;
+        backdrop-filter: blur(12px);
+        transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), background 180ms ease;
+      }
+
+      .modal-close:is(:hover, :focus-visible) {
+        background: rgba(20, 20, 20, 0.84);
+        outline: none;
+        transform: scale(1.08) rotate(4deg);
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      .closing {
+        display: flex;
+        min-height: 210px;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(14px, 2vw, 28px);
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        background: var(--paper);
+        font-size: clamp(1.25rem, 2.1vw, 2rem);
+        letter-spacing: -0.025em;
+        transition: background-color 320ms ease, color 320ms ease;
+      }
+
+      .closing-mark {
+        display: grid;
+        width: clamp(54px, 6vw, 78px);
+        aspect-ratio: 1;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        color: var(--ink);
+        font-size: 0.72em;
+        font-weight: 600;
+        letter-spacing: -0.08em;
+        box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--ink) 4%, transparent);
+      }
 
       .card-art {
         position: absolute;
@@ -575,6 +1032,13 @@
       }
 
       @media (max-width: 900px) {
+        .theme-toggle {
+          top: 16px;
+          left: 16px;
+          width: 38px;
+          height: 38px;
+        }
+
         .shell {
           display: block;
         }
@@ -603,6 +1067,23 @@
         .reel {
           padding-inline: 28px;
         }
+
+        .modal-panel {
+          width: min(94vw, 820px);
+        }
+
+        .modal-copy {
+          display: grid;
+          gap: 5px;
+        }
+
+        .github-activity-card {
+          min-width: 250px;
+        }
+
+        .closing {
+          min-height: 170px;
+        }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -616,19 +1097,29 @@
         .footer-link,
         .project-sticker,
         .project-icon,
-        .tool {
+        .tool,
+        .name-glow,
+        .project-modal,
+        .modal-panel,
+        .reel-progress span {
           transition-duration: 0.01ms !important;
         }
+
+        .contact-link::after { animation: none !important; }
       }
     </style>
   </head>
   <body>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode">
+      <span class="sun" aria-hidden="true">☀︎</span>
+      <span class="moon" aria-hidden="true">☾</span>
+    </button>
     <main class="shell">
       <section class="story" aria-labelledby="intro-heading">
         <div class="story-inner">
           <h1 class="intro" id="intro-heading">
-            <span class="sentence">hello, i’m <span class="name">aditya arya</span>—adi for short.</span>
-            <span class="sentence"><span class="soft">i’m currently serving national service <span class="inline-emoji" aria-hidden="true">🫡</span> in singapore</span>
+            <span class="sentence">hello, i’m <span class="name name-glow" tabindex="0">aditya arya</span>—adi for short.</span>
+            <span class="sentence"><span class="soft">i’m currently serving national service<span class="inline-emoji" aria-hidden="true">🫡</span> in singapore</span>
             while <span class="name">building projects of my own.</span></span>
             <span class="sentence">right now i’m building
             <a class="project-icon external-link" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer" aria-label="View Catch on the App Store"><img src="media/catch-icon.png" alt="" /></a>,
@@ -645,14 +1136,22 @@
             <span class="sentence social-sentence">find me on
             <span class="social-icons" aria-label="LinkedIn, X, and GitHub">
               <a class="project-icon social-icon external-link" data-label="LinkedIn" href="https://sg.linkedin.com/in/aditya-arya1" target="_blank" rel="noreferrer" aria-label="Visit LinkedIn"><img src="media/linkedin.svg" alt="" /></a>
-              <a class="project-icon social-icon external-link" data-label="X" href="https://x.com/adiarya05" target="_blank" rel="noreferrer" aria-label="Visit X"><img src="media/x.svg" alt="" /></a>
-              <a class="project-icon social-icon external-link" data-label="GitHub" href="https://github.com/AdiArya05" target="_blank" rel="noreferrer" aria-label="Visit GitHub"><img src="media/github.svg" alt="" /></a>
+              <a class="project-icon social-icon x-icon external-link" data-label="X" href="https://x.com/adiarya05" target="_blank" rel="noreferrer" aria-label="Visit X"><img src="media/x.svg" alt="" /></a>
+              <a class="project-icon social-icon github-link external-link" data-label="GitHub" href="https://github.com/AdiArya05" target="_blank" rel="noreferrer" aria-label="Visit GitHub">
+                <img src="media/github.svg" alt="" />
+                <span class="github-activity-card" aria-hidden="true">
+                  <span class="github-activity-head"><strong>GitHub activity</strong><span id="github-status">loading</span></span>
+                  <span class="contribution-grid" id="github-grid"></span>
+                  <span class="github-repos" id="github-repos"></span>
+                  <span class="github-meta"><img src="media/github.svg" alt="" /><span id="github-meta">@AdiArya05 · public activity</span></span>
+                </span>
+              </a>
             </span>.</span>
           </h1>
 
           <div class="links">
             <span>got something in mind?</span>
-            <a class="footer-link peach external-link" href="mailto:adityaarya1021@gmail.com">work with me</a>
+            <a class="footer-link contact-link external-link" href="mailto:adityaarya1021@gmail.com">work with me</a>
           </div>
         </div>
       </section>
@@ -660,33 +1159,149 @@
       <aside class="gallery-wrap" aria-label="Selected project gallery">
         <div class="gallery" id="gallery" tabindex="0">
           <div class="reel" id="reel">
-            <article class="card" tabindex="0" aria-label="Catch Live Activity">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity">
               <img class="card-media" src="media/catch-live-activity.png" alt="Catch bus arrival Live Activity displayed on an iPhone lock screen" />
             </article>
 
-            <article class="card" tabindex="0" aria-label="Catch Live Activity detail">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity detail">
               <img class="card-media" src="media/catch-live-detail.png" alt="Catch Live Activity showing the next bus and leave-now guidance" />
             </article>
 
-            <article class="card" tabindex="0" aria-label="Catch bus arrival board">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch bus arrival board">
               <img class="card-media" src="media/catch-live-board.png" alt="Catch bus arrival board on an iPhone" />
             </article>
 
-            <article class="card" tabindex="0" aria-label="Catch nearby stop map">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch nearby stop map">
               <img class="card-media" src="media/catch-map.png" alt="Catch nearby bus stops map on an iPhone" />
             </article>
           </div>
         </div>
+        <div class="reel-progress" id="reel-progress" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </div>
       </aside>
     </main>
 
+    <footer class="closing" aria-label="Closing message">
+      <span>thank you for visiting.</span>
+      <span class="closing-mark" aria-hidden="true">AA</span>
+    </footer>
+
+    <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Catch project preview" hidden>
+      <div class="modal-panel" id="modal-panel">
+        <button class="modal-close" id="modal-close" type="button" aria-label="Close project preview">×</button>
+        <img id="modal-image" src="" alt="" />
+        <div class="modal-copy">
+          <strong>Catch</strong>
+          <span id="modal-caption">Singapore bus timing, designed to make the next move obvious.</span>
+        </div>
+      </div>
+    </div>
+
     <script>
+      const themeToggle = document.querySelector('#theme-toggle');
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+
+      function syncThemeControl() {
+        const isDark = document.documentElement.dataset.theme === 'dark';
+        themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        themeToggle.setAttribute('aria-pressed', String(isDark));
+        themeMeta.setAttribute('content', isDark ? '#111110' : '#ffffff');
+      }
+
+      syncThemeControl();
+
+      themeToggle.addEventListener('click', () => {
+        const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = nextTheme;
+        localStorage.setItem('portfolio-theme', nextTheme);
+        syncThemeControl();
+      });
+
+      const githubGrid = document.querySelector('#github-grid');
+      const githubStatus = document.querySelector('#github-status');
+      const githubMeta = document.querySelector('#github-meta');
+      const githubRepos = document.querySelector('#github-repos');
+      const githubLink = document.querySelector('.github-link');
+      const githubDays = 140;
+      let githubLoaded = false;
+
+      for (let day = 0; day < githubDays; day += 1) {
+        const cell = document.createElement('span');
+        cell.className = 'contribution-day';
+        cell.dataset.level = '0';
+        githubGrid.appendChild(cell);
+      }
+
+      async function loadGithubActivity() {
+        if (githubLoaded) return;
+        githubLoaded = true;
+
+        try {
+          const requestOptions = { headers: { Accept: 'application/vnd.github+json' } };
+          const [eventsResponse, reposResponse] = await Promise.all([
+            fetch('https://api.github.com/users/AdiArya05/events/public?per_page=100', requestOptions),
+            fetch('https://api.github.com/users/AdiArya05/repos?sort=pushed&per_page=3', requestOptions)
+          ]);
+          if (!eventsResponse.ok || !reposResponse.ok) throw new Error('GitHub activity unavailable');
+
+          const [events, repos] = await Promise.all([eventsResponse.json(), reposResponse.json()]);
+          const counts = new Map();
+          events.forEach((event) => {
+            const key = new Date(event.created_at).toISOString().slice(0, 10);
+            counts.set(key, (counts.get(key) || 0) + 1);
+          });
+          repos.forEach((repo) => {
+            if (!repo.pushed_at) return;
+            const key = new Date(repo.pushed_at).toISOString().slice(0, 10);
+            counts.set(key, Math.max(1, counts.get(key) || 0));
+          });
+
+          const today = new Date();
+          [...githubGrid.children].forEach((cell, index) => {
+            const date = new Date(today);
+            date.setDate(today.getDate() - (githubDays - 1 - index));
+            const key = date.toISOString().slice(0, 10);
+            const count = counts.get(key) || 0;
+            cell.dataset.level = String(Math.min(4, count));
+            cell.title = `${key}: ${count} public event${count === 1 ? '' : 's'}`;
+          });
+
+          repos.slice(0, 2).forEach((repo) => {
+            const row = document.createElement('span');
+            row.className = 'github-repo';
+            const name = document.createElement('span');
+            name.textContent = repo.name;
+            row.appendChild(name);
+            githubRepos.appendChild(row);
+          });
+
+          githubStatus.textContent = 'live';
+          githubMeta.textContent = `@AdiArya05 · ${repos.length} recently updated repos`;
+        } catch (error) {
+          githubStatus.textContent = 'unavailable';
+          githubMeta.textContent = '@AdiArya05 · view profile';
+        }
+      }
+
+      githubLink.addEventListener('pointerenter', loadGithubActivity, { once: true });
+      githubLink.addEventListener('focus', loadGithubActivity, { once: true });
+
       const gallery = document.querySelector('#gallery');
       const reel = document.querySelector('#reel');
+      const progressDots = [...document.querySelectorAll('#reel-progress span')];
+      const projectModal = document.querySelector('#project-modal');
+      const modalPanel = document.querySelector('#modal-panel');
+      const modalImage = document.querySelector('#modal-image');
+      const modalCaption = document.querySelector('#modal-caption');
+      const modalClose = document.querySelector('#modal-close');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let lastTime = performance.now();
       let isHoveringGallery = false;
-      let scrollRate = 0.078;
+      let isModalOpen = false;
+      let lastFocusedCard = null;
+      let closeTimer = null;
+      let scrollRate = 0.09;
       let loopPoint = 0;
 
       const originalCards = [...reel.children];
@@ -733,14 +1348,103 @@
         if (document.hidden) isHoveringGallery = false;
       });
 
+      function updateProgress() {
+        if (!loopPoint) return;
+        const progress = ((gallery.scrollTop % loopPoint) + loopPoint) % loopPoint / loopPoint;
+        const active = Math.min(originalCards.length - 1, Math.floor(progress * originalCards.length));
+
+        progressDots.forEach((dot, index) => {
+          const distance = Math.abs(index - active);
+          dot.classList.toggle('is-active', distance === 0);
+          dot.classList.toggle('is-near', distance === 1);
+        });
+      }
+
+      function openProject(card) {
+        const image = card.querySelector('.card-media');
+        if (!image || isModalOpen) return;
+
+        window.clearTimeout(closeTimer);
+        const sourceRect = card.getBoundingClientRect();
+        lastFocusedCard = card;
+        isModalOpen = true;
+        modalImage.src = image.currentSrc || image.src;
+        modalImage.alt = image.alt;
+        projectModal.hidden = false;
+        modalCaption.textContent = image.alt;
+        projectModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        projectModal.classList.add('is-open');
+
+        requestAnimationFrame(() => {
+          const targetRect = modalPanel.getBoundingClientRect();
+          const sourceCenterX = sourceRect.left + sourceRect.width / 2;
+          const sourceCenterY = sourceRect.top + sourceRect.height / 2;
+          const targetCenterX = targetRect.left + targetRect.width / 2;
+          const targetCenterY = targetRect.top + targetRect.height / 2;
+          const startTransform = `translate3d(${sourceCenterX - targetCenterX}px, ${sourceCenterY - targetCenterY}px, 0) scale(${sourceRect.width / targetRect.width}, ${sourceRect.height / targetRect.height})`;
+
+          if (!reduceMotion) {
+            modalPanel.animate(
+              [
+                { transform: startTransform, borderRadius: '22px', opacity: 0.82 },
+                { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 }
+              ],
+              { duration: 680, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' }
+            );
+          }
+
+          modalClose.focus({ preventScroll: true });
+        });
+      }
+
+      function closeProject() {
+        if (!isModalOpen) return;
+        isModalOpen = false;
+        projectModal.classList.remove('is-open');
+        projectModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+
+        closeTimer = window.setTimeout(() => {
+          modalImage.removeAttribute('src');
+          modalImage.alt = '';
+          projectModal.hidden = true;
+          if (lastFocusedCard && !lastFocusedCard.hasAttribute('aria-hidden')) {
+            lastFocusedCard.focus({ preventScroll: true });
+          }
+        }, reduceMotion ? 0 : 380);
+      }
+
+      reel.addEventListener('click', (event) => {
+        const card = event.target.closest('.card');
+        if (card) openProject(card);
+      });
+
+      reel.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        const card = event.target.closest('.card');
+        if (!card) return;
+        event.preventDefault();
+        openProject(card);
+      });
+
+      modalClose.addEventListener('click', closeProject);
+      projectModal.addEventListener('click', (event) => {
+        if (event.target === projectModal) closeProject();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeProject();
+      });
+
       function tick(now) {
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
 
-        const targetRate = isHoveringGallery ? 0 : 0.078;
+        const targetRate = isHoveringGallery || isModalOpen ? 0 : 0.09;
         const easing = 1 - Math.exp(-elapsed / 105);
         scrollRate += (targetRate - scrollRate) * easing;
-        if (isHoveringGallery && scrollRate < 0.0005) scrollRate = 0;
+        if ((isHoveringGallery || isModalOpen) && scrollRate < 0.0005) scrollRate = 0;
 
         if (!reduceMotion) {
           gallery.scrollTop += elapsed * scrollRate;
@@ -748,6 +1452,8 @@
 
         if (loopPoint > 0 && gallery.scrollTop >= loopPoint) gallery.scrollTop -= loopPoint;
         if (loopPoint > 0 && gallery.scrollTop < 0) gallery.scrollTop += loopPoint;
+
+        updateProgress();
 
         requestAnimationFrame(tick);
       }
