@@ -177,34 +177,9 @@
         transform: rotate(-3deg) translate3d(0, -0.18em, 0) scale(1.06);
       }
 
-      .service-copy {
-        position: relative;
-        isolation: isolate;
-      }
-
-      .emoji-sticker {
-        position: absolute;
-        z-index: 8;
-        top: -0.72em;
-        left: -0.22em;
-        display: grid;
-        width: 1.05em;
-        height: 1.05em;
-        place-items: center;
-        border-radius: 30%;
-        background: rgba(255, 255, 255, 0.96);
-        box-shadow: 0 0.1em 0.2em rgba(17, 24, 39, 0.16);
+      .inline-emoji {
         font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
-        font-size: 1em;
-        line-height: 1;
-        transform: rotate(-8deg) translate3d(0, 0, 0);
-        transform-origin: 50% 100%;
-        transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 360ms ease;
-      }
-
-      .service-copy:hover .emoji-sticker {
-        box-shadow: 0 0.18em 0.3em rgba(17, 24, 39, 0.2);
-        transform: rotate(-2deg) translate3d(0, -0.16em, 0) scale(1.06);
+        font-style: normal;
       }
 
       .project-icon {
@@ -261,6 +236,29 @@
       .project-icon:is(:hover, :focus-visible)::after {
         opacity: 1;
         transform: translate3d(-50%, 0, 0) scale(1);
+      }
+
+      .social-icons {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.16em;
+        margin-left: 0.08em;
+        vertical-align: -0.28em;
+      }
+
+      .social-sentence {
+        white-space: nowrap;
+      }
+
+      .social-icon {
+        margin: 0;
+        background: #fff;
+        padding: 0.22em;
+      }
+
+      .social-icon img {
+        border-radius: 0;
+        object-fit: contain;
       }
 
       .tools-copy {
@@ -617,7 +615,6 @@
         .inline-link,
         .footer-link,
         .project-sticker,
-        .emoji-sticker,
         .project-icon,
         .tool {
           transition-duration: 0.01ms !important;
@@ -631,10 +628,10 @@
         <div class="story-inner">
           <h1 class="intro" id="intro-heading">
             <span class="sentence">hello, i’m <span class="name">aditya arya</span>—adi for short.</span>
-            <span class="sentence"><span class="soft">i’m currently serving <span class="service-copy"><span class="emoji-sticker" aria-hidden="true">🫡</span>national service</span> in singapore</span>
+            <span class="sentence"><span class="soft">i’m currently serving national service <span class="inline-emoji" aria-hidden="true">🫡</span> in singapore</span>
             while <span class="name">building projects of my own.</span></span>
             <span class="sentence">right now i’m building
-            <a class="project-icon external-link" data-label="Catch" href="https://catchbyadi.framer.website/" target="_blank" rel="noreferrer" aria-label="Visit Catch"><img src="media/catch-icon.png" alt="" /></a>,
+            <a class="project-icon external-link" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer" aria-label="View Catch on the App Store"><img src="media/catch-icon.png" alt="" /></a>,
             <span class="soft">a thoughtfully designed bus timing app for singapore.</span></span>
             <span class="sentence">i just took second place at a defence-tech hackathon with
             <a class="inline-link yellow external-link" href="https://github.com/Rajsuthan/maritime-fusion" target="_blank" rel="noreferrer">maritime fusion</a>,
@@ -645,10 +642,12 @@
               <a class="tool" data-label="Codex" href="https://openai.com/codex/" target="_blank" rel="noreferrer" aria-label="Visit Codex"><img src="media/codex-sticker-transparent.png" alt="" /></a>
               <a class="tool" data-label="Wispr Flow" href="https://wisprflow.ai/" target="_blank" rel="noreferrer" aria-label="Visit Wispr Flow"><img src="media/wispr-flow-icon.png" alt="" /></a>
             </span>.</span>
-            <span class="sentence">find me on
-            <a class="inline-link blue external-link" href="https://sg.linkedin.com/in/aditya-arya1" target="_blank" rel="noreferrer">linkedin</a>,
-            <a class="inline-link green external-link" href="https://x.com/adiarya05" target="_blank" rel="noreferrer">x</a>, and
-            <a class="inline-link purple external-link" href="https://github.com/AdiArya05" target="_blank" rel="noreferrer">github</a>.</span>
+            <span class="sentence social-sentence">find me on
+            <span class="social-icons" aria-label="LinkedIn, X, and GitHub">
+              <a class="project-icon social-icon external-link" data-label="LinkedIn" href="https://sg.linkedin.com/in/aditya-arya1" target="_blank" rel="noreferrer" aria-label="Visit LinkedIn"><img src="media/linkedin.svg" alt="" /></a>
+              <a class="project-icon social-icon external-link" data-label="X" href="https://x.com/adiarya05" target="_blank" rel="noreferrer" aria-label="Visit X"><img src="media/x.svg" alt="" /></a>
+              <a class="project-icon social-icon external-link" data-label="GitHub" href="https://github.com/AdiArya05" target="_blank" rel="noreferrer" aria-label="Visit GitHub"><img src="media/github.svg" alt="" /></a>
+            </span>.</span>
           </h1>
 
           <div class="links">
