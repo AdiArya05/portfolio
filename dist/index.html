@@ -251,7 +251,7 @@
       }
 
       @keyframes orange-sweep {
-        0% { background-position: 125% 0; opacity: 0; }
+        0% { background-position: 108% 0; opacity: 1; }
         10% { opacity: 1; }
         86% { opacity: 1; }
         100% { background-position: -25% 0; opacity: 0; }
@@ -504,9 +504,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: 50% 43%;
-        filter: saturate(0.88) contrast(1.02);
-        transform: scale(1.08);
+        object-position: 50% 50%;
       }
 
       .profile-card-body {
@@ -561,10 +559,6 @@
       .profile-location {
         color: var(--muted);
         font-size: 0.88rem;
-      }
-
-      .x-profile-bio {
-        font-size: 0.94rem;
       }
 
       .profile-stats {
@@ -1440,13 +1434,12 @@
     </div>
 
     <div class="social-profile-card x-profile-card" id="x-profile-card" popover="manual" aria-hidden="true">
-      <span class="profile-card-cover"><img src="media/aditya-profile.jpg" alt="" /></span>
+      <span class="profile-card-cover"><img src="media/x-banner.png" alt="" /></span>
       <span class="profile-card-body">
         <span class="profile-card-avatar"><img src="media/aditya-profile.jpg" alt="" /></span>
         <span class="x-profile-head">
           <span class="x-profile-name"><strong>Aditya Arya</strong><span>@adiarya05</span></span>
         </span>
-        <span class="x-profile-bio">building brands and experiences that speak</span>
         <span class="x-profile-meta">Catch for Singapore buses · joined April 2023</span>
         <span class="profile-stats"><span><strong>343</strong> Following</span><span><strong>31</strong> Followers</span></span>
       </span>
@@ -1476,6 +1469,7 @@
         document.documentElement.dataset.theme = nextTheme;
         localStorage.setItem('portfolio-theme', nextTheme);
         syncThemeControl();
+        playThemeSound(nextTheme);
       });
 
       const singaporeTime = document.querySelector('#singapore-time');
@@ -1634,53 +1628,89 @@
 
         const now = audioContext.currentTime;
 
-        function keyClick(at, pitch, level) {
-          const duration = 0.062;
+        function softTap(at, centerFrequency, level, duration = 0.075) {
           const frameCount = Math.ceil(audioContext.sampleRate * duration);
           const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
           const samples = buffer.getChannelData(0);
           for (let index = 0; index < frameCount; index += 1) {
             const progress = index / frameCount;
-            samples[index] = (Math.random() * 2 - 1) * Math.pow(1 - progress, 4.8);
+            samples[index] = (Math.random() * 2 - 1) * Math.pow(1 - progress, 6.2);
           }
 
           const noise = audioContext.createBufferSource();
           const noiseFilter = audioContext.createBiquadFilter();
           const noiseGain = audioContext.createGain();
-          const body = audioContext.createOscillator();
-          const bodyFilter = audioContext.createBiquadFilter();
-          const bodyGain = audioContext.createGain();
-
           noise.buffer = buffer;
           noiseFilter.type = 'bandpass';
-          noiseFilter.frequency.setValueAtTime(pitch * 4.2, at);
-          noiseFilter.Q.setValueAtTime(0.85, at);
+          noiseFilter.frequency.setValueAtTime(centerFrequency, at);
+          noiseFilter.Q.setValueAtTime(0.7, at);
           noiseGain.gain.setValueAtTime(level, at);
           noiseGain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
-
-          body.type = 'triangle';
-          body.frequency.setValueAtTime(pitch, at);
-          body.frequency.exponentialRampToValueAtTime(pitch * 0.72, at + 0.052);
-          bodyFilter.type = 'lowpass';
-          bodyFilter.frequency.setValueAtTime(1100, at);
-          bodyGain.gain.setValueAtTime(level * 0.72, at);
-          bodyGain.gain.exponentialRampToValueAtTime(0.0001, at + 0.07);
-
           noise.connect(noiseFilter).connect(noiseGain).connect(audioContext.destination);
-          body.connect(bodyFilter).connect(bodyGain).connect(audioContext.destination);
           noise.start(at);
-          body.start(at);
           noise.stop(at + duration);
-          body.stop(at + 0.072);
+        }
+
+        function softTone(at, startFrequency, endFrequency, level, duration) {
+          const tone = audioContext.createOscillator();
+          const filter = audioContext.createBiquadFilter();
+          const gain = audioContext.createGain();
+          tone.type = 'sine';
+          tone.frequency.setValueAtTime(startFrequency, at);
+          tone.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(1250, at);
+          filter.Q.setValueAtTime(0.45, at);
+          gain.gain.setValueAtTime(0.0001, at);
+          gain.gain.exponentialRampToValueAtTime(level, at + 0.012);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
+          tone.connect(filter).connect(gain).connect(audioContext.destination);
+          tone.start(at);
+          tone.stop(at + duration);
         }
 
         if (direction === 'open') {
-          keyClick(now, 410, 0.05);
-          keyClick(now + 0.052, 520, 0.042);
+          softTap(now, 1750, 0.032);
+          softTone(now, 392, 523, 0.046, 0.22);
+          softTone(now + 0.045, 659, 698, 0.026, 0.18);
         } else {
-          keyClick(now, 470, 0.052);
-          keyClick(now + 0.045, 345, 0.045);
+          softTap(now, 1450, 0.034);
+          softTone(now, 587, 440, 0.048, 0.2);
+          softTone(now + 0.035, 370, 330, 0.024, 0.17);
         }
+      }
+
+      function playThemeSound(theme) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        audioContext ||= new AudioContextClass();
+        if (audioContext.state === 'suspended') audioContext.resume();
+
+        const now = audioContext.currentTime;
+        const oscillator = audioContext.createOscillator();
+        const toneGain = audioContext.createGain();
+        const click = audioContext.createOscillator();
+        const clickGain = audioContext.createGain();
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(theme === 'light' ? 180 : 230, now);
+        oscillator.frequency.exponentialRampToValueAtTime(theme === 'light' ? 285 : 145, now + 0.13);
+        toneGain.gain.setValueAtTime(0.0001, now);
+        toneGain.gain.exponentialRampToValueAtTime(0.025, now + 0.012);
+        toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+
+        click.type = 'triangle';
+        click.frequency.setValueAtTime(theme === 'light' ? 920 : 760, now);
+        click.frequency.exponentialRampToValueAtTime(theme === 'light' ? 620 : 430, now + 0.035);
+        clickGain.gain.setValueAtTime(0.034, now);
+        clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+
+        oscillator.connect(toneGain).connect(audioContext.destination);
+        click.connect(clickGain).connect(audioContext.destination);
+        oscillator.start(now);
+        click.start(now);
+        oscillator.stop(now + 0.16);
+        click.stop(now + 0.05);
       }
 
       const originalCards = [...reel.children];
