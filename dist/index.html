@@ -185,45 +185,23 @@
         isolation: isolate;
       }
 
+      .name-cancel,
       .name-full {
         position: relative;
+        display: inline-block;
         z-index: 1;
-      }
-
-      .name-shine {
-        position: absolute;
-        z-index: 2;
-        inset: 0;
-        background: linear-gradient(
-          102deg,
-          transparent 0 42%,
-          rgba(255, 145, 45, 0.25) 46%,
-          #ff9a32 49%,
-          #ffd38a 52%,
-          #f06b0d 55%,
-          transparent 60% 100%
-        );
-        background-position: 125% 0;
-        background-repeat: no-repeat;
-        background-size: 270% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        opacity: 0;
-        pointer-events: none;
-        will-change: background-position, opacity;
       }
 
       .name-strike {
         position: absolute;
-        z-index: 3;
+        z-index: 2;
         top: 50%;
         left: -0.06em;
         width: calc(100% + 0.12em);
-        height: 0.72em;
+        height: 0.96em;
         overflow: visible;
         pointer-events: none;
-        transform: translateY(-46%) rotate(-1.5deg);
+        transform: translateY(-49%) rotate(-1.5deg);
       }
 
       .name-strike path {
@@ -233,19 +211,21 @@
         stroke-dashoffset: 1;
         stroke-linecap: round;
         stroke-linejoin: round;
-        stroke-width: 2.2;
+        stroke-width: 2;
         vector-effect: non-scaling-stroke;
-        transition: stroke-dashoffset 320ms cubic-bezier(0.22, 1, 0.36, 1);
+        transition: stroke-dashoffset 285ms cubic-bezier(0.22, 1, 0.36, 1);
       }
 
-      .name-strike path:nth-child(2) { transition-delay: 45ms; }
-      .name-strike path:nth-child(3) { transition-delay: 90ms; }
+      .name-strike path:nth-child(2) { transition-delay: 34ms; }
+      .name-strike path:nth-child(3) { transition-delay: 68ms; }
+      .name-strike path:nth-child(4) { transition-delay: 102ms; }
+      .name-strike path:nth-child(5) { transition-delay: 136ms; }
 
       .name-short {
         position: absolute;
-        z-index: 4;
+        z-index: 3;
         top: -0.78em;
-        left: 52%;
+        left: 50%;
         color: #ff6b12;
         font-family: "Bradley Hand", "Segoe Print", cursive;
         font-size: 0.78em;
@@ -261,10 +241,6 @@
 
       .name-swap:is(:hover, :focus-visible) {
         outline: none;
-      }
-
-      .name-swap:is(:hover, :focus-visible) .name-shine {
-        animation: orange-sweep 460ms linear both;
       }
 
       .name-swap:is(:hover, :focus-visible) .name-strike path {
@@ -428,7 +404,7 @@
         z-index: 999;
         display: inline-flex;
         align-items: center;
-        width: 3.55em;
+        width: 3.02em;
         height: 1.34em;
         margin-left: 0.08em;
         vertical-align: -0.28em;
@@ -451,8 +427,8 @@
       }
 
       .social-icon:nth-child(1) { left: 0; z-index: 1; }
-      .social-icon:nth-child(2) { left: 1.06em; z-index: 2; }
-      .social-icon:nth-child(3) { left: 2.12em; z-index: 3; }
+      .social-icon:nth-child(2) { left: 0.84em; z-index: 2; }
+      .social-icon:nth-child(3) { left: 1.68em; z-index: 3; }
 
       .social-icon:is(:hover, :focus-visible) { z-index: 9; }
 
@@ -617,51 +593,47 @@
       }
 
       .linkedin-profile-card {
-        width: min(390px, calc(100vw - 28px));
-        border-color: rgba(0, 0, 0, 0.16);
-        border-radius: 12px;
-        background: #fff;
-        color: #1d2226;
-        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.3);
+        width: min(244px, calc(100vw - 28px));
+        border-color: rgba(255, 255, 255, 0.06);
+        border-radius: 10px;
+        background: #1d2226;
+        color: #f7f7f7;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
       }
 
       .linkedin-cover {
         position: relative;
-        height: 82px;
+        height: 88px;
         overflow: hidden;
-        background:
-          radial-gradient(circle at 20% 35%, rgba(255,255,255,.28), transparent 28%),
-          linear-gradient(122deg, #004182 0%, #0a66c2 55%, #70b5f9 100%);
+        background: #20252a;
       }
 
-      .linkedin-cover::after {
-        position: absolute;
-        right: 16px;
-        bottom: 12px;
-        color: rgba(255, 255, 255, 0.92);
-        content: "in";
-        font-size: 2rem;
-        font-weight: 700;
-        letter-spacing: -0.08em;
+      .linkedin-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 58%;
+        filter: saturate(0.8) brightness(0.72) contrast(1.08);
+        transform: scale(1.05);
       }
 
       .linkedin-body {
         position: relative;
         display: grid;
-        min-height: 248px;
-        padding: 50px 18px 16px;
-        gap: 5px;
-        background: #fff;
+        min-height: 145px;
+        padding: 42px 16px 14px;
+        gap: 3px;
+        background: #1d2226;
       }
 
       .linkedin-avatar {
         position: absolute;
-        top: -47px;
-        left: 18px;
-        width: 94px;
-        height: 94px;
+        top: -40px;
+        left: 16px;
+        width: 78px;
+        height: 78px;
         overflow: hidden;
-        border: 4px solid #fff;
+        border: 3px solid #1d2226;
         border-radius: 50%;
         background: #e7e7e7;
       }
@@ -680,33 +652,26 @@
       }
 
       .linkedin-title strong {
-        font-size: 1.22rem;
+        font-size: 1.08rem;
         font-weight: 700;
       }
 
       .linkedin-title span,
       .linkedin-role {
-        font-size: 0.91rem;
-      }
-
-      .linkedin-headline {
-        max-width: 310px;
-        color: #1d2226;
-        font-size: 0.94rem;
-        line-height: 1.35;
+        font-size: 0.82rem;
       }
 
       .linkedin-profile-card .profile-location {
-        color: #666;
-        font-size: 0.84rem;
+        color: #c5c9cc;
+        font-size: 0.8rem;
       }
 
       .linkedin-organisations {
         display: grid;
-        gap: 7px;
-        padding: 8px 0 5px;
-        font-size: 0.84rem;
-        font-weight: 600;
+        gap: 0;
+        padding-top: 10px;
+        font-size: 0.81rem;
+        font-weight: 650;
       }
 
       .linkedin-organisations span {
@@ -717,42 +682,18 @@
 
       .linkedin-organisations i {
         display: grid;
-        width: 22px;
-        height: 22px;
+        width: 25px;
+        height: 25px;
         flex: 0 0 auto;
         place-items: center;
         border-radius: 4px;
-        background: #eef3f8;
-        color: #0a66c2;
-        font-size: 0.66rem;
+        background: #f7f7f7;
+        color: #1d2226;
+        font-size: 0.56rem;
         font-style: normal;
         font-weight: 750;
       }
 
-      .linkedin-connections {
-        color: #666;
-        font-size: 0.8rem;
-      }
-
-      .linkedin-actions {
-        display: flex;
-        gap: 8px;
-        padding-top: 5px;
-      }
-
-      .linkedin-actions span {
-        padding: 7px 15px;
-        border: 1px solid #0a66c2;
-        border-radius: 999px;
-        color: #0a66c2;
-        font-size: 0.86rem;
-        font-weight: 650;
-      }
-
-      .linkedin-actions span:first-child {
-        background: #0a66c2;
-        color: #fff;
-      }
 
       .social-icon > img {
         border-radius: 0;
@@ -768,7 +709,7 @@
         position: relative;
         display: inline-flex;
         align-items: center;
-        width: 3.55em;
+        width: 3.02em;
         height: 1.34em;
         margin: 0 0.18em;
         vertical-align: -0.25em;
@@ -793,8 +734,8 @@
       }
 
       .tool:nth-child(1) { left: 0; z-index: 1; }
-      .tool:nth-child(2) { left: 1.06em; z-index: 2; }
-      .tool:nth-child(3) { left: 2.12em; z-index: 3; }
+      .tool:nth-child(2) { left: 0.84em; z-index: 2; }
+      .tool:nth-child(3) { left: 1.68em; z-index: 3; }
 
       .tool img {
         display: block;
@@ -859,11 +800,40 @@
         border-radius: 0;
         padding: 0 0 0.08em;
         background: transparent;
+        isolation: isolate;
       }
 
       .contact-link::before {
         right: 0;
         left: 0;
+      }
+
+      .contact-shine {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        background: linear-gradient(
+          102deg,
+          transparent 0 42%,
+          rgba(255, 145, 45, 0.2) 46%,
+          #ff8a22 49%,
+          #ffd38a 52%,
+          #f06b0d 55%,
+          transparent 60% 100%
+        );
+        background-position: 125% 0;
+        background-repeat: no-repeat;
+        background-size: 270% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        opacity: 0;
+        pointer-events: none;
+        will-change: background-position, opacity;
+      }
+
+      .contact-link:is(:hover, :focus-visible) .contact-shine {
+        animation: orange-sweep 520ms linear both;
       }
 
       .github-link {
@@ -1049,6 +1019,10 @@
         outline: none;
       }
 
+      .card.is-modal-source {
+        opacity: 0;
+      }
+
       .reel-progress {
         position: absolute;
         z-index: 12;
@@ -1168,20 +1142,6 @@
         font-size: clamp(1.25rem, 2.1vw, 2rem);
         letter-spacing: -0.025em;
         transition: background-color 320ms ease, color 320ms ease;
-      }
-
-      .closing-mark {
-        display: grid;
-        width: clamp(54px, 6vw, 78px);
-        aspect-ratio: 1;
-        place-items: center;
-        border: 1px solid var(--line);
-        border-radius: 50%;
-        color: var(--ink);
-        font-size: 0.72em;
-        font-weight: 600;
-        letter-spacing: -0.08em;
-        box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--ink) 4%, transparent);
       }
 
       .card-art {
@@ -1415,7 +1375,7 @@
           transition-duration: 0.01ms !important;
         }
 
-        .name-shine { animation: none !important; }
+        .contact-shine { animation: none !important; }
 
         .name-strike path { transition-duration: 0.01ms !important; }
         .name-short { transition-duration: 0.01ms !important; }
@@ -1433,7 +1393,7 @@
       <section class="story" aria-labelledby="intro-heading">
         <div class="story-inner">
           <h1 class="intro" id="intro-heading">
-            <span class="sentence">hello, i’m <span class="name name-swap" tabindex="0" aria-label="aditya arya, adi"><span class="name-full">aditya arya</span><span class="name-shine" aria-hidden="true">aditya arya</span><svg class="name-strike" aria-hidden="true" viewBox="0 0 240 42" preserveAspectRatio="none"><path pathLength="1" d="M4 11 C52 5 88 18 132 10 S196 9 236 14"/><path pathLength="1" d="M3 22 C45 13 91 30 139 20 S198 18 237 24"/><path pathLength="1" d="M7 33 C50 23 92 38 143 29 S202 28 233 33"/></svg><span class="name-short" aria-hidden="true">adi</span></span>.</span>
+            <span class="sentence">hello, i’m <span class="name name-swap" tabindex="0" aria-label="aditya arya, adi"><span class="name-cancel"><span class="name-full">aditya</span><svg class="name-strike" aria-hidden="true" viewBox="0 0 132 48" preserveAspectRatio="none"><path pathLength="1" d="M3 8 C14 42 26 5 39 40 S63 5 77 39 S101 6 129 36"/><path pathLength="1" d="M4 39 C16 5 29 43 42 8 S67 41 81 9 S106 40 128 11"/><path pathLength="1" d="M2 17 C20 34 29 12 48 32 S78 12 95 31 S115 16 130 27"/><path pathLength="1" d="M5 29 C21 13 35 34 52 14 S84 35 101 15 S120 32 129 20"/><path pathLength="1" d="M7 23 C29 18 38 28 60 20 S96 28 125 21"/></svg><span class="name-short" aria-hidden="true">adi</span></span> arya</span>.</span>
             <span class="sentence"><span class="soft">i’m currently serving national service in singapore</span>
             while <span class="name">building projects of my own.</span></span>
             <span class="sentence">right now i’m building
@@ -1470,7 +1430,7 @@
 
           <div class="links">
             <span>got something in mind?</span>
-            <a class="footer-link contact-link external-link" href="mailto:adityaarya1021@gmail.com">work with me</a>
+            <a class="footer-link contact-link external-link" href="mailto:adityaarya1021@gmail.com">work with me<span class="contact-shine" aria-hidden="true">work with me</span></a>
           </div>
         </div>
       </section>
@@ -1502,21 +1462,17 @@
     </main>
 
     <footer class="closing" aria-label="Closing message">
-      <span>thank you for visiting.</span>
-      <span class="closing-mark" aria-hidden="true">AA</span>
+      <span>Thanks for visiting. Made by Aditya Arya, <time id="singapore-time"></time></span>
     </footer>
 
     <div class="social-profile-card linkedin-profile-card" id="linkedin-profile-card" popover="manual" aria-hidden="true">
-      <span class="linkedin-cover"></span>
+      <span class="linkedin-cover"><img src="media/aditya-profile.jpg" alt="" /></span>
       <span class="linkedin-body">
         <span class="linkedin-avatar"><img src="media/linkedin-profile.jpg" alt="" /></span>
         <span class="linkedin-title"><strong>Aditya Arya</strong><span>· 1st</span></span>
         <span class="linkedin-role">SAF 27’</span>
-        <span class="linkedin-headline">Building products and experiences at the intersection of technology and design.</span>
         <span class="profile-location">Singapore</span>
-        <span class="linkedin-organisations"><span><i>SAF</i>Singapore Army</span><span><i>IB</i>International Baccalaureate</span></span>
-        <span class="linkedin-connections">Sailorfy and 4 other mutual connections</span>
-        <span class="linkedin-actions"><span>Message</span><span>View profile</span></span>
+        <span class="linkedin-organisations"><span><i>ARMY</i>Singapore Army</span></span>
       </span>
     </div>
 
@@ -1563,6 +1519,22 @@
         localStorage.setItem('portfolio-theme', nextTheme);
         syncThemeControl();
       });
+
+      const singaporeTime = document.querySelector('#singapore-time');
+      const singaporeFormatter = new Intl.DateTimeFormat('en-SG', {
+        timeZone: 'Asia/Singapore',
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      });
+
+      function updateSingaporeTime() {
+        singaporeTime.textContent = `${singaporeFormatter.format(new Date())} SGT`;
+      }
+
+      updateSingaporeTime();
+      window.setInterval(updateSingaporeTime, 1000);
 
       const githubGrid = document.querySelector('#github-grid');
       const githubStatus = document.querySelector('#github-status');
@@ -1686,13 +1658,61 @@
       let lastTime = performance.now();
       let isHoveringGallery = false;
       let isModalOpen = false;
+      let isModalClosing = false;
       let lastFocusedCard = null;
       let closeTimer = null;
       let modalAnimation = null;
+      let overlayAnimation = null;
       let lastSourceRect = null;
       let restoreFocusOnClose = false;
       let scrollRate = 0.09;
       let loopPoint = 0;
+      let audioContext = null;
+
+      function playInterfaceSound(direction) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        audioContext ||= new AudioContextClass();
+        if (audioContext.state === 'suspended') audioContext.resume();
+
+        const now = audioContext.currentTime;
+        const duration = direction === 'open' ? 0.2 : 0.17;
+        const master = audioContext.createGain();
+        const filter = audioContext.createBiquadFilter();
+        const primary = audioContext.createOscillator();
+        const air = audioContext.createOscillator();
+        const airGain = audioContext.createGain();
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(direction === 'open' ? 1300 : 1050, now);
+        filter.Q.setValueAtTime(0.65, now);
+        master.gain.setValueAtTime(0.0001, now);
+        master.gain.exponentialRampToValueAtTime(0.022, now + 0.035);
+        master.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        airGain.gain.setValueAtTime(0.28, now);
+
+        primary.type = 'sine';
+        air.type = 'sine';
+        if (direction === 'open') {
+          primary.frequency.setValueAtTime(250, now);
+          primary.frequency.exponentialRampToValueAtTime(390, now + duration);
+          air.frequency.setValueAtTime(510, now);
+          air.frequency.exponentialRampToValueAtTime(660, now + duration);
+        } else {
+          primary.frequency.setValueAtTime(370, now);
+          primary.frequency.exponentialRampToValueAtTime(225, now + duration);
+          air.frequency.setValueAtTime(590, now);
+          air.frequency.exponentialRampToValueAtTime(420, now + duration);
+        }
+
+        primary.connect(filter);
+        air.connect(airGain).connect(filter);
+        filter.connect(master).connect(audioContext.destination);
+        primary.start(now);
+        air.start(now);
+        primary.stop(now + duration);
+        air.stop(now + duration);
+      }
 
       const originalCards = [...reel.children];
       for (let copy = 0; copy < 2; copy += 1) {
@@ -1755,10 +1775,14 @@
         if (!image || isModalOpen) return;
 
         window.clearTimeout(closeTimer);
+        overlayAnimation?.cancel();
+        overlayAnimation = null;
         lastSourceRect = card.getBoundingClientRect();
         lastFocusedCard = card;
+        lastFocusedCard.classList.add('is-modal-source');
         restoreFocusOnClose = Boolean(options.focus);
         isModalOpen = true;
+        isModalClosing = false;
         modalImage.src = image.currentSrc || image.src;
         modalImage.alt = image.alt;
         projectModal.hidden = false;
@@ -1766,6 +1790,7 @@
         projectModal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
         projectModal.classList.add('is-open');
+        playInterfaceSound('open');
 
         requestAnimationFrame(() => {
           const targetRect = modalPanel.getBoundingClientRect();
@@ -1791,10 +1816,10 @@
       }
 
       function closeProject() {
-        if (!isModalOpen) return;
-        projectModal.classList.remove('is-open');
+        if (!isModalOpen || isModalClosing) return;
+        isModalClosing = true;
         projectModal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('modal-open');
+        playInterfaceSound('close');
 
         const sourceRect = lastFocusedCard?.isConnected
           ? lastFocusedCard.getBoundingClientRect()
@@ -1809,23 +1834,38 @@
           : 'translate3d(0, 12px, 0) scale(0.97)';
 
         modalAnimation?.cancel();
+        overlayAnimation?.cancel();
         if (!reduceMotion) {
           modalAnimation = modalPanel.animate(
             [
               { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 },
-              { transform: endTransform, borderRadius: '22px', opacity: 0.8 }
+              { transform: endTransform, borderRadius: '22px', opacity: 0.96 }
             ],
-            { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+            { duration: 420, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'both' }
+          );
+          overlayAnimation = projectModal.animate(
+            [
+              { opacity: 1 },
+              { opacity: 1, offset: 0.5 },
+              { opacity: 0 }
+            ],
+            { duration: 420, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'both' }
           );
         }
 
         closeTimer = window.setTimeout(() => {
           modalAnimation?.cancel();
+          overlayAnimation?.cancel();
           modalAnimation = null;
+          overlayAnimation = null;
           modalImage.removeAttribute('src');
           modalImage.alt = '';
+          projectModal.classList.remove('is-open');
           projectModal.hidden = true;
+          document.body.classList.remove('modal-open');
+          lastFocusedCard?.classList.remove('is-modal-source');
           isModalOpen = false;
+          isModalClosing = false;
           if (restoreFocusOnClose && lastFocusedCard && !lastFocusedCard.hasAttribute('aria-hidden')) {
             lastFocusedCard.focus({ preventScroll: true });
           }
