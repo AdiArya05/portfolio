@@ -402,7 +402,7 @@
         z-index: 999;
         display: inline-flex;
         align-items: center;
-        width: 3.02em;
+        width: 3.72em;
         height: 1.34em;
         margin-left: 0.08em;
         vertical-align: -0.28em;
@@ -425,8 +425,8 @@
       }
 
       .social-icon:nth-child(1) { left: 0; z-index: 1; }
-      .social-icon:nth-child(2) { left: 0.84em; z-index: 2; }
-      .social-icon:nth-child(3) { left: 1.68em; z-index: 3; }
+      .social-icon:nth-child(2) { left: 1.19em; z-index: 2; }
+      .social-icon:nth-child(3) { left: 2.38em; z-index: 3; }
 
       .social-icon:is(:hover, :focus-visible) { z-index: 9; }
 
@@ -676,6 +676,30 @@
         font-weight: 750;
       }
 
+      html[data-theme="light"] .linkedin-profile-card {
+        border-color: rgba(17, 24, 39, 0.1);
+        background: #ffffff;
+        color: #1d2226;
+        box-shadow: 0 18px 44px rgba(17, 24, 39, 0.16);
+      }
+
+      html[data-theme="light"] .linkedin-body {
+        background: #ffffff;
+      }
+
+      html[data-theme="light"] .linkedin-avatar {
+        border-color: #ffffff;
+      }
+
+      html[data-theme="light"] .linkedin-profile-card .profile-location {
+        color: #697078;
+      }
+
+      html[data-theme="light"] .linkedin-organisations i {
+        background: #eef3f8;
+        color: #1d2226;
+      }
+
 
       .social-icon > img {
         border-radius: 0;
@@ -691,7 +715,7 @@
         position: relative;
         display: inline-flex;
         align-items: center;
-        width: 3.02em;
+        width: 3.72em;
         height: 1.34em;
         margin: 0 0.18em;
         vertical-align: -0.25em;
@@ -716,8 +740,8 @@
       }
 
       .tool:nth-child(1) { left: 0; z-index: 1; }
-      .tool:nth-child(2) { left: 0.84em; z-index: 2; }
-      .tool:nth-child(3) { left: 1.68em; z-index: 3; }
+      .tool:nth-child(2) { left: 1.19em; z-index: 2; }
+      .tool:nth-child(3) { left: 2.38em; z-index: 3; }
 
       .tool img {
         display: block;
@@ -1628,13 +1652,13 @@
 
         const now = audioContext.currentTime;
 
-        function softTap(at, centerFrequency, level, duration = 0.075) {
+        function softTap(at, centerFrequency, level, duration = 0.11) {
           const frameCount = Math.ceil(audioContext.sampleRate * duration);
           const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
           const samples = buffer.getChannelData(0);
           for (let index = 0; index < frameCount; index += 1) {
             const progress = index / frameCount;
-            samples[index] = (Math.random() * 2 - 1) * Math.pow(1 - progress, 6.2);
+            samples[index] = (Math.random() * 2 - 1) * Math.pow(1 - progress, 4.8);
           }
 
           const noise = audioContext.createBufferSource();
@@ -1643,7 +1667,7 @@
           noise.buffer = buffer;
           noiseFilter.type = 'bandpass';
           noiseFilter.frequency.setValueAtTime(centerFrequency, at);
-          noiseFilter.Q.setValueAtTime(0.7, at);
+          noiseFilter.Q.setValueAtTime(0.48, at);
           noiseGain.gain.setValueAtTime(level, at);
           noiseGain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
           noise.connect(noiseFilter).connect(noiseGain).connect(audioContext.destination);
@@ -1659,7 +1683,7 @@
           tone.frequency.setValueAtTime(startFrequency, at);
           tone.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
           filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(1250, at);
+          filter.frequency.setValueAtTime(760, at);
           filter.Q.setValueAtTime(0.45, at);
           gain.gain.setValueAtTime(0.0001, at);
           gain.gain.exponentialRampToValueAtTime(level, at + 0.012);
@@ -1669,15 +1693,10 @@
           tone.stop(at + duration);
         }
 
-        if (direction === 'open') {
-          softTap(now, 1750, 0.032);
-          softTone(now, 392, 523, 0.046, 0.22);
-          softTone(now + 0.045, 659, 698, 0.026, 0.18);
-        } else {
-          softTap(now, 1450, 0.034);
-          softTone(now, 587, 440, 0.048, 0.2);
-          softTone(now + 0.035, 370, 330, 0.024, 0.17);
-        }
+        const isOpen = direction === 'open';
+        softTap(now, isOpen ? 860 : 720, 0.026, 0.12);
+        softTone(now, isOpen ? 230 : 205, isOpen ? 188 : 172, 0.032, 0.3);
+        softTone(now + 0.018, isOpen ? 506 : 451, isOpen ? 414 : 378, 0.011, 0.2);
       }
 
       function playThemeSound(theme) {
@@ -1687,31 +1706,75 @@
         if (audioContext.state === 'suspended') audioContext.resume();
 
         const now = audioContext.currentTime;
-        const oscillator = audioContext.createOscillator();
-        const toneGain = audioContext.createGain();
-        const click = audioContext.createOscillator();
-        const clickGain = audioContext.createGain();
 
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(theme === 'light' ? 180 : 230, now);
-        oscillator.frequency.exponentialRampToValueAtTime(theme === 'light' ? 285 : 145, now + 0.13);
-        toneGain.gain.setValueAtTime(0.0001, now);
-        toneGain.gain.exponentialRampToValueAtTime(0.025, now + 0.012);
-        toneGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
+        function switchClick(at, highFrequency, lowFrequency, level) {
+          const click = audioContext.createOscillator();
+          const filter = audioContext.createBiquadFilter();
+          const gain = audioContext.createGain();
+          click.type = 'square';
+          click.frequency.setValueAtTime(highFrequency, at);
+          click.frequency.exponentialRampToValueAtTime(lowFrequency, at + 0.018);
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(1250, at);
+          filter.Q.setValueAtTime(0.8, at);
+          gain.gain.setValueAtTime(level, at);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.026);
+          click.connect(filter).connect(gain).connect(audioContext.destination);
+          click.start(at);
+          click.stop(at + 0.03);
+        }
 
-        click.type = 'triangle';
-        click.frequency.setValueAtTime(theme === 'light' ? 920 : 760, now);
-        click.frequency.exponentialRampToValueAtTime(theme === 'light' ? 620 : 430, now + 0.035);
-        clickGain.gain.setValueAtTime(0.034, now);
-        clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
-
-        oscillator.connect(toneGain).connect(audioContext.destination);
-        click.connect(clickGain).connect(audioContext.destination);
-        oscillator.start(now);
-        click.start(now);
-        oscillator.stop(now + 0.16);
-        click.stop(now + 0.05);
+        const isLight = theme === 'light';
+        switchClick(now, isLight ? 1280 : 1050, isLight ? 510 : 430, 0.052);
+        switchClick(now + 0.038, isLight ? 690 : 620, isLight ? 360 : 315, 0.027);
       }
+
+      let lastScribbleAt = 0;
+
+      function playPencilScribble() {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const timestamp = performance.now();
+        if (timestamp - lastScribbleAt < 520) return;
+        lastScribbleAt = timestamp;
+        audioContext ||= new AudioContextClass();
+        if (audioContext.state === 'suspended') audioContext.resume();
+
+        const now = audioContext.currentTime;
+        const duration = 0.39;
+        const frameCount = Math.ceil(audioContext.sampleRate * duration);
+        const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
+        const samples = buffer.getChannelData(0);
+        for (let index = 0; index < frameCount; index += 1) {
+          const progress = index / frameCount;
+          const grain = Math.sin(index * 0.31) * 0.24 + (Math.random() * 2 - 1) * 0.76;
+          samples[index] = grain * Math.sin(Math.PI * progress);
+        }
+
+        const source = audioContext.createBufferSource();
+        const filter = audioContext.createBiquadFilter();
+        const gain = audioContext.createGain();
+        source.buffer = buffer;
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1750, now);
+        filter.frequency.linearRampToValueAtTime(2450, now + duration * 0.52);
+        filter.frequency.linearRampToValueAtTime(1550, now + duration);
+        filter.Q.setValueAtTime(0.62, now);
+        gain.gain.setValueAtTime(0.0001, now);
+        for (let stroke = 0; stroke < 7; stroke += 1) {
+          const start = now + stroke * 0.052;
+          gain.gain.linearRampToValueAtTime(0.018 + (stroke % 2) * 0.006, start + 0.016);
+          gain.gain.linearRampToValueAtTime(0.004, start + 0.048);
+        }
+        gain.gain.linearRampToValueAtTime(0.0001, now + duration);
+        source.connect(filter).connect(gain).connect(audioContext.destination);
+        source.start(now);
+        source.stop(now + duration);
+      }
+
+      const nameSwap = document.querySelector('.name-swap');
+      nameSwap.addEventListener('pointerenter', playPencilScribble);
+      nameSwap.addEventListener('focus', playPencilScribble);
 
       const originalCards = [...reel.children];
       for (let copy = 0; copy < 2; copy += 1) {
@@ -1837,17 +1900,17 @@
           modalAnimation = modalPanel.animate(
             [
               { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 },
-              { transform: endTransform, borderRadius: '22px', opacity: 0.96 }
+              { transform: endTransform, borderRadius: '22px', opacity: 1 }
             ],
-            { duration: 420, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'both' }
+            { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
           );
           overlayAnimation = projectModal.animate(
             [
               { opacity: 1 },
-              { opacity: 1, offset: 0.5 },
+              { opacity: 1, offset: 0.72 },
               { opacity: 0 }
             ],
-            { duration: 420, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'both' }
+            { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
           );
         }
 
