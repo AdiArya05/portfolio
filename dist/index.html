@@ -1652,13 +1652,13 @@
 
         const now = audioContext.currentTime;
 
-        function softTap(at, centerFrequency, level, duration = 0.11) {
+        function softTap(at, centerFrequency, level, duration = 0.085) {
           const frameCount = Math.ceil(audioContext.sampleRate * duration);
           const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
           const samples = buffer.getChannelData(0);
           for (let index = 0; index < frameCount; index += 1) {
             const progress = index / frameCount;
-            samples[index] = (Math.random() * 2 - 1) * Math.pow(1 - progress, 4.8);
+            samples[index] = (Math.random() * 2 - 1) * Math.pow(1 - progress, 6.6);
           }
 
           const noise = audioContext.createBufferSource();
@@ -1667,7 +1667,7 @@
           noise.buffer = buffer;
           noiseFilter.type = 'bandpass';
           noiseFilter.frequency.setValueAtTime(centerFrequency, at);
-          noiseFilter.Q.setValueAtTime(0.48, at);
+          noiseFilter.Q.setValueAtTime(0.72, at);
           noiseGain.gain.setValueAtTime(level, at);
           noiseGain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
           noise.connect(noiseFilter).connect(noiseGain).connect(audioContext.destination);
@@ -1675,18 +1675,18 @@
           noise.stop(at + duration);
         }
 
-        function softTone(at, startFrequency, endFrequency, level, duration) {
+        function bowlPartial(at, frequency, level, duration) {
           const tone = audioContext.createOscillator();
           const filter = audioContext.createBiquadFilter();
           const gain = audioContext.createGain();
           tone.type = 'sine';
-          tone.frequency.setValueAtTime(startFrequency, at);
-          tone.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
+          tone.frequency.setValueAtTime(frequency, at);
+          tone.frequency.exponentialRampToValueAtTime(frequency * 0.992, at + duration);
           filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(760, at);
+          filter.frequency.setValueAtTime(1350, at);
           filter.Q.setValueAtTime(0.45, at);
           gain.gain.setValueAtTime(0.0001, at);
-          gain.gain.exponentialRampToValueAtTime(level, at + 0.012);
+          gain.gain.exponentialRampToValueAtTime(level, at + 0.009);
           gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
           tone.connect(filter).connect(gain).connect(audioContext.destination);
           tone.start(at);
@@ -1694,9 +1694,11 @@
         }
 
         const isOpen = direction === 'open';
-        softTap(now, isOpen ? 860 : 720, 0.026, 0.12);
-        softTone(now, isOpen ? 230 : 205, isOpen ? 188 : 172, 0.032, 0.3);
-        softTone(now + 0.018, isOpen ? 506 : 451, isOpen ? 414 : 378, 0.011, 0.2);
+        const root = isOpen ? 238 : 212;
+        softTap(now, isOpen ? 1180 : 980, 0.042);
+        bowlPartial(now, root, 0.052, 0.52);
+        bowlPartial(now + 0.006, root * 2.01, 0.018, 0.38);
+        bowlPartial(now + 0.01, root * 3.37, 0.0085, 0.26);
       }
 
       function playThemeSound(theme) {
@@ -1707,26 +1709,48 @@
 
         const now = audioContext.currentTime;
 
-        function switchClick(at, highFrequency, lowFrequency, level) {
-          const click = audioContext.createOscillator();
+        function switchImpact(at, centerFrequency, level) {
+          const duration = 0.028;
+          const frameCount = Math.ceil(audioContext.sampleRate * duration);
+          const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
+          const samples = buffer.getChannelData(0);
+          for (let index = 0; index < frameCount; index += 1) {
+            const progress = index / frameCount;
+            const snap = index < 3 ? (index === 0 ? 1 : -0.7) : Math.random() * 2 - 1;
+            samples[index] = snap * Math.pow(1 - progress, 11);
+          }
+
+          const source = audioContext.createBufferSource();
           const filter = audioContext.createBiquadFilter();
           const gain = audioContext.createGain();
-          click.type = 'square';
-          click.frequency.setValueAtTime(highFrequency, at);
-          click.frequency.exponentialRampToValueAtTime(lowFrequency, at + 0.018);
+          source.buffer = buffer;
           filter.type = 'bandpass';
-          filter.frequency.setValueAtTime(1250, at);
-          filter.Q.setValueAtTime(0.8, at);
+          filter.frequency.setValueAtTime(centerFrequency, at);
+          filter.Q.setValueAtTime(0.95, at);
           gain.gain.setValueAtTime(level, at);
-          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.026);
-          click.connect(filter).connect(gain).connect(audioContext.destination);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
+          source.connect(filter).connect(gain).connect(audioContext.destination);
+          source.start(at);
+          source.stop(at + duration);
+        }
+
+        function switchBody(at, frequency, level) {
+          const click = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          click.type = 'triangle';
+          click.frequency.setValueAtTime(frequency, at);
+          gain.gain.setValueAtTime(level, at);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.022);
+          click.connect(gain).connect(audioContext.destination);
           click.start(at);
-          click.stop(at + 0.03);
+          click.stop(at + 0.024);
         }
 
         const isLight = theme === 'light';
-        switchClick(now, isLight ? 1280 : 1050, isLight ? 510 : 430, 0.052);
-        switchClick(now + 0.038, isLight ? 690 : 620, isLight ? 360 : 315, 0.027);
+        switchImpact(now, isLight ? 1760 : 1380, 0.085);
+        switchBody(now, isLight ? 310 : 245, 0.055);
+        switchImpact(now + (isLight ? 0.052 : 0.044), isLight ? 940 : 760, 0.062);
+        switchBody(now + (isLight ? 0.052 : 0.044), isLight ? 205 : 178, 0.038);
       }
 
       let lastScribbleAt = 0;
@@ -1741,33 +1765,38 @@
         if (audioContext.state === 'suspended') audioContext.resume();
 
         const now = audioContext.currentTime;
-        const duration = 0.39;
+        const duration = 0.56;
         const frameCount = Math.ceil(audioContext.sampleRate * duration);
         const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
         const samples = buffer.getChannelData(0);
+        let previousNoise = 0;
         for (let index = 0; index < frameCount; index += 1) {
           const progress = index / frameCount;
-          const grain = Math.sin(index * 0.31) * 0.24 + (Math.random() * 2 - 1) * 0.76;
-          samples[index] = grain * Math.sin(Math.PI * progress);
+          const noise = Math.random() * 2 - 1;
+          const paperGrain = noise - previousNoise * 0.82;
+          previousNoise = noise;
+          const strokeWave = Math.max(0.08, Math.pow(Math.sin(progress * Math.PI * 9.5), 2));
+          const fade = Math.sin(Math.PI * progress);
+          samples[index] = paperGrain * strokeWave * fade * 0.62;
         }
 
         const source = audioContext.createBufferSource();
-        const filter = audioContext.createBiquadFilter();
+        const highpass = audioContext.createBiquadFilter();
+        const lowpass = audioContext.createBiquadFilter();
         const gain = audioContext.createGain();
         source.buffer = buffer;
-        filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(1750, now);
-        filter.frequency.linearRampToValueAtTime(2450, now + duration * 0.52);
-        filter.frequency.linearRampToValueAtTime(1550, now + duration);
-        filter.Q.setValueAtTime(0.62, now);
+        highpass.type = 'highpass';
+        highpass.frequency.setValueAtTime(1350, now);
+        highpass.Q.setValueAtTime(0.52, now);
+        lowpass.type = 'lowpass';
+        lowpass.frequency.setValueAtTime(5200, now);
+        lowpass.frequency.linearRampToValueAtTime(3900, now + duration);
+        lowpass.Q.setValueAtTime(0.38, now);
         gain.gain.setValueAtTime(0.0001, now);
-        for (let stroke = 0; stroke < 7; stroke += 1) {
-          const start = now + stroke * 0.052;
-          gain.gain.linearRampToValueAtTime(0.018 + (stroke % 2) * 0.006, start + 0.016);
-          gain.gain.linearRampToValueAtTime(0.004, start + 0.048);
-        }
+        gain.gain.linearRampToValueAtTime(0.013, now + 0.035);
+        gain.gain.setValueAtTime(0.013, now + duration - 0.07);
         gain.gain.linearRampToValueAtTime(0.0001, now + duration);
-        source.connect(filter).connect(gain).connect(audioContext.destination);
+        source.connect(highpass).connect(lowpass).connect(gain).connect(audioContext.destination);
         source.start(now);
         source.stop(now + duration);
       }
