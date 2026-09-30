@@ -59,6 +59,7 @@
       }
 
       html {
+        overflow-x: clip;
         background: var(--paper);
         transition: background-color 320ms ease;
       }
@@ -66,6 +67,7 @@
       body {
         margin: 0;
         min-height: 100vh;
+        overflow-x: clip;
         background: var(--paper);
         color: var(--ink);
         font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
@@ -80,7 +82,7 @@
 
       .shell {
         display: grid;
-        grid-template-columns: minmax(0, 7fr) minmax(390px, 3fr);
+        grid-template-columns: minmax(0, 7.25fr) minmax(370px, 2.75fr);
         min-height: 100vh;
       }
 
@@ -176,29 +178,34 @@
         font-weight: 600;
       }
 
-      .name-glow {
+      .name-swap {
         position: relative;
         display: inline-block;
         color: var(--ink);
         isolation: isolate;
       }
 
+      .name-full {
+        position: relative;
+        z-index: 1;
+      }
+
       .name-shine {
         position: absolute;
-        z-index: 1;
+        z-index: 2;
         inset: 0;
         background: linear-gradient(
-          104deg,
-          transparent 0 40%,
-          rgba(105, 105, 105, 0.92) 45%,
-          #fff 49%,
-          #d5a34d 52%,
-          rgba(107, 107, 107, 0.88) 56%,
-          transparent 62% 100%
+          102deg,
+          transparent 0 42%,
+          rgba(255, 145, 45, 0.25) 46%,
+          #ff9a32 49%,
+          #ffd38a 52%,
+          #f06b0d 55%,
+          transparent 60% 100%
         );
-        background-position: 120% 0;
+        background-position: 125% 0;
         background-repeat: no-repeat;
-        background-size: 300% 100%;
+        background-size: 270% 100%;
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -207,36 +214,73 @@
         will-change: background-position, opacity;
       }
 
-      .name-glow:is(:hover, :focus-visible) {
+      .name-strike {
+        position: absolute;
+        z-index: 3;
+        top: 50%;
+        left: -0.06em;
+        width: calc(100% + 0.12em);
+        height: 0.72em;
+        overflow: visible;
+        pointer-events: none;
+        transform: translateY(-46%) rotate(-1.5deg);
+      }
+
+      .name-strike path {
+        fill: none;
+        stroke: #ff6b12;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2.2;
+        vector-effect: non-scaling-stroke;
+        transition: stroke-dashoffset 320ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .name-strike path:nth-child(2) { transition-delay: 45ms; }
+      .name-strike path:nth-child(3) { transition-delay: 90ms; }
+
+      .name-short {
+        position: absolute;
+        z-index: 4;
+        top: -0.78em;
+        left: 52%;
+        color: #ff6b12;
+        font-family: "Bradley Hand", "Segoe Print", cursive;
+        font-size: 0.78em;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate3d(-50%, 0.35em, 0) rotate(-7deg) scale(0.72);
+        transform-origin: 50% 100%;
+        transition: opacity 150ms ease 120ms, transform 360ms cubic-bezier(0.16, 1, 0.3, 1) 90ms;
+        white-space: nowrap;
+      }
+
+      .name-swap:is(:hover, :focus-visible) {
         outline: none;
       }
 
-      .name-glow:is(:hover, :focus-visible) .name-shine {
-        animation: chrome-sweep 1.28s linear both;
+      .name-swap:is(:hover, :focus-visible) .name-shine {
+        animation: orange-sweep 460ms linear both;
       }
 
-      @keyframes chrome-sweep {
-        0% { background-position: 120% 0; opacity: 0; }
-        7% { opacity: 1; }
-        93% { opacity: 1; }
-        100% { background-position: -20% 0; opacity: 0; }
+      .name-swap:is(:hover, :focus-visible) .name-strike path {
+        stroke-dashoffset: 0;
       }
 
-      .adi-highlight {
-        display: inline-block;
-        margin: 0 0.03em;
-        padding: 0.01em 0.16em 0.07em;
-        border-radius: 0.2em;
-        background: var(--blue);
-        color: var(--ink);
-        font-weight: 600;
-        transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), filter 220ms ease;
+      .name-swap:is(:hover, :focus-visible) .name-short {
+        opacity: 1;
+        transform: translate3d(-50%, 0, 0) rotate(-7deg) scale(1);
       }
 
-      .adi-highlight:is(:hover, :focus-visible) {
-        filter: saturate(1.16);
-        outline: none;
-        transform: translateY(-0.08em) rotate(-1deg);
+      @keyframes orange-sweep {
+        0% { background-position: 125% 0; opacity: 0; }
+        10% { opacity: 1; }
+        86% { opacity: 1; }
+        100% { background-position: -25% 0; opacity: 0; }
       }
 
       .sentence + .sentence {
@@ -573,7 +617,60 @@
       }
 
       .linkedin-profile-card {
-        width: min(370px, calc(100vw - 28px));
+        width: min(390px, calc(100vw - 28px));
+        border-color: rgba(0, 0, 0, 0.16);
+        border-radius: 12px;
+        background: #fff;
+        color: #1d2226;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.3);
+      }
+
+      .linkedin-cover {
+        position: relative;
+        height: 82px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 20% 35%, rgba(255,255,255,.28), transparent 28%),
+          linear-gradient(122deg, #004182 0%, #0a66c2 55%, #70b5f9 100%);
+      }
+
+      .linkedin-cover::after {
+        position: absolute;
+        right: 16px;
+        bottom: 12px;
+        color: rgba(255, 255, 255, 0.92);
+        content: "in";
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.08em;
+      }
+
+      .linkedin-body {
+        position: relative;
+        display: grid;
+        min-height: 248px;
+        padding: 50px 18px 16px;
+        gap: 5px;
+        background: #fff;
+      }
+
+      .linkedin-avatar {
+        position: absolute;
+        top: -47px;
+        left: 18px;
+        width: 94px;
+        height: 94px;
+        overflow: hidden;
+        border: 4px solid #fff;
+        border-radius: 50%;
+        background: #e7e7e7;
+      }
+
+      .linkedin-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 36%;
       }
 
       .linkedin-title {
@@ -583,21 +680,78 @@
       }
 
       .linkedin-title strong {
-        font-size: 1.08rem;
-        font-weight: 650;
+        font-size: 1.22rem;
+        font-weight: 700;
       }
 
       .linkedin-title span,
       .linkedin-role {
-        font-size: 0.9rem;
+        font-size: 0.91rem;
+      }
+
+      .linkedin-headline {
+        max-width: 310px;
+        color: #1d2226;
+        font-size: 0.94rem;
+        line-height: 1.35;
+      }
+
+      .linkedin-profile-card .profile-location {
+        color: #666;
+        font-size: 0.84rem;
       }
 
       .linkedin-organisations {
         display: grid;
-        gap: 5px;
-        padding-top: 3px;
+        gap: 7px;
+        padding: 8px 0 5px;
         font-size: 0.84rem;
-        font-weight: 550;
+        font-weight: 600;
+      }
+
+      .linkedin-organisations span {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .linkedin-organisations i {
+        display: grid;
+        width: 22px;
+        height: 22px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 4px;
+        background: #eef3f8;
+        color: #0a66c2;
+        font-size: 0.66rem;
+        font-style: normal;
+        font-weight: 750;
+      }
+
+      .linkedin-connections {
+        color: #666;
+        font-size: 0.8rem;
+      }
+
+      .linkedin-actions {
+        display: flex;
+        gap: 8px;
+        padding-top: 5px;
+      }
+
+      .linkedin-actions span {
+        padding: 7px 15px;
+        border: 1px solid #0a66c2;
+        border-radius: 999px;
+        color: #0a66c2;
+        font-size: 0.86rem;
+        font-weight: 650;
+      }
+
+      .linkedin-actions span:first-child {
+        background: #0a66c2;
+        color: #fff;
       }
 
       .social-icon > img {
@@ -705,60 +859,11 @@
         border-radius: 0;
         padding: 0 0 0.08em;
         background: transparent;
-        isolation: isolate;
       }
 
       .contact-link::before {
         right: 0;
         left: 0;
-      }
-
-      .contact-pixels {
-        position: absolute;
-        z-index: -1;
-        inset: -0.66em -0.8em;
-        pointer-events: none;
-      }
-
-      .contact-pixel {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 5px;
-        height: 5px;
-        border-radius: 1px;
-        opacity: 0;
-        transform: translate(-50%, -50%);
-        transition: opacity 180ms ease;
-      }
-
-      .contact-pixel:nth-child(1) { background: #f8cf52; animation-delay: 0s; }
-      .contact-pixel:nth-child(2) { background: #a58bff; animation-delay: -0.35s; }
-      .contact-pixel:nth-child(3) { background: #6fcbff; animation-delay: -0.7s; }
-      .contact-pixel:nth-child(4) { background: #fb6fa8; animation-delay: -1.05s; }
-      .contact-pixel:nth-child(5) { background: #ff637c; animation-delay: -1.4s; }
-      .contact-pixel:nth-child(6) { background: #ff8d63; animation-delay: -1.75s; }
-      .contact-pixel:nth-child(7) { background: #8fe0b6; animation-delay: -2.1s; }
-      .contact-pixel:nth-child(8) { background: #43d7e7; animation-delay: -2.45s; }
-
-      .contact-link:is(:hover, :focus-visible) .contact-pixel {
-        opacity: 1;
-        animation-name: pixel-orbit;
-        animation-duration: 2.8s;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-      }
-
-      @keyframes pixel-orbit {
-        0% { top: 0%; left: 50%; transform: translate(-50%, -50%) rotate(0deg); }
-        12.5% { top: 6%; left: 86%; transform: translate(-50%, -50%) rotate(45deg); }
-        25% { top: 50%; left: 100%; transform: translate(-50%, -50%) rotate(90deg); }
-        37.5% { top: 94%; left: 86%; transform: translate(-50%, -50%) rotate(135deg); }
-        50% { top: 100%; left: 50%; transform: translate(-50%, -50%) rotate(180deg); }
-        62.5% { top: 94%; left: 14%; transform: translate(-50%, -50%) rotate(225deg); }
-        75% { top: 50%; left: 0%; transform: translate(-50%, -50%) rotate(270deg); }
-        87.5% { top: 6%; left: 14%; transform: translate(-50%, -50%) rotate(315deg); }
-        100% { top: 0%; left: 50%; transform: translate(-50%, -50%) rotate(360deg); }
       }
 
       .github-link {
@@ -948,7 +1053,7 @@
         position: absolute;
         z-index: 12;
         top: 50%;
-        left: -38px;
+        left: -28px;
         display: grid;
         gap: 6px;
         padding: 12px 8px;
@@ -992,7 +1097,7 @@
         opacity: 0;
         pointer-events: none;
         cursor: zoom-out;
-        transition: opacity 220ms ease;
+        transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
         backdrop-filter: blur(22px) saturate(0.72);
         -webkit-backdrop-filter: blur(22px) saturate(0.72);
       }
@@ -1013,7 +1118,7 @@
         box-shadow: 0 44px 110px rgba(0, 0, 0, 0.26);
         cursor: default;
         transform: translate3d(0, 18px, 0) scale(0.96);
-        transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
       }
 
       .project-modal.is-open .modal-panel {
@@ -1303,17 +1408,17 @@
         .project-sticker,
         .project-icon,
         .tool,
-        .name-glow,
+        .name-swap,
         .project-modal,
         .modal-panel,
         .reel-progress span {
           transition-duration: 0.01ms !important;
         }
 
-        .contact-pixel,
         .name-shine { animation: none !important; }
 
-        .contact-pixel { opacity: 0 !important; }
+        .name-strike path { transition-duration: 0.01ms !important; }
+        .name-short { transition-duration: 0.01ms !important; }
       }
     </style>
   </head>
@@ -1328,7 +1433,7 @@
       <section class="story" aria-labelledby="intro-heading">
         <div class="story-inner">
           <h1 class="intro" id="intro-heading">
-            <span class="sentence">hello, i’m <span class="name name-glow" tabindex="0">aditya arya<span class="name-shine" aria-hidden="true">aditya arya</span></span>. <span class="adi-highlight" tabindex="0">adi</span> <span class="soft">for short.</span></span>
+            <span class="sentence">hello, i’m <span class="name name-swap" tabindex="0" aria-label="aditya arya, adi"><span class="name-full">aditya arya</span><span class="name-shine" aria-hidden="true">aditya arya</span><svg class="name-strike" aria-hidden="true" viewBox="0 0 240 42" preserveAspectRatio="none"><path pathLength="1" d="M4 11 C52 5 88 18 132 10 S196 9 236 14"/><path pathLength="1" d="M3 22 C45 13 91 30 139 20 S198 18 237 24"/><path pathLength="1" d="M7 33 C50 23 92 38 143 29 S202 28 233 33"/></svg><span class="name-short" aria-hidden="true">adi</span></span>.</span>
             <span class="sentence"><span class="soft">i’m currently serving national service in singapore</span>
             while <span class="name">building projects of my own.</span></span>
             <span class="sentence">right now i’m building
@@ -1365,7 +1470,7 @@
 
           <div class="links">
             <span>got something in mind?</span>
-            <a class="footer-link contact-link external-link" href="mailto:adityaarya1021@gmail.com">work with me<span class="contact-pixels" aria-hidden="true"><i class="contact-pixel"></i><i class="contact-pixel"></i><i class="contact-pixel"></i><i class="contact-pixel"></i><i class="contact-pixel"></i><i class="contact-pixel"></i><i class="contact-pixel"></i><i class="contact-pixel"></i></span></a>
+            <a class="footer-link contact-link external-link" href="mailto:adityaarya1021@gmail.com">work with me</a>
           </div>
         </div>
       </section>
@@ -1402,14 +1507,16 @@
     </footer>
 
     <div class="social-profile-card linkedin-profile-card" id="linkedin-profile-card" popover="manual" aria-hidden="true">
-      <span class="profile-card-cover"><img src="media/aditya-profile.jpg" alt="" /></span>
-      <span class="profile-card-body">
-        <span class="profile-card-avatar"><img src="media/aditya-profile.jpg" alt="" /></span>
+      <span class="linkedin-cover"></span>
+      <span class="linkedin-body">
+        <span class="linkedin-avatar"><img src="media/linkedin-profile.jpg" alt="" /></span>
         <span class="linkedin-title"><strong>Aditya Arya</strong><span>· 1st</span></span>
         <span class="linkedin-role">SAF 27’</span>
+        <span class="linkedin-headline">Building products and experiences at the intersection of technology and design.</span>
         <span class="profile-location">Singapore</span>
-        <span class="linkedin-organisations"><span>Singapore Army</span><span>International Baccalaureate</span></span>
-        <span class="profile-action">View LinkedIn</span>
+        <span class="linkedin-organisations"><span><i>SAF</i>Singapore Army</span><span><i>IB</i>International Baccalaureate</span></span>
+        <span class="linkedin-connections">Sailorfy and 4 other mutual connections</span>
+        <span class="linkedin-actions"><span>Message</span><span>View profile</span></span>
       </span>
     </div>
 
@@ -1675,7 +1782,7 @@
                 { transform: startTransform, borderRadius: '22px', opacity: 0.9 },
                 { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 }
               ],
-              { duration: 440, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+              { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
             );
           }
 
@@ -1708,7 +1815,7 @@
               { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 },
               { transform: endTransform, borderRadius: '22px', opacity: 0.8 }
             ],
-            { duration: 320, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'forwards' }
+            { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
           );
         }
 
@@ -1722,7 +1829,7 @@
           if (restoreFocusOnClose && lastFocusedCard && !lastFocusedCard.hasAttribute('aria-hidden')) {
             lastFocusedCard.focus({ preventScroll: true });
           }
-        }, reduceMotion ? 0 : 330);
+        }, reduceMotion ? 0 : 430);
       }
 
       reel.addEventListener('click', (event) => {
