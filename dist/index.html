@@ -183,45 +183,43 @@
         isolation: isolate;
       }
 
-      .name-glow::after {
+      .name-shine {
         position: absolute;
         z-index: 1;
         inset: 0;
         background: linear-gradient(
-          100deg,
-          transparent 0%,
-          transparent 34%,
-          #7b5b31 42%,
-          #f7ca73 46%,
-          #fff7dc 50%,
-          #b67a32 54%,
-          #f6d789 58%,
-          transparent 66%,
-          transparent 100%
+          104deg,
+          transparent 0 40%,
+          rgba(105, 105, 105, 0.92) 45%,
+          #fff 49%,
+          #d5a34d 52%,
+          rgba(107, 107, 107, 0.88) 56%,
+          transparent 62% 100%
         );
-        background-position: 180% 0;
-        background-size: 260% 100%;
+        background-position: 120% 0;
+        background-repeat: no-repeat;
+        background-size: 300% 100%;
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-        content: attr(data-text);
         opacity: 0;
         pointer-events: none;
+        will-change: background-position, opacity;
       }
 
       .name-glow:is(:hover, :focus-visible) {
         outline: none;
       }
 
-      .name-glow:is(:hover, :focus-visible)::after {
-        animation: chrome-sweep 920ms cubic-bezier(0.22, 1, 0.36, 1) both;
+      .name-glow:is(:hover, :focus-visible) .name-shine {
+        animation: chrome-sweep 1.28s linear both;
       }
 
       @keyframes chrome-sweep {
-        0% { background-position: 180% 0; opacity: 0; }
-        12% { opacity: 1; }
-        88% { opacity: 1; }
-        100% { background-position: -80% 0; opacity: 0; }
+        0% { background-position: 120% 0; opacity: 0; }
+        7% { opacity: 1; }
+        93% { opacity: 1; }
+        100% { background-position: -20% 0; opacity: 0; }
       }
 
       .adi-highlight {
@@ -383,17 +381,19 @@
 
       .social-icons {
         position: relative;
-        z-index: 20;
+        z-index: 999;
         display: inline-flex;
         align-items: center;
         width: 3.55em;
         height: 1.34em;
         margin-left: 0.08em;
         vertical-align: -0.28em;
-        isolation: isolate;
+        isolation: auto;
       }
 
       .social-sentence {
+        position: relative;
+        z-index: 80;
         white-space: nowrap;
       }
 
@@ -403,6 +403,7 @@
         margin: 0;
         background: #fff;
         padding: 0.22em;
+        transform: none;
       }
 
       .social-icon:nth-child(1) { left: 0; z-index: 1; }
@@ -423,59 +424,107 @@
         overflow: visible;
       }
 
-      .x-profile-link::after {
+      .x-profile-link:is(:hover, :focus-visible),
+      .linkedin-profile-link:is(:hover, :focus-visible) {
+        transform: none;
+      }
+
+      .x-profile-link > img,
+      .linkedin-profile-link > img {
+        transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .x-profile-link:is(:hover, :focus-visible) > img,
+      .linkedin-profile-link:is(:hover, :focus-visible) > img {
+        transform: scale(1.18);
+      }
+
+      .x-profile-link::after,
+      .linkedin-profile-link::after {
         display: none;
       }
 
-      .x-profile-card {
-        position: absolute;
-        z-index: 32;
-        bottom: calc(100% + 0.58em);
-        left: 50%;
+      .social-profile-card {
+        position: fixed;
+        z-index: 2147483000;
+        top: 0;
+        left: 0;
+        margin: 0;
         display: grid;
-        width: 300px;
-        padding: 16px;
-        gap: 13px;
-        border: 1px solid rgba(255, 255, 255, 0.13);
+        width: min(340px, calc(100vw - 28px));
+        overflow: hidden;
+        border: 1px solid var(--line);
         border-radius: 20px;
-        background: #111;
-        color: #f7f7f7;
+        background: var(--paper);
+        color: var(--ink);
         box-shadow: 0 22px 58px rgba(0, 0, 0, 0.28);
-        font-size: 0.34em;
+        font-size: 1rem;
+        font-weight: 400;
+        letter-spacing: 0;
         line-height: 1.28;
         opacity: 0;
         pointer-events: none;
         transform: translate3d(-50%, 14px, 0) scale(0.94);
         transform-origin: 50% 100%;
         transition: opacity 180ms ease, transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
+        isolation: isolate;
       }
 
-      .x-profile-link:is(:hover, :focus-visible) .x-profile-card {
+      .social-profile-card.is-visible {
         opacity: 1;
         transform: translate3d(-50%, 0, 0) scale(1);
+      }
+
+      .profile-card-cover {
+        position: relative;
+        height: 92px;
+        overflow: hidden;
+        background: #252525;
+      }
+
+      .profile-card-cover > img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 43%;
+        filter: saturate(0.88) contrast(1.02);
+        transform: scale(1.08);
+      }
+
+      .profile-card-body {
+        position: relative;
+        display: grid;
+        padding: 42px 16px 16px;
+        gap: 8px;
+        background: var(--paper);
+      }
+
+      .profile-card-avatar {
+        position: absolute;
+        top: -35px;
+        left: 16px;
+        width: 70px;
+        height: 70px;
+        overflow: hidden;
+        border: 4px solid var(--paper);
+        border-radius: 50%;
+        background: #222;
+      }
+
+      .profile-card-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 24% 56%;
+        transform: scale(1.6);
+        transform-origin: 24% 56%;
       }
 
       .x-profile-head {
         display: flex;
         align-items: center;
-        gap: 11px;
-      }
-
-      .x-profile-avatar {
-        display: grid;
-        width: 42px;
-        height: 42px;
-        flex: 0 0 auto;
-        place-items: center;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 50%;
-        background: #f5f5f5;
-      }
-
-      .x-profile-avatar img {
-        width: 19px;
-        height: 19px;
-        filter: none;
+        justify-content: space-between;
+        gap: 12px;
       }
 
       .x-profile-name {
@@ -484,23 +533,71 @@
       }
 
       .x-profile-name strong {
-        font-size: 1.04rem;
+        font-size: 1.08rem;
+        font-weight: 650;
         line-height: 1.1;
       }
 
       .x-profile-name span,
-      .x-profile-bio {
-        color: #9a9aa0;
+      .x-profile-meta,
+      .profile-location {
+        color: var(--muted);
         font-size: 0.88rem;
       }
 
-      .x-profile-action {
+      .x-profile-bio {
+        font-size: 0.94rem;
+      }
+
+      .profile-stats {
+        display: flex;
+        gap: 18px;
+        font-size: 0.85rem;
+      }
+
+      .profile-stats strong {
+        font-weight: 650;
+      }
+
+      .profile-action {
         padding: 9px 12px;
-        border: 1px solid rgba(255, 255, 255, 0.22);
+        border: 1px solid var(--line);
         border-radius: 999px;
         font-size: 0.88rem;
         font-weight: 600;
         text-align: center;
+      }
+
+      .linkedin-profile-link {
+        overflow: visible;
+      }
+
+      .linkedin-profile-card {
+        width: min(370px, calc(100vw - 28px));
+      }
+
+      .linkedin-title {
+        display: flex;
+        align-items: baseline;
+        gap: 5px;
+      }
+
+      .linkedin-title strong {
+        font-size: 1.08rem;
+        font-weight: 650;
+      }
+
+      .linkedin-title span,
+      .linkedin-role {
+        font-size: 0.9rem;
+      }
+
+      .linkedin-organisations {
+        display: grid;
+        gap: 5px;
+        padding-top: 3px;
+        font-size: 0.84rem;
+        font-weight: 550;
       }
 
       .social-icon > img {
@@ -619,52 +716,49 @@
       .contact-pixels {
         position: absolute;
         z-index: -1;
-        inset: -0.52em -0.65em;
+        inset: -0.66em -0.8em;
         pointer-events: none;
       }
 
       .contact-pixel {
         position: absolute;
+        top: 50%;
+        left: 50%;
         width: 5px;
         height: 5px;
         border-radius: 1px;
         opacity: 0;
-        transform: scale(0.55);
+        transform: translate(-50%, -50%);
         transition: opacity 180ms ease;
       }
 
-      .contact-pixel:nth-child(1) { top: 9%; left: 3%; background: #f8cf52; }
-      .contact-pixel:nth-child(2) { top: -2%; left: 26%; background: #a58bff; }
-      .contact-pixel:nth-child(3) { top: 3%; left: 52%; background: #6fcbff; }
-      .contact-pixel:nth-child(4) { top: 16%; right: 2%; background: #fb6fa8; }
-      .contact-pixel:nth-child(5) { right: 14%; bottom: 0; background: #ff8d63; }
-      .contact-pixel:nth-child(6) { bottom: -3%; left: 48%; background: #8fe0b6; }
-      .contact-pixel:nth-child(7) { bottom: 7%; left: 11%; background: #43d7e7; }
-      .contact-pixel:nth-child(8) { top: 48%; right: -1%; background: #ff637c; }
+      .contact-pixel:nth-child(1) { background: #f8cf52; animation-delay: 0s; }
+      .contact-pixel:nth-child(2) { background: #a58bff; animation-delay: -0.35s; }
+      .contact-pixel:nth-child(3) { background: #6fcbff; animation-delay: -0.7s; }
+      .contact-pixel:nth-child(4) { background: #fb6fa8; animation-delay: -1.05s; }
+      .contact-pixel:nth-child(5) { background: #ff637c; animation-delay: -1.4s; }
+      .contact-pixel:nth-child(6) { background: #ff8d63; animation-delay: -1.75s; }
+      .contact-pixel:nth-child(7) { background: #8fe0b6; animation-delay: -2.1s; }
+      .contact-pixel:nth-child(8) { background: #43d7e7; animation-delay: -2.45s; }
 
       .contact-link:is(:hover, :focus-visible) .contact-pixel {
         opacity: 1;
-        animation: pixel-float 1.65s cubic-bezier(0.37, 0, 0.63, 1) infinite alternate;
+        animation-name: pixel-orbit;
+        animation-duration: 2.8s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
       }
 
-      .contact-link:is(:hover, :focus-visible) .contact-pixel:nth-child(2n) {
-        animation-name: pixel-float-alt;
-        animation-delay: -0.7s;
-      }
-
-      .contact-link:is(:hover, :focus-visible) .contact-pixel:nth-child(3n) {
-        animation-duration: 2.05s;
-        animation-delay: -1.2s;
-      }
-
-      @keyframes pixel-float {
-        from { transform: translate3d(-2px, 3px, 0) scale(0.72) rotate(-12deg); }
-        to { transform: translate3d(5px, -5px, 0) scale(1) rotate(12deg); }
-      }
-
-      @keyframes pixel-float-alt {
-        from { transform: translate3d(3px, -2px, 0) scale(0.78) rotate(9deg); }
-        to { transform: translate3d(-5px, 5px, 0) scale(1.04) rotate(-10deg); }
+      @keyframes pixel-orbit {
+        0% { top: 0%; left: 50%; transform: translate(-50%, -50%) rotate(0deg); }
+        12.5% { top: 6%; left: 86%; transform: translate(-50%, -50%) rotate(45deg); }
+        25% { top: 50%; left: 100%; transform: translate(-50%, -50%) rotate(90deg); }
+        37.5% { top: 94%; left: 86%; transform: translate(-50%, -50%) rotate(135deg); }
+        50% { top: 100%; left: 50%; transform: translate(-50%, -50%) rotate(180deg); }
+        62.5% { top: 94%; left: 14%; transform: translate(-50%, -50%) rotate(225deg); }
+        75% { top: 50%; left: 0%; transform: translate(-50%, -50%) rotate(270deg); }
+        87.5% { top: 6%; left: 14%; transform: translate(-50%, -50%) rotate(315deg); }
+        100% { top: 0%; left: 50%; transform: translate(-50%, -50%) rotate(360deg); }
       }
 
       .github-link {
@@ -793,12 +887,13 @@
         position: relative;
         min-width: 0;
         height: 100vh;
-        overflow: hidden;
+        overflow: visible;
         background: var(--paper);
         transition: background-color 320ms ease;
       }
 
       .gallery {
+        position: relative;
         height: 100%;
         overflow-y: auto;
         overscroll-behavior: contain;
@@ -853,7 +948,7 @@
         position: absolute;
         z-index: 12;
         top: 50%;
-        left: 10px;
+        left: -38px;
         display: grid;
         gap: 6px;
         padding: 12px 8px;
@@ -1170,6 +1265,10 @@
           border-left: 0;
         }
 
+        .reel-progress {
+          left: 10px;
+        }
+
         .reel {
           padding-inline: 28px;
         }
@@ -1212,7 +1311,9 @@
         }
 
         .contact-pixel,
-        .name-glow::after { animation: none !important; }
+        .name-shine { animation: none !important; }
+
+        .contact-pixel { opacity: 0 !important; }
       }
     </style>
   </head>
@@ -1227,7 +1328,7 @@
       <section class="story" aria-labelledby="intro-heading">
         <div class="story-inner">
           <h1 class="intro" id="intro-heading">
-            <span class="sentence">hello, i’m <span class="name name-glow" data-text="aditya arya" aria-label="aditya arya" tabindex="0">aditya arya</span>. <span class="adi-highlight" tabindex="0">adi</span> <span class="soft">for short.</span></span>
+            <span class="sentence">hello, i’m <span class="name name-glow" tabindex="0">aditya arya<span class="name-shine" aria-hidden="true">aditya arya</span></span>. <span class="adi-highlight" tabindex="0">adi</span> <span class="soft">for short.</span></span>
             <span class="sentence"><span class="soft">i’m currently serving national service in singapore</span>
             while <span class="name">building projects of my own.</span></span>
             <span class="sentence">right now i’m building
@@ -1244,17 +1345,11 @@
             </span>.</span>
             <span class="sentence social-sentence">find me on
             <span class="social-icons" aria-label="LinkedIn, X, and GitHub">
-              <a class="project-icon social-icon external-link" data-label="LinkedIn" href="https://sg.linkedin.com/in/aditya-arya1" target="_blank" rel="noreferrer" aria-label="Visit LinkedIn"><img src="media/linkedin.svg" alt="" /></a>
+              <a class="project-icon social-icon linkedin-profile-link external-link" data-label="LinkedIn" href="https://sg.linkedin.com/in/aditya-arya1" target="_blank" rel="noreferrer" aria-label="Visit LinkedIn">
+                <img src="media/linkedin.svg" alt="" />
+              </a>
               <a class="project-icon social-icon x-icon x-profile-link external-link" data-label="X" href="https://x.com/adiarya05" target="_blank" rel="noreferrer" aria-label="Visit X">
                 <img src="media/x.svg" alt="" />
-                <span class="x-profile-card" aria-hidden="true">
-                  <span class="x-profile-head">
-                    <span class="x-profile-avatar"><img src="media/x.svg" alt="" /></span>
-                    <span class="x-profile-name"><strong>Aditya Arya</strong><span>@adiarya05</span></span>
-                  </span>
-                  <span class="x-profile-bio">building Catch and projects of my own.</span>
-                  <span class="x-profile-action">View profile</span>
-                </span>
               </a>
               <a class="project-icon social-icon github-link external-link" data-label="GitHub" href="https://github.com/AdiArya05" target="_blank" rel="noreferrer" aria-label="Visit GitHub">
                 <img src="media/github.svg" alt="" />
@@ -1305,6 +1400,32 @@
       <span>thank you for visiting.</span>
       <span class="closing-mark" aria-hidden="true">AA</span>
     </footer>
+
+    <div class="social-profile-card linkedin-profile-card" id="linkedin-profile-card" popover="manual" aria-hidden="true">
+      <span class="profile-card-cover"><img src="media/aditya-profile.jpg" alt="" /></span>
+      <span class="profile-card-body">
+        <span class="profile-card-avatar"><img src="media/aditya-profile.jpg" alt="" /></span>
+        <span class="linkedin-title"><strong>Aditya Arya</strong><span>· 1st</span></span>
+        <span class="linkedin-role">SAF 27’</span>
+        <span class="profile-location">Singapore</span>
+        <span class="linkedin-organisations"><span>Singapore Army</span><span>International Baccalaureate</span></span>
+        <span class="profile-action">View LinkedIn</span>
+      </span>
+    </div>
+
+    <div class="social-profile-card x-profile-card" id="x-profile-card" popover="manual" aria-hidden="true">
+      <span class="profile-card-cover"><img src="media/aditya-profile.jpg" alt="" /></span>
+      <span class="profile-card-body">
+        <span class="profile-card-avatar"><img src="media/aditya-profile.jpg" alt="" /></span>
+        <span class="x-profile-head">
+          <span class="x-profile-name"><strong>Aditya Arya</strong><span>@adiarya05</span></span>
+        </span>
+        <span class="x-profile-bio">building brands and experiences that speak</span>
+        <span class="x-profile-meta">Catch for Singapore buses · joined April 2023</span>
+        <span class="profile-stats"><span><strong>343</strong> Following</span><span><strong>31</strong> Followers</span></span>
+        <span class="profile-action">View X profile</span>
+      </span>
+    </div>
 
     <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Catch project preview" hidden>
       <div class="modal-panel" id="modal-panel" tabindex="-1">
@@ -1405,6 +1526,48 @@
       githubLink.addEventListener('pointerenter', loadGithubActivity, { once: true });
       githubLink.addEventListener('focus', loadGithubActivity, { once: true });
 
+      const profilePreviews = [
+        [document.querySelector('.linkedin-profile-link'), document.querySelector('#linkedin-profile-card')],
+        [document.querySelector('.x-profile-link'), document.querySelector('#x-profile-card')]
+      ];
+
+      function showProfilePreview(link, card) {
+        window.clearTimeout(card.hideTimer);
+        if (!card.matches(':popover-open')) card.showPopover();
+        const linkRect = link.getBoundingClientRect();
+        const cardRect = card.getBoundingClientRect();
+        const halfWidth = cardRect.width / 2;
+        const centerX = Math.max(halfWidth + 12, Math.min(window.innerWidth - halfWidth - 12, linkRect.left + linkRect.width / 2));
+        const top = Math.max(12, linkRect.top - cardRect.height - 18);
+        card.style.left = `${centerX}px`;
+        card.style.top = `${top}px`;
+        card.classList.add('is-visible');
+      }
+
+      function hideProfilePreview(link, card) {
+        requestAnimationFrame(() => {
+          if (link.matches(':hover, :focus-visible')) return;
+          card.classList.remove('is-visible');
+          card.hideTimer = window.setTimeout(() => {
+            if (card.matches(':popover-open') && !link.matches(':hover, :focus-visible')) card.hidePopover();
+          }, reduceMotion ? 0 : 190);
+        });
+      }
+
+      profilePreviews.forEach(([link, card]) => {
+        link.addEventListener('pointerenter', () => showProfilePreview(link, card));
+        link.addEventListener('pointerleave', () => hideProfilePreview(link, card));
+        link.addEventListener('focus', () => showProfilePreview(link, card));
+        link.addEventListener('blur', () => hideProfilePreview(link, card));
+      });
+
+      window.addEventListener('resize', () => {
+        profilePreviews.forEach(([link, card]) => {
+          if (link.matches(':hover, :focus-visible')) showProfilePreview(link, card);
+          else if (card.matches(':popover-open')) card.hidePopover();
+        });
+      }, { passive: true });
+
       const gallery = document.querySelector('#gallery');
       const reel = document.querySelector('#reel');
       const progressDots = [...document.querySelectorAll('#reel-progress span')];
@@ -1418,11 +1581,9 @@
       let isModalOpen = false;
       let lastFocusedCard = null;
       let closeTimer = null;
-      let hoverTimer = null;
       let modalAnimation = null;
       let lastSourceRect = null;
       let restoreFocusOnClose = false;
-      let suppressHoverUntil = 0;
       let scrollRate = 0.09;
       let loopPoint = 0;
 
@@ -1486,7 +1647,6 @@
         const image = card.querySelector('.card-media');
         if (!image || isModalOpen) return;
 
-        window.clearTimeout(hoverTimer);
         window.clearTimeout(closeTimer);
         lastSourceRect = card.getBoundingClientRect();
         lastFocusedCard = card;
@@ -1525,8 +1685,6 @@
 
       function closeProject() {
         if (!isModalOpen) return;
-        suppressHoverUntil = performance.now() + 520;
-        window.clearTimeout(hoverTimer);
         projectModal.classList.remove('is-open');
         projectModal.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('modal-open');
@@ -1566,19 +1724,6 @@
           }
         }, reduceMotion ? 0 : 330);
       }
-
-      reel.addEventListener('pointerover', (event) => {
-        const card = event.target.closest('.card');
-        if (!card || card.contains(event.relatedTarget) || isModalOpen || performance.now() < suppressHoverUntil) return;
-        window.clearTimeout(hoverTimer);
-        hoverTimer = window.setTimeout(() => openProject(card), 110);
-      });
-
-      reel.addEventListener('pointerout', (event) => {
-        const card = event.target.closest('.card');
-        if (!card || card.contains(event.relatedTarget)) return;
-        window.clearTimeout(hoverTimer);
-      });
 
       reel.addEventListener('click', (event) => {
         const card = event.target.closest('.card');
