@@ -782,11 +782,11 @@
 
       .arc-preview {
         display: grid;
-        width: min(320px, 74vw);
+        width: min(336px, 74vw);
         overflow: hidden;
-        border: 1px solid rgba(17, 24, 39, 0.1);
-        border-radius: 20px;
-        background: #fffef2;
+        border: 1px solid rgba(17, 24, 39, 0.12);
+        border-radius: 18px;
+        background: #f8f6ea;
         color: #121212;
         box-shadow: 0 22px 58px rgba(0, 0, 0, 0.24);
         filter: none;
@@ -795,15 +795,57 @@
       }
 
       .arc-cover {
-        height: 84px;
-        background: linear-gradient(135deg, #35c8b1, #11b99f);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 76px;
+        background: #101411;
+      }
+
+      .arc-mode {
+        display: grid;
+        align-content: end;
+        gap: 6px;
+        padding: 12px;
+        color: rgba(255, 255, 255, 0.84);
+        font-size: 0.72rem;
+        font-weight: 700;
+        line-height: 1;
+        text-transform: uppercase;
+      }
+
+      .arc-mode::before {
+        display: block;
+        width: 28px;
+        height: 28px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #f8f6ea 50%, #151a16 50%);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+        content: "";
+      }
+
+      .arc-mode.light {
+        background: linear-gradient(135deg, #fffdf0, #d3f2e6);
+        color: #13836f;
+      }
+
+      .arc-mode.dark {
+        background: linear-gradient(135deg, #14201d, #060807);
+      }
+
+      .arc-mode.light::before {
+        background: #fffdf0;
+        box-shadow: inset 0 0 0 1px rgba(19, 131, 111, 0.22);
+      }
+
+      .arc-mode.dark::before {
+        background: #151a16;
       }
 
       .arc-body {
         position: relative;
         display: grid;
-        gap: 8px;
-        padding: 44px 16px 16px;
+        gap: 10px;
+        padding: 42px 16px 16px;
       }
 
       .arc-avatar {
@@ -815,7 +857,7 @@
         height: 68px;
         place-items: center;
         overflow: hidden;
-        border: 4px solid #fffef2;
+        border: 4px solid #f8f6ea;
         border-radius: 16px;
         background: #fff;
         box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
@@ -834,7 +876,7 @@
       }
 
       .arc-title strong {
-        font-size: 1.08rem;
+        font-size: 1.12rem;
         font-weight: 700;
         line-height: 1.1;
       }
@@ -843,6 +885,23 @@
       .arc-meta {
         color: #67706e;
         font-size: 0.88rem;
+      }
+
+      .arc-brand {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: #128672;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .arc-brand::before {
+        width: 16px;
+        height: 16px;
+        border-radius: 6px 6px 9px 9px;
+        background: linear-gradient(145deg, #0fb39d, #50d5ba);
+        content: "";
       }
 
       .codex-preview,
@@ -1522,12 +1581,15 @@
               <a class="tool has-preview tilt-tool" data-label="Arc" href="https://arc.net/" target="_blank" rel="noreferrer" aria-label="Visit Arc">
                 <img src="media/arc-icon.png" alt="" />
                 <span class="tool-preview arc-preview" aria-hidden="true">
-                  <span class="arc-cover"></span>
+                  <span class="arc-cover">
+                    <span class="arc-mode light">Light</span>
+                    <span class="arc-mode dark">Dark</span>
+                  </span>
                   <span class="arc-body">
                     <span class="arc-avatar"><img src="media/arc-icon.png" alt="" /></span>
-                    <span class="arc-title"><strong>Adi on Arc</strong><span>Confident Architect</span></span>
-                    <span class="arc-meta">Browser Company · anniversary card</span>
-                    <span class="profile-stats"><span><strong>1 year</strong> with Arc</span><span><strong>30 May 2025</strong></span></span>
+                    <span class="arc-title"><strong>Confident Architect</strong><span>Arc profile by The Browser Company</span></span>
+                    <span class="arc-brand">Made for Arc members</span>
+                    <span class="profile-stats"><span><strong>1 year</strong> using Arc</span><span><strong>30 May 2025</strong> joined</span></span>
                   </span>
                 </span>
               </a>
