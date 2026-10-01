@@ -1,0 +1,9 @@
+{
+  "name": "aditya-arya-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node -e \"require('fs').accessSync('dist/index.html')\"",
+    "start": "python3 -m http.server 4173 --directory dist"
+  }
+}
