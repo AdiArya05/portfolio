@@ -578,9 +578,9 @@
       }
 
       .linkedin-profile-card {
-        width: min(244px, calc(100vw - 28px));
-        border-color: rgba(255, 255, 255, 0.06);
-        border-radius: 10px;
+        width: min(340px, calc(100vw - 28px));
+        border-color: rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
         background: #1d2226;
         color: #f7f7f7;
         box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
@@ -588,7 +588,7 @@
 
       .linkedin-cover {
         position: relative;
-        height: 88px;
+        height: 92px;
         overflow: hidden;
         background: #20252a;
       }
@@ -604,9 +604,8 @@
       .linkedin-body {
         position: relative;
         display: grid;
-        min-height: 145px;
-        padding: 42px 16px 14px;
-        gap: 3px;
+        padding: 42px 16px 16px;
+        gap: 8px;
         background: #1d2226;
       }
 
@@ -642,40 +641,12 @@
 
       .linkedin-title span,
       .linkedin-role {
-        font-size: 0.82rem;
+        font-size: 0.88rem;
       }
 
       .linkedin-profile-card .profile-location {
         color: #c5c9cc;
         font-size: 0.8rem;
-      }
-
-      .linkedin-organisations {
-        display: grid;
-        gap: 0;
-        padding-top: 10px;
-        font-size: 0.81rem;
-        font-weight: 650;
-      }
-
-      .linkedin-organisations span {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .linkedin-organisations i {
-        display: grid;
-        width: 25px;
-        height: 25px;
-        flex: 0 0 auto;
-        place-items: center;
-        border-radius: 4px;
-        background: #f7f7f7;
-        color: #1d2226;
-        font-size: 0.56rem;
-        font-style: normal;
-        font-weight: 750;
       }
 
       html[data-theme="light"] .linkedin-profile-card {
@@ -696,12 +667,6 @@
       html[data-theme="light"] .linkedin-profile-card .profile-location {
         color: #697078;
       }
-
-      html[data-theme="light"] .linkedin-organisations i {
-        background: #eef3f8;
-        color: #1d2226;
-      }
-
 
       .social-icon > img {
         border-radius: 0;
@@ -816,15 +781,68 @@
       }
 
       .arc-preview {
-        width: 112px;
-        filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.24));
+        display: grid;
+        width: min(320px, 74vw);
+        overflow: hidden;
+        border: 1px solid rgba(17, 24, 39, 0.1);
+        border-radius: 20px;
+        background: #fffef2;
+        color: #121212;
+        box-shadow: 0 22px 58px rgba(0, 0, 0, 0.24);
+        filter: none;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+        letter-spacing: 0;
       }
 
-      .arc-preview > img {
+      .arc-cover {
+        height: 84px;
+        background: linear-gradient(135deg, #35c8b1, #11b99f);
+      }
+
+      .arc-body {
+        position: relative;
+        display: grid;
+        gap: 8px;
+        padding: 44px 16px 16px;
+      }
+
+      .arc-avatar {
+        position: absolute;
+        top: -34px;
+        left: 16px;
+        display: grid;
+        width: 68px;
+        height: 68px;
+        place-items: center;
+        overflow: hidden;
+        border: 4px solid #fffef2;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      }
+
+      .tool .arc-avatar img {
         width: 100%;
-        height: auto;
-        border-radius: 13px;
-        object-fit: contain;
+        height: 100%;
+        border-radius: 12px;
+        object-fit: cover;
+      }
+
+      .arc-title {
+        display: grid;
+        gap: 2px;
+      }
+
+      .arc-title strong {
+        font-size: 1.08rem;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+
+      .arc-title span,
+      .arc-meta {
+        color: #67706e;
+        font-size: 0.88rem;
       }
 
       .codex-preview,
@@ -1126,10 +1144,10 @@
         position: absolute;
         z-index: 12;
         top: 50%;
-        left: -28px;
+        left: -24px;
         display: grid;
-        gap: 6px;
-        padding: 12px 8px;
+        gap: 5px;
+        padding: 10px 7px;
         border: 1px solid var(--line);
         border-radius: 999px;
         background: color-mix(in srgb, var(--paper) 88%, transparent);
@@ -1140,8 +1158,8 @@
       }
 
       .reel-progress span {
-        width: 6px;
-        height: 19px;
+        width: 5px;
+        height: 15px;
         border-radius: 999px;
         background: var(--ink);
         opacity: 0.28;
@@ -1165,7 +1183,7 @@
 
       .project-modal {
         position: fixed;
-        z-index: 90;
+        z-index: 2147483646;
         inset: 0;
         display: grid;
         padding: clamp(24px, 5vw, 72px);
@@ -1219,6 +1237,13 @@
 
       body.modal-open {
         overflow: hidden;
+      }
+
+      body.modal-open .tool-preview,
+      body.modal-open .social-profile-card,
+      body.modal-open .github-activity-card {
+        visibility: hidden !important;
+        opacity: 0 !important;
       }
 
       .closing {
@@ -1389,6 +1414,10 @@
       }
 
       @media (max-width: 900px) {
+        .arc-preview {
+          left: calc(50% + 106px);
+        }
+
         .theme-toggle {
           top: 16px;
           left: 16px;
@@ -1492,7 +1521,15 @@
             <span class="tool-stack" aria-label="Arc, Codex, and Wispr Flow">
               <a class="tool has-preview tilt-tool" data-label="Arc" href="https://arc.net/" target="_blank" rel="noreferrer" aria-label="Visit Arc">
                 <img src="media/arc-icon.png" alt="" />
-                <span class="tool-preview arc-preview"><img src="media/adi-arc-card-cutout.png" alt="Adi's Arc card" /></span>
+                <span class="tool-preview arc-preview" aria-hidden="true">
+                  <span class="arc-cover"></span>
+                  <span class="arc-body">
+                    <span class="arc-avatar"><img src="media/arc-icon.png" alt="" /></span>
+                    <span class="arc-title"><strong>Adi on Arc</strong><span>Confident Architect</span></span>
+                    <span class="arc-meta">Browser Company · anniversary card</span>
+                    <span class="profile-stats"><span><strong>1 year</strong> with Arc</span><span><strong>30 May 2025</strong></span></span>
+                  </span>
+                </span>
               </a>
               <a class="tool has-preview" data-label="Codex" href="https://chatgpt.com/codex" target="_blank" rel="noreferrer" aria-label="Open Aditya's Codex home">
                 <img src="media/codex-sticker-transparent.png" alt="" />
@@ -1539,10 +1576,6 @@
       <aside class="gallery-wrap" aria-label="Selected project gallery">
         <div class="gallery" id="gallery" tabindex="0">
           <div class="reel" id="reel">
-            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity">
-              <img class="card-media" src="media/catch-live-activity.png" alt="Catch bus arrival Live Activity displayed on an iPhone lock screen" />
-            </article>
-
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Sailorfy website showcase">
               <img class="card-media" src="media/sailorfy-showcase.png" alt="Sailorfy website displayed in a desktop browser mockup" />
             </article>
@@ -1573,7 +1606,7 @@
           </div>
         </div>
         <div class="reel-progress" id="reel-progress" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
       </aside>
     </main>
@@ -1589,7 +1622,7 @@
         <span class="linkedin-title"><strong>Aditya Arya</strong><span>· 1st</span></span>
         <span class="linkedin-role">SAF 27’</span>
         <span class="profile-location">Singapore</span>
-        <span class="linkedin-organisations"><span><i>ARMY</i>Singapore Army</span></span>
+        <span class="profile-stats"><span><strong>1K</strong> Followers</span><span><strong>500+</strong> Connections</span></span>
       </span>
     </div>
 
