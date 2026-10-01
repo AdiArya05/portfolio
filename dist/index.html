@@ -1076,7 +1076,7 @@
         opacity: 0;
         pointer-events: none;
         cursor: zoom-out;
-        transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+        transition: none;
         backdrop-filter: blur(22px) saturate(0.72);
         -webkit-backdrop-filter: blur(22px) saturate(0.72);
       }
@@ -1097,7 +1097,8 @@
         box-shadow: 0 44px 110px rgba(0, 0, 0, 0.26);
         cursor: default;
         transform: translate3d(0, 18px, 0) scale(0.96);
-        transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+        transform-origin: center center;
+        transition: none;
       }
 
       .project-modal.is-open .modal-panel {
@@ -1652,13 +1653,14 @@
 
         const now = audioContext.currentTime;
 
-        function transitionAir(at, startFrequency, endFrequency, level, duration) {
+        function softBloom(at, startFrequency, endFrequency, level, duration) {
           const frameCount = Math.ceil(audioContext.sampleRate * duration);
           const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
           const samples = buffer.getChannelData(0);
           for (let index = 0; index < frameCount; index += 1) {
             const progress = index / frameCount;
-            samples[index] = (Math.random() * 2 - 1) * Math.sin(Math.PI * progress);
+            const envelope = Math.sin(Math.PI * progress) * Math.pow(1 - progress, 0.22);
+            samples[index] = (Math.random() * 2 - 1) * envelope;
           }
 
           const noise = audioContext.createBufferSource();
@@ -1668,27 +1670,28 @@
           noiseFilter.type = 'bandpass';
           noiseFilter.frequency.setValueAtTime(startFrequency, at);
           noiseFilter.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
-          noiseFilter.Q.setValueAtTime(0.55, at);
+          noiseFilter.Q.setValueAtTime(0.72, at);
           noiseGain.gain.setValueAtTime(0.0001, at);
-          noiseGain.gain.exponentialRampToValueAtTime(level, at + duration * 0.23);
+          noiseGain.gain.exponentialRampToValueAtTime(level, at + duration * 0.16);
           noiseGain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
           noise.connect(noiseFilter).connect(noiseGain).connect(audioContext.destination);
           noise.start(at);
           noise.stop(at + duration);
         }
 
-        function transitionBody(at, startFrequency, endFrequency, level, duration) {
+        function glassTone(at, startFrequency, endFrequency, level, duration, type = 'sine') {
           const tone = audioContext.createOscillator();
           const filter = audioContext.createBiquadFilter();
           const gain = audioContext.createGain();
-          tone.type = 'sine';
+          tone.type = type;
           tone.frequency.setValueAtTime(startFrequency, at);
           tone.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
           filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(640, at);
-          filter.Q.setValueAtTime(0.32, at);
+          filter.frequency.setValueAtTime(1200, at);
+          filter.frequency.exponentialRampToValueAtTime(720, at + duration);
+          filter.Q.setValueAtTime(0.4, at);
           gain.gain.setValueAtTime(0.0001, at);
-          gain.gain.exponentialRampToValueAtTime(level, at + 0.018);
+          gain.gain.exponentialRampToValueAtTime(level, at + 0.024);
           gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
           tone.connect(filter).connect(gain).connect(audioContext.destination);
           tone.start(at);
@@ -1696,9 +1699,10 @@
         }
 
         const isOpen = direction === 'open';
-        transitionAir(now, isOpen ? 520 : 1380, isOpen ? 1380 : 520, 0.022, 0.23);
-        transitionBody(now, isOpen ? 176 : 246, isOpen ? 246 : 176, 0.034, 0.25);
-        transitionBody(now + 0.012, isOpen ? 352 : 492, isOpen ? 492 : 352, 0.008, 0.18);
+        softBloom(now, isOpen ? 620 : 1720, isOpen ? 1720 : 620, 0.034, 0.31);
+        glassTone(now, isOpen ? 196 : 294, isOpen ? 294 : 196, 0.05, 0.34);
+        glassTone(now + 0.018, isOpen ? 392 : 588, isOpen ? 588 : 392, 0.018, 0.27, 'triangle');
+        glassTone(now + 0.036, isOpen ? 784 : 1176, isOpen ? 1176 : 784, 0.008, 0.21);
       }
 
       function playThemeSound(theme) {
@@ -1770,11 +1774,73 @@
         tone.type = 'triangle';
         tone.frequency.setValueAtTime(860 + step * 105, now);
         tone.frequency.exponentialRampToValueAtTime(620 + step * 82, now + clickLength);
-        toneGain.gain.setValueAtTime(0.026, now);
+        toneGain.gain.setValueAtTime(0.034, now);
         toneGain.gain.exponentialRampToValueAtTime(0.0001, now + clickLength);
         tone.connect(toneGain).connect(audioContext.destination);
         tone.start(now);
         tone.stop(now + clickLength + 0.004);
+      }
+
+      let lastGalleryTickAt = 0;
+
+      function playGalleryTick(velocity = 1) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        audioContext ||= new AudioContextClass();
+        if (audioContext.state === 'suspended') audioContext.resume();
+
+        const now = audioContext.currentTime;
+        const tone = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        const speed = Math.min(5, Math.max(0.4, velocity));
+        const duration = Math.max(0.018, 0.033 - speed * 0.0025);
+        tone.type = 'triangle';
+        tone.frequency.setValueAtTime(700 + speed * 42, now);
+        tone.frequency.exponentialRampToValueAtTime(520 + speed * 31, now + duration);
+        gain.gain.setValueAtTime(0.022 + Math.min(speed, 3) * 0.0035, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        tone.connect(gain).connect(audioContext.destination);
+        tone.start(now);
+        tone.stop(now + duration + 0.004);
+      }
+
+      let lastWarpAt = 0;
+
+      function playContactWarp() {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const timestamp = performance.now();
+        if (timestamp - lastWarpAt < 520) return;
+        lastWarpAt = timestamp;
+        audioContext ||= new AudioContextClass();
+        if (audioContext.state === 'suspended') audioContext.resume();
+
+        const now = audioContext.currentTime;
+        const master = audioContext.createGain();
+        const filter = audioContext.createBiquadFilter();
+        master.gain.setValueAtTime(0.0001, now);
+        master.gain.exponentialRampToValueAtTime(0.046, now + 0.045);
+        master.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(620, now);
+        filter.frequency.exponentialRampToValueAtTime(3200, now + 0.21);
+        filter.frequency.exponentialRampToValueAtTime(880, now + 0.42);
+        filter.Q.setValueAtTime(1.1, now);
+        filter.connect(master).connect(audioContext.destination);
+
+        [0, 0.013].forEach((offset, index) => {
+          const oscillator = audioContext.createOscillator();
+          const gain = audioContext.createGain();
+          oscillator.type = index ? 'triangle' : 'sine';
+          oscillator.frequency.setValueAtTime(index ? 148 : 104, now + offset);
+          oscillator.frequency.exponentialRampToValueAtTime(index ? 740 : 520, now + 0.24 + offset);
+          oscillator.frequency.exponentialRampToValueAtTime(index ? 410 : 292, now + 0.42 + offset);
+          gain.gain.setValueAtTime(index ? 0.32 : 0.7, now + offset);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.42 + offset);
+          oscillator.connect(gain).connect(filter);
+          oscillator.start(now + offset);
+          oscillator.stop(now + 0.44 + offset);
+        });
       }
 
       let lastScribbleAt = 0;
@@ -1836,6 +1902,10 @@
         target.addEventListener('focus', () => playHoverTick(step));
       });
 
+      const contactLink = document.querySelector('.contact-link');
+      contactLink.addEventListener('pointerenter', playContactWarp);
+      contactLink.addEventListener('focus', playContactWarp);
+
       const originalCards = [...reel.children];
       for (let copy = 0; copy < 2; copy += 1) {
         originalCards.forEach((card) => {
@@ -1855,6 +1925,37 @@
       window.addEventListener('resize', refreshLoopPoint, { passive: true });
 
       gallery.scrollTop = 150;
+
+      let manualGalleryInputUntil = 0;
+      let lastGalleryScrollTop = gallery.scrollTop;
+      let galleryTickDistance = 0;
+
+      gallery.addEventListener('wheel', () => {
+        manualGalleryInputUntil = performance.now() + 720;
+      }, { passive: true });
+
+      gallery.addEventListener('pointerdown', () => {
+        manualGalleryInputUntil = performance.now() + 1200;
+      }, { passive: true });
+
+      gallery.addEventListener('scroll', () => {
+        const timestamp = performance.now();
+        let distance = Math.abs(gallery.scrollTop - lastGalleryScrollTop);
+        lastGalleryScrollTop = gallery.scrollTop;
+        if (loopPoint && distance > loopPoint / 2) distance = 0;
+        if (timestamp > manualGalleryInputUntil || distance === 0) return;
+
+        galleryTickDistance += distance;
+        const elapsed = Math.max(8, timestamp - lastGalleryTickAt);
+        const velocity = Math.min(6, distance / elapsed * 12);
+        const distanceStep = Math.max(24, 58 - velocity * 6);
+        const minimumGap = Math.max(26, 96 - velocity * 13);
+        if (galleryTickDistance >= distanceStep && timestamp - lastGalleryTickAt >= minimumGap) {
+          galleryTickDistance %= distanceStep;
+          lastGalleryTickAt = timestamp;
+          playGalleryTick(velocity);
+        }
+      }, { passive: true });
 
       gallery.addEventListener('pointerenter', () => {
         isHoveringGallery = true;
@@ -1928,7 +2029,12 @@
                 { transform: startTransform, borderRadius: '22px', opacity: 0.9 },
                 { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 }
               ],
-              { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+              { duration: 400, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+            );
+            overlayAnimation?.cancel();
+            overlayAnimation = projectModal.animate(
+              [{ opacity: 0 }, { opacity: 1 }],
+              { duration: 300, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
             );
           }
 
@@ -1936,7 +2042,7 @@
         });
       }
 
-      function closeProject() {
+      async function closeProject() {
         if (!isModalOpen || isModalClosing) return;
         isModalClosing = true;
         projectModal.setAttribute('aria-hidden', 'true');
@@ -1956,41 +2062,59 @@
 
         modalAnimation?.cancel();
         overlayAnimation?.cancel();
+        modalAnimation = null;
+        overlayAnimation = null;
         if (!reduceMotion) {
           modalAnimation = modalPanel.animate(
             [
               { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 },
-              { transform: endTransform, borderRadius: '22px', opacity: 1 }
+              { transform: endTransform, borderRadius: '22px', opacity: 0.96 }
             ],
-            { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+            { duration: 400, easing: 'cubic-bezier(0.64, 0, 0.78, 0)', fill: 'both' }
           );
           overlayAnimation = projectModal.animate(
             [
               { opacity: 1 },
-              { opacity: 1, offset: 0.72 },
+              { opacity: 1, offset: 0.58 },
               { opacity: 0 }
             ],
-            { duration: 420, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+            { duration: 400, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'both' }
           );
         }
 
-        closeTimer = window.setTimeout(() => {
+        const finishClose = () => {
+          projectModal.hidden = true;
+          projectModal.classList.remove('is-open');
+          document.body.classList.remove('modal-open');
+          lastFocusedCard?.classList.remove('is-modal-source');
           modalAnimation?.cancel();
           overlayAnimation?.cancel();
           modalAnimation = null;
           overlayAnimation = null;
-          modalImage.removeAttribute('src');
-          modalImage.alt = '';
-          projectModal.classList.remove('is-open');
-          projectModal.hidden = true;
-          document.body.classList.remove('modal-open');
-          lastFocusedCard?.classList.remove('is-modal-source');
           isModalOpen = false;
           isModalClosing = false;
           if (restoreFocusOnClose && lastFocusedCard && !lastFocusedCard.hasAttribute('aria-hidden')) {
             lastFocusedCard.focus({ preventScroll: true });
           }
-        }, reduceMotion ? 0 : 430);
+          requestAnimationFrame(() => {
+            modalImage.removeAttribute('src');
+            modalImage.alt = '';
+          });
+        };
+
+        if (reduceMotion || !modalAnimation || !overlayAnimation) {
+          finishClose();
+          return;
+        }
+
+        closeTimer = window.setTimeout(finishClose, 520);
+        try {
+          await Promise.all([modalAnimation.finished, overlayAnimation.finished]);
+          window.clearTimeout(closeTimer);
+          finishClose();
+        } catch {
+          if (isModalClosing) finishClose();
+        }
       }
 
       reel.addEventListener('click', (event) => {
