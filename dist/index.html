@@ -851,94 +851,23 @@
       }
 
       .codex-preview {
-        display: grid;
         width: min(390px, 78vw);
-        gap: 12px;
-        padding: 15px;
+        padding: 0;
       }
 
-      .codex-preview-head,
-      .wispr-preview-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        font-size: 12px;
-      }
-
-      .codex-preview-head strong,
-      .wispr-preview-head strong {
-        font-size: 15px;
-        font-weight: 650;
-      }
-
-      .codex-preview-head span,
-      .wispr-preview-head span {
-        color: #8d8d8d;
-      }
-
-      .codex-activity-image {
+      .codex-activity-image,
+      .wispr-profile-image {
         display: block;
         width: 100%;
         height: auto;
-        border-radius: 8px;
-      }
-
-      .codex-preview-foot {
-        display: flex;
-        justify-content: space-between;
-        color: #848484;
-        font-size: 10px;
+        border-radius: inherit;
       }
 
       .wispr-preview {
-        width: min(330px, 76vw);
-        padding: 22px;
-        background:
-          radial-gradient(circle at 78% 32%, rgba(75, 75, 75, 0.74), transparent 42%),
-          #181818;
-      }
-
-      .wispr-speed {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: end;
-        gap: 16px;
-        margin-top: 22px;
-        padding: 18px;
-        border-radius: 14px;
-        background: #f7f7f7;
-        color: #111;
-      }
-
-      .wispr-number {
-        display: block;
-        font-size: 46px;
-        font-weight: 520;
-        line-height: 0.95;
-      }
-
-      .wispr-unit {
-        display: block;
-        margin-top: 8px;
-        color: #737373;
-        font-size: 11px;
-        font-weight: 650;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
-      .wispr-rank {
-        color: #656565;
-        font-size: 11px;
-        text-align: center;
-      }
-
-      .wispr-rank strong {
-        display: block;
-        margin-top: 3px;
-        color: #111;
-        font-size: 16px;
+        width: min(420px, 80vw);
+        padding: 0;
+        border: 0;
+        background: transparent;
       }
 
       .links {
@@ -1182,6 +1111,10 @@
         outline: none;
       }
 
+      .card.is-modal-source {
+        opacity: 0;
+      }
+
       .reel-progress {
         position: absolute;
         z-index: 12;
@@ -1231,6 +1164,7 @@
         padding: clamp(24px, 5vw, 72px);
         place-items: center;
         background: color-mix(in srgb, var(--paper) 18%, transparent);
+        opacity: 0;
         pointer-events: none;
         cursor: zoom-out;
         transition: none;
@@ -1239,6 +1173,7 @@
       }
 
       .project-modal.is-open {
+        opacity: 1;
         pointer-events: auto;
       }
 
@@ -1549,16 +1484,13 @@
               <a class="tool has-preview" data-label="Codex" href="https://chatgpt.com/codex" target="_blank" rel="noreferrer" aria-label="Open Aditya's Codex home">
                 <img src="media/codex-sticker-transparent.png" alt="" />
                 <span class="tool-preview codex-preview" aria-hidden="true">
-                  <span class="codex-preview-head"><strong>Codex activity</strong><span>private snapshot</span></span>
                   <img class="codex-activity-image" src="media/codex-activity.png" alt="" />
-                  <span class="codex-preview-foot"><span>recent work</span><span>opens your Codex home</span></span>
                 </span>
               </a>
               <a class="tool has-preview" data-label="Wispr Flow" href="https://wisprflow.ai/" target="_blank" rel="noreferrer" aria-label="Visit Wispr Flow">
                 <img src="media/wispr-flow-icon.png" alt="" />
                 <span class="tool-preview wispr-preview" aria-hidden="true">
-                  <span class="wispr-preview-head"><strong>How fast you Flow</strong><span>Wispr Flow</span></span>
-                  <span class="wispr-speed"><span><strong class="wispr-number">181</strong><span class="wispr-unit">words per minute</span></span><span class="wispr-rank">Top<strong>0.1%</strong></span></span>
+                  <img class="wispr-profile-image" src="media/wispr-flow-profile.png" alt="" />
                 </span>
               </a>
             </span>.</span>
@@ -1811,6 +1743,7 @@
       let closeTimer = null;
       let modalAnimation = null;
       let overlayAnimation = null;
+      let lastSourceRect = null;
       let restoreFocusOnClose = false;
       let scrollRate = 0.09;
       let loopPoint = 0;
@@ -1818,15 +1751,16 @@
       let audioResumePromise = null;
       let lastAudioResumeAttempt = 0;
 
-      function ensureAudioReady() {
+      function ensureAudioReady(event) {
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         if (!AudioContextClass) return Promise.resolve(null);
         audioContext ||= new AudioContextClass();
         if (audioContext.state === 'running') return Promise.resolve(audioContext);
         if (audioResumePromise) return audioResumePromise;
 
+        const isTrustedActivation = Boolean(event?.isTrusted && ['pointerdown', 'mousedown', 'touchstart', 'keydown', 'click'].includes(event.type));
         const timestamp = performance.now();
-        if (timestamp - lastAudioResumeAttempt < 180) return Promise.resolve(audioContext);
+        if (!isTrustedActivation && timestamp - lastAudioResumeAttempt < 180) return Promise.resolve(audioContext);
         lastAudioResumeAttempt = timestamp;
         audioResumePromise = audioContext.resume()
           .catch(() => audioContext)
@@ -1846,7 +1780,7 @@
         });
       }
 
-      ['pointerover', 'pointermove', 'pointerdown', 'touchstart', 'wheel', 'keydown'].forEach((eventName) => {
+      ['pointerover', 'pointermove', 'pointerdown', 'mousedown', 'touchstart', 'click', 'wheel', 'keydown'].forEach((eventName) => {
         document.addEventListener(eventName, ensureAudioReady, { capture: true, passive: true });
       });
 
@@ -2218,7 +2152,9 @@
         window.clearTimeout(closeTimer);
         overlayAnimation?.cancel();
         overlayAnimation = null;
+        lastSourceRect = card.getBoundingClientRect();
         lastFocusedCard = card;
+        lastFocusedCard.classList.add('is-modal-source');
         restoreFocusOnClose = Boolean(options.focus);
         isModalOpen = true;
         isModalClosing = false;
@@ -2232,22 +2168,26 @@
         playInterfaceSound('open');
 
         requestAnimationFrame(() => {
+          const targetRect = modalPanel.getBoundingClientRect();
+          const sourceCenterX = lastSourceRect.left + lastSourceRect.width / 2;
+          const sourceCenterY = lastSourceRect.top + lastSourceRect.height / 2;
+          const targetCenterX = targetRect.left + targetRect.width / 2;
+          const targetCenterY = targetRect.top + targetRect.height / 2;
+          const startTransform = `translate3d(${sourceCenterX - targetCenterX}px, ${sourceCenterY - targetCenterY}px, 0) scale(${lastSourceRect.width / targetRect.width}, ${lastSourceRect.height / targetRect.height})`;
+
           if (!reduceMotion) {
             modalAnimation?.cancel();
             modalAnimation = modalPanel.animate(
               [
-                { transform: 'translate3d(0, 18px, 0) scale(0.955)' },
-                { transform: 'translate3d(0, 0, 0) scale(1)' }
+                { transform: startTransform, borderRadius: '22px', opacity: 0.9 },
+                { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 }
               ],
-              { duration: 330, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+              { duration: 400, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
             );
             overlayAnimation?.cancel();
             overlayAnimation = projectModal.animate(
-              [
-                { backgroundColor: 'rgba(0, 0, 0, 0)', backdropFilter: 'blur(0px) saturate(1)' },
-                { backgroundColor: document.documentElement.dataset.theme === 'dark' ? 'rgba(17, 17, 16, 0.18)' : 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(22px) saturate(0.72)' }
-              ],
-              { duration: 260, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+              [{ opacity: 0 }, { opacity: 1 }],
+              { duration: 300, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
             );
           }
 
@@ -2261,6 +2201,18 @@
         projectModal.setAttribute('aria-hidden', 'true');
         playInterfaceSound('close');
 
+        const sourceRect = lastFocusedCard?.isConnected
+          ? lastFocusedCard.getBoundingClientRect()
+          : lastSourceRect;
+        const panelRect = modalPanel.getBoundingClientRect();
+        const sourceCenterX = sourceRect ? sourceRect.left + sourceRect.width / 2 : panelRect.left + panelRect.width / 2;
+        const sourceCenterY = sourceRect ? sourceRect.top + sourceRect.height / 2 : panelRect.top + panelRect.height / 2;
+        const panelCenterX = panelRect.left + panelRect.width / 2;
+        const panelCenterY = panelRect.top + panelRect.height / 2;
+        const sourceTransform = sourceRect
+          ? `translate3d(${sourceCenterX - panelCenterX}px, ${sourceCenterY - panelCenterY}px, 0) scale(${sourceRect.width / panelRect.width}, ${sourceRect.height / panelRect.height})`
+          : 'translate3d(0, 12px, 0) scale(0.97)';
+
         modalAnimation?.cancel();
         overlayAnimation?.cancel();
         modalAnimation = null;
@@ -2268,17 +2220,14 @@
         if (!reduceMotion) {
           modalAnimation = modalPanel.animate(
             [
-              { transform: 'translate3d(0, 18px, 0) scale(0.955)' },
-              { transform: 'translate3d(0, 0, 0) scale(1)' }
+              { transform: sourceTransform, borderRadius: '22px', opacity: 0.9 },
+              { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 }
             ],
-            { duration: 330, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', direction: 'reverse', fill: 'both' }
+            { duration: 400, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', direction: 'reverse', fill: 'both' }
           );
           overlayAnimation = projectModal.animate(
-            [
-              { backgroundColor: 'rgba(0, 0, 0, 0)', backdropFilter: 'blur(0px) saturate(1)' },
-              { backgroundColor: document.documentElement.dataset.theme === 'dark' ? 'rgba(17, 17, 16, 0.18)' : 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(22px) saturate(0.72)' }
-            ],
-            { duration: 260, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', direction: 'reverse', fill: 'both' }
+            [{ opacity: 0 }, { opacity: 1 }],
+            { duration: 300, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', direction: 'reverse', fill: 'both' }
           );
         }
 
@@ -2287,6 +2236,7 @@
           projectModal.hidden = true;
           projectModal.classList.remove('is-open');
           document.body.classList.remove('modal-open');
+          lastFocusedCard?.classList.remove('is-modal-source');
           modalAnimation?.cancel();
           overlayAnimation?.cancel();
           modalAnimation = null;
@@ -2307,7 +2257,7 @@
           return;
         }
 
-        closeTimer = window.setTimeout(finishClose, 440);
+        closeTimer = window.setTimeout(finishClose, 520);
         try {
           await Promise.all([modalAnimation.finished, overlayAnimation.finished]);
           window.clearTimeout(closeTimer);
