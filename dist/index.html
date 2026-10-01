@@ -834,11 +834,20 @@
       }
 
       .codex-preview {
-        width: min(196px, 58vw);
+        position: relative;
+        width: min(270px, 76vw);
+        height: 200px;
         padding: 0;
       }
 
-      .codex-activity-image,
+      .codex-activity-image {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 0;
+      }
+
       .wispr-profile-image {
         display: block;
         width: 100%;
@@ -1094,10 +1103,6 @@
         outline: none;
       }
 
-      .card.is-modal-source {
-        opacity: 0;
-      }
-
       .reel-progress {
         position: absolute;
         z-index: 12;
@@ -1150,9 +1155,10 @@
         opacity: 0;
         pointer-events: none;
         cursor: zoom-out;
-        transition: none;
+        transition: opacity 220ms cubic-bezier(0.4, 0, 0.2, 1);
         backdrop-filter: blur(22px) saturate(0.72);
         -webkit-backdrop-filter: blur(22px) saturate(0.72);
+        will-change: opacity;
       }
 
       .project-modal.is-open {
@@ -1170,12 +1176,17 @@
         background: var(--paper);
         box-shadow: 0 44px 110px rgba(0, 0, 0, 0.26);
         cursor: default;
-        transform: translate3d(0, 18px, 0) scale(0.96);
+        opacity: 0;
+        transform: translate3d(0, 10px, 0) scale(0.985);
         transform-origin: center center;
-        transition: none;
+        transition:
+          opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
+          transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+        will-change: opacity, transform;
       }
 
       .project-modal.is-open .modal-panel {
+        opacity: 1;
         transform: translate3d(0, 0, 0) scale(1);
       }
 
@@ -1467,7 +1478,7 @@
               <a class="tool has-preview" data-label="Codex" href="https://chatgpt.com/codex" target="_blank" rel="noreferrer" aria-label="Open Aditya's Codex home">
                 <img src="media/codex-sticker-transparent.png" alt="" />
                 <span class="tool-preview codex-preview" aria-hidden="true">
-                  <img class="codex-activity-image" src="media/codex-activity.png" alt="" />
+                  <img class="codex-activity-image" src="media/codex-activity-recent.png" alt="" />
                 </span>
               </a>
               <a class="tool has-preview" data-label="Wispr Flow" href="https://wisprflow.ai/" target="_blank" rel="noreferrer" aria-label="Visit Wispr Flow">
@@ -1724,9 +1735,6 @@
       let isModalClosing = false;
       let lastFocusedCard = null;
       let closeTimer = null;
-      let modalAnimation = null;
-      let overlayAnimation = null;
-      let lastSourceRect = null;
       let restoreFocusOnClose = false;
       let scrollRate = 0.09;
       let loopPoint = 0;
@@ -2145,85 +2153,32 @@
         if (!image || isModalOpen) return;
 
         window.clearTimeout(closeTimer);
-        overlayAnimation?.cancel();
-        overlayAnimation = null;
-        lastSourceRect = card.getBoundingClientRect();
         lastFocusedCard = card;
-        lastFocusedCard.classList.add('is-modal-source');
         restoreFocusOnClose = Boolean(options.focus);
         isModalOpen = true;
         isModalClosing = false;
         modalImage.src = image.currentSrc || image.src;
         modalImage.alt = image.alt;
-        projectModal.style.visibility = '';
         projectModal.hidden = false;
         projectModal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
+        void projectModal.offsetWidth;
         projectModal.classList.add('is-open');
         playInterfaceSound('open');
 
-        requestAnimationFrame(() => {
-          const targetRect = modalPanel.getBoundingClientRect();
-          const sourceCenterX = lastSourceRect.left + lastSourceRect.width / 2;
-          const sourceCenterY = lastSourceRect.top + lastSourceRect.height / 2;
-          const targetCenterX = targetRect.left + targetRect.width / 2;
-          const targetCenterY = targetRect.top + targetRect.height / 2;
-          const startTransform = `translate3d(${sourceCenterX - targetCenterX}px, ${sourceCenterY - targetCenterY}px, 0) scale(${lastSourceRect.width / targetRect.width}, ${lastSourceRect.height / targetRect.height})`;
-
-          if (!reduceMotion) {
-            modalAnimation?.cancel();
-            modalAnimation = modalPanel.animate(
-              [
-                { transform: startTransform, borderRadius: '22px', opacity: 0.9 },
-                { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 }
-              ],
-              { duration: 400, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
-            );
-            overlayAnimation?.cancel();
-            overlayAnimation = projectModal.animate(
-              [{ opacity: 0 }, { opacity: 1 }],
-              { duration: 300, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
-            );
-          }
-
-          if (options.focus) modalPanel.focus({ preventScroll: true });
-        });
+        if (options.focus) modalPanel.focus({ preventScroll: true });
       }
 
-      async function closeProject() {
+      function closeProject() {
         if (!isModalOpen || isModalClosing) return;
         isModalClosing = true;
         projectModal.setAttribute('aria-hidden', 'true');
         playInterfaceSound('close');
-
-        modalAnimation?.cancel();
-        overlayAnimation?.cancel();
-        modalAnimation = null;
-        overlayAnimation = null;
-        if (!reduceMotion) {
-          modalAnimation = modalPanel.animate(
-            [
-              { transform: 'translate3d(0, 0, 0) scale(1)', opacity: 1 },
-              { transform: 'translate3d(0, 8px, 0) scale(0.985)', opacity: 0 }
-            ],
-            { duration: 220, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill: 'both' }
-          );
-          overlayAnimation = projectModal.animate(
-            [{ opacity: 1 }, { opacity: 0 }],
-            { duration: 220, easing: 'ease-out', fill: 'both' }
-          );
-        }
+        projectModal.classList.remove('is-open');
 
         const finishClose = () => {
-          projectModal.style.visibility = 'hidden';
           projectModal.hidden = true;
-          projectModal.classList.remove('is-open');
           document.body.classList.remove('modal-open');
-          lastFocusedCard?.classList.remove('is-modal-source');
-          modalAnimation?.cancel();
-          overlayAnimation?.cancel();
-          modalAnimation = null;
-          overlayAnimation = null;
           isModalOpen = false;
           isModalClosing = false;
           if (restoreFocusOnClose && lastFocusedCard && !lastFocusedCard.hasAttribute('aria-hidden')) {
@@ -2235,19 +2190,12 @@
           });
         };
 
-        if (reduceMotion || !modalAnimation || !overlayAnimation) {
+        if (reduceMotion) {
           finishClose();
           return;
         }
 
-        closeTimer = window.setTimeout(finishClose, 300);
-        try {
-          await Promise.all([modalAnimation.finished, overlayAnimation.finished]);
-          window.clearTimeout(closeTimer);
-          finishClose();
-        } catch {
-          if (isModalClosing) finishClose();
-        }
+        closeTimer = window.setTimeout(finishClose, 260);
       }
 
       reel.addEventListener('click', (event) => {
