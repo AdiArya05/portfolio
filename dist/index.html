@@ -398,12 +398,14 @@
       }
 
       .social-icons {
+        --icon-size: 1.34em;
+        --icon-step: 1.19em;
         position: relative;
         z-index: 999;
         display: inline-flex;
         align-items: center;
-        width: 3.72em;
-        height: 1.34em;
+        width: calc(var(--icon-size) + (var(--icon-step) * 2));
+        height: var(--icon-size);
         margin-left: 0.08em;
         vertical-align: -0.28em;
         isolation: auto;
@@ -425,8 +427,8 @@
       }
 
       .social-icon:nth-child(1) { left: 0; z-index: 1; }
-      .social-icon:nth-child(2) { left: 1.19em; z-index: 2; }
-      .social-icon:nth-child(3) { left: 2.38em; z-index: 3; }
+      .social-icon:nth-child(2) { left: var(--icon-step); z-index: 2; }
+      .social-icon:nth-child(3) { left: calc(var(--icon-step) * 2); z-index: 3; }
 
       .social-icon:is(:hover, :focus-visible) { z-index: 9; }
 
@@ -712,21 +714,24 @@
       }
 
       .tool-stack {
+        --icon-size: 1.34em;
+        --icon-step: 1.19em;
         position: relative;
+        z-index: 1000;
         display: inline-flex;
         align-items: center;
-        width: 3.72em;
-        height: 1.34em;
+        width: calc(var(--icon-size) + (var(--icon-step) * 2));
+        height: var(--icon-size);
         margin: 0 0.18em;
         vertical-align: -0.25em;
-        isolation: isolate;
+        isolation: auto;
       }
 
       .tool {
         position: absolute;
         top: 0;
-        width: 1.34em;
-        height: 1.34em;
+        width: var(--icon-size);
+        height: var(--icon-size);
         border: 0;
         border-radius: 0.28em;
         background: transparent;
@@ -740,8 +745,8 @@
       }
 
       .tool:nth-child(1) { left: 0; z-index: 1; }
-      .tool:nth-child(2) { left: 1.19em; z-index: 2; }
-      .tool:nth-child(3) { left: 2.38em; z-index: 3; }
+      .tool:nth-child(2) { left: var(--icon-step); z-index: 2; }
+      .tool:nth-child(3) { left: calc(var(--icon-step) * 2); z-index: 3; }
 
       .tool img {
         display: block;
@@ -772,10 +777,10 @@
       }
 
       .tool:is(:hover, :focus-visible) {
-        z-index: 8;
+        z-index: 2000;
         box-shadow: 0 0.18em 0.3em rgba(17, 24, 39, 0.22);
         outline: none;
-        transform: translate3d(0, -0.16em, 0) scale(1.24);
+        transform: translate3d(0, -0.16em, 0) scale(1.2);
       }
 
       .tool:is(:hover, :focus-visible)::after {
@@ -791,14 +796,14 @@
         --tilt-x: 0deg;
         --tilt-y: 0deg;
         position: absolute;
-        z-index: 40;
+        z-index: 3000;
         bottom: calc(100% + 18px);
         left: 50%;
         width: min(310px, 72vw);
         border-radius: 18px;
         opacity: 0;
         pointer-events: none;
-        transform: translate3d(-50%, 14px, 0) scale(0.94) rotateX(0deg) rotateY(0deg);
+        transform: translate3d(-50%, 14px, 0) scale(0.7833) rotateX(0deg) rotateY(0deg);
         transform-origin: 50% 100%;
         transform-style: preserve-3d;
         transition: opacity 170ms ease, transform 390ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -807,7 +812,7 @@
 
       .tool:is(:hover, :focus-visible) .tool-preview {
         opacity: 1;
-        transform: translate3d(-50%, 0, 0) scale(1) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+        transform: translate3d(-50%, 0, 0) scale(0.8333) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
       }
 
       .arc-preview {
@@ -834,18 +839,32 @@
       }
 
       .codex-preview {
-        position: relative;
-        width: min(270px, 76vw);
-        height: 200px;
-        padding: 0;
+        display: grid;
+        width: 10.8em;
+        min-width: 270px;
+        min-height: 161px;
+        padding: 13px;
+        gap: 10px;
+        border-color: var(--line);
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--paper) 94%, transparent);
+        color: var(--ink);
+        font-size: 0.34em;
+        font-weight: 500;
+        line-height: 1.25;
+        backdrop-filter: blur(20px);
       }
 
-      .codex-activity-image {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        border-radius: 0;
+      .codex-grid .contribution-day[data-level="1"] { background: #74c0fc; }
+      .codex-grid .contribution-day[data-level="2"] { background: #228be6; }
+      .codex-grid .contribution-day[data-level="3"] { background: #087fdb; }
+      .codex-grid .contribution-day[data-level="4"] { background: #07549a; }
+
+      .codex-months {
+        display: flex;
+        justify-content: space-between;
+        color: var(--muted);
+        font-size: 11px;
       }
 
       .wispr-profile-image {
@@ -1478,7 +1497,9 @@
               <a class="tool has-preview" data-label="Codex" href="https://chatgpt.com/codex" target="_blank" rel="noreferrer" aria-label="Open Aditya's Codex home">
                 <img src="media/codex-sticker-transparent.png" alt="" />
                 <span class="tool-preview codex-preview" aria-hidden="true">
-                  <img class="codex-activity-image" src="media/codex-activity-recent.png" alt="" />
+                  <span class="github-activity-head"><strong>Codex activity</strong><span>recent</span></span>
+                  <span class="contribution-grid codex-grid" id="codex-grid"></span>
+                  <span class="codex-months"><span>Jun</span><span>Jul</span><span>Aug</span><span>Sept</span><span>Oct</span></span>
                 </span>
               </a>
               <a class="tool has-preview" data-label="Wispr Flow" href="https://wisprflow.ai/" target="_blank" rel="noreferrer" aria-label="Visit Wispr Flow">
@@ -1522,21 +1543,37 @@
               <img class="card-media" src="media/catch-live-activity.png" alt="Catch bus arrival Live Activity displayed on an iPhone lock screen" />
             </article>
 
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Sailorfy website showcase">
+              <img class="card-media" src="media/sailorfy-showcase.png" alt="Sailorfy website displayed in a desktop browser mockup" />
+            </article>
+
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity detail">
               <img class="card-media" src="media/catch-live-detail.png" alt="Catch Live Activity showing the next bus and leave-now guidance" />
+            </article>
+
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open portfolio website showcase">
+              <img class="card-media" src="media/portfolio-showcase.png" alt="Portfolio website displayed in a desktop browser mockup" />
             </article>
 
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch bus arrival board">
               <img class="card-media" src="media/catch-live-board.png" alt="Catch bus arrival board on an iPhone" />
             </article>
 
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja recovery dashboard">
+              <img class="card-media" src="media/soja-recovery.png" alt="Soja circadian recovery dashboard on an iPhone" />
+            </article>
+
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch nearby stop map">
               <img class="card-media" src="media/catch-map.png" alt="Catch nearby bus stops map on an iPhone" />
+            </article>
+
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja welcome screen">
+              <img class="card-media" src="media/soja-welcome.png" alt="Soja personalised circadian recovery welcome screen on an iPhone" />
             </article>
           </div>
         </div>
         <div class="reel-progress" id="reel-progress" aria-hidden="true">
-          <span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
       </aside>
     </main>
@@ -1610,6 +1647,21 @@
 
       updateSingaporeTime();
       window.setInterval(updateSingaporeTime, 1000);
+
+      const codexGrid = document.querySelector('#codex-grid');
+      const codexDays = 140;
+
+      for (let day = 0; day < codexDays; day += 1) {
+        const column = Math.floor(day / 7);
+        const row = day % 7;
+        const pattern = (column * 5 + row * 3) % 12;
+        const cell = document.createElement('span');
+        cell.className = 'contribution-day';
+        cell.dataset.level = String(
+          (column + row) % 13 === 0 ? 0 : pattern < 2 ? 4 : pattern < 5 ? 3 : pattern < 8 ? 2 : pattern < 10 ? 1 : 0
+        );
+        codexGrid.appendChild(cell);
+      }
 
       const githubGrid = document.querySelector('#github-grid');
       const githubStatus = document.querySelector('#github-status');
@@ -1736,7 +1788,9 @@
       let lastFocusedCard = null;
       let closeTimer = null;
       let restoreFocusOnClose = false;
+      let pressedGalleryCard = null;
       let scrollRate = 0.09;
+      let loopStart = 0;
       let loopPoint = 0;
       let audioContext = null;
       let audioResumePromise = null;
@@ -2062,24 +2116,40 @@
       contactLink.addEventListener('focus', playContactWarp);
 
       const originalCards = [...reel.children];
-      for (let copy = 0; copy < 2; copy += 1) {
-        originalCards.forEach((card) => {
-          const clone = card.cloneNode(true);
+      const leadingCards = document.createDocumentFragment();
+      const trailingCards = document.createDocumentFragment();
+
+      originalCards.forEach((card) => {
+        const leadingClone = card.cloneNode(true);
+        const trailingClone = card.cloneNode(true);
+        [leadingClone, trailingClone].forEach((clone) => {
           clone.setAttribute('aria-hidden', 'true');
           clone.setAttribute('tabindex', '-1');
-          reel.appendChild(clone);
         });
+        leadingCards.appendChild(leadingClone);
+        trailingCards.appendChild(trailingClone);
+      });
+
+      reel.prepend(leadingCards);
+      reel.append(trailingCards);
+
+      let loopReady = false;
+
+      function refreshLoopMetrics() {
+        const previousProgress = loopPoint
+          ? (((gallery.scrollTop - loopStart) % loopPoint) + loopPoint) % loopPoint / loopPoint
+          : 0;
+        const middleFirstCard = reel.children[originalCards.length];
+        const trailingFirstCard = reel.children[originalCards.length * 2];
+        loopStart = middleFirstCard.offsetTop;
+        loopPoint = trailingFirstCard.offsetTop - loopStart;
+        gallery.scrollTop = loopStart + previousProgress * loopPoint;
+        loopReady = loopPoint > 0;
       }
 
-      function refreshLoopPoint() {
-        loopPoint = reel.children[originalCards.length].offsetTop;
-      }
-
-      refreshLoopPoint();
-      window.addEventListener('load', refreshLoopPoint, { once: true });
-      window.addEventListener('resize', refreshLoopPoint, { passive: true });
-
-      gallery.scrollTop = 150;
+      refreshLoopMetrics();
+      window.addEventListener('load', refreshLoopMetrics, { once: true });
+      window.addEventListener('resize', refreshLoopMetrics, { passive: true });
 
       let manualGalleryInputUntil = 0;
       let lastGalleryScrollTop = gallery.scrollTop;
@@ -2138,7 +2208,7 @@
 
       function updateProgress() {
         if (!loopPoint) return;
-        const progress = ((gallery.scrollTop % loopPoint) + loopPoint) % loopPoint / loopPoint;
+        const progress = (((gallery.scrollTop - loopStart) % loopPoint) + loopPoint) % loopPoint / loopPoint;
         const active = Math.min(originalCards.length - 1, Math.floor(progress * originalCards.length));
 
         progressDots.forEach((dot, index) => {
@@ -2198,8 +2268,18 @@
         closeTimer = window.setTimeout(finishClose, 260);
       }
 
+      reel.addEventListener('pointerdown', (event) => {
+        pressedGalleryCard = event.target.closest('.card');
+        isHoveringGallery = true;
+      }, { capture: true });
+
+      reel.addEventListener('pointercancel', () => {
+        pressedGalleryCard = null;
+      });
+
       reel.addEventListener('click', (event) => {
-        const card = event.target.closest('.card');
+        const card = pressedGalleryCard || event.target.closest('.card');
+        pressedGalleryCard = null;
         if (card) openProject(card);
       });
 
@@ -2232,8 +2312,14 @@
           gallery.scrollTop += elapsed * scrollRate;
         }
 
-        if (loopPoint > 0 && gallery.scrollTop >= loopPoint) gallery.scrollTop -= loopPoint;
-        if (loopPoint > 0 && gallery.scrollTop < 0) gallery.scrollTop += loopPoint;
+        if (loopReady && gallery.scrollTop >= loopStart + loopPoint) {
+          gallery.scrollTop -= loopPoint;
+          lastGalleryScrollTop = gallery.scrollTop;
+        }
+        if (loopReady && gallery.scrollTop < loopStart) {
+          gallery.scrollTop += loopPoint;
+          lastGalleryScrollTop = gallery.scrollTop;
+        }
 
         updateProgress();
 
