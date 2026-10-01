@@ -795,50 +795,10 @@
       }
 
       .arc-cover {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        min-height: 76px;
-        background: #101411;
-      }
-
-      .arc-mode {
-        display: grid;
-        align-content: end;
-        gap: 6px;
-        padding: 12px;
-        color: rgba(255, 255, 255, 0.84);
-        font-size: 0.72rem;
-        font-weight: 700;
-        line-height: 1;
-        text-transform: uppercase;
-      }
-
-      .arc-mode::before {
-        display: block;
-        width: 28px;
-        height: 28px;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #f8f6ea 50%, #151a16 50%);
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
-        content: "";
-      }
-
-      .arc-mode.light {
-        background: linear-gradient(135deg, #fffdf0, #d3f2e6);
-        color: #13836f;
-      }
-
-      .arc-mode.dark {
-        background: linear-gradient(135deg, #14201d, #060807);
-      }
-
-      .arc-mode.light::before {
-        background: #fffdf0;
-        box-shadow: inset 0 0 0 1px rgba(19, 131, 111, 0.22);
-      }
-
-      .arc-mode.dark::before {
-        background: #151a16;
+        min-height: 78px;
+        background:
+          radial-gradient(circle at 19% 26%, rgba(255, 253, 240, 0.98) 0 22px, transparent 23px),
+          linear-gradient(135deg, #fffdf0, #caefe1 58%, #6bd5c5);
       }
 
       .arc-body {
@@ -887,21 +847,27 @@
         font-size: 0.88rem;
       }
 
-      .arc-brand {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        color: #128672;
-        font-size: 0.8rem;
-        font-weight: 700;
+      html[data-theme="dark"] .arc-preview {
+        border-color: rgba(255, 255, 255, 0.12);
+        background: #101411;
+        color: #f5f6ed;
+        box-shadow: 0 24px 62px rgba(0, 0, 0, 0.46);
       }
 
-      .arc-brand::before {
-        width: 16px;
-        height: 16px;
-        border-radius: 6px 6px 9px 9px;
-        background: linear-gradient(145deg, #0fb39d, #50d5ba);
-        content: "";
+      html[data-theme="dark"] .arc-cover {
+        background:
+          radial-gradient(circle at 19% 26%, rgba(255, 255, 255, 0.11) 0 22px, transparent 23px),
+          linear-gradient(135deg, #23302b, #0d1210 58%, #030504);
+      }
+
+      html[data-theme="dark"] .arc-avatar {
+        border-color: #101411;
+        background: #f8f6ea;
+      }
+
+      html[data-theme="dark"] .arc-title span,
+      html[data-theme="dark"] .arc-meta {
+        color: #a6aaa2;
       }
 
       .codex-preview,
@@ -1573,7 +1539,7 @@
             <span class="sentence">right now i’m building
             <a class="project-icon external-link" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer" aria-label="View Catch on the App Store"><img src="media/catch-icon.png" alt="" /></a>,
             <span class="soft">a thoughtfully designed bus timing app for singapore.</span></span>
-            <span class="sentence">our team was fortunate to place second at a defence-tech hackathon with
+            <span class="sentence">we placed second at a defence-tech hackathon with
             <a class="inline-link yellow external-link" href="https://github.com/Rajsuthan/maritime-fusion" target="_blank" rel="noreferrer">maritime fusion</a>,
             <span class="soft">a multi-source maritime intelligence platform.</span></span>
             <span class="sentence"><span class="tools-copy">my favourite tools right now are</span>
@@ -1581,15 +1547,11 @@
               <a class="tool has-preview tilt-tool" data-label="Arc" href="https://arc.net/" target="_blank" rel="noreferrer" aria-label="Visit Arc">
                 <img src="media/arc-icon.png" alt="" />
                 <span class="tool-preview arc-preview" aria-hidden="true">
-                  <span class="arc-cover">
-                    <span class="arc-mode light">Light</span>
-                    <span class="arc-mode dark">Dark</span>
-                  </span>
+                  <span class="arc-cover"></span>
                   <span class="arc-body">
                     <span class="arc-avatar"><img src="media/arc-icon.png" alt="" /></span>
                     <span class="arc-title"><strong>Confident Architect</strong><span>Arc profile by The Browser Company</span></span>
-                    <span class="arc-brand">Made for Arc members</span>
-                    <span class="profile-stats"><span><strong>1 year</strong> using Arc</span><span><strong>30 May 2025</strong> joined</span></span>
+                    <span class="profile-stats"><span><strong>2 years</strong> using Arc</span><span><strong>30 May 2024</strong> joined</span></span>
                   </span>
                 </span>
               </a>
