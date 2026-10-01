@@ -780,96 +780,6 @@
         transform: translate3d(-50%, 0, 0) scale(0.8333) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
       }
 
-      .arc-preview {
-        display: grid;
-        width: min(336px, 74vw);
-        overflow: hidden;
-        border: 1px solid rgba(17, 24, 39, 0.12);
-        border-radius: 18px;
-        background: #f8f6ea;
-        color: #121212;
-        box-shadow: 0 22px 58px rgba(0, 0, 0, 0.24);
-        filter: none;
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-        letter-spacing: 0;
-      }
-
-      .arc-cover {
-        min-height: 78px;
-        background:
-          radial-gradient(circle at 19% 26%, rgba(255, 253, 240, 0.98) 0 22px, transparent 23px),
-          linear-gradient(135deg, #fffdf0, #caefe1 58%, #6bd5c5);
-      }
-
-      .arc-body {
-        position: relative;
-        display: grid;
-        gap: 10px;
-        padding: 42px 16px 16px;
-      }
-
-      .arc-avatar {
-        position: absolute;
-        top: -34px;
-        left: 16px;
-        display: grid;
-        width: 68px;
-        height: 68px;
-        place-items: center;
-        overflow: hidden;
-        border: 4px solid #f8f6ea;
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-      }
-
-      .tool .arc-avatar img {
-        width: 100%;
-        height: 100%;
-        border-radius: 12px;
-        object-fit: cover;
-      }
-
-      .arc-title {
-        display: grid;
-        gap: 2px;
-      }
-
-      .arc-title strong {
-        font-size: 1.12rem;
-        font-weight: 700;
-        line-height: 1.1;
-      }
-
-      .arc-title span,
-      .arc-meta {
-        color: #67706e;
-        font-size: 0.88rem;
-      }
-
-      html[data-theme="dark"] .arc-preview {
-        border-color: rgba(255, 255, 255, 0.12);
-        background: #101411;
-        color: #f5f6ed;
-        box-shadow: 0 24px 62px rgba(0, 0, 0, 0.46);
-      }
-
-      html[data-theme="dark"] .arc-cover {
-        background:
-          radial-gradient(circle at 19% 26%, rgba(255, 255, 255, 0.11) 0 22px, transparent 23px),
-          linear-gradient(135deg, #23302b, #0d1210 58%, #030504);
-      }
-
-      html[data-theme="dark"] .arc-avatar {
-        border-color: #101411;
-        background: #f8f6ea;
-      }
-
-      html[data-theme="dark"] .arc-title span,
-      html[data-theme="dark"] .arc-meta {
-        color: #a6aaa2;
-      }
-
       .codex-preview,
       .wispr-preview {
         overflow: hidden;
@@ -1308,10 +1218,8 @@
         width: 100%;
         height: 100%;
         border-radius: inherit;
-        object-fit: contain;
-        background: color-mix(in srgb, var(--paper) 88%, #e8e8e2);
+        object-fit: cover;
         box-shadow: 0 0 0 1px rgba(20, 20, 20, 0.08);
-        image-rendering: auto;
         transform: translateZ(0) scale(1);
         will-change: transform;
         transition:
@@ -1441,10 +1349,6 @@
       }
 
       @media (max-width: 900px) {
-        .arc-preview {
-          left: calc(50% + 106px);
-        }
-
         .theme-toggle {
           top: 16px;
           left: 16px;
@@ -1546,16 +1450,8 @@
             <span class="soft">a multi-source maritime intelligence platform.</span></span>
             <span class="sentence"><span class="tools-copy">my favourite tools right now are</span>
             <span class="tool-stack" aria-label="Arc, Codex, and Wispr Flow">
-              <a class="tool has-preview tilt-tool" data-label="Arc" href="https://arc.net/" target="_blank" rel="noreferrer" aria-label="Visit Arc">
+              <a class="tool" data-label="Arc" href="https://arc.net/" target="_blank" rel="noreferrer" aria-label="Visit Arc">
                 <img src="media/arc-icon.png" alt="" />
-                <span class="tool-preview arc-preview" aria-hidden="true">
-                  <span class="arc-cover"></span>
-                  <span class="arc-body">
-                    <span class="arc-avatar"><img src="media/arc-icon.png" alt="" /></span>
-                    <span class="arc-title"><strong>Confident Architect</strong><span>Arc profile by The Browser Company</span></span>
-                    <span class="profile-stats"><span><strong>2 years</strong> using Arc</span><span><strong>30 May 2024</strong> joined</span></span>
-                  </span>
-                </span>
               </a>
               <a class="tool has-preview" data-label="Codex" href="https://chatgpt.com/codex" target="_blank" rel="noreferrer" aria-label="Open Aditya's Codex home">
                 <img src="media/codex-sticker-transparent.png" alt="" />
