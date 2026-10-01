@@ -1652,13 +1652,13 @@
 
         const now = audioContext.currentTime;
 
-        function softTap(at, centerFrequency, level, duration = 0.085) {
+        function transitionAir(at, startFrequency, endFrequency, level, duration) {
           const frameCount = Math.ceil(audioContext.sampleRate * duration);
           const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
           const samples = buffer.getChannelData(0);
           for (let index = 0; index < frameCount; index += 1) {
             const progress = index / frameCount;
-            samples[index] = (Math.random() * 2 - 1) * Math.pow(1 - progress, 6.6);
+            samples[index] = (Math.random() * 2 - 1) * Math.sin(Math.PI * progress);
           }
 
           const noise = audioContext.createBufferSource();
@@ -1666,27 +1666,29 @@
           const noiseGain = audioContext.createGain();
           noise.buffer = buffer;
           noiseFilter.type = 'bandpass';
-          noiseFilter.frequency.setValueAtTime(centerFrequency, at);
-          noiseFilter.Q.setValueAtTime(0.72, at);
-          noiseGain.gain.setValueAtTime(level, at);
+          noiseFilter.frequency.setValueAtTime(startFrequency, at);
+          noiseFilter.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
+          noiseFilter.Q.setValueAtTime(0.55, at);
+          noiseGain.gain.setValueAtTime(0.0001, at);
+          noiseGain.gain.exponentialRampToValueAtTime(level, at + duration * 0.23);
           noiseGain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
           noise.connect(noiseFilter).connect(noiseGain).connect(audioContext.destination);
           noise.start(at);
           noise.stop(at + duration);
         }
 
-        function bowlPartial(at, frequency, level, duration) {
+        function transitionBody(at, startFrequency, endFrequency, level, duration) {
           const tone = audioContext.createOscillator();
           const filter = audioContext.createBiquadFilter();
           const gain = audioContext.createGain();
           tone.type = 'sine';
-          tone.frequency.setValueAtTime(frequency, at);
-          tone.frequency.exponentialRampToValueAtTime(frequency * 0.992, at + duration);
+          tone.frequency.setValueAtTime(startFrequency, at);
+          tone.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
           filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(1350, at);
-          filter.Q.setValueAtTime(0.45, at);
+          filter.frequency.setValueAtTime(640, at);
+          filter.Q.setValueAtTime(0.32, at);
           gain.gain.setValueAtTime(0.0001, at);
-          gain.gain.exponentialRampToValueAtTime(level, at + 0.009);
+          gain.gain.exponentialRampToValueAtTime(level, at + 0.018);
           gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
           tone.connect(filter).connect(gain).connect(audioContext.destination);
           tone.start(at);
@@ -1694,11 +1696,9 @@
         }
 
         const isOpen = direction === 'open';
-        const root = isOpen ? 238 : 212;
-        softTap(now, isOpen ? 1180 : 980, 0.042);
-        bowlPartial(now, root, 0.052, 0.52);
-        bowlPartial(now + 0.006, root * 2.01, 0.018, 0.38);
-        bowlPartial(now + 0.01, root * 3.37, 0.0085, 0.26);
+        transitionAir(now, isOpen ? 520 : 1380, isOpen ? 1380 : 520, 0.022, 0.23);
+        transitionBody(now, isOpen ? 176 : 246, isOpen ? 246 : 176, 0.034, 0.25);
+        transitionBody(now + 0.012, isOpen ? 352 : 492, isOpen ? 492 : 352, 0.008, 0.18);
       }
 
       function playThemeSound(theme) {
@@ -1709,15 +1709,14 @@
 
         const now = audioContext.currentTime;
 
-        function switchImpact(at, centerFrequency, level) {
-          const duration = 0.028;
+        function switchImpact(at, centerFrequency, level, duration = 0.032) {
           const frameCount = Math.ceil(audioContext.sampleRate * duration);
           const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
           const samples = buffer.getChannelData(0);
           for (let index = 0; index < frameCount; index += 1) {
             const progress = index / frameCount;
-            const snap = index < 3 ? (index === 0 ? 1 : -0.7) : Math.random() * 2 - 1;
-            samples[index] = snap * Math.pow(1 - progress, 11);
+            const snap = index < 4 ? (index % 2 === 0 ? 1 : -0.82) : Math.random() * 2 - 1;
+            samples[index] = snap * Math.pow(1 - progress, 9.5);
           }
 
           const source = audioContext.createBufferSource();
@@ -1726,7 +1725,7 @@
           source.buffer = buffer;
           filter.type = 'bandpass';
           filter.frequency.setValueAtTime(centerFrequency, at);
-          filter.Q.setValueAtTime(0.95, at);
+          filter.Q.setValueAtTime(0.72, at);
           gain.gain.setValueAtTime(level, at);
           gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
           source.connect(filter).connect(gain).connect(audioContext.destination);
@@ -1734,23 +1733,48 @@
           source.stop(at + duration);
         }
 
-        function switchBody(at, frequency, level) {
+        function switchBody(at, frequency, level, duration = 0.034) {
           const click = audioContext.createOscillator();
           const gain = audioContext.createGain();
           click.type = 'triangle';
           click.frequency.setValueAtTime(frequency, at);
           gain.gain.setValueAtTime(level, at);
-          gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.022);
+          gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
           click.connect(gain).connect(audioContext.destination);
           click.start(at);
-          click.stop(at + 0.024);
+          click.stop(at + duration + 0.004);
         }
 
         const isLight = theme === 'light';
-        switchImpact(now, isLight ? 1760 : 1380, 0.085);
-        switchBody(now, isLight ? 310 : 245, 0.055);
-        switchImpact(now + (isLight ? 0.052 : 0.044), isLight ? 940 : 760, 0.062);
-        switchBody(now + (isLight ? 0.052 : 0.044), isLight ? 205 : 178, 0.038);
+        switchImpact(now, isLight ? 1480 : 1180, 0.12, 0.036);
+        switchBody(now, isLight ? 238 : 196, 0.072, 0.042);
+        switchImpact(now + 0.029, isLight ? 760 : 680, 0.044, 0.024);
+        switchBody(now + 0.029, isLight ? 154 : 132, 0.028, 0.028);
+      }
+
+      let lastHoverTickAt = 0;
+
+      function playHoverTick(step = 0) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        const timestamp = performance.now();
+        if (timestamp - lastHoverTickAt < 58) return;
+        lastHoverTickAt = timestamp;
+        audioContext ||= new AudioContextClass();
+        if (audioContext.state === 'suspended') audioContext.resume();
+
+        const now = audioContext.currentTime;
+        const tone = audioContext.createOscillator();
+        const toneGain = audioContext.createGain();
+        const clickLength = 0.034;
+        tone.type = 'triangle';
+        tone.frequency.setValueAtTime(860 + step * 105, now);
+        tone.frequency.exponentialRampToValueAtTime(620 + step * 82, now + clickLength);
+        toneGain.gain.setValueAtTime(0.026, now);
+        toneGain.gain.exponentialRampToValueAtTime(0.0001, now + clickLength);
+        tone.connect(toneGain).connect(audioContext.destination);
+        tone.start(now);
+        tone.stop(now + clickLength + 0.004);
       }
 
       let lastScribbleAt = 0;
@@ -1759,13 +1783,13 @@
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         if (!AudioContextClass) return;
         const timestamp = performance.now();
-        if (timestamp - lastScribbleAt < 520) return;
+        if (timestamp - lastScribbleAt < 390) return;
         lastScribbleAt = timestamp;
         audioContext ||= new AudioContextClass();
         if (audioContext.state === 'suspended') audioContext.resume();
 
         const now = audioContext.currentTime;
-        const duration = 0.56;
+        const duration = 0.39;
         const frameCount = Math.ceil(audioContext.sampleRate * duration);
         const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
         const samples = buffer.getChannelData(0);
@@ -1775,7 +1799,7 @@
           const noise = Math.random() * 2 - 1;
           const paperGrain = noise - previousNoise * 0.82;
           previousNoise = noise;
-          const strokeWave = Math.max(0.08, Math.pow(Math.sin(progress * Math.PI * 9.5), 2));
+          const strokeWave = Math.max(0.08, Math.pow(Math.sin(progress * Math.PI * 7.2), 2));
           const fade = Math.sin(Math.PI * progress);
           samples[index] = paperGrain * strokeWave * fade * 0.62;
         }
@@ -1804,6 +1828,13 @@
       const nameSwap = document.querySelector('.name-swap');
       nameSwap.addEventListener('pointerenter', playPencilScribble);
       nameSwap.addEventListener('focus', playPencilScribble);
+
+      const hoverTickTargets = [...document.querySelectorAll('.tool, .social-icon')];
+      hoverTickTargets.forEach((target, index) => {
+        const step = index % 3;
+        target.addEventListener('pointerenter', () => playHoverTick(step));
+        target.addEventListener('focus', () => playHoverTick(step));
+      });
 
       const originalCards = [...reel.children];
       for (let copy = 0; copy < 2; copy += 1) {
