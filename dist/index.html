@@ -783,6 +783,164 @@
         transform: translate3d(-50%, 0, 0) scale(1);
       }
 
+      .tool.has-preview::after {
+        display: none;
+      }
+
+      .tool-preview {
+        --tilt-x: 0deg;
+        --tilt-y: 0deg;
+        --glare-x: 50%;
+        --glare-y: 50%;
+        position: absolute;
+        z-index: 40;
+        bottom: calc(100% + 18px);
+        left: 50%;
+        width: min(310px, 72vw);
+        border-radius: 18px;
+        opacity: 0;
+        pointer-events: none;
+        transform: translate3d(-50%, 14px, 0) scale(0.94) rotateX(0deg) rotateY(0deg);
+        transform-origin: 50% 100%;
+        transform-style: preserve-3d;
+        transition: opacity 170ms ease, transform 390ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity;
+      }
+
+      .tool:is(:hover, :focus-visible) .tool-preview {
+        opacity: 1;
+        transform: translate3d(-50%, 0, 0) scale(1) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+      }
+
+      .tool-preview::after {
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(circle at var(--glare-x) var(--glare-y), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.12) 18%, transparent 48%);
+        content: "";
+        mix-blend-mode: screen;
+        opacity: 0;
+        transition: opacity 220ms ease;
+      }
+
+      .tool:is(:hover, :focus-visible) .tool-preview::after {
+        opacity: 0.58;
+      }
+
+      .arc-preview {
+        width: 160px;
+        filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.24));
+      }
+
+      .arc-preview > img {
+        width: 100%;
+        height: auto;
+        border-radius: 13px;
+        object-fit: contain;
+      }
+
+      .codex-preview,
+      .wispr-preview {
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        background: #090909;
+        color: #f4f4f4;
+        box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+        letter-spacing: 0;
+      }
+
+      .codex-preview {
+        display: grid;
+        width: min(390px, 78vw);
+        gap: 12px;
+        padding: 15px;
+      }
+
+      .codex-preview-head,
+      .wispr-preview-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 12px;
+      }
+
+      .codex-preview-head strong,
+      .wispr-preview-head strong {
+        font-size: 15px;
+        font-weight: 650;
+      }
+
+      .codex-preview-head span,
+      .wispr-preview-head span {
+        color: #8d8d8d;
+      }
+
+      .codex-activity-image {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+      }
+
+      .codex-preview-foot {
+        display: flex;
+        justify-content: space-between;
+        color: #848484;
+        font-size: 10px;
+      }
+
+      .wispr-preview {
+        width: min(330px, 76vw);
+        padding: 22px;
+        background:
+          radial-gradient(circle at 78% 32%, rgba(75, 75, 75, 0.74), transparent 42%),
+          #181818;
+      }
+
+      .wispr-speed {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: end;
+        gap: 16px;
+        margin-top: 22px;
+        padding: 18px;
+        border-radius: 14px;
+        background: #f7f7f7;
+        color: #111;
+      }
+
+      .wispr-number {
+        display: block;
+        font-size: 46px;
+        font-weight: 520;
+        line-height: 0.95;
+      }
+
+      .wispr-unit {
+        display: block;
+        margin-top: 8px;
+        color: #737373;
+        font-size: 11px;
+        font-weight: 650;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .wispr-rank {
+        color: #656565;
+        font-size: 11px;
+        text-align: center;
+      }
+
+      .wispr-rank strong {
+        display: block;
+        margin-top: 3px;
+        color: #111;
+        font-size: 16px;
+      }
+
       .links {
         display: flex;
         flex-wrap: wrap;
@@ -1024,10 +1182,6 @@
         outline: none;
       }
 
-      .card.is-modal-source {
-        opacity: 0;
-      }
-
       .reel-progress {
         position: absolute;
         z-index: 12;
@@ -1073,7 +1227,6 @@
         padding: clamp(24px, 5vw, 72px);
         place-items: center;
         background: color-mix(in srgb, var(--paper) 18%, transparent);
-        opacity: 0;
         pointer-events: none;
         cursor: zoom-out;
         transition: none;
@@ -1082,7 +1235,6 @@
       }
 
       .project-modal.is-open {
-        opacity: 1;
         pointer-events: auto;
       }
 
@@ -1386,9 +1538,25 @@
             <span class="soft">a multi-source maritime intelligence platform.</span></span>
             <span class="sentence"><span class="tools-copy">my favourite tools right now are</span>
             <span class="tool-stack" aria-label="Arc, Codex, and Wispr Flow">
-              <a class="tool" data-label="Arc" href="https://arc.net/" target="_blank" rel="noreferrer" aria-label="Visit Arc"><img src="media/arc-icon.png" alt="" /></a>
-              <a class="tool" data-label="Codex" href="https://openai.com/codex/" target="_blank" rel="noreferrer" aria-label="Visit Codex"><img src="media/codex-sticker-transparent.png" alt="" /></a>
-              <a class="tool" data-label="Wispr Flow" href="https://wisprflow.ai/" target="_blank" rel="noreferrer" aria-label="Visit Wispr Flow"><img src="media/wispr-flow-icon.png" alt="" /></a>
+              <a class="tool has-preview tilt-tool" data-label="Arc" href="https://arc.net/" target="_blank" rel="noreferrer" aria-label="Visit Arc">
+                <img src="media/arc-icon.png" alt="" />
+                <span class="tool-preview arc-preview"><img src="media/adi-arc-card-cutout.png" alt="Adi's Arc card" /></span>
+              </a>
+              <a class="tool has-preview" data-label="Codex" href="https://chatgpt.com/codex" target="_blank" rel="noreferrer" aria-label="Open Aditya's Codex home">
+                <img src="media/codex-sticker-transparent.png" alt="" />
+                <span class="tool-preview codex-preview" aria-hidden="true">
+                  <span class="codex-preview-head"><strong>Codex activity</strong><span>private snapshot</span></span>
+                  <img class="codex-activity-image" src="media/codex-activity.png" alt="" />
+                  <span class="codex-preview-foot"><span>recent work</span><span>opens your Codex home</span></span>
+                </span>
+              </a>
+              <a class="tool has-preview" data-label="Wispr Flow" href="https://wisprflow.ai/" target="_blank" rel="noreferrer" aria-label="Visit Wispr Flow">
+                <img src="media/wispr-flow-icon.png" alt="" />
+                <span class="tool-preview wispr-preview" aria-hidden="true">
+                  <span class="wispr-preview-head"><strong>How fast you Flow</strong><span>Wispr Flow</span></span>
+                  <span class="wispr-speed"><span><strong class="wispr-number">181</strong><span class="wispr-unit">words per minute</span></span><span class="wispr-rank">Top<strong>0.1%</strong></span></span>
+                </span>
+              </a>
             </span>.</span>
             <span class="sentence social-sentence">find me on
             <span class="social-icons" aria-label="LinkedIn, X, and GitHub">
@@ -1639,70 +1807,91 @@
       let closeTimer = null;
       let modalAnimation = null;
       let overlayAnimation = null;
-      let lastSourceRect = null;
       let restoreFocusOnClose = false;
       let scrollRate = 0.09;
       let loopPoint = 0;
       let audioContext = null;
+      let audioResumePromise = null;
+      let lastAudioResumeAttempt = 0;
+
+      function ensureAudioReady() {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return Promise.resolve(null);
+        audioContext ||= new AudioContextClass();
+        if (audioContext.state === 'running') return Promise.resolve(audioContext);
+        if (audioResumePromise) return audioResumePromise;
+
+        const timestamp = performance.now();
+        if (timestamp - lastAudioResumeAttempt < 180) return Promise.resolve(audioContext);
+        lastAudioResumeAttempt = timestamp;
+        audioResumePromise = audioContext.resume()
+          .catch(() => audioContext)
+          .then(() => audioContext)
+          .finally(() => {
+            audioResumePromise = null;
+          });
+        return audioResumePromise;
+      }
+
+      function scheduleAudioEffect(effect, freshness = 180) {
+        const requestedAt = performance.now();
+        ensureAudioReady().then((context) => {
+          if (!context || context.state !== 'running') return;
+          if (performance.now() - requestedAt > freshness) return;
+          effect(context);
+        });
+      }
+
+      ['pointerover', 'pointermove', 'pointerdown', 'touchstart', 'wheel', 'keydown'].forEach((eventName) => {
+        document.addEventListener(eventName, ensureAudioReady, { capture: true, passive: true });
+      });
 
       function playInterfaceSound(direction) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
-        audioContext ||= new AudioContextClass();
-        if (audioContext.state === 'suspended') audioContext.resume();
+        scheduleAudioEffect((context) => {
+          const now = context.currentTime;
 
-        const now = audioContext.currentTime;
+          function softTap(at, frequency, level, duration) {
+            const frameCount = Math.ceil(context.sampleRate * duration);
+            const buffer = context.createBuffer(1, frameCount, context.sampleRate);
+            const samples = buffer.getChannelData(0);
+            for (let index = 0; index < frameCount; index += 1) {
+              const progress = index / frameCount;
+              samples[index] = (Math.random() * 2 - 1) * Math.pow(1 - progress, 7.5);
+            }
 
-        function softBloom(at, startFrequency, endFrequency, level, duration) {
-          const frameCount = Math.ceil(audioContext.sampleRate * duration);
-          const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
-          const samples = buffer.getChannelData(0);
-          for (let index = 0; index < frameCount; index += 1) {
-            const progress = index / frameCount;
-            const envelope = Math.sin(Math.PI * progress) * Math.pow(1 - progress, 0.22);
-            samples[index] = (Math.random() * 2 - 1) * envelope;
+            const source = context.createBufferSource();
+            const filter = context.createBiquadFilter();
+            const gain = context.createGain();
+            source.buffer = buffer;
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(frequency, at);
+            filter.Q.setValueAtTime(0.8, at);
+            gain.gain.setValueAtTime(level, at);
+            gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
+            source.connect(filter).connect(gain).connect(context.destination);
+            source.start(at);
+            source.stop(at + duration);
           }
 
-          const noise = audioContext.createBufferSource();
-          const noiseFilter = audioContext.createBiquadFilter();
-          const noiseGain = audioContext.createGain();
-          noise.buffer = buffer;
-          noiseFilter.type = 'bandpass';
-          noiseFilter.frequency.setValueAtTime(startFrequency, at);
-          noiseFilter.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
-          noiseFilter.Q.setValueAtTime(0.72, at);
-          noiseGain.gain.setValueAtTime(0.0001, at);
-          noiseGain.gain.exponentialRampToValueAtTime(level, at + duration * 0.16);
-          noiseGain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
-          noise.connect(noiseFilter).connect(noiseGain).connect(audioContext.destination);
-          noise.start(at);
-          noise.stop(at + duration);
-        }
+          function softTone(at, startFrequency, endFrequency, level, duration, type = 'sine') {
+            const tone = context.createOscillator();
+            const gain = context.createGain();
+            tone.type = type;
+            tone.frequency.setValueAtTime(startFrequency, at);
+            tone.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
+            gain.gain.setValueAtTime(0.0001, at);
+            gain.gain.exponentialRampToValueAtTime(level, at + 0.012);
+            gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
+            tone.connect(gain).connect(context.destination);
+            tone.start(at);
+            tone.stop(at + duration + 0.01);
+          }
 
-        function glassTone(at, startFrequency, endFrequency, level, duration, type = 'sine') {
-          const tone = audioContext.createOscillator();
-          const filter = audioContext.createBiquadFilter();
-          const gain = audioContext.createGain();
-          tone.type = type;
-          tone.frequency.setValueAtTime(startFrequency, at);
-          tone.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
-          filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(1200, at);
-          filter.frequency.exponentialRampToValueAtTime(720, at + duration);
-          filter.Q.setValueAtTime(0.4, at);
-          gain.gain.setValueAtTime(0.0001, at);
-          gain.gain.exponentialRampToValueAtTime(level, at + 0.024);
-          gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
-          tone.connect(filter).connect(gain).connect(audioContext.destination);
-          tone.start(at);
-          tone.stop(at + duration);
-        }
-
-        const isOpen = direction === 'open';
-        softBloom(now, isOpen ? 620 : 1720, isOpen ? 1720 : 620, 0.034, 0.31);
-        glassTone(now, isOpen ? 196 : 294, isOpen ? 294 : 196, 0.05, 0.34);
-        glassTone(now + 0.018, isOpen ? 392 : 588, isOpen ? 588 : 392, 0.018, 0.27, 'triangle');
-        glassTone(now + 0.036, isOpen ? 784 : 1176, isOpen ? 1176 : 784, 0.008, 0.21);
+          const isOpen = direction === 'open';
+          softTap(now, isOpen ? 1850 : 1450, 0.026, 0.052);
+          softTone(now, isOpen ? 330 : 440, isOpen ? 440 : 330, 0.043, 0.19);
+          softTone(now + 0.012, isOpen ? 660 : 880, isOpen ? 880 : 660, 0.011, 0.14, 'triangle');
+        }, 240);
       }
 
       function playThemeSound(theme) {
@@ -1759,147 +1948,172 @@
       let lastHoverTickAt = 0;
 
       function playHoverTick(step = 0) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
         const timestamp = performance.now();
         if (timestamp - lastHoverTickAt < 58) return;
         lastHoverTickAt = timestamp;
-        audioContext ||= new AudioContextClass();
-        if (audioContext.state === 'suspended') audioContext.resume();
-
-        const now = audioContext.currentTime;
-        const tone = audioContext.createOscillator();
-        const toneGain = audioContext.createGain();
-        const clickLength = 0.034;
-        tone.type = 'triangle';
-        tone.frequency.setValueAtTime(860 + step * 105, now);
-        tone.frequency.exponentialRampToValueAtTime(620 + step * 82, now + clickLength);
-        toneGain.gain.setValueAtTime(0.034, now);
-        toneGain.gain.exponentialRampToValueAtTime(0.0001, now + clickLength);
-        tone.connect(toneGain).connect(audioContext.destination);
-        tone.start(now);
-        tone.stop(now + clickLength + 0.004);
+        scheduleAudioEffect((context) => {
+          const now = context.currentTime;
+          const tone = context.createOscillator();
+          const toneGain = context.createGain();
+          const clickLength = 0.034;
+          tone.type = 'triangle';
+          tone.frequency.setValueAtTime(860 + step * 105, now);
+          tone.frequency.exponentialRampToValueAtTime(620 + step * 82, now + clickLength);
+          toneGain.gain.setValueAtTime(0.034, now);
+          toneGain.gain.exponentialRampToValueAtTime(0.0001, now + clickLength);
+          tone.connect(toneGain).connect(context.destination);
+          tone.start(now);
+          tone.stop(now + clickLength + 0.004);
+        });
       }
 
       let lastGalleryTickAt = 0;
 
       function playGalleryTick(velocity = 1) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
-        audioContext ||= new AudioContextClass();
-        if (audioContext.state === 'suspended') audioContext.resume();
-
-        const now = audioContext.currentTime;
-        const tone = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        const speed = Math.min(5, Math.max(0.4, velocity));
-        const duration = Math.max(0.018, 0.033 - speed * 0.0025);
-        tone.type = 'triangle';
-        tone.frequency.setValueAtTime(700 + speed * 42, now);
-        tone.frequency.exponentialRampToValueAtTime(520 + speed * 31, now + duration);
-        gain.gain.setValueAtTime(0.022 + Math.min(speed, 3) * 0.0035, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-        tone.connect(gain).connect(audioContext.destination);
-        tone.start(now);
-        tone.stop(now + duration + 0.004);
+        scheduleAudioEffect((context) => {
+          const now = context.currentTime;
+          const tone = context.createOscillator();
+          const gain = context.createGain();
+          const speed = Math.min(5, Math.max(0.4, velocity));
+          const duration = Math.max(0.018, 0.033 - speed * 0.0025);
+          tone.type = 'triangle';
+          tone.frequency.setValueAtTime(700 + speed * 42, now);
+          tone.frequency.exponentialRampToValueAtTime(520 + speed * 31, now + duration);
+          gain.gain.setValueAtTime(0.022 + Math.min(speed, 3) * 0.0035, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+          tone.connect(gain).connect(context.destination);
+          tone.start(now);
+          tone.stop(now + duration + 0.004);
+        }, 90);
       }
 
       let lastWarpAt = 0;
 
       function playContactWarp() {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
         const timestamp = performance.now();
-        if (timestamp - lastWarpAt < 520) return;
+        if (timestamp - lastWarpAt < 360) return;
         lastWarpAt = timestamp;
-        audioContext ||= new AudioContextClass();
-        if (audioContext.state === 'suspended') audioContext.resume();
+        scheduleAudioEffect((context) => {
+          const now = context.currentTime;
+          const duration = 0.18;
+          const master = context.createGain();
+          const filter = context.createBiquadFilter();
+          master.gain.setValueAtTime(0.0001, now);
+          master.gain.exponentialRampToValueAtTime(0.052, now + 0.018);
+          master.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(900, now);
+          filter.frequency.exponentialRampToValueAtTime(7600, now + 0.075);
+          filter.frequency.exponentialRampToValueAtTime(2100, now + duration);
+          filter.Q.setValueAtTime(1.45, now);
+          filter.connect(master).connect(context.destination);
 
-        const now = audioContext.currentTime;
-        const master = audioContext.createGain();
-        const filter = audioContext.createBiquadFilter();
-        master.gain.setValueAtTime(0.0001, now);
-        master.gain.exponentialRampToValueAtTime(0.046, now + 0.045);
-        master.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(620, now);
-        filter.frequency.exponentialRampToValueAtTime(3200, now + 0.21);
-        filter.frequency.exponentialRampToValueAtTime(880, now + 0.42);
-        filter.Q.setValueAtTime(1.1, now);
-        filter.connect(master).connect(audioContext.destination);
+          const frameCount = Math.ceil(context.sampleRate * duration);
+          const buffer = context.createBuffer(1, frameCount, context.sampleRate);
+          const samples = buffer.getChannelData(0);
+          for (let index = 0; index < frameCount; index += 1) {
+            const progress = index / frameCount;
+            const flicker = 0.55 + 0.45 * Math.sin(progress * Math.PI * 18);
+            samples[index] = (Math.random() * 2 - 1) * flicker * Math.sin(Math.PI * progress);
+          }
+          const noise = context.createBufferSource();
+          noise.buffer = buffer;
+          noise.connect(filter);
+          noise.start(now);
+          noise.stop(now + duration);
 
-        [0, 0.013].forEach((offset, index) => {
-          const oscillator = audioContext.createOscillator();
-          const gain = audioContext.createGain();
-          oscillator.type = index ? 'triangle' : 'sine';
-          oscillator.frequency.setValueAtTime(index ? 148 : 104, now + offset);
-          oscillator.frequency.exponentialRampToValueAtTime(index ? 740 : 520, now + 0.24 + offset);
-          oscillator.frequency.exponentialRampToValueAtTime(index ? 410 : 292, now + 0.42 + offset);
-          gain.gain.setValueAtTime(index ? 0.32 : 0.7, now + offset);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.42 + offset);
-          oscillator.connect(gain).connect(filter);
-          oscillator.start(now + offset);
-          oscillator.stop(now + 0.44 + offset);
-        });
+          [0, 0.01].forEach((offset, index) => {
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            oscillator.type = index ? 'triangle' : 'sawtooth';
+            oscillator.frequency.setValueAtTime(index ? 310 : 220, now + offset);
+            oscillator.frequency.exponentialRampToValueAtTime(index ? 2200 : 1540, now + 0.09 + offset);
+            oscillator.frequency.exponentialRampToValueAtTime(index ? 980 : 720, now + duration + offset);
+            gain.gain.setValueAtTime(index ? 0.16 : 0.24, now + offset);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + offset);
+            oscillator.connect(gain).connect(filter);
+            oscillator.start(now + offset);
+            oscillator.stop(now + duration + offset + 0.01);
+          });
+        }, 220);
       }
 
       let lastScribbleAt = 0;
 
       function playPencilScribble() {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContextClass) return;
         const timestamp = performance.now();
         if (timestamp - lastScribbleAt < 390) return;
         lastScribbleAt = timestamp;
-        audioContext ||= new AudioContextClass();
-        if (audioContext.state === 'suspended') audioContext.resume();
+        scheduleAudioEffect((context) => {
+          const now = context.currentTime;
+          const duration = 0.32;
+          const frameCount = Math.ceil(context.sampleRate * duration);
+          const buffer = context.createBuffer(1, frameCount, context.sampleRate);
+          const samples = buffer.getChannelData(0);
+          let previousNoise = 0;
+          for (let index = 0; index < frameCount; index += 1) {
+            const progress = index / frameCount;
+            const noise = Math.random() * 2 - 1;
+            const paperGrain = noise - previousNoise * 0.82;
+            previousNoise = noise;
+            const strokeWave = Math.max(0.08, Math.pow(Math.sin(progress * Math.PI * 6.2), 2));
+            const fade = Math.sin(Math.PI * progress);
+            samples[index] = paperGrain * strokeWave * fade * 0.62;
+          }
 
-        const now = audioContext.currentTime;
-        const duration = 0.39;
-        const frameCount = Math.ceil(audioContext.sampleRate * duration);
-        const buffer = audioContext.createBuffer(1, frameCount, audioContext.sampleRate);
-        const samples = buffer.getChannelData(0);
-        let previousNoise = 0;
-        for (let index = 0; index < frameCount; index += 1) {
-          const progress = index / frameCount;
-          const noise = Math.random() * 2 - 1;
-          const paperGrain = noise - previousNoise * 0.82;
-          previousNoise = noise;
-          const strokeWave = Math.max(0.08, Math.pow(Math.sin(progress * Math.PI * 7.2), 2));
-          const fade = Math.sin(Math.PI * progress);
-          samples[index] = paperGrain * strokeWave * fade * 0.62;
-        }
-
-        const source = audioContext.createBufferSource();
-        const highpass = audioContext.createBiquadFilter();
-        const lowpass = audioContext.createBiquadFilter();
-        const gain = audioContext.createGain();
-        source.buffer = buffer;
-        highpass.type = 'highpass';
-        highpass.frequency.setValueAtTime(1350, now);
-        highpass.Q.setValueAtTime(0.52, now);
-        lowpass.type = 'lowpass';
-        lowpass.frequency.setValueAtTime(5200, now);
-        lowpass.frequency.linearRampToValueAtTime(3900, now + duration);
-        lowpass.Q.setValueAtTime(0.38, now);
-        gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.linearRampToValueAtTime(0.013, now + 0.035);
-        gain.gain.setValueAtTime(0.013, now + duration - 0.07);
-        gain.gain.linearRampToValueAtTime(0.0001, now + duration);
-        source.connect(highpass).connect(lowpass).connect(gain).connect(audioContext.destination);
-        source.start(now);
-        source.stop(now + duration);
+          const source = context.createBufferSource();
+          const highpass = context.createBiquadFilter();
+          const lowpass = context.createBiquadFilter();
+          const gain = context.createGain();
+          source.buffer = buffer;
+          highpass.type = 'highpass';
+          highpass.frequency.setValueAtTime(1350, now);
+          highpass.Q.setValueAtTime(0.52, now);
+          lowpass.type = 'lowpass';
+          lowpass.frequency.setValueAtTime(5200, now);
+          lowpass.frequency.linearRampToValueAtTime(3900, now + duration);
+          lowpass.Q.setValueAtTime(0.38, now);
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.013, now + 0.03);
+          gain.gain.setValueAtTime(0.013, now + duration - 0.06);
+          gain.gain.linearRampToValueAtTime(0.0001, now + duration);
+          source.connect(highpass).connect(lowpass).connect(gain).connect(context.destination);
+          source.start(now);
+          source.stop(now + duration);
+        }, 220);
       }
 
       const nameSwap = document.querySelector('.name-swap');
       nameSwap.addEventListener('pointerenter', playPencilScribble);
       nameSwap.addEventListener('focus', playPencilScribble);
 
-      const hoverTickTargets = [...document.querySelectorAll('.tool, .social-icon')];
+      const hoverTickTargets = [...document.querySelectorAll('.tool, .social-icon, .project-icon:not(.social-icon)')];
       hoverTickTargets.forEach((target, index) => {
         const step = index % 3;
         target.addEventListener('pointerenter', () => playHoverTick(step));
         target.addEventListener('focus', () => playHoverTick(step));
+      });
+
+      document.querySelectorAll('.tool.has-preview').forEach((tool) => {
+        const preview = tool.querySelector('.tool-preview');
+        if (!preview) return;
+
+        tool.addEventListener('pointermove', (event) => {
+          const bounds = tool.getBoundingClientRect();
+          const x = Math.max(0, Math.min(1, (event.clientX - bounds.left) / bounds.width));
+          const y = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height));
+          preview.style.setProperty('--tilt-x', `${(0.5 - y) * 9}deg`);
+          preview.style.setProperty('--tilt-y', `${(x - 0.5) * 11}deg`);
+          preview.style.setProperty('--glare-x', `${x * 100}%`);
+          preview.style.setProperty('--glare-y', `${y * 100}%`);
+        });
+
+        tool.addEventListener('pointerleave', () => {
+          preview.style.setProperty('--tilt-x', '0deg');
+          preview.style.setProperty('--tilt-y', '0deg');
+          preview.style.setProperty('--glare-x', '50%');
+          preview.style.setProperty('--glare-y', '50%');
+        });
       });
 
       const contactLink = document.querySelector('.contact-link');
@@ -2000,14 +2214,13 @@
         window.clearTimeout(closeTimer);
         overlayAnimation?.cancel();
         overlayAnimation = null;
-        lastSourceRect = card.getBoundingClientRect();
         lastFocusedCard = card;
-        lastFocusedCard.classList.add('is-modal-source');
         restoreFocusOnClose = Boolean(options.focus);
         isModalOpen = true;
         isModalClosing = false;
         modalImage.src = image.currentSrc || image.src;
         modalImage.alt = image.alt;
+        projectModal.style.visibility = '';
         projectModal.hidden = false;
         projectModal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
@@ -2015,26 +2228,22 @@
         playInterfaceSound('open');
 
         requestAnimationFrame(() => {
-          const targetRect = modalPanel.getBoundingClientRect();
-          const sourceCenterX = lastSourceRect.left + lastSourceRect.width / 2;
-          const sourceCenterY = lastSourceRect.top + lastSourceRect.height / 2;
-          const targetCenterX = targetRect.left + targetRect.width / 2;
-          const targetCenterY = targetRect.top + targetRect.height / 2;
-          const startTransform = `translate3d(${sourceCenterX - targetCenterX}px, ${sourceCenterY - targetCenterY}px, 0) scale(${lastSourceRect.width / targetRect.width}, ${lastSourceRect.height / targetRect.height})`;
-
           if (!reduceMotion) {
             modalAnimation?.cancel();
             modalAnimation = modalPanel.animate(
               [
-                { transform: startTransform, borderRadius: '22px', opacity: 0.9 },
-                { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 }
+                { transform: 'translate3d(0, 18px, 0) scale(0.955)' },
+                { transform: 'translate3d(0, 0, 0) scale(1)' }
               ],
-              { duration: 400, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+              { duration: 330, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
             );
             overlayAnimation?.cancel();
             overlayAnimation = projectModal.animate(
-              [{ opacity: 0 }, { opacity: 1 }],
-              { duration: 300, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
+              [
+                { backgroundColor: 'rgba(0, 0, 0, 0)', backdropFilter: 'blur(0px) saturate(1)' },
+                { backgroundColor: document.documentElement.dataset.theme === 'dark' ? 'rgba(17, 17, 16, 0.18)' : 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(22px) saturate(0.72)' }
+              ],
+              { duration: 260, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' }
             );
           }
 
@@ -2048,18 +2257,6 @@
         projectModal.setAttribute('aria-hidden', 'true');
         playInterfaceSound('close');
 
-        const sourceRect = lastFocusedCard?.isConnected
-          ? lastFocusedCard.getBoundingClientRect()
-          : lastSourceRect;
-        const panelRect = modalPanel.getBoundingClientRect();
-        const sourceCenterX = sourceRect ? sourceRect.left + sourceRect.width / 2 : panelRect.left + panelRect.width / 2;
-        const sourceCenterY = sourceRect ? sourceRect.top + sourceRect.height / 2 : panelRect.top + panelRect.height / 2;
-        const panelCenterX = panelRect.left + panelRect.width / 2;
-        const panelCenterY = panelRect.top + panelRect.height / 2;
-        const endTransform = sourceRect
-          ? `translate3d(${sourceCenterX - panelCenterX}px, ${sourceCenterY - panelCenterY}px, 0) scale(${sourceRect.width / panelRect.width}, ${sourceRect.height / panelRect.height})`
-          : 'translate3d(0, 12px, 0) scale(0.97)';
-
         modalAnimation?.cancel();
         overlayAnimation?.cancel();
         modalAnimation = null;
@@ -2067,26 +2264,25 @@
         if (!reduceMotion) {
           modalAnimation = modalPanel.animate(
             [
-              { transform: 'translate3d(0, 0, 0) scale(1)', borderRadius: '28px', opacity: 1 },
-              { transform: endTransform, borderRadius: '22px', opacity: 0.96 }
+              { transform: 'translate3d(0, 18px, 0) scale(0.955)' },
+              { transform: 'translate3d(0, 0, 0) scale(1)' }
             ],
-            { duration: 400, easing: 'cubic-bezier(0.64, 0, 0.78, 0)', fill: 'both' }
+            { duration: 330, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', direction: 'reverse', fill: 'both' }
           );
           overlayAnimation = projectModal.animate(
             [
-              { opacity: 1 },
-              { opacity: 1, offset: 0.58 },
-              { opacity: 0 }
+              { backgroundColor: 'rgba(0, 0, 0, 0)', backdropFilter: 'blur(0px) saturate(1)' },
+              { backgroundColor: document.documentElement.dataset.theme === 'dark' ? 'rgba(17, 17, 16, 0.18)' : 'rgba(255, 255, 255, 0.18)', backdropFilter: 'blur(22px) saturate(0.72)' }
             ],
-            { duration: 400, easing: 'cubic-bezier(0.4, 0, 1, 1)', fill: 'both' }
+            { duration: 260, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', direction: 'reverse', fill: 'both' }
           );
         }
 
         const finishClose = () => {
+          projectModal.style.visibility = 'hidden';
           projectModal.hidden = true;
           projectModal.classList.remove('is-open');
           document.body.classList.remove('modal-open');
-          lastFocusedCard?.classList.remove('is-modal-source');
           modalAnimation?.cancel();
           overlayAnimation?.cancel();
           modalAnimation = null;
@@ -2107,7 +2303,7 @@
           return;
         }
 
-        closeTimer = window.setTimeout(finishClose, 520);
+        closeTimer = window.setTimeout(finishClose, 440);
         try {
           await Promise.all([modalAnimation.finished, overlayAnimation.finished]);
           window.clearTimeout(closeTimer);
