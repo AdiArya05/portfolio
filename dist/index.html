@@ -1455,9 +1455,9 @@
 
         .intro {
           max-width: none;
-          font-size: clamp(1.2rem, 5.75vw, 1.58rem);
-          line-height: 1.21;
-          letter-spacing: -0.022em;
+          font-size: clamp(1.12rem, 5.24vw, 1.44rem);
+          line-height: 1.23;
+          letter-spacing: -0.02em;
         }
 
         .sentence + .sentence {
@@ -1471,90 +1471,6 @@
         .github-activity-card,
         .social-profile-card {
           display: none !important;
-        }
-
-        .project-icon {
-          width: auto;
-          height: auto;
-          margin: 0;
-          padding: 0.01em 0.16em 0.06em;
-          border-radius: 0.22em;
-          background: var(--blue);
-          box-shadow: none;
-          vertical-align: baseline;
-        }
-
-        .project-icon > img,
-        .tool img,
-        .social-icon > img {
-          display: none;
-        }
-
-        .project-icon:not(.social-icon)::before {
-          content: attr(data-label);
-        }
-
-        .project-icon::after,
-        .tool-stack .tool::after {
-          display: none;
-        }
-
-        .tool-stack,
-        .social-icons {
-          display: inline;
-          width: auto;
-          height: auto;
-          margin: 0;
-          vertical-align: baseline;
-        }
-
-        .tool,
-        .social-icon {
-          position: static;
-          display: inline;
-          width: auto;
-          height: auto;
-          padding: 0;
-          background: transparent;
-          box-shadow: none;
-          transform: none;
-        }
-
-        .tool::after,
-        .social-icon::after {
-          position: static;
-          display: inline;
-          padding: 0;
-          background: transparent;
-          color: inherit;
-          content: attr(data-label);
-          font: inherit;
-          opacity: 1;
-          transform: none;
-          white-space: normal;
-        }
-
-        .tool.has-preview::after,
-        .linkedin-profile-link::after,
-        .x-profile-link::after {
-          display: inline;
-        }
-
-        .tool + .tool::before,
-        .social-icon + .social-icon::before {
-          content: ", ";
-        }
-
-        .tool:nth-child(3)::before,
-        .social-icon:nth-child(3)::before {
-          content: ", and ";
-        }
-
-        .tool:is(:hover, :focus-visible),
-        .social-icon:is(:hover, :focus-visible),
-        .project-icon:is(:hover, :focus-visible) {
-          box-shadow: none;
-          transform: none;
         }
 
         .social-sentence {
