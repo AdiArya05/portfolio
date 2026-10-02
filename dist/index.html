@@ -1417,6 +1417,151 @@
         }
       }
 
+      @media (max-width: 700px) {
+        html,
+        body {
+          height: 100%;
+          overflow: hidden;
+        }
+
+        .theme-toggle {
+          top: max(16px, env(safe-area-inset-top));
+          left: 18px;
+          width: 48px;
+          height: 48px;
+        }
+
+        .shell {
+          display: block;
+          height: 100svh;
+          min-height: 0;
+          overflow: hidden;
+        }
+
+        .story {
+          min-height: 100svh;
+          height: 100svh;
+          align-items: center;
+          padding:
+            calc(env(safe-area-inset-top) + 74px)
+            clamp(22px, 7vw, 30px)
+            calc(env(safe-area-inset-bottom) + 24px);
+          overflow: hidden;
+        }
+
+        .story-inner {
+          width: 100%;
+        }
+
+        .intro {
+          max-width: none;
+          font-size: clamp(1.06rem, 4.85vw, 1.32rem);
+          line-height: 1.26;
+          letter-spacing: -0.018em;
+        }
+
+        .sentence + .sentence {
+          margin-left: 0.08em;
+        }
+
+        .links,
+        .gallery-wrap,
+        .closing,
+        .tool-preview,
+        .github-activity-card,
+        .social-profile-card {
+          display: none !important;
+        }
+
+        .project-icon {
+          width: auto;
+          height: auto;
+          margin: 0;
+          padding: 0.01em 0.16em 0.06em;
+          border-radius: 0.22em;
+          background: var(--blue);
+          box-shadow: none;
+          vertical-align: baseline;
+        }
+
+        .project-icon > img,
+        .tool img,
+        .social-icon > img {
+          display: none;
+        }
+
+        .project-icon:not(.social-icon)::before {
+          content: attr(data-label);
+        }
+
+        .project-icon::after,
+        .tool-stack .tool::after {
+          display: none;
+        }
+
+        .tool-stack,
+        .social-icons {
+          display: inline;
+          width: auto;
+          height: auto;
+          margin: 0;
+          vertical-align: baseline;
+        }
+
+        .tool,
+        .social-icon {
+          position: static;
+          display: inline;
+          width: auto;
+          height: auto;
+          padding: 0;
+          background: transparent;
+          box-shadow: none;
+          transform: none;
+        }
+
+        .tool::after,
+        .social-icon::after {
+          position: static;
+          display: inline;
+          padding: 0;
+          background: transparent;
+          color: inherit;
+          content: attr(data-label);
+          font: inherit;
+          opacity: 1;
+          transform: none;
+          white-space: normal;
+        }
+
+        .tool.has-preview::after,
+        .linkedin-profile-link::after,
+        .x-profile-link::after {
+          display: inline;
+        }
+
+        .tool + .tool::before,
+        .social-icon + .social-icon::before {
+          content: ", ";
+        }
+
+        .tool:nth-child(3)::before,
+        .social-icon:nth-child(3)::before {
+          content: ", and ";
+        }
+
+        .tool:is(:hover, :focus-visible),
+        .social-icon:is(:hover, :focus-visible),
+        .project-icon:is(:hover, :focus-visible) {
+          box-shadow: none;
+          transform: none;
+        }
+
+        .social-sentence {
+          white-space: normal;
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         * { scroll-behavior: auto !important; }
 
