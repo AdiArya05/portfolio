@@ -85,8 +85,9 @@
         overflow-x: clip;
         background: var(--paper);
         color: var(--ink);
-        font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-          Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+          "Helvetica Neue", Arial, sans-serif;
+        font-weight: 700;
         -webkit-font-smoothing: antialiased;
         transition: background-color 320ms ease, color 320ms ease;
       }
@@ -1065,28 +1066,27 @@
       .card {
         position: relative;
         z-index: 1;
-        display: grid;
-        aspect-ratio: 1.55 / 1;
+        display: block;
         overflow: hidden;
-        border: 1px solid transparent;
+        border: 1px solid var(--line);
         border-radius: 22px;
-        background: transparent;
-        box-shadow: none;
+        background: var(--paper);
+        box-shadow: 0 14px 42px rgba(0, 0, 0, 0.08);
         cursor: zoom-in;
-        transform: translate3d(0, 0, 0) scale(1);
-        transform-origin: center;
-        will-change: transform;
+        transform: none;
         transition:
           transform 440ms cubic-bezier(0.2, 0.8, 0.2, 1),
-          box-shadow 440ms cubic-bezier(0.2, 0.8, 0.2, 1);
+          box-shadow 440ms cubic-bezier(0.2, 0.8, 0.2, 1),
+          border-color 320ms ease,
+          background-color 320ms ease;
         isolation: isolate;
       }
 
       .card:is(:hover, :focus-visible) {
         z-index: 5;
-        border-color: transparent;
-        box-shadow: none;
-        transform: translate3d(0, -1px, 0) scale(1.008);
+        border-color: color-mix(in srgb, var(--ink) 22%, transparent);
+        box-shadow: 0 20px 54px rgba(0, 0, 0, 0.13);
+        transform: translateY(-2px);
         outline: none;
       }
 
@@ -1155,7 +1155,7 @@
 
       .modal-panel {
         position: relative;
-        width: min(74vw, 1080px);
+        width: fit-content;
         max-width: calc(100vw - 48px);
         overflow: hidden;
         border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
@@ -1179,10 +1179,54 @@
 
       .modal-panel img {
         display: block;
-        width: 100%;
-        max-height: 74vh;
+        width: auto;
+        max-width: min(86vw, 1440px);
+        height: auto;
+        max-height: 76vh;
         object-fit: contain;
-        background: #e8e8e7;
+        background: transparent;
+      }
+
+      .modal-details {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 16px 18px 18px;
+        border-top: 1px solid var(--line);
+      }
+
+      .modal-copy {
+        display: grid;
+        gap: 3px;
+      }
+
+      .modal-copy strong {
+        font-size: 1rem;
+        letter-spacing: -0.02em;
+      }
+
+      .modal-copy span {
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.35;
+      }
+
+      .modal-link {
+        flex: 0 0 auto;
+        padding: 9px 13px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 0.78rem;
+        white-space: nowrap;
+        transition: background-color 180ms ease, color 180ms ease;
+      }
+
+      .modal-link:is(:hover, :focus-visible) {
+        color: var(--paper);
+        background: var(--ink);
+        outline: none;
       }
 
       body.modal-open {
@@ -1228,18 +1272,17 @@
       }
 
       .card-media {
-        position: absolute;
-        inset: 0;
+        position: relative;
+        inset: auto;
+        display: block;
         width: 100%;
-        height: 100%;
-        border-radius: inherit;
-        object-fit: cover;
-        box-shadow: 0 0 0 1px rgba(20, 20, 20, 0.08);
-        transform: translateZ(0) scale(1);
-        will-change: transform;
-        transition:
-          transform 440ms cubic-bezier(0.2, 0.8, 0.2, 1),
-          border-radius 440ms cubic-bezier(0.2, 0.8, 0.2, 1);
+        height: auto;
+        border-bottom: 1px solid var(--line);
+        border-radius: 21px 21px 0 0;
+        object-fit: contain;
+        box-shadow: none;
+        transform: none;
+        image-rendering: auto;
       }
 
       .card.dark .card-art {
@@ -1305,27 +1348,67 @@
       .window-copy i:last-child { width: 46%; }
 
       .meta {
-        position: absolute;
+        position: relative;
         z-index: 2;
-        right: 22px;
-        bottom: 20px;
-        left: 22px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
-        font-size: 0.78rem;
+        gap: 16px;
+        padding: 14px 16px 15px;
+        color: var(--ink);
+        font-size: 0.8rem;
         font-weight: 700;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
+        letter-spacing: -0.01em;
       }
 
-      .meta,
+      .meta-copy {
+        display: grid;
+        min-width: 0;
+        gap: 3px;
+      }
+
+      .meta-copy strong {
+        font-size: 0.92rem;
+        letter-spacing: -0.025em;
+      }
+
+      .meta-copy span {
+        overflow: hidden;
+        color: var(--muted);
+        font-size: 0.72rem;
+        line-height: 1.3;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .project-link {
+        flex: 0 0 auto;
+        padding: 7px 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        text-decoration: none;
+        font-size: 0.7rem;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+        transition: background-color 180ms ease, color 180ms ease;
+      }
+
+      .project-link:is(:hover, :focus-visible) {
+        color: var(--paper);
+        background: var(--ink);
+        outline: none;
+      }
+
       .video::after {
         display: none;
       }
 
       .dark .meta { color: #fff; }
+
+      body * {
+        font-family: inherit !important;
+        font-weight: 700 !important;
+      }
 
       .type {
         display: inline-flex;
@@ -1574,37 +1657,49 @@
       <aside class="gallery-wrap" aria-label="Selected project gallery">
         <div class="gallery" id="gallery" tabindex="0">
           <div class="reel" id="reel">
-            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Sailorfy website showcase">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Sailorfy website showcase" data-title="Sailorfy" data-description="A calmer way to navigate the maritime world." data-link="https://sailorfy.framer.website/" data-link-label="Live site">
               <img class="card-media" src="media/sailorfy-showcase.png" alt="Sailorfy website displayed in a desktop browser mockup" />
+              <div class="meta"><span class="meta-copy"><strong>Sailorfy</strong><span>Sailing, simplified.</span></span><a class="project-link" href="https://sailorfy.framer.website/" target="_blank" rel="noreferrer">Live site</a></div>
             </article>
 
-            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity detail">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity detail" data-title="Catch Live Activity" data-description="The next bus, timing, and leave-now guidance at a glance." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
               <img class="card-media" src="media/catch-live-detail.png" alt="Catch Live Activity showing the next bus and leave-now guidance" />
+              <div class="meta"><span class="meta-copy"><strong>Catch Live Activity</strong><span>Know exactly when to leave.</span></span><a class="project-link" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer">App Store</a></div>
             </article>
 
-            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open portfolio website showcase">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open portfolio website showcase" data-title="Previous Portfolio" data-description="An earlier visual portfolio built in Framer." data-link="https://adityaarya.framer.website/" data-link-label="Visit site">
               <img class="card-media" src="media/portfolio-showcase.png" alt="Portfolio website displayed in a desktop browser mockup" />
+              <div class="meta"><span class="meta-copy"><strong>Previous Portfolio</strong><span>My earlier Framer portfolio.</span></span><a class="project-link" href="https://adityaarya.framer.website/" target="_blank" rel="noreferrer">Visit site</a></div>
             </article>
 
-            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch bus arrival board">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch bus arrival board" data-title="Catch Live Board" data-description="Fast, legible Singapore bus arrivals designed for the moment you need them." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
               <img class="card-media" src="media/catch-live-board.png" alt="Catch bus arrival board on an iPhone" />
+              <div class="meta"><span class="meta-copy"><strong>Catch Live Board</strong><span>Singapore bus arrivals, made clearer.</span></span><a class="project-link" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer">App Store</a></div>
             </article>
 
-            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja recovery dashboard">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja recovery dashboard" data-title="Soja Recovery" data-description="A personalised plan for rebuilding your body clock after disruption." data-link="https://github.com/yasharya1/soja" data-link-label="GitHub">
               <img class="card-media" src="media/soja-recovery.png" alt="Soja circadian recovery dashboard on an iPhone" />
+              <div class="meta"><span class="meta-copy"><strong>Soja Recovery</strong><span>Reset your rhythm with a daily plan.</span></span><a class="project-link" href="https://github.com/yasharya1/soja" target="_blank" rel="noreferrer">GitHub</a></div>
             </article>
 
-            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch nearby stop map">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch nearby stop map" data-title="Catch Nearby" data-description="Nearby stops and arrivals placed directly on the map." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
               <img class="card-media" src="media/catch-map.png" alt="Catch nearby bus stops map on an iPhone" />
+              <div class="meta"><span class="meta-copy"><strong>Catch Nearby</strong><span>Find the right stop around you.</span></span><a class="project-link" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer">App Store</a></div>
             </article>
 
-            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja welcome screen">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja welcome screen" data-title="Soja" data-description="Personalised circadian recovery for disrupted sleep." data-link="https://github.com/yasharya1/soja" data-link-label="GitHub">
               <img class="card-media" src="media/soja-welcome.png" alt="Soja personalised circadian recovery welcome screen on an iPhone" />
+              <div class="meta"><span class="meta-copy"><strong>Soja</strong><span>Personalised circadian recovery.</span></span><a class="project-link" href="https://github.com/yasharya1/soja" target="_blank" rel="noreferrer">GitHub</a></div>
+            </article>
+
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja website showcase" data-title="Soja Website" data-description="The product story and science behind personalised sleep recovery." data-link="https://soja.framer.website/" data-link-label="Live site">
+              <img class="card-media" src="media/soja-website.png" alt="Soja website with a landscape and the message Reset your sleep" />
+              <div class="meta"><span class="meta-copy"><strong>Soja Website</strong><span>Reset your sleep, one plan at a time.</span></span><a class="project-link" href="https://soja.framer.website/" target="_blank" rel="noreferrer">Live site</a></div>
             </article>
           </div>
         </div>
         <div class="reel-progress" id="reel-progress" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
       </aside>
     </main>
@@ -1639,6 +1734,10 @@
     <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Catch project preview" hidden>
       <div class="modal-panel" id="modal-panel" tabindex="-1">
         <img id="modal-image" src="" alt="" />
+        <div class="modal-details">
+          <span class="modal-copy"><strong id="modal-title"></strong><span id="modal-description"></span></span>
+          <a class="modal-link" id="modal-link" href="#" target="_blank" rel="noreferrer"></a>
+        </div>
       </div>
     </div>
 
@@ -1811,6 +1910,9 @@
       const projectModal = document.querySelector('#project-modal');
       const modalPanel = document.querySelector('#modal-panel');
       const modalImage = document.querySelector('#modal-image');
+      const modalTitle = document.querySelector('#modal-title');
+      const modalDescription = document.querySelector('#modal-description');
+      const modalLink = document.querySelector('#modal-link');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let lastTime = performance.now();
       let isHoveringGallery = false;
@@ -2260,6 +2362,10 @@
         isModalClosing = false;
         modalImage.src = image.currentSrc || image.src;
         modalImage.alt = image.alt;
+        modalTitle.textContent = card.dataset.title || image.alt;
+        modalDescription.textContent = card.dataset.description || '';
+        modalLink.href = card.dataset.link || '#';
+        modalLink.textContent = card.dataset.linkLabel || 'View project';
         projectModal.hidden = false;
         projectModal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
@@ -2309,6 +2415,10 @@
       });
 
       reel.addEventListener('click', (event) => {
+        if (event.target.closest('a')) {
+          pressedGalleryCard = null;
+          return;
+        }
         const card = pressedGalleryCard || event.target.closest('.card');
         pressedGalleryCard = null;
         if (card) openProject(card);
