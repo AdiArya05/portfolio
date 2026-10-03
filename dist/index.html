@@ -1282,6 +1282,7 @@
         box-shadow: none;
         transform: none;
         image-rendering: auto;
+        image-rendering: -webkit-optimize-contrast;
       }
 
       .card.dark .card-art {
@@ -1899,6 +1900,7 @@
       const modalLink = document.querySelector('#modal-link');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let lastTime = performance.now();
+      let galleryScrollCarry = 0;
       let isHoveringGallery = false;
       let isModalOpen = false;
       let isModalClosing = false;
@@ -2260,7 +2262,7 @@
         const trailingFirstCard = reel.children[originalCards.length * 2];
         loopStart = middleFirstCard.offsetTop;
         loopPoint = trailingFirstCard.offsetTop - loopStart;
-        gallery.scrollTop = loopStart + previousProgress * loopPoint;
+        gallery.scrollTop = Math.round(loopStart + previousProgress * loopPoint);
         loopReady = loopPoint > 0;
       }
 
@@ -2434,15 +2436,20 @@
         if ((isHoveringGallery || isModalOpen) && scrollRate < 0.0005) scrollRate = 0;
 
         if (!reduceMotion) {
-          gallery.scrollTop += elapsed * scrollRate;
+          galleryScrollCarry += elapsed * scrollRate;
+          const wholePixels = Math.trunc(galleryScrollCarry);
+          if (wholePixels !== 0) {
+            gallery.scrollTop += wholePixels;
+            galleryScrollCarry -= wholePixels;
+          }
         }
 
         if (loopReady && gallery.scrollTop >= loopStart + loopPoint) {
-          gallery.scrollTop -= loopPoint;
+          gallery.scrollTop = Math.round(gallery.scrollTop - loopPoint);
           lastGalleryScrollTop = gallery.scrollTop;
         }
         if (loopReady && gallery.scrollTop < loopStart) {
-          gallery.scrollTop += loopPoint;
+          gallery.scrollTop = Math.round(gallery.scrollTop + loopPoint);
           lastGalleryScrollTop = gallery.scrollTop;
         }
 
