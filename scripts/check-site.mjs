@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import vm from 'node:vm';
 import { createRequire } from 'node:module';
+import sharp from 'sharp';
 
 const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
@@ -50,6 +51,25 @@ assert(/name="description"\s+content="[^"]+"/.test(html));
 assert(!/content="[^"]*\bnoindex\b/.test(html));
 assert(html.includes('aria-labelledby="modal-title"'));
 assert(html.includes('aria-describedby="modal-description"'));
+assert(html.includes('aria-label="Close project preview"'));
+assert(html.includes('gallery.contains(document.activeElement)'), 'Pause moving gallery for keyboard users');
+assert(!html.includes('fonts.googleapis.com') && !html.includes('fonts.gstatic.com'), 'Keep the original font self-hosted');
+assert(fs.readFileSync(path.join(dist, 'fonts/space-grotesk-v22-latin.woff2')).subarray(0,4).toString() === 'wOF2');
+assert(fs.readFileSync(path.join(dist, 'fonts/Space-Grotesk-OFL.txt'), 'utf8').includes('SIL OPEN FONT LICENSE'));
+for (const card of cards) {
+  assert(card.includes('media="(max-width:700px)"'), 'Hidden phone gallery must not fetch desktop images');
+  const file = card.match(/srcset="(media\/[^\"]+\.webp)"/)[1];
+  const original = file.replace('.webp', '.png');
+  const before = await sharp(path.join(dist, original)).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+  const after = await sharp(path.join(dist, file)).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+  assert.deepEqual(before.info, after.info, 'Do not resize gallery images');
+  assert(before.data.equals(after.data), `Pixel quality changed: ${file}`);
+  assert(fs.statSync(path.join(dist, file)).size < fs.statSync(path.join(dist, original)).size);
+}
+const footerLoader = fs.readFileSync(path.join(dist, 'footer-loader.js'), 'utf8');
+assert(footerLoader.includes('!desktop.matches || !nearFooter'), 'Defer footer effects until desktop visitors approach');
+const config = JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8'));
+assert(config.redirects.some(rule => rule.destination === `${origin}/:path*` && rule.permanent && rule.has.some(condition => condition.type === 'host' && condition.value === 'portfolio-template-ochre-rho.vercel.app')));
 const discovery = fs.readFileSync(path.join(dist, 'footer-discovery.js'), 'utf8');
 assert(!discovery.includes('preventDefault') && !/addEventListener\(['"](?:wheel|pointerdown)/.test(discovery),
   'Footer discovery must not intercept scrolling or require a hold gesture');
@@ -68,3 +88,4 @@ const require = createRequire(import.meta.url);
 const { parseContributions } = require('../lib/github-contributions.js');
 assert.throws(() => parseContributions('<html>Temporarily unavailable</html>'), /Incomplete/);
 console.log(`PASS: eight gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
+console.log('PASS: lossless image pixel equality, smaller assets, self-hosted original font/license, phone media guards, deferred footer, keyboard gallery pause, close control and canonical-host redirect.');

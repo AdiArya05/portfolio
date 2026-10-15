@@ -70,7 +70,7 @@
     footer.classList.toggle('skyline-motion-running', visible && !document.hidden);
   }
   new IntersectionObserver(entries => {
-    visible = entries[0].isIntersecting;
+    visible = entries[0].isIntersecting && entries[0].intersectionRatio > 0;
     if (visible) mountScene();
     updatePlayback();
   }, { threshold: .05 }).observe(footer);

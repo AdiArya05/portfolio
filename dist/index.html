@@ -38,9 +38,7 @@
       {"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://adiarya.vercel.app/#aditya","name":"Aditya Arya","url":"https://adiarya.vercel.app/","image":"https://adiarya.vercel.app/media/aditya-profile.jpg","description":"AI product builder based in Singapore. Building Catch SG Buses, Soja, and digital products.","sameAs":["https://www.linkedin.com/in/aditya-arya1/","https://x.com/adiarya05","https://github.com/AdiArya05"]},{"@type":"WebSite","@id":"https://adiarya.vercel.app/#website","url":"https://adiarya.vercel.app/","name":"Aditya Arya","author":{"@id":"https://adiarya.vercel.app/#aditya"},"inLanguage":"en"},{"@type":"ProfilePage","@id":"https://adiarya.vercel.app/#profile","url":"https://adiarya.vercel.app/","name":"Aditya Arya — AI Builder & Product Portfolio","mainEntity":{"@id":"https://adiarya.vercel.app/#aditya"},"isPartOf":{"@id":"https://adiarya.vercel.app/#website"}}]}
     </script>
     <title>Aditya Arya</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="preload" href="/fonts/space-grotesk-v22-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link
       rel="icon"
       type="image/png"
@@ -53,12 +51,21 @@
     <script defer src="/_vercel/insights/script.js"></script>
     <script>
       (() => {
-        const savedTheme = localStorage.getItem('portfolio-theme');
+        let savedTheme;
+        try { savedTheme = localStorage.getItem('portfolio-theme'); } catch {}
         const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        document.documentElement.dataset.theme = savedTheme || systemTheme;
+        document.documentElement.dataset.theme = ['light', 'dark'].includes(savedTheme) ? savedTheme : systemTheme;
       })();
     </script>
     <style>
+      @font-face {
+        font-family: "Space Grotesk";
+        font-style: normal;
+        font-weight: 400 600;
+        font-display: swap;
+        src: url("/fonts/space-grotesk-v22-latin.woff2") format("woff2");
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
       :root {
         color-scheme: light;
         --ink: #171717;
@@ -388,7 +395,8 @@
         transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 320ms ease;
       }
 
-      .project-icon > img {
+      .project-icon picture { display:contents; border-radius:inherit; }
+      .project-icon img {
         display: block;
         width: 100%;
         height: 100%;
@@ -1229,7 +1237,8 @@
       }
 
       .modal-copy span {
-        color: var(--muted);
+        color: var(--ink);
+        opacity: .75;
         font-size: 0.82rem;
         line-height: 1.35;
       }
@@ -1251,6 +1260,13 @@
         outline: none;
       }
 
+      .modal-actions { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+      .modal-close { display:grid; place-items:center; width:40px; height:40px; padding:0; border:1px solid var(--line); border-radius:50%; color:var(--ink); background:var(--paper); cursor:pointer; }
+      .modal-close svg { width:18px; height:18px; }
+      .modal-close:is(:hover,:focus-visible) { color:var(--paper); background:var(--ink); }
+      .modal-close:focus-visible { outline:2px solid var(--ink); outline-offset:3px; }
+      .card picture { display:block; }
+
       body.modal-open {
         overflow: hidden;
       }
@@ -1268,7 +1284,7 @@
         height: max(100svh, 43vw);
         overflow: hidden;
         border-top: 1px solid var(--line);
-        color: #817d72;
+        color: #716d65;
         background: #fbf8ef;
         font-size: 14px;
         letter-spacing: -0.01em;
@@ -1634,6 +1650,7 @@
       }
 
       @media (max-width: 700px) {
+        html:not([data-theme="dark"]) { --muted:#716d65; }
         html,
         body {
           height: 100%;
@@ -1770,7 +1787,7 @@
             <span class="sentence"><span class="soft">i’m currently serving national service in singapore</span>
             while <span class="name">building projects of my own.</span></span>
             <span class="sentence">right now i’m building
-            <a class="project-icon external-link" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer" aria-label="View Catch on the App Store"><img src="media/catch-icon.png" alt="" /></a>,
+            <a class="project-icon external-link" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer" aria-label="View Catch on the App Store"><picture><source type="image/webp" srcset="media/catch-icon.webp" /><img src="media/catch-icon.png" alt="" /></picture></a>,
             <span class="soft">a thoughtfully designed bus timing app for singapore.</span></span>
             <span class="sentence">we placed second at a defence-tech hackathon with
             <a class="inline-link yellow external-link" href="https://github.com/Rajsuthan/maritime-fusion" target="_blank" rel="noreferrer">maritime fusion</a>,
@@ -1791,7 +1808,7 @@
               <a class="tool has-preview" data-label="Wispr Flow" href="https://wisprflow.ai/" target="_blank" rel="noreferrer" aria-label="Visit Wispr Flow">
                 <img src="media/wispr-flow-icon.png" alt="" />
                 <span class="tool-preview wispr-preview" aria-hidden="true">
-                  <img class="wispr-profile-image" src="media/wispr-flow-profile.png" alt="" />
+                  <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><img class="wispr-profile-image" loading="lazy" decoding="async" src="media/wispr-flow-profile.png" alt="" /></picture>
                 </span>
               </a>
             </span>.</span>
@@ -1826,42 +1843,42 @@
         <div class="gallery" id="gallery" tabindex="0">
           <div class="reel" id="reel">
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Sailorfy website showcase" data-title="Sailorfy" data-description="A calmer way to navigate the maritime world." data-link="https://sailorfy.framer.website/" data-link-label="Live site">
-              <img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/sailorfy-showcase.png" alt="Sailorfy website displayed in a desktop browser mockup" />
+              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/sailorfy-showcase.webp" /><img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/sailorfy-showcase.png" alt="Sailorfy website displayed in a desktop browser mockup" /></picture>
               <div class="meta"><span class="meta-copy"><strong>Sailorfy</strong><span>Sailing, simplified.</span></span><a class="project-link" href="https://sailorfy.framer.website/" target="_blank" rel="noreferrer">Live site</a></div>
             </article>
 
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja recovery dashboard" data-title="Soja Recovery" data-description="A personalised plan for rebuilding your body clock after disruption." data-link="https://www.reddit.com/r/sleep/comments/1uq93wn/how_circadian_recoverytherapy_helped_me_fix_my/" data-link-label="Reddit post">
-              <img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/soja-recovery.png" alt="Soja circadian recovery dashboard on an iPhone" />
+              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-recovery.webp" /><img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/soja-recovery.png" alt="Soja circadian recovery dashboard on an iPhone" /></picture>
               <div class="meta"><span class="meta-copy"><strong>Soja Recovery</strong><span>Reset your rhythm with a daily plan.</span></span><a class="project-link" href="https://www.reddit.com/r/sleep/comments/1uq93wn/how_circadian_recoverytherapy_helped_me_fix_my/" target="_blank" rel="noreferrer">Reddit post</a></div>
             </article>
 
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch bus arrival board" data-title="Catch Live Board" data-description="Fast, legible Singapore bus arrivals designed for the moment you need them." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
-              <img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/catch-live-board.png" alt="Catch bus arrival board on an iPhone" />
+              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-board.webp" /><img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/catch-live-board.png" alt="Catch bus arrival board on an iPhone" /></picture>
               <div class="meta"><span class="meta-copy"><strong>Catch Live Board</strong><span>Singapore bus arrivals, made clearer.</span></span><a class="project-link" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer">App Store</a></div>
             </article>
 
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open portfolio website showcase" data-title="Previous Portfolio" data-description="An earlier visual portfolio built in Framer." data-link="https://adityaarya.framer.website/" data-link-label="Visit site">
-              <img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/portfolio-showcase.png" alt="Portfolio website displayed in a desktop browser mockup" />
+              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/portfolio-showcase.webp" /><img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/portfolio-showcase.png" alt="Portfolio website displayed in a desktop browser mockup" /></picture>
               <div class="meta"><span class="meta-copy"><strong>Previous Portfolio</strong><span>My earlier Framer portfolio.</span></span><a class="project-link" href="https://adityaarya.framer.website/" target="_blank" rel="noreferrer">Visit site</a></div>
             </article>
 
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja welcome screen" data-title="Soja" data-description="Personalised circadian recovery for disrupted sleep." data-link="https://www.reddit.com/r/sleep/comments/1uq93wn/how_circadian_recoverytherapy_helped_me_fix_my/" data-link-label="Reddit post">
-              <img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/soja-welcome.png" alt="Soja personalised circadian recovery welcome screen on an iPhone" />
+              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-welcome.webp" /><img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/soja-welcome.png" alt="Soja personalised circadian recovery welcome screen on an iPhone" /></picture>
               <div class="meta"><span class="meta-copy"><strong>Soja</strong><span>Personalised circadian recovery.</span></span><a class="project-link" href="https://www.reddit.com/r/sleep/comments/1uq93wn/how_circadian_recoverytherapy_helped_me_fix_my/" target="_blank" rel="noreferrer">Reddit post</a></div>
             </article>
 
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity detail" data-title="Catch Live Activity" data-description="The next bus, timing, and leave-now guidance at a glance." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
-              <img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/catch-live-detail.png" alt="Catch Live Activity showing the next bus and leave-now guidance" />
+              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-detail.webp" /><img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/catch-live-detail.png" alt="Catch Live Activity showing the next bus and leave-now guidance" /></picture>
               <div class="meta"><span class="meta-copy"><strong>Catch Live Activity</strong><span>Know exactly when to leave.</span></span><a class="project-link" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer">App Store</a></div>
             </article>
 
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Soja website showcase" data-title="Soja Website" data-description="The product story and science behind personalised sleep recovery." data-link="https://soja.framer.website/" data-link-label="Live site">
-              <img class="card-media" width="1541" height="998" loading="lazy" decoding="async" src="media/soja-website.png" alt="Soja website with a landscape and the message Reset your sleep" />
+              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-website.webp" /><img class="card-media" width="1541" height="998" loading="lazy" decoding="async" src="media/soja-website.png" alt="Soja website with a landscape and the message Reset your sleep" /></picture>
               <div class="meta"><span class="meta-copy"><strong>Soja Website</strong><span>Reset your sleep, one plan at a time.</span></span><a class="project-link" href="https://soja.framer.website/" target="_blank" rel="noreferrer">Live site</a></div>
             </article>
 
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Catch nearby stop map" data-title="Catch Nearby" data-description="Nearby stops and arrivals placed directly on the map." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
-              <img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/catch-map.png" alt="Catch nearby bus stops map on an iPhone" />
+              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-map.webp" /><img class="card-media" width="1920" height="1440" loading="lazy" decoding="async" src="media/catch-map.png" alt="Catch nearby bus stops map on an iPhone" /></picture>
               <div class="meta"><span class="meta-copy"><strong>Catch Nearby</strong><span>Find the right stop around you.</span></span><a class="project-link" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer">App Store</a></div>
             </article>
           </div>
@@ -1873,16 +1890,15 @@
     </main>
 
     <footer class="closing" id="singapore-footer" aria-label="Singapore skyline">
-      <img class="singapore-skyline" id="singapore-skyline" src="/media/singapore-engraving.svg" width="3840" height="2160" loading="lazy" decoding="async" alt="A detailed blue engraved Singapore skyline with Marina Bay Sands, the Singapore Flyer, ArtScience Museum and the downtown towers" />
+      <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><img class="singapore-skyline" id="singapore-skyline" src="/media/singapore-engraving.svg" width="3840" height="2160" loading="lazy" decoding="async" alt="A detailed blue engraved Singapore skyline with Marina Bay Sands, the Singapore Flyer, ArtScience Museum and the downtown towers" /></picture>
       <span class="closing-copy">Thanks for visiting.<br />Made by Aditya Arya.</span>
     </footer>
-    <script src="/singapore-skyline.js" defer></script>
-    <script src="/skyline-motion.js" defer></script>
+    <script src="/footer-loader.js" defer></script>
 
     <div class="social-profile-card linkedin-profile-card" id="linkedin-profile-card" popover="manual" aria-hidden="true">
-      <span class="linkedin-cover"><img src="media/linkedin-cover.png" alt="" /></span>
+      <span class="linkedin-cover"><img loading="lazy" decoding="async" src="media/linkedin-cover.png" alt="" /></span>
       <span class="linkedin-body">
-        <span class="linkedin-avatar"><img src="media/linkedin-profile.jpg" alt="" /></span>
+        <span class="linkedin-avatar"><img loading="lazy" decoding="async" src="media/linkedin-profile.jpg" alt="" /></span>
         <span class="linkedin-title"><strong>Aditya Arya</strong><span>· 1st</span></span>
         <span class="linkedin-role">SAF 27’</span>
         <span class="profile-location">Singapore</span>
@@ -1891,9 +1907,9 @@
     </div>
 
     <div class="social-profile-card x-profile-card" id="x-profile-card" popover="manual" aria-hidden="true">
-      <span class="profile-card-cover"><img src="media/x-banner.png" alt="" /></span>
+      <span class="profile-card-cover"><img loading="lazy" decoding="async" src="media/x-banner.png" alt="" /></span>
       <span class="profile-card-body">
-        <span class="profile-card-avatar"><img src="media/aditya-profile.jpg" alt="" /></span>
+        <span class="profile-card-avatar"><img loading="lazy" decoding="async" src="media/aditya-profile.jpg" alt="" /></span>
         <span class="x-profile-head">
           <span class="x-profile-name"><strong>Aditya Arya</strong><span>@adiarya05</span></span>
         </span>
@@ -1908,7 +1924,7 @@
         <video id="modal-video" controls muted loop playsinline hidden></video>
         <div class="modal-details">
           <span class="modal-copy"><strong id="modal-title"></strong><span id="modal-description"></span></span>
-          <a class="modal-link" id="modal-link" href="#" target="_blank" rel="noreferrer"></a>
+          <span class="modal-actions"><a class="modal-link" id="modal-link" href="#" target="_blank" rel="noreferrer"></a><button class="modal-close" id="modal-close" type="button" aria-label="Close project preview"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button></span>
         </div>
       </div>
     </div>
@@ -1931,7 +1947,7 @@
         if (!nextTheme || changingTheme || nextTheme === document.documentElement.dataset.theme) return;
         const apply = () => {
           document.documentElement.dataset.theme = nextTheme;
-          localStorage.setItem('portfolio-theme', nextTheme);
+          try { localStorage.setItem('portfolio-theme', nextTheme); } catch {}
           syncThemeControl();
         };
         if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -2083,6 +2099,7 @@
       const modalTitle = document.querySelector('#modal-title');
       const modalDescription = document.querySelector('#modal-description');
       const modalLink = document.querySelector('#modal-link');
+      const modalClose = document.querySelector('#modal-close');
       const modalBackground = [...document.body.children].filter(element =>
         element !== projectModal && !['SCRIPT', 'STYLE'].includes(element.tagName));
       const backgroundInertState = new Map();
@@ -2596,7 +2613,6 @@
         if (!isModalOpen || isModalClosing) return;
         isModalClosing = true;
         modalVideo.pause();
-        projectModal.setAttribute('aria-hidden', 'true');
         playInterfaceSound('close');
         projectModal.classList.remove('is-open');
 
@@ -2610,6 +2626,7 @@
           if (restoreFocusOnClose && lastFocusedCard && !lastFocusedCard.hasAttribute('aria-hidden')) {
             lastFocusedCard.focus({ preventScroll: true });
           }
+          projectModal.setAttribute('aria-hidden', 'true');
           requestAnimationFrame(() => {
             modalImage.removeAttribute('src');
             modalImage.alt = '';
@@ -2656,12 +2673,17 @@
       projectModal.addEventListener('click', (event) => {
         if (event.target === projectModal) closeProject();
       });
+      modalClose.addEventListener('click', closeProject);
 
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') closeProject();
-        if (event.key === 'Tab' && isModalOpen && !isModalClosing) {
+        if (event.key === 'Tab' && isModalOpen) {
           event.preventDefault();
-          modalLink.focus({ preventScroll: true });
+          const controls = [modalLink, modalClose];
+          const current = controls.indexOf(document.activeElement);
+          const next = current === -1 ? (event.shiftKey ? controls.length - 1 : 0) :
+            (current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+          controls[next].focus({ preventScroll: true });
         }
       });
 
@@ -2681,10 +2703,11 @@
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
 
-        const targetRate = isHoveringGallery || isModalOpen ? 0 : 0.09;
+        const galleryPaused = isHoveringGallery || isModalOpen || gallery.contains(document.activeElement);
+        const targetRate = galleryPaused ? 0 : 0.09;
         const easing = 1 - Math.exp(-elapsed / 105);
         scrollRate += (targetRate - scrollRate) * easing;
-        if ((isHoveringGallery || isModalOpen) && scrollRate < 0.0005) scrollRate = 0;
+        if (galleryPaused && scrollRate < 0.0005) scrollRate = 0;
 
         if (!reduceMotion) {
           galleryScrollCarry += elapsed * scrollRate;
