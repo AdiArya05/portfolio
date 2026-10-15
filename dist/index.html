@@ -1031,6 +1031,19 @@
       .contribution-day[data-level="3"] { background: #30a14e; }
       .contribution-day[data-level="4"] { background: #216e39; }
 
+      #github-grid {
+        grid-template-rows: repeat(7, 5px);
+        grid-auto-columns: minmax(0, 1fr);
+        gap: 1px;
+        min-height: 41px;
+      }
+
+      #github-grid .contribution-day {
+        width: 100%;
+        height: 5px;
+        border-radius: 1px;
+      }
+
       .github-meta {
         display: flex;
         align-items: center;
@@ -1955,69 +1968,67 @@
       const githubMeta = document.querySelector('#github-meta');
       const githubRepos = document.querySelector('#github-repos');
       const githubLink = document.querySelector('.github-link');
-      const githubDays = 140;
       let githubLoaded = false;
 
-      for (let day = 0; day < githubDays; day += 1) {
-        const cell = document.createElement('span');
-        cell.className = 'contribution-day';
-        cell.dataset.level = '0';
-        githubGrid.appendChild(cell);
+      function renderGithubCalendar(calendar, live) {
+        if (!Array.isArray(calendar.days) || calendar.days.length < 350 || !Number.isInteger(calendar.total)) {
+          throw new Error('Invalid contribution calendar');
+        }
+        const fragment = document.createDocumentFragment();
+        calendar.days.forEach((day) => {
+          const cell = document.createElement('span');
+          cell.className = 'contribution-day';
+          cell.dataset.level = String(day.level);
+          cell.title = `${day.date}: ${day.count} contribution${day.count === 1 ? '' : 's'}`;
+          fragment.appendChild(cell);
+        });
+        githubGrid.replaceChildren(fragment);
+        githubStatus.textContent = live ? 'live' : 'cached';
+        githubMeta.textContent = `${calendar.total} contributions in the last year`;
       }
 
       async function loadGithubActivity() {
         if (githubLoaded) return;
         githubLoaded = true;
 
+        // Repository availability must never prevent the calendar from loading.
+        fetch('https://api.github.com/users/AdiArya05/repos?sort=pushed&per_page=3', {
+          headers: { Accept: 'application/vnd.github+json' },
+          signal: AbortSignal.timeout(8000)
+        }).then((response) => response.ok ? response.json() : [])
+          .then((repos) => {
+            const rows = repos.slice(0, 2).map((repo) => {
+              const row = document.createElement('span');
+              row.className = 'github-repo';
+              const name = document.createElement('span');
+              name.textContent = repo.name;
+              row.appendChild(name);
+              return row;
+            });
+            githubRepos.replaceChildren(...rows);
+          }).catch(() => {});
+
         try {
-          const requestOptions = { headers: { Accept: 'application/vnd.github+json' } };
-          const [eventsResponse, reposResponse] = await Promise.all([
-            fetch('https://api.github.com/users/AdiArya05/events/public?per_page=100', requestOptions),
-            fetch('https://api.github.com/users/AdiArya05/repos?sort=pushed&per_page=3', requestOptions)
-          ]);
-          if (!eventsResponse.ok || !reposResponse.ok) throw new Error('GitHub activity unavailable');
-
-          const [events, repos] = await Promise.all([eventsResponse.json(), reposResponse.json()]);
-          const counts = new Map();
-          events.forEach((event) => {
-            const key = new Date(event.created_at).toISOString().slice(0, 10);
-            counts.set(key, (counts.get(key) || 0) + 1);
-          });
-          repos.forEach((repo) => {
-            if (!repo.pushed_at) return;
-            const key = new Date(repo.pushed_at).toISOString().slice(0, 10);
-            counts.set(key, Math.max(1, counts.get(key) || 0));
-          });
-
-          const today = new Date();
-          [...githubGrid.children].forEach((cell, index) => {
-            const date = new Date(today);
-            date.setDate(today.getDate() - (githubDays - 1 - index));
-            const key = date.toISOString().slice(0, 10);
-            const count = counts.get(key) || 0;
-            cell.dataset.level = String(Math.min(4, count));
-            cell.title = `${key}: ${count} public event${count === 1 ? '' : 's'}`;
-          });
-
-          repos.slice(0, 2).forEach((repo) => {
-            const row = document.createElement('span');
-            row.className = 'github-repo';
-            const name = document.createElement('span');
-            name.textContent = repo.name;
-            row.appendChild(name);
-            githubRepos.appendChild(row);
-          });
-
-          githubStatus.textContent = 'live';
-          githubMeta.textContent = `@AdiArya05 · ${repos.length} recently updated repos`;
+          const response = await fetch('/api/github-contributions', { signal: AbortSignal.timeout(10000) });
+          if (!response.ok) throw new Error('GitHub calendar unavailable');
+          renderGithubCalendar(await response.json(), true);
         } catch (error) {
-          githubStatus.textContent = 'unavailable';
-          githubMeta.textContent = '@AdiArya05 · view profile';
+          try {
+            const response = await fetch('github-contributions.json');
+            if (!response.ok) throw new Error('No cached calendar');
+            const calendar = await response.json();
+            renderGithubCalendar(calendar, false);
+            githubStatus.title = `Last checked ${new Date(calendar.updatedAt).toLocaleDateString()}`;
+          } catch {
+            githubStatus.textContent = 'unavailable';
+            githubMeta.textContent = '@AdiArya05 · view profile';
+            githubLoaded = false;
+          }
         }
       }
 
-      githubLink.addEventListener('pointerenter', loadGithubActivity, { once: true });
-      githubLink.addEventListener('focus', loadGithubActivity, { once: true });
+      githubLink.addEventListener('pointerenter', loadGithubActivity);
+      githubLink.addEventListener('focus', loadGithubActivity);
 
       const profilePreviews = [
         [document.querySelector('.linkedin-profile-link'), document.querySelector('#linkedin-profile-card')],
