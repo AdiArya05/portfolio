@@ -2690,7 +2690,19 @@
         }
       });
 
+      let galleryFrame = 0;
+      let galleryOnscreen = false;
+
+      function resumeGallery() {
+        if (!galleryFrame && galleryOnscreen && !document.hidden) {
+          lastTime = performance.now();
+          galleryFrame = requestAnimationFrame(tick);
+        }
+      }
+
       function tick(now) {
+        galleryFrame = 0;
+        if (!galleryOnscreen || document.hidden) return;
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
 
@@ -2719,10 +2731,14 @@
 
         updateProgress();
 
-        requestAnimationFrame(tick);
+        galleryFrame = requestAnimationFrame(tick);
       }
 
-      requestAnimationFrame(tick);
+      new IntersectionObserver(entries => {
+        galleryOnscreen = entries[0].isIntersecting && entries[0].intersectionRatio > 0.01;
+        resumeGallery();
+      }, { threshold: 0.01 }).observe(gallery);
+      document.addEventListener('visibilitychange', resumeGallery);
     </script>
   </body>
 </html>
