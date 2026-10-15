@@ -5,23 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="A living portfolio of projects, experiments, and work in progress."
+      content="Aditya Arya is an AI product builder based in Singapore. Explore Catch SG Buses, Soja, Maritime Fusion, and thoughtfully designed digital projects."
     />
     <meta name="theme-color" content="#fbf8ef" />
-    <meta property="og:title" content="Aditya Arya" />
+    <link rel="canonical" href="https://adiarya.vercel.app/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Aditya Arya" />
+    <meta property="og:title" content="Aditya Arya — AI Builder &amp; Product Portfolio" />
     <meta
       property="og:description"
-      content="A living portfolio of projects, experiments, and work in progress."
+      content="Building useful products with AI and thoughtful design. Explore Catch SG Buses, Soja, Maritime Fusion, and more — from Singapore."
     />
-    <meta property="og:image" content="/media/aditya-arya-sidebar.png" />
+    <meta property="og:url" content="https://adiarya.vercel.app/" />
+    <meta property="og:site_name" content="Aditya Arya" />
+    <meta property="og:locale" content="en_SG" />
+    <meta property="og:image" content="https://adiarya.vercel.app/media/aditya-arya-social.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Aditya Arya — AI builder and product portfolio, with a blue Singapore skyline on cream." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Aditya Arya" />
+    <meta name="twitter:creator" content="@adiarya05" />
+    <meta name="twitter:title" content="Aditya Arya — AI Builder &amp; Product Portfolio" />
     <meta
       name="twitter:description"
-      content="A living portfolio of projects, experiments, and work in progress."
+      content="Building useful products with AI and thoughtful design. Catch SG Buses, Soja, Maritime Fusion, and more — from Singapore."
     />
-    <meta name="twitter:image" content="/media/aditya-arya-sidebar.png" />
+    <meta name="twitter:image" content="https://adiarya.vercel.app/media/aditya-arya-social.jpg" />
+    <meta name="twitter:image:alt" content="Aditya Arya — AI builder and product portfolio, illustrated with the Singapore skyline." />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://adiarya.vercel.app/#aditya","name":"Aditya Arya","url":"https://adiarya.vercel.app/","image":"https://adiarya.vercel.app/media/aditya-profile.jpg","description":"AI product builder based in Singapore. Building Catch SG Buses, Soja, and digital products.","sameAs":["https://www.linkedin.com/in/aditya-arya1/","https://x.com/adiarya05","https://github.com/AdiArya05"]},{"@type":"WebSite","@id":"https://adiarya.vercel.app/#website","url":"https://adiarya.vercel.app/","name":"Aditya Arya","author":{"@id":"https://adiarya.vercel.app/#aditya"},"inLanguage":"en"},{"@type":"ProfilePage","@id":"https://adiarya.vercel.app/#profile","url":"https://adiarya.vercel.app/","name":"Aditya Arya — AI Builder & Product Portfolio","mainEntity":{"@id":"https://adiarya.vercel.app/#aditya"},"isPartOf":{"@id":"https://adiarya.vercel.app/#website"}}]}
+    </script>
     <title>Aditya Arya</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1628,9 +1643,9 @@
         .story {
           min-height: 100svh;
           height: 100svh;
-          align-items: center;
+          align-items: flex-start;
           padding:
-            calc(env(safe-area-inset-top) + 68px)
+            var(--mobile-story-top, calc(env(safe-area-inset-top) + 88px))
             clamp(18px, 5.7vw, 24px)
             calc(env(safe-area-inset-bottom) + 18px);
           overflow: hidden;
@@ -1642,8 +1657,8 @@
 
         .intro {
           max-width: none;
-          font-size: clamp(1.16rem, 5.45vw, 1.5rem);
-          line-height: 1.215;
+          font-size: var(--mobile-intro-size, clamp(1.16rem, 5.8vw, 1.6rem));
+          line-height: var(--mobile-intro-leading, 1.4);
           letter-spacing: -0.021em;
         }
 
@@ -1730,6 +1745,7 @@
       </div>
     </div>
     <script src="/world-times.js" defer></script>
+    <script src="/mobile-layout.js" defer></script>
     <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Appearance">
       <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
