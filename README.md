@@ -2,7 +2,7 @@
 
 Public site: https://adiarya.vercel.app/
 
-Source: https://github.com/AdiArya05/portfiio
+Source: https://github.com/AdiArya05/portfolio
 
 ## Development and release
 
