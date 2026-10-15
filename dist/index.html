@@ -1284,6 +1284,20 @@
         pointer-events: none;
       }
       .skyline-ripple { position:absolute; top:0; left:0; width:160px; height:160px; pointer-events:none; opacity:0; transition:opacity 180ms ease; mask-image:radial-gradient(circle,#000 25%,#0009 46%,transparent 70%); -webkit-mask-image:radial-gradient(circle,#000 25%,#0009 46%,transparent 70%); }
+      .has-engraved-motion .singapore-skyline { mask:url(#engraved-flyer-mask); }
+      .skyline-motion { position:absolute; inset:auto 0 0; width:100%; height:auto; pointer-events:none; }
+      .engraved-flyer-rotor { transform-origin:0 0; animation:engraved-flyer-turn 180s linear infinite; }
+      .engraved-cabin-upright { transform-origin:0 0; animation:engraved-flyer-turn 180s linear infinite reverse; }
+      .engraved-boat { animation:engraved-river-crossing 100s linear infinite; }
+      .engraved-boat-one { --boat-waterline:851px; animation-delay:-17s; }
+      .engraved-boat-two { --boat-waterline:815px; animation-delay:-70s; animation-duration:128s; animation-direction:reverse; }
+      .engraved-boat-bob { animation:engraved-boat-bob 6s ease-in-out infinite; }
+      .skyline-motion * { animation-play-state:paused; }
+      .skyline-motion-running .skyline-motion * { animation-play-state:running; }
+      @keyframes engraved-flyer-turn { to { transform:rotate(360deg); } }
+      @keyframes engraved-river-crossing { from { transform:translate(490px,var(--boat-waterline)); opacity:0; } 5%,95% { opacity:.92; } to { transform:translate(1300px,var(--boat-waterline)); opacity:0; } }
+      @keyframes engraved-boat-bob { 0%,100% { transform:translateY(0) rotate(-.25deg); } 50% { transform:translateY(.7px) rotate(.25deg); } }
+      @media(prefers-reduced-motion:reduce) { .skyline-motion { display:none; } .has-engraved-motion .singapore-skyline { mask:none; } }
       @media(prefers-reduced-motion:reduce) { .skyline-ripple { display:none; } }
 
       .closing-copy {
@@ -1867,6 +1881,7 @@
       <span class="closing-copy">Thanks for visiting.<br />Made by Aditya Arya.</span>
     </footer>
     <script src="/singapore-skyline.js" defer></script>
+    <script src="/skyline-motion.js" defer></script>
 
     <div class="social-profile-card linkedin-profile-card" id="linkedin-profile-card" popover="manual" aria-hidden="true">
       <span class="linkedin-cover"><img src="media/linkedin-cover.png" alt="" /></span>

@@ -32,6 +32,11 @@
     const imageX = image.left-bounds.left;
     const imageY = image.top-bounds.top;
     if (y < imageY || y > imageY+image.height) { lens.style.opacity='0'; return; }
+    // Keep the source wheel out of the lens; the animated engraved layer sits
+    // above the lens, allowing the existing water hover effect to stay intact.
+    if (footer.classList.contains('has-engraved-motion') &&
+        (x-imageX)/image.width > .81 && (y-imageY)/image.height > .32 &&
+        (y-imageY)/image.height < .76) { lens.style.opacity='0'; return; }
     const scaleX = art.naturalWidth/image.width;
     const scaleY = art.naturalHeight/image.height;
     const zoom = 1.025;
