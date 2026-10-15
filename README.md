@@ -30,11 +30,12 @@ These are browser and static checks, not a guarantee across every physical devic
 ## Technical hardening — 15 October 2026
 
 - Nine lossless image alternatives total 3,991,082 bytes versus 8,933,707 bytes for their PNG originals (55% smaller), without resizing or changing decoded pixels. Original fallback files remain available.
-- Responsive pictures prevent the hidden phone gallery and skyline from being requested. Footer effects load only when a desktop visitor approaches the footer. A cold-cache 390×844 browser check confirmed no gallery, skyline, boat or hidden social-profile image requests.
+- Responsive pictures prevent the hidden phone gallery and skyline from being requested. Footer effects prepare in desktop idle time, avoiding first construction during the reveal. A cold-cache 390×844 browser check confirmed no gallery, skyline, boat or hidden social-profile image requests.
 - The exact existing Space Grotesk v22 Latin font is self-hosted and preloaded (22,320 bytes), removing the Google Fonts stylesheet and third-party font connection. Its SIL Open Font License is included in `dist/fonts/`.
 - Project previews have a visible close button, forward/reverse keyboard focus cycling and safe focus restoration. Gallery auto-scrolling pauses while a keyboard user focuses a card. Theme switching works when local storage is blocked; invalid saved themes fall back to the system preference.
 - Small light-mode text has stronger contrast. The paragraph, gallery titles/descriptions, links, imagery and approved engraving geometry were preserved.
 - The former `portfolio-template-ochre-rho.vercel.app` host permanently redirects to the canonical `adiarya.vercel.app`, preserving paths. Basic MIME-sniffing protection and a cross-origin referrer policy are configured.
+- During document scrolling, gallery work and decorative skyline motion pause, and the hover lens clears. Native scrolling remains untouched; effects resume on document `scrollend` (with a 160 ms quiet-period fallback). Nested gallery scroll-end events cannot resume them prematurely. Scene attachment is also postponed until scrolling settles. No scroll sound, resistance or hold gesture was added.
 
 ## Activity attribution
 

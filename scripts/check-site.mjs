@@ -67,7 +67,8 @@ for (const card of cards) {
   assert(fs.statSync(path.join(dist, file)).size < fs.statSync(path.join(dist, original)).size);
 }
 const footerLoader = fs.readFileSync(path.join(dist, 'footer-loader.js'), 'utf8');
-assert(footerLoader.includes('!desktop.matches || !nearFooter'), 'Defer footer effects until desktop visitors approach');
+assert(footerLoader.includes('!desktop.matches') && footerLoader.includes('requestIdleCallback'), 'Prepare footer effects in desktop idle time only');
+assert(footerLoader.includes("classList.contains('is-page-scrolling')"), 'Do not build footer effects during scrolling');
 const config = JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8'));
 assert(config.redirects.some(rule => rule.destination === `${origin}/:path*` && rule.permanent && rule.has.some(condition => condition.type === 'host' && condition.value === 'portfolio-template-ochre-rho.vercel.app')));
 const discovery = fs.readFileSync(path.join(dist, 'footer-discovery.js'), 'utf8');
@@ -77,6 +78,38 @@ assert(!html.includes('progress-ring') && !html.includes('--pull'), 'Do not rest
 assert(html.includes('Scroll down'));
 assert(!discovery.includes('portfolio-footer-reveal') && !html.includes('playFooterRevealSound'),
   'Footer scrolling must remain silent');
+assert(html.includes('html.is-page-scrolling .skyline-motion * { animation-play-state:paused; }'));
+assert(html.includes("window.addEventListener('portfolio-scroll-settled', resumeGallery)"));
+// Exercise the real discovery controller with deterministic scroll events.
+const handlers = new Map();
+const buttonHandlers = new Map();
+const classes = new Set();
+const toggles = {toggle(name, enabled) { enabled ? classes.add(name) : classes.delete(name); }, add(name) {classes.add(name);}, remove(name) {classes.delete(name);}};
+const scrollCalls = [];
+const signals = [];
+const timers = new Map();
+let nextTimer = 0;
+const controller = {
+  document: {documentElement:{classList:toggles},querySelector: selector => selector === '#footer-discover' ? {classList:toggles,addEventListener:(name,fn)=>buttonHandlers.set(name,fn)} : {scrollIntoView:options=>scrollCalls.push(options)}},
+  matchMedia: query => ({matches:!query.includes('reduced-motion'),addEventListener(){}}),
+  window:{addEventListener:(name,fn)=>handlers.set(name,fn),dispatchEvent:event=>signals.push(event.type)},
+  setTimeout:fn=>{timers.set(++nextTimer,fn);return nextTimer;},clearTimeout:id=>timers.delete(id),
+  Event,scrollY:0,innerHeight:900
+};
+vm.runInNewContext(discovery,controller);
+buttonHandlers.get('click')();
+assert.equal(scrollCalls[0].behavior,'smooth');
+assert(classes.has('is-page-scrolling'));
+handlers.get('scroll')();
+assert.equal(signals.filter(name=>name==='portfolio-scroll-start').length,1,'Start scroll work only once per gesture');
+handlers.get('scrollend')({target:{}});
+assert(classes.has('is-page-scrolling'),'Ignore nested gallery scrollend events');
+handlers.get('scrollend')({target:controller.document});
+assert(!classes.has('is-page-scrolling'));
+assert.equal(signals.at(-1),'portfolio-scroll-settled');
+handlers.get('scroll')();
+[...timers.values()].forEach(fn=>fn());
+assert(!classes.has('is-page-scrolling'),'Restore effects when scrollend is unsupported');
 assert(fs.readFileSync(path.join(dist, 'robots.txt'), 'utf8').includes(`Sitemap: ${origin}/sitemap.xml`));
 assert(fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8').includes(`<loc>${origin}/</loc>`));
 const social = fs.readFileSync(path.join(dist, 'media/aditya-arya-social.jpg'));

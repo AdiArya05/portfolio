@@ -3,25 +3,33 @@
   if (!footer) return;
   const desktop = matchMedia('(min-width:701px)');
   let loaded = false;
-  let nearFooter = false;
+  let scheduled = false;
   function load() {
-    if (loaded || !desktop.matches || !nearFooter) return;
+    scheduled = false;
+    if (loaded || !desktop.matches || document.hidden ||
+        document.documentElement.classList.contains('is-page-scrolling')) return;
     loaded = true;
-    // Keep the approved effects, without constructing/downloading unused
-    // engraving layers on phones or before a desktop visitor nears the footer.
+    // Prepare offscreen during idle time, not at the exact moment the skyline
+    // enters the viewport. Phone visitors still download none of these assets.
     for (const src of ['/singapore-skyline.js', '/skyline-motion.js']) {
       const script = document.createElement('script');
       script.src = src;
       script.async = false;
       document.body.append(script);
     }
-    observer.disconnect();
-    desktop.removeEventListener('change', load);
+    desktop.removeEventListener('change', schedule);
+    window.removeEventListener('portfolio-scroll-settled', schedule);
+    document.removeEventListener('visibilitychange', schedule);
   }
-  const observer = new IntersectionObserver(entries => {
-    nearFooter = entries[0].isIntersecting && entries[0].intersectionRatio > 0;
-    load();
-  }, { rootMargin: '150px', threshold: 0 });
-  observer.observe(footer);
-  desktop.addEventListener('change', load);
+  function schedule() {
+    if (loaded || scheduled || !desktop.matches || document.hidden) return;
+    scheduled = true;
+    if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 1500 });
+    else setTimeout(load, 250);
+  }
+  if (document.readyState === 'complete') schedule();
+  else window.addEventListener('load', schedule, { once: true });
+  desktop.addEventListener('change', schedule);
+  window.addEventListener('portfolio-scroll-settled', schedule);
+  document.addEventListener('visibilitychange', schedule);
 })();

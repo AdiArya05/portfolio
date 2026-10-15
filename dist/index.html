@@ -1310,6 +1310,8 @@
       .engraved-boat-bob { animation:engraved-boat-bob 6s ease-in-out infinite; }
       .skyline-motion * { animation-play-state:paused; }
       .skyline-motion-running .skyline-motion * { animation-play-state:running; }
+      html.is-page-scrolling .skyline-motion * { animation-play-state:paused; }
+      html.is-page-scrolling .skyline-ripple { opacity:0 !important; }
       @keyframes engraved-flyer-turn { to { transform:rotate(360deg); } }
       @keyframes engraved-river-crossing { from { transform:translate(490px,var(--boat-waterline)); opacity:0; } 5%,95% { opacity:.92; } to { transform:translate(1300px,var(--boat-waterline)); opacity:0; } }
       @keyframes engraved-boat-bob { 0%,100% { transform:translateY(0) rotate(-.25deg); } 50% { transform:translateY(.7px) rotate(.25deg); } }
@@ -2691,7 +2693,8 @@
       let galleryOnscreen = false;
 
       function resumeGallery() {
-        if (!galleryFrame && galleryOnscreen && !document.hidden) {
+        if (!galleryFrame && galleryOnscreen && !document.hidden &&
+            !document.documentElement.classList.contains('is-page-scrolling')) {
           lastTime = performance.now();
           galleryFrame = requestAnimationFrame(tick);
         }
@@ -2699,7 +2702,8 @@
 
       function tick(now) {
         galleryFrame = 0;
-        if (!galleryOnscreen || document.hidden) return;
+        if (!galleryOnscreen || document.hidden ||
+            document.documentElement.classList.contains('is-page-scrolling')) return;
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
 
@@ -2737,6 +2741,13 @@
         resumeGallery();
       }, { threshold: 0.01 }).observe(gallery);
       document.addEventListener('visibilitychange', resumeGallery);
+      window.addEventListener('portfolio-scroll-start', () => {
+        cancelAnimationFrame(galleryFrame);
+        galleryFrame = 0;
+        galleryScrollCarry = 0;
+        scrollRate = 0;
+      });
+      window.addEventListener('portfolio-scroll-settled', resumeGallery);
     </script>
   </body>
 </html>

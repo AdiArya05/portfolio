@@ -58,7 +58,8 @@
     lens.style.opacity='0';
   }
   footer.addEventListener('pointermove', event => {
-    if (reducedMotion.matches || event.pointerType==='touch') return;
+    if (reducedMotion.matches || event.pointerType==='touch' ||
+        document.documentElement.classList.contains('is-page-scrolling')) return;
     const bounds=footer.getBoundingClientRect();
     x=event.clientX-bounds.left;
     y=event.clientY-bounds.top;
@@ -66,6 +67,7 @@
     if(!frame) frame=requestAnimationFrame(paint);
   },{passive:true});
   footer.addEventListener('pointerleave',reset);
+  window.addEventListener('portfolio-scroll-start',reset);
   window.addEventListener('blur',reset);
   document.addEventListener('visibilitychange',()=>{if(document.hidden) reset();});
   reducedMotion.addEventListener('change',reset);

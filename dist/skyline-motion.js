@@ -1,4 +1,9 @@
 (() => {
+  function initialize() {
+  if (document.documentElement.classList.contains('is-page-scrolling')) {
+    window.addEventListener('portfolio-scroll-settled', initialize, { once: true });
+    return;
+  }
   const footer = document.querySelector('#singapore-footer');
   const art = document.querySelector('#singapore-skyline');
   if (!footer || !art) return;
@@ -52,20 +57,30 @@
     capsule.innerHTML = `<g class="engraved-cabin-upright"><g transform="scale(${1/.6} 1)"><use href="#engraved-cabin-source"/></g></g>`;
     rotor.append(capsule);
   }
-  // Load only when the footer is reached. Phone visitors keep their existing
-  // paragraph-only view without downloading an unused boat image.
+  // The desktop-only loader prepares this scene offscreen, before scrolling.
   let requested = false;
+  let assetsReady = false;
+  function attachScene() {
+    if (!assetsReady || !requested || scene.isConnected ||
+        document.documentElement.classList.contains('is-page-scrolling')) return;
+    footer.append(scene);
+    footer.classList.add('has-engraved-motion');
+    window.removeEventListener('portfolio-scroll-settled', attachScene);
+  }
   function mountScene() {
     if (requested) return;
     requested = true;
     const boat = new Image();
     boat.src = '/media/singapore-engraved-bumboat.png';
     Promise.all([art.decode(), boat.decode()]).then(() => {
-      footer.append(scene);
-      footer.classList.add('has-engraved-motion');
+      assetsReady = true;
+      if ('requestIdleCallback' in window) requestIdleCallback(attachScene, { timeout: 1500 });
+      else setTimeout(attachScene, 0);
     }).catch(() => { requested = false; }); // Keep the original on failure.
   }
   let visible = false;
+  window.addEventListener('portfolio-scroll-settled', attachScene);
+  mountScene();
   function updatePlayback() {
     footer.classList.toggle('skyline-motion-running', visible && !document.hidden);
   }
@@ -75,4 +90,7 @@
     updatePlayback();
   }, { threshold: .05 }).observe(footer);
   document.addEventListener('visibilitychange', updatePlayback);
+  }
+  if ('requestIdleCallback' in window) requestIdleCallback(initialize, { timeout: 1500 });
+  else setTimeout(initialize, 0);
 })();
