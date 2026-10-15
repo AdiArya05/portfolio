@@ -38,9 +38,6 @@
       {"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://adiarya.vercel.app/#aditya","name":"Aditya Arya","url":"https://adiarya.vercel.app/","image":"https://adiarya.vercel.app/media/aditya-profile.jpg","description":"AI product builder based in Singapore. Building Catch SG Buses, Soja, and digital products.","sameAs":["https://www.linkedin.com/in/aditya-arya1/","https://x.com/adiarya05","https://github.com/AdiArya05"]},{"@type":"WebSite","@id":"https://adiarya.vercel.app/#website","url":"https://adiarya.vercel.app/","name":"Aditya Arya","author":{"@id":"https://adiarya.vercel.app/#aditya"},"inLanguage":"en"},{"@type":"ProfilePage","@id":"https://adiarya.vercel.app/#profile","url":"https://adiarya.vercel.app/","name":"Aditya Arya — AI Builder & Product Portfolio","mainEntity":{"@id":"https://adiarya.vercel.app/#aditya"},"isPartOf":{"@id":"https://adiarya.vercel.app/#website"}}]}
     </script>
     <title>Aditya Arya</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
     <link
       rel="icon"
       type="image/png"
@@ -60,6 +57,7 @@
     </script>
     <style>
       :root {
+        --font-ui: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
         color-scheme: light;
         --ink: #171717;
         --muted: #8a867d;
@@ -101,8 +99,7 @@
         overflow-x: clip;
         background: var(--paper);
         color: var(--ink);
-        font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-          Arial, sans-serif;
+        font-family: var(--font-ui);
         -webkit-font-smoothing: antialiased;
         transition: background-color 320ms ease, color 320ms ease;
       }
@@ -256,7 +253,7 @@
         top: -0.78em;
         left: 50%;
         color: #ff3b30;
-        font-family: "Bradley Hand", "Segoe Print", cursive;
+        font-family: var(--font-ui);
         font-size: 0.78em;
         font-weight: 700;
         letter-spacing: -0.04em;
@@ -818,7 +815,7 @@
         background: #090909;
         color: #f4f4f4;
         box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+        font-family: var(--font-ui);
         letter-spacing: 0;
       }
 
@@ -1730,7 +1727,7 @@
       .theme-transitioning, .theme-transitioning body, .theme-transitioning .gallery-wrap, .theme-transitioning .closing { transition:none !important; }
       #local-matrix { width:220px; }
       .time-zone-panel { padding:16px; }
-      .footer-discover { position:fixed; z-index:34; bottom:24px; left:calc((100vw - max(27.6vw,370px))/2); transform:translateX(-50%); display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:10px 17px 10px 12px; border:1px solid color-mix(in srgb,var(--ink) 6%,transparent); border-radius:999px; color:#65625c; background:#f1eee5; font:600 15px/1.2 -apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; letter-spacing:-.025em; white-space:nowrap; cursor:pointer; transition:opacity 200ms ease,background-color 200ms ease,color 200ms ease; }
+      .footer-discover { position:fixed; z-index:34; bottom:24px; left:calc((100vw - max(27.6vw,370px))/2); transform:translateX(-50%); display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:10px 17px 10px 12px; border:1px solid color-mix(in srgb,var(--ink) 6%,transparent); border-radius:999px; color:#65625c; background:#f1eee5; font:600 15px/1.2 var(--font-ui); letter-spacing:-.025em; white-space:nowrap; cursor:pointer; transition:opacity 200ms ease,background-color 200ms ease,color 200ms ease; }
       html[data-theme="dark"] .footer-discover { color:#d5d1c8; background:#292925; }
       .footer-discover:hover { background:#e8e4d9; color:var(--ink); }
       html[data-theme="dark"] .footer-discover:hover { background:#35352f; }
