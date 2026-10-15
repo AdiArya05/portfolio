@@ -4,7 +4,6 @@
   const story = document.querySelector('.story');
   const intro = document.querySelector('#intro-heading');
   const widget = document.querySelector('#time-zones');
-  const dropdown = document.querySelector('#time-zone-dropdown');
   const theme = document.querySelector('#theme-toggle');
   let frame = 0;
 
@@ -17,9 +16,8 @@
     }
     const headerBottom = Math.max(theme.getBoundingClientRect().bottom,
       widget.querySelector('button').getBoundingClientRect().bottom);
-    const top = widget.classList.contains('is-open')
-      ? Math.max(headerBottom,dropdown.getBoundingClientRect().bottom)+16
-      : headerBottom+20;
+    // The clock is an overlay: opening it must never reflow the paragraph.
+    const top = headerBottom+20;
     root.style.setProperty('--mobile-story-top',`${Math.ceil(top)}px`);
     const style = getComputedStyle(story);
     const available = Math.max(80,story.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-3);
@@ -45,8 +43,6 @@
     story.style.overflowY=intro.getBoundingClientRect().height>available+3?'auto':'hidden';
   }
   function schedule() {if(!frame) frame=requestAnimationFrame(fit);}
-  new MutationObserver(schedule).observe(widget,{attributes:true,attributeFilter:['class']});
-  new ResizeObserver(schedule).observe(dropdown);
   window.addEventListener('resize',schedule,{passive:true});
   window.visualViewport?.addEventListener('resize',schedule,{passive:true});
   mobile.addEventListener('change',schedule);
