@@ -15,7 +15,7 @@
   const visibleWheel = 'M1394 325H1650V540L1622 548 1594 579 1570 612 1535 633 1490 651 1440 674 1394 645Z';
   scene.innerHTML = `<defs>
     <clipPath id="engraved-flyer-visible"><path d="${visibleWheel}"/></clipPath>
-    <clipPath id="engraved-wheel-upper"><path d="M1441 526A80 145 0 0 1 1601 526Z"/></clipPath>
+    <clipPath id="engraved-wheel-upper"><path d="M1417 526A104 168 0 0 1 1625 526Z"/></clipPath>
     <clipPath id="engraved-flyer-supports"><path d="M1490 514H1548V548H1490ZM1494 535 1508 535 1467 662 1450 660ZM1530 535 1543 535 1582 615 1570 620ZM1493 535H1510V674H1493ZM1529 535H1546V657H1529Z"/></clipPath>
     <mask id="engraved-wheel-center" maskUnits="userSpaceOnUse" x="1390" y="330" width="260" height="390">
       <rect x="1390" y="330" width="260" height="390" fill="white"/><ellipse cx="1518" cy="526" rx="27" ry="28" fill="black"/>
@@ -25,7 +25,7 @@
       <path d="${visibleWheel}" transform="scale(${1/1672} ${1/941})" fill="black"/>
     </mask>
     <g id="engraved-upper-source" clip-path="url(#engraved-wheel-upper)" mask="url(#engraved-wheel-center)">${sourceImage}</g>
-    <g id="engraved-cabin-source"><image href="${source}#svgView(viewBox(1513,346,24,13.5))" x="-12" y="-7" width="24" height="13.5"/></g>
+    <g id="engraved-cabin-source"><svg x="-14" y="-8" width="28" height="16" viewBox="1510 346 28 16">${sourceImage}</svg></g>
   </defs>
   <g clip-path="url(#engraved-flyer-visible)">
     <g transform="translate(1521 526) scale(.6 1)">
@@ -45,15 +45,6 @@
   // The actual illustrated capsule is reused, with a counter-rotation so it
   // stays upright rather than stretching or tipping as the ellipse revolves.
   const rotor = scene.querySelector('.engraved-flyer-rotor');
-  // Rebuild the continuous rim from a clean section of its original engraved
-  // band. The old rim contained attached cabin silhouettes; no part of that
-  // mixed artwork is allowed into this independent rotating band.
-  for (let index = 0; index < 64; index++) {
-    const segment = document.createElementNS(ns, 'g');
-    segment.setAttribute('transform', `rotate(${index/64*360}) translate(0 -164)`);
-    segment.innerHTML = `<image href="${source}#svgView(viewBox(1510,362,24,13.5))" x="-9" y="-6.75" width="18" height="13.5"/>`;
-    rotor.append(segment);
-  }
   for (let index = 0; index < 24; index++) {
     const angle = index / 24 * Math.PI * 2;
     const capsule = document.createElementNS(ns, 'g');
