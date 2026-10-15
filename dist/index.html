@@ -7,7 +7,7 @@
       name="description"
       content="A living portfolio of projects, experiments, and work in progress."
     />
-    <meta name="theme-color" content="#f8f8f6" />
+    <meta name="theme-color" content="#fbf8ef" />
     <meta property="og:title" content="Aditya Arya" />
     <meta
       property="og:description"
@@ -25,16 +25,17 @@
     <title>Aditya Arya</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
     <link
       rel="icon"
       type="image/png"
       href="/media/aditya-arya-icon.png"
     />
     <link rel="apple-touch-icon" href="/media/aditya-arya-icon.png" />
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
     <script>
       (() => {
         const savedTheme = localStorage.getItem('portfolio-theme');
@@ -46,8 +47,8 @@
       :root {
         color-scheme: light;
         --ink: #171717;
-        --muted: #aaa9a4;
-        --paper: #ffffff;
+        --muted: #8a867d;
+        --paper: #fbf8ef;
         --line: rgba(23, 23, 23, 0.1);
         --blue: #dce9ff;
         --yellow: #fff0a7;
@@ -58,9 +59,9 @@
 
       html[data-theme="dark"] {
         color-scheme: dark;
-        --ink: #f4f4f1;
-        --muted: #92918b;
-        --paper: #111110;
+        --ink: #f6f0e5;
+        --muted: #aaa59b;
+        --paper: #181815;
         --line: rgba(255, 255, 255, 0.12);
         --blue: #263f61;
         --yellow: #66551f;
@@ -1186,6 +1187,13 @@
         background: transparent;
       }
 
+      .modal-panel video { display:block; width:auto; max-width:86vw; max-height:76vh; object-fit:contain; background:#111; }
+      .modal-panel [hidden] { display:none !important; }
+      .modal-panel:has(#modal-video:not([hidden])) { width:min(86vw,calc(76vh * 1206 / 2622)); }
+      .modal-panel:has(#modal-video:not([hidden])) video { width:100%; }
+      .modal-panel:has(#modal-video:not([hidden])) .modal-details { gap:10px; align-items:flex-start; }
+      .modal-copy { min-width:0; }
+
       .modal-details {
         display: flex;
         align-items: center;
@@ -1240,17 +1248,128 @@
       }
 
       .closing {
-        display: flex;
-        min-height: 210px;
-        align-items: center;
-        justify-content: center;
-        gap: clamp(14px, 2vw, 28px);
+        position: relative;
+        display: block;
+        height: max(100svh, 43vw);
+        overflow: hidden;
         border-top: 1px solid var(--line);
-        color: var(--muted);
-        background: var(--paper);
-        font-size: clamp(1.25rem, 2.1vw, 2rem);
-        letter-spacing: -0.025em;
+        color: #817d72;
+        background: #fbf8ef;
+        font-size: 14px;
+        letter-spacing: -0.01em;
         transition: background-color 320ms ease, color 320ms ease;
+      }
+
+      .singapore-skyline {
+        position: absolute;
+        inset: auto 0 0;
+        display: block;
+        width: 100%;
+        height: auto;
+        pointer-events: none;
+      }
+      .skyline-ripple { position:absolute; top:0; left:0; width:160px; height:160px; pointer-events:none; opacity:0; transition:opacity 180ms ease; mask-image:radial-gradient(circle,#000 25%,#0009 46%,transparent 70%); -webkit-mask-image:radial-gradient(circle,#000 25%,#0009 46%,transparent 70%); }
+      @media(prefers-reduced-motion:reduce) { .skyline-ripple { display:none; } }
+
+      .closing-copy {
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        margin: clamp(116px, 9vw, 152px) clamp(28px, 4.2vw, 76px);
+        max-width: 460px;
+        font-size: clamp(20px, 1.6vw, 28px);
+        line-height: 1.6;
+      }
+
+      html[data-theme="dark"] .closing { background:#080a0f; color:#aaa59b; }
+      .closing { border-top:0; }
+      .closing::before { content:""; position:absolute; z-index:1; inset:0 0 auto; height:90px; pointer-events:none; background:linear-gradient(var(--paper),transparent); }
+
+      .time-zones {
+        position: fixed;
+        top: 24px;
+        right: calc(max(27.6vw, 370px) + 30px);
+        z-index: 39;
+        font-size: 12px;
+      }
+
+      .time-zone-toggle {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 13px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--paper) 93%, transparent);
+        color: var(--ink);
+        box-shadow: 0 3px 14px rgba(0,0,0,0.04);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        font: inherit;
+        cursor: pointer;
+      }
+
+      .time-zone-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+      .local-zone-offset { color: var(--muted); font-size: 10px; }
+      .time-zone-toggle time, .time-zone-row time { font-variant-numeric: tabular-nums; }
+      .zone-chevron { width: 11px; height: 11px; transition: transform 220ms ease; }
+      .time-zones.is-open .zone-chevron { transform: rotate(180deg); }
+
+      .time-zone-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 290px;
+        padding-top: 10px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-5px);
+        transition: opacity 180ms ease, transform 220ms ease, visibility 180ms;
+      }
+
+      .time-zones.is-open .time-zone-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .time-zone-panel {
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: color-mix(in srgb, var(--paper) 96%, transparent);
+        color: var(--ink);
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+        box-shadow: 0 12px 36px rgba(0,0,0,0.10);
+      }
+
+      .time-zone-caption { margin: 0 0 10px; color: var(--muted); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; }
+      .time-zone-local { padding-bottom: 12px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+      .time-zone-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 6px 0; }
+      .time-zone-row span { display: flex; flex-direction: column; gap: 3px; }
+      .time-zone-row small { color: var(--muted); font-size: 10px; font-weight: 400; }
+      .time-zone-row strong { font-weight: 500; }
+      .matrix-board { display: grid; gap: 9px; padding-top: 3px; }
+      .matrix-row { display: flex; width: 100%; gap: 1px; }
+      .matrix-cell { flex: 1; min-width: 0; aspect-ratio: 30 / 44; overflow: hidden; }
+      .matrix-reel { display: block; width: 100%; }
+      .matrix-cell svg { display: block; width: 100%; height: auto; aspect-ratio: 30 / 44; }
+      body.modal-open .time-zones { visibility: hidden; }
+
+      @media (max-width: 900px) {
+        .time-zones { right: 26px; }
+      }
+
+      @media (max-width: 700px) {
+        .time-zones { top: max(20px, env(safe-area-inset-top)); right: 16px; font-size: 11px; }
+        .time-zone-toggle { gap: 7px; padding: 9px 10px; max-width: calc(100vw - 100px); }
+        .local-zone-offset { font-size: 9px; }
+        .time-zone-dropdown { width: min(290px, calc(100vw - 32px)); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .time-zone-dropdown, .zone-chevron { transition: none; }
       }
 
       .card-art {
@@ -1570,15 +1689,53 @@
         .name-strike path { transition-duration: 0.01ms !important; }
         .name-short { transition-duration: 0.01ms !important; }
       }
+      /* A sliding sun/moon selector, matching the supplied interaction. */
+      .theme-toggle { display:grid; grid-template-columns:48px 48px; width:104px; height:52px; padding:4px; border:0; border-radius:999px; gap:0; }
+      .theme-toggle::before { content:""; position:absolute; top:4px; left:6px; width:44px; height:44px; border-radius:50%; background:var(--paper); box-shadow:0 1px 5px #0002,inset 0 1px 1px #fff8; transition:transform 340ms cubic-bezier(.2,.8,.2,1); pointer-events:none; }
+      html[data-theme="dark"] .theme-toggle::before { transform:translateX(48px); }
+      .theme-choice { position:relative; z-index:1; display:grid; place-items:center; width:48px; height:44px; border:0; padding:0; background:none; color:var(--muted); cursor:pointer; border-radius:50%; }
+      .theme-choice[aria-pressed="true"] { color:var(--ink); }
+      .theme-choice:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
+      .theme-choice svg { width:21px; height:21px; }
+      ::view-transition-old(root), ::view-transition-new(root) { animation-duration:260ms; mix-blend-mode:normal; }
+      .theme-transitioning, .theme-transitioning body, .theme-transitioning .gallery-wrap, .theme-transitioning .closing { transition:none !important; }
+      #local-matrix { width:220px; }
+      .time-zone-panel { padding:16px; }
+      .footer-discover { position:fixed; z-index:34; bottom:24px; left:calc((100vw - max(27.6vw,370px))/2); transform:translateX(-50%) translateY(calc(var(--pull,0)*-12px)); display:grid; place-items:center; width:52px; height:52px; border:1px solid #17171730; border-radius:50%; color:var(--ink); background:linear-gradient(145deg,#ffffffaa,#ffffff25),color-mix(in srgb,var(--paper) 65%,transparent); backdrop-filter:blur(22px) saturate(180%); -webkit-backdrop-filter:blur(22px) saturate(180%); cursor:pointer; box-shadow:inset 0 1px 1px #fffc,inset 0 -1px 1px #0002,0 8px 24px #0002; transition:opacity 240ms ease,box-shadow 240ms ease; }
+      html[data-theme="dark"] .footer-discover { border-color:#ffffff40; background:linear-gradient(145deg,#ffffff33,#ffffff0a),#1c1c1c85; box-shadow:inset 0 1px 1px #ffffff66,inset 0 -1px 1px #0005,0 8px 24px #0004; }
+      .footer-discover:hover { box-shadow:inset 0 1px 2px #fffd,0 10px 28px #0003; }
+      html[data-theme="light"] .footer-discover { color:#fbf8ef; border-color:#171717; background:linear-gradient(145deg,#50504b,#20201d); box-shadow:inset 0 1px 1px #ffffff70,0 6px 20px #17171733; }
+      html[data-theme="light"] .footer-discover:hover { background:linear-gradient(145deg,#63635b,#292925); box-shadow:inset 0 1px 1px #ffffff90,0 8px 24px #17171744; }
+      .footer-discover .progress-ring { position:absolute; inset:0; width:100%; height:100%; transform:rotate(-90deg); }
+      .ring-track { fill:none; stroke:currentColor; stroke-opacity:.16; stroke-width:1.5; }
+      .ring-fill { fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:calc(1 - var(--pull,0)); opacity:clamp(0,calc(var(--pull,0)*20),1); }
+      .footer-discover .down-arrow { width:20px; height:20px; }
+      .footer-discover:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+      .footer-discover.is-hidden, body.modal-open .footer-discover { opacity:0; pointer-events:none; }
+      @media(max-width:900px) { .footer-discover { left:50%; } }
+      @media(max-width:700px) { #local-matrix { width:min(220px,calc(100vw - 190px)); } .time-zone-toggle { max-width:calc(100vw - 145px); padding:9px 8px; } .footer-discover { display:none; } }
+      @media(prefers-reduced-motion:reduce) { .theme-toggle::before { transition:none; } ::view-transition-old(root), ::view-transition-new(root) { animation:none; } }
     </style>
   </head>
   <body>
-    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode">
-      <svg class="appearance-glyph" aria-hidden="true" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="8.4" stroke="currentColor" stroke-width="2" />
-        <path d="M12 3.6a8.4 8.4 0 0 0 0 16.8Z" fill="currentColor" />
-      </svg>
-    </button>
+    <div class="time-zones" id="time-zones">
+      <button class="time-zone-toggle" id="time-zone-toggle" type="button" aria-expanded="false" aria-controls="time-zone-dropdown" aria-label="Show local time and places I have visited">
+        <span class="matrix-row" id="local-matrix" aria-hidden="true"></span>
+        <svg class="zone-chevron" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <div class="time-zone-dropdown" id="time-zone-dropdown" inert>
+        <div class="time-zone-panel">
+          <div id="visited-time-zones"></div>
+        </div>
+      </div>
+    </div>
+    <script src="/world-times.js" defer></script>
+    <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Appearance">
+      <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+    </div>
+    <button class="footer-discover" id="footer-discover" type="button" aria-label="Scroll or click to explore the Singapore skyline" aria-controls="singapore-footer"><svg class="progress-ring" viewBox="0 0 52 52" aria-hidden="true"><circle class="ring-track" cx="26" cy="26" r="24"/><circle class="ring-fill" cx="26" cy="26" r="24" pathLength="1"/></svg><svg class="down-arrow" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16m-6-6 6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <script src="/footer-discovery.js" defer></script>
     <main class="shell">
       <section class="story" aria-labelledby="intro-heading">
         <div class="story-inner">
@@ -1689,9 +1846,11 @@
       </aside>
     </main>
 
-    <footer class="closing" aria-label="Closing message">
-      <span>Thanks for visiting. Made by Aditya Arya, <time id="singapore-time"></time></span>
+    <footer class="closing" id="singapore-footer" aria-label="Singapore skyline">
+      <img class="singapore-skyline" id="singapore-skyline" src="/media/singapore-engraving.svg" width="3840" height="2160" decoding="async" alt="A detailed blue engraved Singapore skyline with Marina Bay Sands, the Singapore Flyer, ArtScience Museum and the downtown towers" />
+      <span class="closing-copy">Thanks for visiting.<br />Made by Aditya Arya.</span>
     </footer>
+    <script src="/singapore-skyline.js" defer></script>
 
     <div class="social-profile-card linkedin-profile-card" id="linkedin-profile-card" popover="manual" aria-hidden="true">
       <span class="linkedin-cover"><img src="media/linkedin-cover.png" alt="" /></span>
@@ -1719,6 +1878,7 @@
     <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Catch project preview" hidden>
       <div class="modal-panel" id="modal-panel" tabindex="-1">
         <img id="modal-image" src="" alt="" />
+        <video id="modal-video" controls muted loop playsinline hidden></video>
         <div class="modal-details">
           <span class="modal-copy"><strong id="modal-title"></strong><span id="modal-description"></span></span>
           <a class="modal-link" id="modal-link" href="#" target="_blank" rel="noreferrer"></a>
@@ -1732,36 +1892,32 @@
 
       function syncThemeControl() {
         const isDark = document.documentElement.dataset.theme === 'dark';
-        themeToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-        themeToggle.setAttribute('aria-pressed', String(isDark));
-        themeMeta.setAttribute('content', isDark ? '#111110' : '#ffffff');
+        themeToggle.querySelectorAll('[data-select-theme]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.selectTheme === (isDark ? 'dark' : 'light'))));
+        themeMeta.setAttribute('content', isDark ? '#181815' : '#fbf8ef');
       }
 
       syncThemeControl();
 
-      themeToggle.addEventListener('click', () => {
-        const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-        document.documentElement.dataset.theme = nextTheme;
-        localStorage.setItem('portfolio-theme', nextTheme);
-        syncThemeControl();
+      let changingTheme = false;
+      themeToggle.addEventListener('click', (event) => {
+        const nextTheme = event.target.closest('[data-select-theme]')?.dataset.selectTheme;
+        if (!nextTheme || changingTheme || nextTheme === document.documentElement.dataset.theme) return;
+        const apply = () => {
+          document.documentElement.dataset.theme = nextTheme;
+          localStorage.setItem('portfolio-theme', nextTheme);
+          syncThemeControl();
+        };
+        if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          changingTheme = true;
+          document.documentElement.classList.add('theme-transitioning');
+          document.startViewTransition(apply).finished.catch(() => {}).finally(() => {
+            changingTheme = false;
+            document.documentElement.classList.remove('theme-transitioning');
+          });
+        } else apply();
         playThemeSound(nextTheme);
       });
 
-      const singaporeTime = document.querySelector('#singapore-time');
-      const singaporeFormatter = new Intl.DateTimeFormat('en-SG', {
-        timeZone: 'Asia/Singapore',
-        hour: 'numeric',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: true
-      });
-
-      function updateSingaporeTime() {
-        singaporeTime.textContent = `${singaporeFormatter.format(new Date())} SGT`;
-      }
-
-      updateSingaporeTime();
-      window.setInterval(updateSingaporeTime, 1000);
 
       const codexGrid = document.querySelector('#codex-grid');
       const codexDays = 140;
@@ -1895,6 +2051,7 @@
       const projectModal = document.querySelector('#project-modal');
       const modalPanel = document.querySelector('#modal-panel');
       const modalImage = document.querySelector('#modal-image');
+      const modalVideo = document.querySelector('#modal-video');
       const modalTitle = document.querySelector('#modal-title');
       const modalDescription = document.querySelector('#modal-description');
       const modalLink = document.querySelector('#modal-link');
@@ -2105,6 +2262,59 @@
         }, 90);
       }
 
+      // Short high-passed impacts: crisp flap chatter without a low buzzing body.
+      function playSplitFlapRefresh() {
+        scheduleAudioEffect((context) => {
+          const duration = .48;
+          const buffer = context.createBuffer(1, Math.ceil(context.sampleRate * duration), context.sampleRate);
+          const samples = buffer.getChannelData(0);
+          for (let flap = 0; flap < 15; flap += 1) {
+            const start = .008 + flap * .021 + Math.pow(flap / 15, 3) * .10 + Math.random() * .004;
+            const amplitude = .15 + Math.random() * .07;
+            for (let frame = 0; frame < context.sampleRate * .012; frame += 1) {
+              const index = Math.floor(start * context.sampleRate) + frame;
+              if (index >= samples.length) break;
+              const t = frame / context.sampleRate;
+              const crack = (Math.random() * 2 - 1) * Math.exp(-t * 900);
+              const secondFlap = t > .004 ? (Math.random() * 2 - 1) * Math.exp(-(t - .004) * 1100) * .55 : 0;
+              samples[index] += amplitude * (crack + secondFlap);
+            }
+          }
+          const source = context.createBufferSource();
+          const filter = context.createBiquadFilter();
+          const lowpass = context.createBiquadFilter();
+          source.buffer = buffer;
+          filter.type = 'highpass';
+          filter.frequency.value = 1650;
+          filter.Q.value = .5;
+          lowpass.type = 'lowpass';
+          lowpass.frequency.value = 8500;
+          source.connect(filter).connect(lowpass).connect(context.destination);
+          source.start();
+        }, 250);
+      }
+
+      function playFooterRevealSound() {
+        scheduleAudioEffect((context) => {
+          const duration = .94;
+          const buffer = context.createBuffer(1, Math.ceil(context.sampleRate * duration), context.sampleRate);
+          const samples = buffer.getChannelData(0);
+          for (let frame = 0; frame < samples.length; frame += 1) {
+            samples[frame] = (Math.random() * 2 - 1) * Math.sin(Math.PI * frame / samples.length) ** 3;
+          }
+          const source = context.createBufferSource();
+          const filter = context.createBiquadFilter();
+          const gain = context.createGain();
+          source.buffer = buffer;
+          filter.type = 'bandpass';
+          filter.frequency.value = 2400;
+          filter.Q.value = .7;
+          gain.gain.value = .012;
+          source.connect(filter).connect(gain).connect(context.destination);
+          source.start();
+        }, 200);
+      }
+
       let lastWarpAt = 0;
 
       function playContactWarp() {
@@ -2206,6 +2416,8 @@
       nameSwap.addEventListener('focus', playPencilScribble);
 
       const hoverTickTargets = [...document.querySelectorAll('.tool, .social-icon, .project-icon:not(.social-icon)')];
+      window.addEventListener('portfolio-clock-hover', playSplitFlapRefresh);
+      window.addEventListener('portfolio-footer-reveal', playFooterRevealSound);
       hoverTickTargets.forEach((target, index) => {
         const step = index % 3;
         target.addEventListener('pointerenter', () => playHoverTick(step));
@@ -2229,10 +2441,6 @@
           preview.style.setProperty('--tilt-y', '0deg');
         });
       });
-
-      const contactLink = document.querySelector('.contact-link');
-      contactLink.addEventListener('pointerenter', playContactWarp);
-      contactLink.addEventListener('focus', playContactWarp);
 
       const originalCards = [...reel.children];
       const leadingCards = document.createDocumentFragment();
@@ -2346,8 +2554,16 @@
         restoreFocusOnClose = Boolean(options.focus);
         isModalOpen = true;
         isModalClosing = false;
-        modalImage.src = image.currentSrc || image.src;
-        modalImage.alt = image.alt;
+        const isVideo = image.tagName === 'VIDEO';
+        modalImage.hidden = isVideo;
+        modalVideo.hidden = !isVideo;
+        if (isVideo) {
+          modalVideo.src = image.currentSrc || image.src;
+          modalVideo.play().catch(() => {});
+        } else {
+          modalImage.src = image.currentSrc || image.src;
+          modalImage.alt = image.alt;
+        }
         modalTitle.textContent = card.dataset.title || image.alt;
         modalDescription.textContent = card.dataset.description || '';
         modalLink.href = card.dataset.link || '#';
@@ -2365,6 +2581,7 @@
       function closeProject() {
         if (!isModalOpen || isModalClosing) return;
         isModalClosing = true;
+        modalVideo.pause();
         projectModal.setAttribute('aria-hidden', 'true');
         playInterfaceSound('close');
         projectModal.classList.remove('is-open');
@@ -2380,6 +2597,8 @@
           requestAnimationFrame(() => {
             modalImage.removeAttribute('src');
             modalImage.alt = '';
+            modalVideo.removeAttribute('src');
+            modalVideo.load();
           });
         };
 
