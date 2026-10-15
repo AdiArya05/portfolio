@@ -50,6 +50,11 @@ assert(/name="description"\s+content="[^"]+"/.test(html));
 assert(!/content="[^"]*\bnoindex\b/.test(html));
 assert(html.includes('aria-labelledby="modal-title"'));
 assert(html.includes('aria-describedby="modal-description"'));
+const discovery = fs.readFileSync(path.join(dist, 'footer-discovery.js'), 'utf8');
+assert(!discovery.includes('preventDefault') && !/addEventListener\(['"](?:wheel|pointerdown)/.test(discovery),
+  'Footer discovery must not intercept scrolling or require a hold gesture');
+assert(!html.includes('progress-ring') && !html.includes('--pull'), 'Do not restore the hold-progress ring');
+assert(html.includes('Scroll to explore'));
 assert(fs.readFileSync(path.join(dist, 'robots.txt'), 'utf8').includes(`Sitemap: ${origin}/sitemap.xml`));
 assert(fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8').includes(`<loc>${origin}/</loc>`));
 const social = fs.readFileSync(path.join(dist, 'media/aditya-arya-social.jpg'));
