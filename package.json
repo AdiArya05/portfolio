@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node -e \"require('fs').accessSync('dist/index.html')\"",
+    "build": "npm test",
+    "test": "node scripts/check-site.mjs",
     "start": "python3 -m http.server 4173 --directory dist"
   }
 }
