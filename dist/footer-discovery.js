@@ -13,7 +13,6 @@
   // Native scrolling stays untouched: no wheel interception or hold gesture.
   button.addEventListener('click', () => {
     if (!desktop.matches) return;
-    window.dispatchEvent(new Event('portfolio-footer-reveal'));
     footer.scrollIntoView({ behavior: reduced.matches ? 'instant' : 'smooth', block: 'start' });
   });
   window.addEventListener('scroll', paint, { passive: true });

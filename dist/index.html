@@ -1760,7 +1760,7 @@
       <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
     </div>
-    <button class="footer-discover" id="footer-discover" type="button" aria-label="Scroll to explore the Singapore skyline" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll to explore</span></button>
+    <button class="footer-discover" id="footer-discover" type="button" aria-label="Scroll down to the Singapore skyline" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll down</span></button>
     <script src="/footer-discovery.js" defer></script>
     <main class="shell">
       <section class="story" aria-labelledby="intro-heading">
@@ -2325,26 +2325,6 @@
         }, 250);
       }
 
-      function playFooterRevealSound() {
-        scheduleAudioEffect((context) => {
-          const duration = .94;
-          const buffer = context.createBuffer(1, Math.ceil(context.sampleRate * duration), context.sampleRate);
-          const samples = buffer.getChannelData(0);
-          for (let frame = 0; frame < samples.length; frame += 1) {
-            samples[frame] = (Math.random() * 2 - 1) * Math.sin(Math.PI * frame / samples.length) ** 3;
-          }
-          const source = context.createBufferSource();
-          const filter = context.createBiquadFilter();
-          const gain = context.createGain();
-          source.buffer = buffer;
-          filter.type = 'bandpass';
-          filter.frequency.value = 2400;
-          filter.Q.value = .7;
-          gain.gain.value = .012;
-          source.connect(filter).connect(gain).connect(context.destination);
-          source.start();
-        }, 200);
-      }
 
       let lastWarpAt = 0;
 
@@ -2448,7 +2428,6 @@
 
       const hoverTickTargets = [...document.querySelectorAll('.tool, .social-icon, .project-icon:not(.social-icon)')];
       window.addEventListener('portfolio-clock-hover', playSplitFlapRefresh);
-      window.addEventListener('portfolio-footer-reveal', playFooterRevealSound);
       hoverTickTargets.forEach((target, index) => {
         const step = index % 3;
         target.addEventListener('pointerenter', () => playHoverTick(step));
