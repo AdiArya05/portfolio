@@ -23,7 +23,7 @@ Source: https://github.com/AdiArya05/portfolio
 - Gallery previews preserve their descriptions and project links. Keyboard focus is confined to an open preview and restored after closing.
 - Images retain their original files; explicit dimensions reserve layout space and lazy loading defers offscreen requests where supported.
 - Gallery animation pauses offscreen and in hidden tabs. The existing footer artwork and animation are unchanged.
-- The Maritime Fusion link intentionally remains pointed at its private GitHub repository, as requested. Visitors without repository access will see GitHub's 404 page.
+- The Maritime Fusion link opens the user-provided Google Drive demo instead of the private GitHub repository (updated 16 October 2026). An anonymous request returned the demo viewer without a sign-in redirect or access-required message; Drive sharing permissions are managed separately.
 
 These are browser and static checks, not a guarantee across every physical device. No Lighthouse score, real-user Core Web Vitals pass or Google ranking is claimed. Search Console ownership, indexing and field performance should be checked separately; search engines determine rankings.
 

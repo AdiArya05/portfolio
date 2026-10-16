@@ -1738,10 +1738,10 @@
         .name-short { transition-duration: 0.01ms !important; }
       }
       /* A sliding sun/moon selector, matching the supplied interaction. */
-      .theme-toggle { display:grid; grid-template-columns:48px 48px; width:104px; height:52px; padding:4px; border:0; border-radius:999px; gap:0; }
-      .theme-toggle::before { content:""; position:absolute; top:4px; left:6px; width:44px; height:44px; border-radius:50%; background:var(--paper); box-shadow:0 1px 5px #0002,inset 0 1px 1px #fff8; transition:transform 340ms cubic-bezier(.2,.8,.2,1); pointer-events:none; }
-      html[data-theme="dark"] .theme-toggle::before { transform:translateX(48px); }
-      .theme-choice { position:relative; z-index:1; display:grid; place-items:center; width:48px; height:44px; border:0; padding:0; background:none; color:var(--muted); cursor:pointer; border-radius:50%; }
+      .theme-toggle { display:grid; grid-template-columns:44px 44px; width:104px; height:52px; padding:4px; border:0; border-radius:999px; gap:8px; }
+      .theme-toggle::before { content:""; position:absolute; top:4px; left:4px; width:44px; height:44px; border-radius:50%; background:var(--paper); box-shadow:0 1px 5px #0002,inset 0 1px 1px #fff8; transition:transform 340ms cubic-bezier(.2,.8,.2,1); pointer-events:none; }
+      html[data-theme="dark"] .theme-toggle::before { transform:translateX(52px); }
+      .theme-choice { position:relative; z-index:1; display:grid; place-items:center; width:44px; height:44px; border:0; padding:0; background:none; color:var(--muted); cursor:pointer; border-radius:50%; }
       .theme-choice[aria-pressed="true"] { color:var(--ink); }
       .theme-choice:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
       .theme-choice svg { width:21px; height:21px; }
@@ -1792,7 +1792,7 @@
             <a class="project-icon external-link" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer" aria-label="View Catch on the App Store"><picture><source type="image/webp" srcset="media/catch-icon.webp" /><img src="media/catch-icon.png" alt="" /></picture></a>,
             <span class="soft">a thoughtfully designed bus timing app for singapore.</span></span>
             <span class="sentence">we placed second at a defence-tech hackathon with
-            <a class="inline-link yellow external-link" href="https://github.com/Rajsuthan/maritime-fusion" target="_blank" rel="noreferrer">maritime fusion</a>,
+            <a class="inline-link yellow external-link" href="https://drive.google.com/file/d/16-1kgD510pvwfmND5SYUP0pWbivKd8OM/view?usp=sharing" target="_blank" rel="noreferrer">maritime fusion</a>,
             <span class="soft">a multi-source maritime intelligence platform.</span></span>
             <span class="sentence"><span class="tools-copy">my favourite tools right now are</span>
             <span class="tool-stack" aria-label="Arc, Codex, and Wispr Flow">
