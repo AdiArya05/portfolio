@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#fbf8ef" />
   <meta name="description" content="How I designed Catch: simplifying nearby stops and bus timings, designing Live Activities, and learning from real use." />
   <title>Catch — Aditya Arya</title>
@@ -17,7 +17,7 @@
   <script src="/work/theme-init.js"></script>
   <link rel="preload" href="/fonts/space-grotesk-v22-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/typography.css?v=20261019-original-v20" />
-  <link rel="stylesheet" href="/work/case-study.css?v=20261019-mobile-v23" />
+  <link rel="stylesheet" href="/work/case-study.css?v=20261019-v25" />
   <link rel="stylesheet" href="/work/catch/catch.css?v=20261019-mobile-v23" />
   <link rel="stylesheet" href="/work/app-icons.css?v=20261019-mobile-v23" />
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
@@ -26,8 +26,14 @@
   <script src="/story-glass.js?v=20261019-v17" defer></script>
   <script src="/work/case-study.js?v=20261019-v17" defer></script>
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v24" />
+  <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
 </head>
 <body class="catch-story reading-page">
+  <header class="reading-toolbar" aria-label="Reading controls">
+    <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Appearance">
+      <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+    </div>
     <div class="time-zones" id="time-zones">
       <button class="time-zone-toggle" id="time-zone-toggle" type="button" aria-expanded="false" aria-controls="time-zone-dropdown" aria-label="Show local time and places I have visited">
         <span class="matrix-row" id="local-matrix" aria-hidden="true"></span>
@@ -39,13 +45,10 @@
         </div>
       </div>
     </div>
+  </header>
   <a class="skip-link" href="#story">Skip to story</a>
   <nav class="site-nav" aria-label="Main navigation">
     <a class="back-link" href="/"><span aria-hidden="true">←</span> Back to home</a>
-    <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Appearance">
-      <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-      <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
-    </div>
   </nav>
   <main id="story">
     <article>

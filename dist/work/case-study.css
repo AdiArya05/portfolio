@@ -91,7 +91,6 @@ body.reading-page .site-footer { padding:8px 0 40px; }
   body.reading-page .next-project .next-project-copy strong { font-size:20px; }
 }
 
-body.reading-page::before { content:""; position:fixed; z-index:40; inset:0 0 auto; height:94px; pointer-events:none; background:linear-gradient(var(--paper) 0%,color-mix(in srgb,var(--paper) 96%,transparent) 70%,transparent); }
 
 /* The same glass rim, light and spring response as the homepage project tabs. */
 body.reading-page .next-project { position:relative; isolation:isolate; }

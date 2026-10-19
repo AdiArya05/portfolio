@@ -147,6 +147,9 @@ for (const project of ['soja', 'catch']) {
   const route = `/work/${project}/`;
   assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, project === 'soja' ? 4 : 3);
   const story = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8');
+  const readingToolbar = story.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
+  assert(readingToolbar?.includes('id="theme-toggle"') && readingToolbar.includes('id="time-zones"'), 'Keep reading controls in one header so content cannot scroll between them');
+  assert(story.includes('viewport-fit=cover'), 'Account for iPhone safe areas in the story header');
   assert(!story.includes('class="icon-mockup"'), 'Remove phone icon mockups from case studies');
   if (project === 'soja') assert.equal((story.match(/src="\/work\/soja\/media\/final-home.webp"/g) || []).length, 1, 'Show the final home screen only once');
   assert.equal((story.match(/<h1\b/g) || []).length, 1);

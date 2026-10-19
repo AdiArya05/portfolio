@@ -1,0 +1,43 @@
+/* The controls belong to one opaque bar, including the iPhone safe area. */
+:root {
+  --reading-safe-top:env(safe-area-inset-top,0px);
+  --reading-toolbar-padding:22px;
+  --reading-toolbar-height:calc(var(--reading-safe-top) + 96px);
+}
+html { scroll-padding-top:calc(var(--reading-toolbar-height) + 20px); }
+body.reading-page { padding-top:var(--reading-toolbar-height); }
+.reading-toolbar {
+  position:fixed; z-index:50; inset:0 0 auto;
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  height:var(--reading-toolbar-height); box-sizing:border-box;
+  padding:calc(var(--reading-safe-top) + var(--reading-toolbar-padding))
+    max(22px,env(safe-area-inset-right)) var(--reading-toolbar-padding)
+    max(22px,env(safe-area-inset-left));
+  background:var(--paper); box-shadow:0 1px 0 var(--line);
+  isolation:isolate; transition:background-color 320ms ease,box-shadow 320ms ease;
+}
+body.reading-page .reading-toolbar .theme-toggle {
+  position:relative; inset:auto; flex:0 0 104px;
+}
+.reading-page .reading-toolbar .time-zones {
+  position:relative; inset:auto; z-index:auto; min-width:0;
+}
+body.reading-page .site-nav { margin-top:0; }
+.reading-page .skip-link { z-index:60; }
+.reading-toolbar .time-zone-dropdown {
+  max-height:calc(100dvh - var(--reading-toolbar-height) - env(safe-area-inset-bottom) - 12px);
+  overflow-y:auto; overscroll-behavior:contain;
+}
+@media(max-width:700px) {
+  :root {
+    --reading-toolbar-padding:16px;
+    --reading-toolbar-height:calc(var(--reading-safe-top) + 84px);
+  }
+  .reading-toolbar {
+    padding-inline:max(18px,env(safe-area-inset-left)) max(18px,env(safe-area-inset-right));
+  }
+  .reading-page main,.reading-page .site-nav {
+    width:calc(100% - max(20px,env(safe-area-inset-left)) - max(20px,env(safe-area-inset-right)));
+  }
+  body.reading-page .site-footer { padding-bottom:calc(40px + env(safe-area-inset-bottom)); }
+}
