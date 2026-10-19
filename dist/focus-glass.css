@@ -1,0 +1,17 @@
+.focus-veil {
+  position:fixed; inset:0; z-index:40; width:100vw; height:100dvh; max-width:none; max-height:none;
+  margin:0; padding:0; border:0; pointer-events:none; opacity:0;
+  background:radial-gradient(ellipse at var(--focus-x) var(--focus-y),#fbf8ef06,#fbf8ef36 75%,#fbf8ef60);
+  backdrop-filter:blur(10px) saturate(.78); -webkit-backdrop-filter:blur(10px) saturate(.78);
+  mask-image:var(--focus-mask);
+  -webkit-mask-image:var(--focus-mask);
+  transition:opacity 380ms cubic-bezier(.22,.61,.36,1);
+}
+.focus-veil:popover-open,.focus-veil.is-fallback-open { display:block; }
+.focus-veil:not(:popover-open):not(.is-fallback-open) { display:none; }
+.focus-veil.is-visible { opacity:1; }
+html[data-theme="dark"] .focus-veil { background:radial-gradient(ellipse at var(--focus-x) var(--focus-y),#18181504,#08080745 75%,#08080770); }
+body.modal-open .focus-veil { visibility:hidden; }
+@media(prefers-reduced-motion:reduce) {
+  .focus-veil { transition:none; }
+}

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "npm test",
-    "test": "node scripts/check-site.mjs",
+    "test": "node scripts/check-site.mjs && node scripts/check-navigator.mjs",
+    "test:navigator": "node scripts/check-navigator.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "start": "python3 -m http.server 4173 --directory dist"
   },

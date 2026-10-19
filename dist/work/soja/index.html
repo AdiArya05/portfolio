@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#fbf8ef" />
+  <meta name="description" content="How I designed Soja: a personal sleep recovery idea, early Figma explorations, and a friendlier way to see the next step." />
+  <title>Soja — Aditya Arya</title>
+  <link rel="canonical" href="https://adiarya.vercel.app/work/soja" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Soja — Aditya Arya" />
+  <meta property="og:description" content="How I designed Soja: a personal sleep recovery idea, early Figma explorations, and a friendlier way to see the next step." />
+  <meta property="og:url" content="https://adiarya.vercel.app/work/soja" />
+  <meta property="og:image" content="https://adiarya.vercel.app/media/soja-recovery.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/media/aditya-arya-icon.png" />
+  <script src="/work/theme-init.js"></script>
+  <link rel="preload" href="/fonts/space-grotesk-v22-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/typography.css?v=20261019-original-v20" />
+  <link rel="stylesheet" href="/work/case-study.css?v=20261019-v17" />
+  <link rel="stylesheet" href="/work/soja/soja.css?v=20261019-v17" />
+  <link rel="stylesheet" href="/work/app-icons.css?v=20261019-v17" />
+  <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
+  <script src="/interface-sounds.js?v=20261019-v17" defer></script>
+  <script src="/world-times.js?v=20261019-v17" defer></script>
+  <script src="/story-glass.js?v=20261019-v17" defer></script>
+  <script src="/work/case-study.js?v=20261019-v17" defer></script>
+</head>
+<body class="soja-story reading-page">
+    <div class="time-zones" id="time-zones">
+      <button class="time-zone-toggle" id="time-zone-toggle" type="button" aria-expanded="false" aria-controls="time-zone-dropdown" aria-label="Show local time and places I have visited">
+        <span class="matrix-row" id="local-matrix" aria-hidden="true"></span>
+        <svg class="zone-chevron" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <div class="time-zone-dropdown" id="time-zone-dropdown" inert>
+        <div class="time-zone-panel">
+          <div id="visited-time-zones"></div>
+        </div>
+      </div>
+    </div>
+  <a class="skip-link" href="#story">Skip to story</a>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a class="back-link" href="/"><span aria-hidden="true">←</span> Back to home</a>
+    <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Appearance">
+      <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+    </div>
+  </nav>
+  <main id="story">
+    <article>
+      <header class="article-header">
+        <h1>Designing Soja</h1>
+        <p class="subtitle">A clearer plan after a late night.</p>
+      </header>
+      <figure>
+        <button class="image-button original-composition" type="button" aria-label="Enlarge the final Soja home screen">
+          <img src="/work/soja/media/final-home.webp" width="1920" height="1440" fetchpriority="high" alt="The final Soja home screen, with a sunrise, a sleep check-in, and two daily recovery actions" />
+        </button>
+        <figcaption>Where the home screen eventually landed.</figcaption>
+      </figure>
+      <section class="prose opening" aria-label="How Soja started">
+        <p>I got the idea for Soja while preparing for a flight to New York. I tried Timeshifter for jet lag, and started thinking about the other times my sleep gets disrupted.</p>
+        <p>For me, that was usually staying up late to study. The hard part was the next few days. I’d sleep whenever I could and hope I’d get back to normal.</p>
+        <p>I wanted an app that gave me a plan for those days: when to sleep, wake up, nap, have caffeine, and work out. I started with late-night studying because it was something I’d been through myself.</p>
+      </section>
+      <section class="prose" aria-labelledby="focus">
+        <h2 id="focus">Starting with something I knew</h2>
+        <p>At first I was thinking about jet lag, all-nighters, and late nights out as well. I chose studying as the starting point so I had one situation to work through properly. I knew what being tired for days afterwards felt like.</p>
+        <p>I wanted to be able to look at a plan and know how it fitted into my day. I also didn’t want following it to feel like another thing I had to keep track of.</p>
+      </section>
+      <section class="prose" aria-labelledby="explorations">
+        <h2 id="explorations">The part I thought would be easy</h2>
+        <p>I designed the app myself in Figma, working through different layouts and flows. Supersleep was one of the apps I looked at for inspiration.</p>
+        <p>The early versions had a full daily schedule, then a dashboard with smaller cards. I also worked through the questions you’d answer to set up a recovery plan. I kept changing the type, spacing, and navigation as I went.</p>
+        <p>I thought the UI would be the easy part. It ended up being one of the hardest. I didn’t want checking your sleep to feel like a chore, so I spent a lot of time trying to make it feel more friendly and playful.</p>
+      </section>
+      <figure class="wide-figure process-figure" aria-label="Three early Soja Figma explorations">
+        <div class="iteration-board">
+          <p class="sketch-heading">A few versions along the way</p>
+          <div class="iteration-stages">
+            <div class="iteration-stage">
+              <button class="image-button sketch-screen" type="button" aria-label="Enlarge the early daily schedule exploration">
+                <img src="/work/soja/media/early-schedule.webp" width="1206" height="2622" loading="lazy" decoding="async" alt="Early Figma design with a large date, a weekly calendar, and the full daily sleep recovery schedule" />
+              </button>
+              <p class="sketch-note">the whole day at once<small>Early schedule</small></p>
+              <svg class="drawn-arrow" viewBox="0 0 46 55" aria-hidden="true"><path class="arrow-trail" d="M2 38 C8 38 9 37 10 30 L11 18 Q12 10 22 11 L40 12"/><path d="m34 6 7 6-7 5"/></svg>
+            </div>
+            <div class="iteration-stage">
+              <button class="image-button sketch-screen" type="button" aria-label="Enlarge the early card-based dashboard exploration">
+                <img src="/work/soja/media/early-dashboard.webp" width="1206" height="2622" loading="lazy" decoding="async" alt="Figma dashboard exploration with a summary, new plan and active plan cards, and a full action list" />
+              </button>
+              <p class="sketch-note">trying smaller cards<small>Dashboard exploration</small></p>
+              <svg class="drawn-arrow" viewBox="0 0 46 55" aria-hidden="true"><path class="arrow-trail" d="M2 14 C10 14 12 16 13 23 L14 35 Q15 43 25 42 L40 40"/><path d="m33 35 8 5-6 7"/></svg>
+            </div>
+            <div class="iteration-stage">
+              <button class="image-button sketch-screen" type="button" aria-label="Enlarge the early recovery plan prototype">
+                <img src="/work/soja/media/early-plan.webp" width="1206" height="2622" loading="lazy" decoding="async" alt="Early plan setup prototype asking what disrupted sleep and when the person fell asleep and woke up" />
+              </button>
+              <p class="sketch-note">figuring out the setup<small>Plan prototype</small></p>
+            </div>
+          </div>
+        </div>
+        <figcaption>Three early Figma explorations. The app screens follow below; tap any image for a closer look.</figcaption>
+      </figure>
+      <section class="prose" aria-labelledby="feedback">
+        <h2 id="feedback">What changed after feedback</h2>
+        <p>My brother tried an early version and found it hard to understand. There was too much to work out when he first opened it.</p>
+        <p>I knew where everything was because I’d made it. Watching someone else try it made me realise how much I was expecting them to already know.</p>
+        <p>I brought today’s sleep and the next two actions to the front. The full plan was still there if you wanted to look further, but you didn’t have to take it all in at once.</p>
+        <p>I also changed the colours and made the home screen friendlier. I wanted it to be something you could open when you were already tired and still find your way around.</p>
+      </section>
+      <section id="app-screens" class="wide-figure screen-showcase" aria-labelledby="screens-heading">
+        <h2 id="screens-heading">Bringing the screens together</h2>
+        <div class="final-screens">
+          <figure>
+            <button class="image-button original-composition" type="button" aria-label="Enlarge the final Soja welcome screen">
+              <img src="/work/soja/media/final-welcome.webp" width="1920" height="1440" loading="lazy" decoding="async" alt="Soja welcome screen with the orange app icon and a Get started button" />
+            </button>
+            <figcaption>Welcome</figcaption>
+          </figure>
+          <figure>
+            <button class="image-button original-composition" type="button" aria-label="Enlarge the final Soja overview screen">
+              <img src="/work/soja/media/final-overview.webp" width="1920" height="1440" loading="lazy" decoding="async" alt="Soja overview with a calendar and a timeline of daily recovery actions" />
+            </button>
+            <figcaption>Daily overview</figcaption>
+          </figure>
+        </div>
+      </section>
+      <section class="prose icon-introduction" aria-labelledby="icon-story-heading">
+        <h2 id="icon-story-heading">The app icon</h2>
+        <p>I wanted the icon to feel friendly too. I tried the same sleepy shape in blue, peach, and orange. These are the three versions together.</p>
+      </section>
+      <figure id="app-icons" class="icon-exploration" aria-label="Soja app icon explorations">
+        <p class="sketch-heading">Soja app icons</p>
+        <div class="icon-row">
+          <div class="app-icon">
+            <button class="image-button" type="button" aria-label="Enlarge Soja cool blue app icon">
+              <img src="/work/soja/media/icon-blue.webp" width="1024" height="1024" loading="lazy" decoding="async" alt="Soja sleeping flame app icon in soft blue" />
+            </button>
+            <p class="icon-label">Cool blue</p>
+          </div>
+          <div class="app-icon">
+            <button class="image-button" type="button" aria-label="Enlarge Soja soft peach app icon">
+              <img src="/work/soja/media/icon-peach.webp" width="1024" height="1024" loading="lazy" decoding="async" alt="Soja sleeping flame app icon in peach and warm yellow" />
+            </button>
+            <p class="icon-label">Soft peach</p>
+          </div>
+          <div class="app-icon">
+            <button class="image-button" type="button" aria-label="Enlarge Soja warm orange app icon">
+              <img src="/work/soja/media/icon-orange.webp" width="1024" height="1024" loading="lazy" decoding="async" alt="Soja cream sleeping flame on a deep orange gradient" />
+            </button>
+            <p class="icon-label">Warm orange</p>
+          </div>
+        </div>
+        <figcaption>Blue, peach, and orange.</figcaption>
+      </figure>
+      <section class="prose" aria-labelledby="lessons">
+        <h2 id="lessons">What I learned</h2>
+        <p>I learned that a screen could make sense to me and still be confusing to someone else. My brother’s feedback was useful because it gave me something specific to change, rather than just wondering whether it looked good.</p>
+        <p>I’d spent a lot of time adjusting the UI. After that feedback, I spent more time deciding what actually needed to be on the home screen. Showing the next two actions made more sense than putting the whole day in front of someone.</p>
+        <p>The early prototypes helped me compare ideas and explain the design to someone else. They also gave me something concrete to change when the feedback came in. Next time, I want to share those prototypes sooner, before spending as much time polishing a layout.</p>
+        <p>I still want to understand how easy Soja is to follow over a few days. Making the first screen clearer was one part of that. Whether the plan is easy to keep coming back to is something I still need to learn.</p>
+        <a class="project-destination" href="https://soja.framer.website/" target="_blank" rel="noreferrer">Visit Soja <span aria-hidden="true">↗</span></a>
+      </section>
+    </article>
+    <a class="next-project" href="/work/catch/" aria-label="Read the Catch story">
+      <img class="next-project-icon" src="/media/catch-icon.webp" width="1024" height="1024" alt="Catch app icon" loading="lazy" />
+      <span class="next-project-copy"><small>Up next</small><strong>Catch</strong><span class="next-project-description">Making bus arrivals easier to act on.</span><span class="next-project-cta">Read the story <span aria-hidden="true">↗</span></span></span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+    <footer class="site-footer"><a href="/">← Back to home</a><a href="#story">Back to top ↑</a></footer>
+  </main>
+  <dialog class="lightbox" aria-label="Enlarged project image"><button class="lightbox-close" type="button" aria-label="Close enlarged image" autofocus>×</button><img alt="" /></dialog>
+</body>
+</html>

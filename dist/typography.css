@@ -1,0 +1,11 @@
+/* Original portfolio typography, restored after the font comparison. */
+@font-face {
+  font-family:'Space Grotesk';
+  src:url('/fonts/space-grotesk-v22-latin.woff2') format('woff2');
+  font-style:normal;
+  font-weight:400 600;
+  font-display:swap;
+}
+:root { --font-sans:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif; }
+html { font-family:var(--font-sans); }
+button,input,select,textarea { font-family:inherit; }

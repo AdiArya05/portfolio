@@ -20,7 +20,9 @@
     const top = headerBottom+20;
     root.style.setProperty('--mobile-story-top',`${Math.ceil(top)}px`);
     const style = getComputedStyle(story);
-    const available = Math.max(80,story.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-3);
+    const notes = story.querySelector('.notes-links');
+    const notesHeight = notes ? notes.getBoundingClientRect().height + parseFloat(getComputedStyle(notes).marginTop) : 0;
+    const available = Math.max(80,story.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-notesHeight-3);
     root.style.setProperty('--mobile-intro-leading','1.38');
     let low = 12;
     let high = Math.min(30,innerWidth*.067);
@@ -40,7 +42,7 @@
     }
     root.style.setProperty('--mobile-intro-leading',String(leadingLow));
     // Very short landscape viewports retain access to all text, never clipping it.
-    story.style.overflowY=intro.getBoundingClientRect().height>available+3?'auto':'hidden';
+    story.style.overflowY=story.scrollHeight>story.clientHeight+3?'auto':'hidden';
   }
   function schedule() {if(!frame) frame=requestAnimationFrame(fit);}
   window.addEventListener('resize',schedule,{passive:true});

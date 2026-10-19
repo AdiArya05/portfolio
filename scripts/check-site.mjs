@@ -10,12 +10,16 @@ const dist = path.join(root, 'dist');
 const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const origin = 'https://adiarya.vercel.app';
 const cards = [...html.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
-assert.equal(cards.length, 8, 'Preserve all eight gallery cards');
-assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 8);
+assert.equal(cards.length, 9, 'Keep the app screen gallery without phone icon mockups');
+assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 9);
 cards.forEach((card, index) => {
   const destination = card.match(/data-link="([^"]+)"/)[1];
   assert.equal(new URL(destination).protocol, 'https:');
-  assert(card.includes(`href="${destination}"`), 'Preview and original destinations must match');
+  const story = card.match(/data-case-study="([^"]+)"/)?.[1];
+  if (story) {
+    assert(card.includes(`href="${story}"`), 'Project media must link to its case study');
+    assert(fs.existsSync(path.join(dist, story, 'index.html')), 'Case study must exist');
+  } else assert(card.includes(`href="${destination}"`), 'Preview and original destinations must match');
   assert(/loading="lazy"/.test(card), 'Offscreen gallery images should load lazily');
   const image = card.match(/<img[^>]+>/)[0];
   const file = fs.readFileSync(path.join(dist, image.match(/src="([^"]+)"/)[1]));
@@ -58,9 +62,12 @@ assert(html.includes('top:4px; left:4px; width:44px; height:44px;'));
 assert(html.includes('html[data-theme="dark"] .theme-toggle::before { transform:translateX(52px); }'));
 assert(html.includes('aria-label="Close project preview"'));
 assert(html.includes('gallery.contains(document.activeElement)'), 'Pause moving gallery for keyboard users');
-assert(!html.includes('fonts.googleapis.com') && !html.includes('fonts.gstatic.com'), 'Keep the original font self-hosted');
-assert(fs.readFileSync(path.join(dist, 'fonts/space-grotesk-v22-latin.woff2')).subarray(0,4).toString() === 'wOF2');
-assert(fs.readFileSync(path.join(dist, 'fonts/Space-Grotesk-OFL.txt'), 'utf8').includes('SIL OPEN FONT LICENSE'));
+assert(!html.includes('fonts.googleapis.com') && !html.includes('fonts.gstatic.com'), 'Typography must not depend on remote fonts');
+assert(html.includes('/typography.css?v=20261019-original-v20'));
+assert(fs.readFileSync(path.join(dist, 'typography.css'), 'utf8').includes("--font-sans:'Space Grotesk'"));
+assert(html.includes('got something in mind?'), 'Keep the original contact prompt');
+assert(fs.readFileSync(path.join(dist,'fonts/space-grotesk-v22-latin.woff2')).subarray(0,4).toString() === 'wOF2');
+assert(fs.readFileSync(path.join(dist,'fonts/Space-Grotesk-OFL.txt'),'utf8').includes('SIL OPEN FONT LICENSE'));
 for (const card of cards) {
   assert(card.includes('media="(max-width:700px)"'), 'Hidden phone gallery must not fetch desktop images');
   const file = card.match(/srcset="(media\/[^\"]+\.webp)"/)[1];
@@ -125,5 +132,39 @@ assert(cached.days.length >= 350 && Number.isInteger(cached.total));
 const require = createRequire(import.meta.url);
 const { parseContributions } = require('../lib/github-contributions.js');
 assert.throws(() => parseContributions('<html>Temporarily unavailable</html>'), /Incomplete/);
-console.log(`PASS: eight gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
-console.log('PASS: lossless image pixel equality, smaller assets, self-hosted original font/license, phone media guards, deferred footer, keyboard gallery pause, close control and canonical-host redirect.');
+// Follow every story entry point to a real document and verify its local dependencies.
+const storyCards = cards.filter(card => card.includes('data-case-study='));
+assert.equal(storyCards.length, 7, 'All Soja and Catch gallery media should open stories');
+for (const project of ['soja', 'catch']) {
+  const route = `/work/${project}/`;
+  assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, project === 'soja' ? 4 : 3);
+  const story = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8');
+  assert(!story.includes('class="icon-mockup"'), 'Remove phone icon mockups from case studies');
+  if (project === 'soja') assert.equal((story.match(/src="\/work\/soja\/media\/final-home.webp"/g) || []).length, 1, 'Show the final home screen only once');
+  assert.equal((story.match(/<h1\b/g) || []).length, 1);
+  assert(!story.includes('noindex'), 'Approved published stories must be indexable');
+  assert(story.includes(`<link rel="canonical" href="${origin}/work/${project}"`));
+  assert(story.includes('property="og:image"'));
+  assert(fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8').includes(`<loc>${origin}/work/${project}</loc>`));
+  assert(!story.includes('Draft copy') && !story.includes('TEMPLATE:'), 'Use personal project stories rather than sample writing');
+  assert(!story.includes('figma-space') && !story.includes('project-facts') && !story.includes('contact-note'), 'Keep story pages minimal');
+  for (const match of story.matchAll(/<(?:img|script|link|a)\b[^>]*?\b(?:src|href)="([^"]+)"/g)) {
+    const url = new URL(match[1], origin + route);
+    if (url.origin !== origin) continue;
+    const target = path.join(dist, decodeURIComponent(url.pathname));
+    assert(fs.existsSync(target), `Missing story destination or asset: ${url.pathname}`);
+    if (fs.statSync(target).isDirectory()) assert(fs.existsSync(path.join(target, 'index.html')));
+  }
+  for (const match of story.matchAll(/<img\b[^>]+\bsrc="([^"]+)"[^>]*>/g)) {
+    const metadata = await sharp(path.join(dist, match[1])).metadata();
+    assert.equal(Number(match[0].match(/width="(\d+)"/)[1]), metadata.width);
+    assert.equal(Number(match[0].match(/height="(\d+)"/)[1]), metadata.height);
+    assert(/alt="[^"]+"/.test(match[0]), 'Describe story images');
+  }
+}
+for (const filename of ['theme-init.js', 'case-study.js']) {
+  new vm.Script(fs.readFileSync(path.join(dist, 'work', filename), 'utf8'), { filename });
+}
+console.log('PASS: seven previewable gallery story links, personal Soja and Catch stories, local routes/assets, original image dimensions, image descriptions and shared script syntax.');
+console.log(`PASS: nine gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
+console.log('PASS: lossless image pixel equality, smaller assets, restored original typography, phone media guards, deferred footer, keyboard gallery pause, close control and canonical-host redirect.');

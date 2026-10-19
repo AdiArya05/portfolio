@@ -1,0 +1,82 @@
+@font-face {
+  font-family:'Patrick Hand';
+  src:url('/fonts/PatrickHand-Regular.ttf') format('truetype');
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+.soja-story { font-size:16px; line-height:1.75; }
+.soja-story main { width:min(680px, calc(100% - 48px)); }
+.soja-story h1 { font-size:20px; line-height:1.4; }
+.soja-story h2 { font-size:18px; line-height:1.5; margin-bottom:20px; }
+.soja-story .subtitle { font-size:15px; }
+.soja-story .site-nav { font-size:13px; }
+.soja-story figcaption { font-size:12.5px; line-height:1.65; }
+.soja-story .prose { margin-top:52px; }
+.soja-story .opening { margin-top:40px; }
+.soja-story .project-destination { font-size:15px; }
+.soja-story .next-project small,.soja-story .site-footer { font-size:13px; }
+.soja-story .next-project strong { font-size:16px; }
+.soja-story .wide-figure {
+  width:min(840px, calc(100vw - 64px));
+  margin-left:50%;
+  transform:translateX(-50%);
+}
+.soja-story .process-figure { margin-top:32px; }
+.iteration-board { padding:22px 24px 16px; background:transparent; color:var(--ink); }
+.sketch-heading { margin:0 0 28px; text-align:center; font:400 24px/1.3 'Patrick Hand',cursive; transform:rotate(-1deg); }
+.iteration-stages { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:64px; }
+.iteration-stage { position:relative; min-width:0; }
+.soja-story .sketch-screen {
+  position:relative;
+  width:100%;
+  max-width:190px;
+  aspect-ratio:1206 / 2622;
+  margin:0 auto;
+  overflow:visible;
+  border:0;
+  border-radius:17px;
+  background:#fff;
+}
+.sketch-screen::after {
+  content:""; position:absolute; inset:-3px -2px; pointer-events:none;
+  border:1px solid #888; border-radius:17px 20px 15px 19px; transform:rotate(-.45deg);
+}
+.iteration-stage:nth-child(2) .sketch-screen::after { transform:rotate(.6deg); }
+.iteration-stage:nth-child(3) .sketch-screen::after { transform:rotate(-.2deg); }
+.soja-story .sketch-screen img { width:100%; height:auto; border-radius:16px; }
+.sketch-note { margin:19px -9px 0; text-align:center; font:400 18px/1.35 'Patrick Hand',cursive; transform:rotate(-1deg); }
+.iteration-stage:nth-child(2) .sketch-note { transform:rotate(1.1deg); }
+.iteration-stage:nth-child(3) .sketch-note { transform:rotate(-.6deg); }
+.sketch-note small { display:block; margin-top:5px; font:400 12px/1.5 var(--font-sans); color:var(--muted); }
+.drawn-arrow {
+  position:absolute; z-index:1; top:43%; right:-58px; width:52px; height:55px;
+  overflow:visible; fill:none; stroke:var(--annotation-ink); stroke-width:2.2;
+  stroke-linecap:round; stroke-linejoin:round;
+}
+.drawn-arrow .arrow-trail { stroke-dasharray:3 3; }
+.soja-story .process-figure > figcaption { max-width:680px; margin:12px auto 0; }
+.soja-story .screen-showcase { width:min(840px, calc(100vw - 64px)); margin-top:40px; }
+.screen-showcase h2 { max-width:680px; margin:0 auto 24px; }
+.soja-story .final-screens { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px 20px; align-items:start; }
+.soja-story .final-screens figure { min-width:0; }
+.soja-story .original-composition {
+  aspect-ratio:auto; -webkit-mask-image:none; mask-image:none; filter:none;
+}
+.soja-story .original-composition img { display:block; width:100%; height:auto; object-fit:contain; }
+.soja-story .icon-introduction { margin-top:64px; }
+.soja-story .icon-exploration { margin-top:32px; }
+@media(max-width:700px) {
+  .soja-story main { width:calc(100% - 40px); }
+  .soja-story .prose { margin-top:42px; }
+  .soja-story .wide-figure { width:100%; margin-left:0; transform:none; }
+  .soja-story .screen-showcase { width:100%; }
+  .iteration-board { padding:22px 12px 20px; }
+  .iteration-stages { grid-template-columns:1fr; gap:64px; max-width:190px; margin:0 auto; }
+  .drawn-arrow { top:auto; bottom:-50px; right:calc(50% - 24px); width:46px; height:44px; transform:rotate(90deg); }
+  .sketch-heading { margin-bottom:24px; font-size:23px; }
+  .sketch-note { margin-top:15px; font-size:18px; }
+  .soja-story .final-screens { grid-template-columns:1fr; gap:24px; }
+  .screen-showcase h2 { margin-bottom:20px; }
+}
+@media(prefers-reduced-motion:reduce) { .soja-story .image-button { transition:none; } }

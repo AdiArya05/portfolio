@@ -1,0 +1,17 @@
+/* Shared, quiet icon studies with handwritten labels. Original artwork opens in full. */
+.icon-exploration { margin-top:48px; }
+.icon-exploration .sketch-heading { margin-bottom:30px; }
+.icon-row { display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:32px 34px; }
+.app-icon { width:120px; min-width:0; text-align:center; }
+.app-icon .image-button { border-radius:25%; background:transparent; box-shadow:0 8px 16px #00000010; }
+.app-icon .image-button img { display:block; width:100%; height:auto; }
+.icon-label { margin-top:12px; font:400 20px/1.35 'Patrick Hand',cursive; transform:rotate(-1.5deg); }
+.app-icon:nth-child(2n) .icon-label { transform:rotate(1deg); }
+.app-icon:nth-child(3n) .icon-label { transform:rotate(-.5deg); }
+.icon-exploration > figcaption { margin-top:28px; }
+@media(max-width:700px) {
+  .icon-row { gap:28px 24px; }
+  .soja-story .app-icon { width:84px; }
+  .soja-story .icon-row { gap:24px 20px; }
+  .icon-label { font-size:18px; }
+}

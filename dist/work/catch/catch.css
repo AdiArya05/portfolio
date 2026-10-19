@@ -1,0 +1,48 @@
+@font-face {
+  font-family:'Patrick Hand';
+  src:url('/fonts/PatrickHand-Regular.ttf') format('truetype');
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+}
+.catch-story { font-size:16px; line-height:1.75; }
+.catch-story main { width:min(680px, calc(100% - 48px)); }
+.catch-story h1 { font-size:20px; line-height:1.4; }
+.catch-story h2 { font-size:18px; line-height:1.5; margin-bottom:20px; }
+.catch-story .subtitle { font-size:15px; }
+.catch-story .site-nav { font-size:13px; }
+.catch-story figcaption { font-size:12.5px; line-height:1.65; }
+.catch-story .prose { margin-top:52px; }
+.catch-story .opening { margin-top:40px; }
+.catch-story .project-destination { font-size:15px; }
+.catch-story .next-project small,.catch-story .site-footer { font-size:13px; }
+.catch-story .next-project strong { font-size:16px; }
+.design-progression { margin-top:32px; }
+.sketch-heading { margin:0 0 28px; text-align:center; font:400 24px/1.3 'Patrick Hand',cursive; transform:rotate(-1deg); }
+.progression-layout { display:grid; grid-template-columns:minmax(0,1fr) 76px minmax(0,1fr); gap:18px; align-items:center; }
+.early-stage,.detail-stage { min-width:0; }
+.catch-story .early-screen,.catch-story .current-screen { max-width:190px; margin:0 auto; border-radius:15px; box-shadow:0 0 0 1px var(--line); }
+.sketch-note { margin:18px 0 0; text-align:center; font:400 19px/1.35 'Patrick Hand',cursive; transform:rotate(-1deg); }
+.detail-stage .sketch-note { transform:rotate(1deg); }
+.sketch-note small { display:block; margin-top:5px; font:400 12px/1.5 var(--font-sans); color:var(--muted); }
+.progression-arrow { width:100%; overflow:visible; stroke:var(--annotation-ink); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+.arrow-trail { stroke-dasharray:4 4; }
+.design-progression > figcaption { margin-top:24px; }
+.map-figure { width:100%; }
+@media(max-width:700px) {
+  .catch-story main { width:calc(100% - 40px); }
+  .catch-story .prose { margin-top:42px; }
+  .progression-layout { grid-template-columns:minmax(0,1fr) 35px minmax(0,1fr); gap:10px; }
+  .sketch-heading { font-size:23px; }
+  .sketch-note { font-size:18px; }
+  .sketch-note small { font-size:11px; }
+}
+
+.catch-story .icon-board { width:min(760px,calc(100vw - 64px)); margin:48px 0 0 50%; transform:translateX(-50%); }
+@media(max-width:700px) {
+  .catch-story .icon-board { width:100%; margin-left:0; transform:none; }
+}
+
+.catch-story .icon-introduction { margin-top:64px; }
+.catch-story .icon-introduction + .icon-board { margin-top:28px; }
+@media(max-width:700px) { .catch-story .icon-introduction { margin-top:48px; } }
