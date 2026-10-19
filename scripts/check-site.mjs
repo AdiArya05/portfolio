@@ -101,14 +101,22 @@ const scrollCalls = [];
 const signals = [];
 const timers = new Map();
 let nextTimer = 0;
+let footerVisibility;
 const controller = {
   document: {documentElement:{classList:toggles},querySelector: selector => selector === '#footer-discover' ? {classList:toggles,addEventListener:(name,fn)=>buttonHandlers.set(name,fn)} : {scrollIntoView:options=>scrollCalls.push(options)}},
   matchMedia: query => ({matches:!query.includes('reduced-motion'),addEventListener(){}}),
-  window:{addEventListener:(name,fn)=>handlers.set(name,fn),dispatchEvent:event=>signals.push(event.type)},
+  window:{IntersectionObserver:true,addEventListener:(name,fn)=>handlers.set(name,fn),dispatchEvent:event=>signals.push(event.type)},
+  IntersectionObserver:class { constructor(callback) { footerVisibility=callback; } observe() {} },
   setTimeout:fn=>{timers.set(++nextTimer,fn);return nextTimer;},clearTimeout:id=>timers.delete(id),
   Event,scrollY:0,innerHeight:900
 };
 vm.runInNewContext(discovery,controller);
+footerVisibility([{isIntersecting:true,intersectionRatio:0}]);
+assert(!classes.has('is-footer-visible'),'Do not fade the reel before the footer enters');
+footerVisibility([{isIntersecting:true,intersectionRatio:.5}]);
+assert(classes.has('is-footer-visible'),'Soften the reel boundary while the footer is visible');
+footerVisibility([{isIntersecting:false,intersectionRatio:0}]);
+assert(!classes.has('is-footer-visible'),'Restore the original reel when returning to the top');
 buttonHandlers.get('click')();
 assert.equal(scrollCalls[0].behavior,'smooth');
 assert(classes.has('is-page-scrolling'));

@@ -46,5 +46,12 @@
   window.addEventListener('blur', finishScroll);
   window.addEventListener('resize', paint, { passive: true });
   desktop.addEventListener('change', paint);
+  // Only soften the reel's lower edge while the footer is actually in view.
+  // The observer does not alter native wheel/touch scrolling or page geometry.
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      root.classList.toggle('is-footer-visible', entries[0].isIntersecting && entries[0].intersectionRatio > 0);
+    }, { threshold:.01 }).observe(footer);
+  }
   paint();
 })();

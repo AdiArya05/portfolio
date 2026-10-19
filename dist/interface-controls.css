@@ -1,0 +1,16 @@
+/* One control size on the homepage and both reading pages. */
+:root { --control-height:52px; --control-top:22px; --control-left:22px; }
+.theme-toggle,body.reading-page .theme-toggle {
+  top:var(--control-top); left:var(--control-left);
+  width:104px; height:var(--control-height); min-height:var(--control-height);
+}
+.theme-toggle:is(:hover,:focus-visible) { transform:none; }
+.time-zones,.reading-page .time-zones { top:var(--control-top); }
+.time-zone-toggle {
+  box-sizing:border-box; height:var(--control-height); min-height:var(--control-height);
+  padding-block:0; align-items:center;
+}
+@media(max-width:700px) {
+  :root { --control-top:max(16px,env(safe-area-inset-top)); --control-left:18px; }
+  .time-zones,.reading-page .time-zones { right:18px; }
+}
