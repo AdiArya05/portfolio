@@ -1768,7 +1768,7 @@
     <link rel="stylesheet" href="/modal-glass.css?v=20261019-v22" />
     <script src="/story-glass.js?v=20261019-v22" defer></script>
     <script src="/project-links.js?v=20261019-glass-v22-ready" defer></script>
-    <link rel="stylesheet" href="/interface-controls.css?v=20261019-v24" />
+    <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
     <link rel="stylesheet" href="/footer-layout.css?v=20261019-v24" />
   </head>
   <body>
@@ -1982,7 +1982,10 @@
           try { localStorage.setItem('portfolio-theme', nextTheme); } catch {}
           syncThemeControl();
         };
-        if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // Phone controls animate directly. A page snapshot freezes the sliding
+        // thumb mid-transition, then reveals it in a different position.
+        const desktopPointer = matchMedia('(min-width:701px) and (hover:hover) and (pointer:fine)').matches;
+        if (desktopPointer && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
           changingTheme = true;
           document.documentElement.classList.add('theme-transitioning');
           document.startViewTransition(apply).finished.catch(() => {}).finally(() => {
