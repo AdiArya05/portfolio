@@ -46,3 +46,10 @@
 .catch-story .icon-introduction { margin-top:64px; }
 .catch-story .icon-introduction + .icon-board { margin-top:28px; }
 @media(max-width:700px) { .catch-story .icon-introduction { margin-top:48px; } }
+
+/* Keep both screen designs large enough to read on a phone. */
+@media(max-width:600px) {
+  .progression-layout { grid-template-columns:minmax(0,1fr); gap:24px; }
+  .early-stage,.detail-stage { width:100%; }
+  .progression-arrow { width:46px; height:46px; justify-self:center; transform:rotate(90deg); }
+}

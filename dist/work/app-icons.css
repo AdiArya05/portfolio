@@ -11,7 +11,8 @@
 .icon-exploration > figcaption { margin-top:28px; }
 @media(max-width:700px) {
   .icon-row { gap:28px 24px; }
-  .soja-story .app-icon { width:84px; }
-  .soja-story .icon-row { gap:24px 20px; }
+  .soja-story .app-icon { width:100%; max-width:100px; justify-self:center; }
+  .soja-story .icon-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
   .icon-label { font-size:18px; }
 }
+@media(max-width:360px) { .soja-story .icon-label { font-size:16px; } }

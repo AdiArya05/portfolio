@@ -216,3 +216,9 @@ Build and image quality checks, navigator loop/marker fixtures, actual new-card 
 ## Approved release — 19 October 2026
 
 The final approved version restores Space Grotesk and the original layout, adds the Catch and Soja case studies, and includes the refined project hover, marker highlight and preview controls. Earlier sections above describe the local iteration history; discarded font and phone mockup experiments are not part of the release. The approved stories now have canonical and social metadata and sitemap entries. Local review screenshots and retired assets are excluded from Git and Vercel uploads. Production is the existing Vercel project `adiarya`, connected to `AdiArya05/portfolio` on `main`.
+
+## Phone story refinements — 19 October 2026
+
+Both stories remain accessible through the two homepage project links on phones. Catch's before/after screens now stack at phone widths so each stays 190px wide rather than shrinking side by side. Soja's three icons use equal columns, with smaller labels on narrow phones. The mobile next-story card gives its description and link the full card width. Anchor spacing clears the fixed appearance and clock controls, and image-viewer close controls retain a 44px target with safe-area spacing.
+
+Browser checks covered both stories at 320×568, 375×667, 390×844, 430×932 and 844×390, with 16px reading text, no horizontal overflow or out-of-bounds article content, and no broken loaded images. Mobile image open/close, focus return and scroll unlocking were checked. These are browser viewport checks, not physical iPhone Safari certification.
