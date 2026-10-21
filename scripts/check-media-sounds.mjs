@@ -39,7 +39,7 @@ for (const [direction, start, end, peak, decay, duration] of [
   assert.equal(tone.type, 'sine');
   const expected = [
     ['gain.initial', 0.0001, 10.016],
-    ['gain.attack', peak, 10.018],
+    ['gain.attack', peak * 0.7, 10.018],
     ['gain.decay', 0.0001, 10.018, decay / 3],
     ['frequency.initial', start, 10.016],
     ['frequency.sweep', end, 10.016 + duration],
@@ -58,7 +58,7 @@ for (const [direction, start, end, peak, decay, duration] of [
 
 for (const route of ['index.html', 'work/catch/index.html', 'work/soja/index.html']) {
   const html = fs.readFileSync(new URL(route, dist), 'utf8');
-  assert(html.includes('/media-sounds.js?v=20261021-v27'), `${route}: load shared synthesis`);
+  assert(html.includes('/media-sounds.js?v=20261021-v28'), `${route}: load shared synthesis`);
   if (route !== 'index.html') {
     assert(html.indexOf('/media-sounds.js') < html.indexOf('/interface-sounds.js'), 'Load synthesis before the deferred consumer');
     assert(html.includes('/interface-sounds.js?v=20261021-v27'), 'Refresh cached story audio');
