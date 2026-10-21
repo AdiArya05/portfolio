@@ -10,8 +10,9 @@ const dist = path.join(root, 'dist');
 const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const origin = 'https://adiarya.vercel.app';
 const cards = [...html.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
-assert.equal(cards.length, 9, 'Keep the app screen gallery without phone icon mockups');
-assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 9);
+assert.equal(cards.length, 8, 'Keep the remaining gallery without phone icon mockups or the removed Soja overview');
+assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 8);
+assert(!html.includes('media/soja-overview.'), 'Do not restore the removed homepage Soja overview image');
 cards.forEach((card, index) => {
   const destination = card.match(/data-link="([^"]+)"/)[1];
   assert.equal(new URL(destination).protocol, 'https:');
@@ -142,10 +143,10 @@ const { parseContributions } = require('../lib/github-contributions.js');
 assert.throws(() => parseContributions('<html>Temporarily unavailable</html>'), /Incomplete/);
 // Follow every story entry point to a real document and verify its local dependencies.
 const storyCards = cards.filter(card => card.includes('data-case-study='));
-assert.equal(storyCards.length, 7, 'All Soja and Catch gallery media should open stories');
+assert.equal(storyCards.length, 6, 'All remaining Soja and Catch gallery media should open stories');
 for (const project of ['soja', 'catch']) {
   const route = `/work/${project}/`;
-  assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, project === 'soja' ? 4 : 3);
+  assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, 3);
   const story = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8');
   const readingToolbar = story.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
   assert(readingToolbar?.includes('id="theme-toggle"') && readingToolbar.includes('id="time-zones"'), 'Keep reading controls in one header so content cannot scroll between them');
@@ -176,6 +177,6 @@ for (const project of ['soja', 'catch']) {
 for (const filename of ['theme-init.js', 'case-study.js']) {
   new vm.Script(fs.readFileSync(path.join(dist, 'work', filename), 'utf8'), { filename });
 }
-console.log('PASS: seven previewable gallery story links, personal Soja and Catch stories, local routes/assets, original image dimensions, image descriptions and shared script syntax.');
-console.log(`PASS: nine gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
+console.log('PASS: six previewable gallery story links, personal Soja and Catch stories, local routes/assets, original image dimensions, image descriptions and shared script syntax.');
+console.log(`PASS: eight gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
 console.log('PASS: lossless image pixel equality, smaller assets, restored original typography, phone media guards, deferred footer, keyboard gallery pause, close control and canonical-host redirect.');
