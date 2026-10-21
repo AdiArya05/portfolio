@@ -58,51 +58,7 @@ function scheduleAudioEffect(effect, freshness = 600) {
 });
 
 function playInterfaceSound(direction) {
-  scheduleAudioEffect((context) => {
-    const now = context.currentTime;
-
-    function softTap(at, frequency, level, duration) {
-      const frameCount = Math.ceil(context.sampleRate * duration);
-      const buffer = context.createBuffer(1, frameCount, context.sampleRate);
-      const samples = buffer.getChannelData(0);
-      for (let index = 0; index < frameCount; index += 1) {
-        const progress = index / frameCount;
-        samples[index] = (Math.random() * 2 - 1) * Math.pow(1 - progress, 7.5);
-      }
-
-      const source = context.createBufferSource();
-      const filter = context.createBiquadFilter();
-      const gain = context.createGain();
-      source.buffer = buffer;
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(frequency, at);
-      filter.Q.setValueAtTime(0.8, at);
-      gain.gain.setValueAtTime(level, at);
-      gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
-      source.connect(filter).connect(gain).connect(context.destination);
-      source.start(at);
-      source.stop(at + duration);
-    }
-
-    function softTone(at, startFrequency, endFrequency, level, duration, type = 'sine') {
-      const tone = context.createOscillator();
-      const gain = context.createGain();
-      tone.type = type;
-      tone.frequency.setValueAtTime(startFrequency, at);
-      tone.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
-      gain.gain.setValueAtTime(0.0001, at);
-      gain.gain.exponentialRampToValueAtTime(level, at + 0.012);
-      gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
-      tone.connect(gain).connect(context.destination);
-      tone.start(at);
-      tone.stop(at + duration + 0.01);
-    }
-
-    const isOpen = direction === 'open';
-    softTap(now, isOpen ? 1850 : 1450, 0.045, 0.052);
-    softTone(now, isOpen ? 330 : 440, isOpen ? 440 : 330, 0.065, 0.19);
-    softTone(now + 0.012, isOpen ? 660 : 880, isOpen ? 880 : 660, 0.018, 0.14, 'triangle');
-  });
+  scheduleAudioEffect((context) => window.PortfolioMediaSound(context, direction));
 }
 
 function playThemeSound(theme) {

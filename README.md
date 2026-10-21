@@ -240,3 +240,9 @@ Browser layout checks covered both stories at 320×568, 390×844, 430×932, 844�
 Phone theme changes now use the direct CSS transition rather than combining a full-page View Transition snapshot with an independently moving toggle thumb. Desktop pointers keep the existing page transition. The shared thumb animates its colour and shadow alongside its transform on all three pages, using a small composited layer; pill dimensions remain 104×52. Rapid phone taps apply the latest choice without waiting for a page-transition lock. Reduced motion disables these transitions.
 
 Browser checks exercised quick repeated native click events on Home, Catch and Soja at 390×844. All three ended on the last requested theme, with matching pressed state, no active page transition, unchanged 52px pill height and no overflow. Saved theme restoration and the reduced-motion end position were checked. Proof is recorded in `review/theme-toggle-v26-local.json`.
+
+## Media sounds — 21 October 2026
+
+Homepage previews and both story image viewers now share Recent.design's open and close synthesis: sine sweeps of 420→760Hz and 720→360Hz, with the source's exact gain, linear attack, exponential frequency ramp, zero-sustain target decay and tail. The 16ms onset is scheduled on the audio clock. Source reference: https://recent.design/assets/main-xBzOccU6.js. Audio remains generated locally after user activation; there is no runtime request to Recent.
+
+`npm run build` passes, including a new audio scheduling check for both presets, cleanup and script loading on all three routes. Browser Web Audio diagnostics confirmed running contexts and oscillator creation for homepage previews and story opening/closing at 390×844, with no console errors. This verifies browser synthesis and activation, not physical iPhone speaker output. Existing theme, clock and hover sounds are unchanged.
