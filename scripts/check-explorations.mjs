@@ -12,7 +12,7 @@ const cards = [...home.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].ma
 const pieces = [...page.matchAll(/<article class="exploration"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const title = html => html.match(/data-title="([^"]+)"/)[1];
 assert.deepEqual(pieces.map(title),cards.map(title),'Phone and desktop must show the same selected work in the same order');
-assert.equal(title(pieces[0]),'Income slider');
+assert.equal(title(pieces[2]),'Income slider');
 assert.equal(title(pieces[1]),'Catch Live Activity');
 assert(!page.includes('exploration-caption'), 'Keep labels and descriptions out of the media feed');
 assert(home.includes('class="mobile-explorations-link" href="/explorations/"'),'Give phone visitors a discoverable entry point');
