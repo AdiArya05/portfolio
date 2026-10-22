@@ -7,7 +7,13 @@ const story = await fs.readFile(path.join(dist, 'work/catch/index.html'), 'utf8'
 const toolbar = story.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)[0];
 const cards = [...home.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
 const attribute = (card, name) => card.match(new RegExp(`${name}="([^"]*)"`))?.[1] || '';
-const feed = cards.map(card => {
+// Phone visitors start with motion, then Catch's Live Activity. The desktop reel keeps its own order.
+const phoneLeadTitles = ['Income slider', 'Catch Live Activity'];
+const phoneCards = [
+  ...phoneLeadTitles.map(title => cards.find(card => attribute(card, 'data-title') === title)),
+  ...cards.filter(card => !phoneLeadTitles.includes(attribute(card, 'data-title'))),
+];
+const feed = phoneCards.map(card => {
   const title = attribute(card, 'data-title');
   const description = attribute(card, 'data-description');
   const route = attribute(card, 'data-case-study');
