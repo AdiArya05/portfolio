@@ -6,7 +6,7 @@ let audioResumePromise = null;
 function getAudioContext() {
   const AudioContextClass = window.AudioContext || window.webkitAudioContext;
   if (!AudioContextClass) return null;
-  audioContext ||= new AudioContextClass();
+  audioContext ||= new AudioContextClass({ latencyHint: 'interactive' });
   return audioContext;
 }
 
@@ -37,20 +37,16 @@ function scheduleAudioEffect(effect, freshness = 600) {
   const requestedAt = performance.now();
   const context = getAudioContext();
   if (!context) return;
-
-  const ready = context.state === 'running'
-    ? Promise.resolve(context)
-    : navigator.userActivation?.hasBeenActive
-      ? context.resume().then(() => context).catch(() => context)
-      : Promise.resolve(context);
-
-  ready.then((context) => {
-    if (!context || context.state !== 'running') return;
+  const play = () => {
+    if (context.state !== 'running' || performance.now() - requestedAt > freshness) return;
     document.documentElement.dataset.audioReady = 'true';
-    if (performance.now() - requestedAt > freshness) return;
     effect(context);
     document.documentElement.dataset.audioEffects = String(Number(document.documentElement.dataset.audioEffects || 0) + 1);
-  });
+  };
+  if (context.state === 'running') { play(); return; }
+  if (!navigator.userActivation?.hasBeenActive) return;
+  audioResumePromise ||= context.resume().catch(() => {}).finally(() => { audioResumePromise = null; });
+  audioResumePromise.then(play);
 }
 
 ['pointerdown', 'mousedown', 'touchstart', 'click', 'keydown'].forEach((eventName) => {

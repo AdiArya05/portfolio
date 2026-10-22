@@ -61,7 +61,7 @@ for (const route of ['index.html', 'work/catch/index.html', 'work/soja/index.htm
   assert(html.includes('/media-sounds.js?v=20261021-v28'), `${route}: load shared synthesis`);
   if (route !== 'index.html') {
     assert(html.indexOf('/media-sounds.js') < html.indexOf('/interface-sounds.js'), 'Load synthesis before the deferred consumer');
-    assert(html.includes('/interface-sounds.js?v=20261021-v27'), 'Refresh cached story audio');
+    assert(html.includes('/interface-sounds.js?v=20261022-v28'), 'Refresh cached story audio');
   }
 }
 console.log('Media audio verified: exact pitch, envelope, gain, onset, tail, cleanup and all three entry points.');

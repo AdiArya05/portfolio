@@ -1,5 +1,5 @@
 .notes-links { margin-top:40px; width:min(490px,100%); color:var(--ink); }
-.project-notes-list { position:relative; display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:0; isolation:isolate; }
+.project-notes-list { position:relative; display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:0; isolation:isolate; }
 .project-note { position:relative; display:grid; grid-template-columns:32px minmax(0,1fr) 16px; align-items:center; gap:11px; min-height:72px; padding:11px 12px; border-radius:19px; color:var(--ink); text-decoration:none; }
 .project-note > img { width:32px; height:32px; border-radius:8px; box-shadow:0 2px 5px #0000000c; }
 .project-note-copy { display:grid; gap:3px; }
@@ -13,7 +13,7 @@
 html[data-theme="dark"] .project-link-glass { border-color:#ffffff24; background:radial-gradient(ellipse at var(--glint-x,45%) var(--glint-y,20%),#ffffff17,transparent 75%),linear-gradient(145deg,#ffffff12,#ffffff04); box-shadow:inset 0 1px 1px #ffffff36,inset 0 -1px 1px #00000048,0 8px 22px #00000025; }
 @media(max-width:700px) {
   .notes-links { margin-top:24px; }
-  .project-notes-list { margin-top:0; gap:4px; }
+  .project-notes-list { margin-top:0; gap:12px; }
   .project-note { grid-template-columns:26px minmax(0,1fr) 12px; gap:8px; min-height:64px; padding:9px 8px; border-radius:16px; }
   .project-note > img { width:26px; height:26px; border-radius:7px; }
   .project-note strong { font-size:14px; }
@@ -34,8 +34,8 @@ html:not([data-theme="dark"]) .project-link-glass {
 /* All three project entries share the same quiet glass surface. */
 .project-note,.mobile-explorations-link {
   border:0; border-radius:19px;
-  background:linear-gradient(145deg,#ffffff35,#ffffff08),color-mix(in srgb,var(--ink) 4%,transparent);
-  box-shadow:inset 0 1px 1px #ffffff75,0 5px 16px #00000008;
+  background:linear-gradient(145deg,#ffffffa8,#ffffff26),color-mix(in srgb,var(--ink) 5%,transparent);
+  box-shadow:inset 0 1px 2px #ffffffe0,inset 0 -1px 2px #51462c12,0 6px 20px #51462c15;
   transition:box-shadow 280ms ease,transform 280ms cubic-bezier(.2,.8,.2,1);
 }
 html[data-theme="dark"] :is(.project-note,.mobile-explorations-link) {

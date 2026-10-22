@@ -28,3 +28,7 @@ html[data-theme="dark"] .modal-actions [data-liquid-glass]::before { border-colo
 /* Let the artwork set the popup width; long descriptions wrap inside it. */
 .modal-details { width:0; min-width:100%; }
 .modal-panel > #modal-image { margin-inline:auto; }
+
+/* The action surface is glass, without a drawn outline. */
+.modal-actions .modal-link,html[data-theme="dark"] .modal-actions .modal-link { border:0; }
+.modal-actions .modal-link[data-liquid-glass]::before { border:0; inset:0; }

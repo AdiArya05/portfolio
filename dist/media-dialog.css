@@ -1,0 +1,10 @@
+/* Animate the panel and its backdrop together; retain the top layer during exit. */
+.animated-media-dialog[open] { animation:media-dialog-in 360ms cubic-bezier(.16,1,.3,1) both; }
+.animated-media-dialog[open]::backdrop { animation:media-backdrop-in 360ms ease both; }
+.animated-media-dialog.is-closing { animation:media-dialog-out 320ms cubic-bezier(.4,0,.2,1) both; pointer-events:none; }
+.animated-media-dialog.is-closing::backdrop { animation:media-backdrop-out 320ms ease both; }
+@keyframes media-dialog-in { from { opacity:0; transform:translateY(14px) scale(.975); } to { opacity:1; transform:translateY(0) scale(1); } }
+@keyframes media-dialog-out { from { opacity:1; transform:translateY(0) scale(1); } to { opacity:0; transform:translateY(8px) scale(.985); } }
+@keyframes media-backdrop-in { from { opacity:0; } to { opacity:1; } }
+@keyframes media-backdrop-out { from { opacity:1; } to { opacity:0; } }
+@media(prefers-reduced-motion:reduce) { .animated-media-dialog[open],.animated-media-dialog[open]::backdrop { animation:none; } }

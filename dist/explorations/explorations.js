@@ -6,6 +6,7 @@
   const link = viewer.querySelector('#modal-link');
   const appearance = document.querySelector('#theme-toggle');
   let opener;
+  const dialogMotion = window.PortfolioDialogMotion(viewer, () => { video.pause(); sound('close'); });
   function sound(direction) {
     window.PortfolioSounds?.play('image', direction);
   }
@@ -80,15 +81,15 @@
         link.append(label,arrow);
       }
       window.dispatchEvent(new CustomEvent('portfolio-media-state',{detail:{open:true}}));
-      viewer.showModal();
+      dialogMotion.open();
       if (motion) video.play().catch(() => {});
       sound('open');
     });
   });
-  viewer.querySelector('.modal-close').addEventListener('click', () => viewer.close());
+  viewer.querySelector('.modal-close').addEventListener('click', () => dialogMotion.close());
   viewer.addEventListener('click', event => { if (event.target === viewer) {
     const box = viewer.getBoundingClientRect();
-    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) viewer.close();
+    if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialogMotion.close();
   } });
   viewer.addEventListener('close', () => {
     video.pause();
@@ -97,7 +98,6 @@
     image.removeAttribute('src');
     image.alt = '';
     window.dispatchEvent(new CustomEvent('portfolio-media-state',{detail:{open:false}}));
-    sound('close');
     opener?.focus({preventScroll:true});
   });
 })();

@@ -37,22 +37,23 @@
   const lightbox = document.querySelector('.lightbox');
   const enlarged = lightbox.querySelector('img');
   let opener;
+  const dialogMotion = window.PortfolioDialogMotion(lightbox, () => window.PortfolioSounds?.play('image', 'close'));
   document.querySelectorAll('.image-button').forEach(button => {
     button.addEventListener('click', () => {
+      if (lightbox.open) return;
       const image = button.querySelector('img');
       enlarged.src = image.currentSrc || image.src;
       enlarged.alt = image.alt;
       opener = button;
       window.PortfolioSounds?.play('image', 'open');
-      lightbox.showModal();
+      dialogMotion.open();
       root.classList.add('image-open');
     });
   });
-  lightbox.querySelector('button').addEventListener('click', () => lightbox.close());
-  lightbox.addEventListener('click', event => { if (event.target === lightbox) lightbox.close(); });
+  lightbox.querySelector('button').addEventListener('click', () => dialogMotion.close());
+  lightbox.addEventListener('click', event => { if (event.target === lightbox) dialogMotion.close(); });
   lightbox.addEventListener('close', () => {
     root.classList.remove('image-open');
-    window.PortfolioSounds?.play('image', 'close');
     enlarged.removeAttribute('src');
     enlarged.alt = '';
     opener?.focus({ preventScroll: true });
