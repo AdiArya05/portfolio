@@ -247,13 +247,15 @@ Homepage previews and both story image viewers now share Recent.design's open an
 
 `npm run build` passes, including a new audio scheduling check for both presets, cleanup and script loading on all three routes. Browser Web Audio diagnostics confirmed running contexts and oscillator creation for homepage previews and story opening/closing at 390×844, with no console errors. This verifies browser synthesis and activation, not physical iPhone speaker output. Existing theme, clock and hover sounds are unchanged.
 
-## Motion studies — 22 October 2026
+## Income motion study — 22 October 2026
 
-Two supplied recordings join the existing eight images in the desktop reel: Soja's recovery setup and an income slider with rolling numbers. Grey stages and phone frames match the screen mockups. Videos loop silently only while visible, pause behind the full preview and in hidden tabs, and have explicit pause/play controls. Reduced motion and data-saving preferences show a poster until playback is requested. The Soja preview links to its case study; the standalone income study has playback controls and close, with no placeholder destination.
+The income slider is the only video in the gallery, alongside the eight original images. The Soja motion clip has been removed. A taller 3:4 tile makes the app screen about twice as wide as the first version's small CSS phone. The complete recording remains visible; its UI is not cropped.
 
-On phones, the original first-screen intro and project links remain in place, with the two motion studies available by scrolling below. Original image cards and loop copies remain hidden there, and a solid header protects the fixed appearance and clock controls. Videos use H.264 MP4 with fast-start metadata at 720×1566 and 60fps, without recording audio; each is under 660KB. Original recordings remain outside the deployed site.
+The video is composited inside the Silver iPhone 17 Pro frame by [Hoverify](https://tryhoverify.com/tools/device-frames/iphone-17-pro/), using its published 1206×2622 screen opening and 1332×2748 frame dimensions. The frame is a dedicated device rendering, not Apple's official artwork. The [device frame license](https://tryhoverify.com/tools/device-frames/license/) permits finished portfolio mockups; only the finished video and poster are deployed, and the standalone frame is retained in the ignored review directory. The H.264 MP4 is 1080×1440 at 60fps, with fast-start metadata, no recording audio and a size under 610KB.
 
-Validation includes the full build, video loading/pause/reduced-motion controller tests, all ten gallery progress positions, browser playback and frame containment at 320×568, 390×844, 430×932, 844×390 and desktop size, keyboard open/close and pause controls, and no browser console errors. Phone checks use browser viewports rather than a physical iPhone. Review screenshots and source contact sheets are kept under the ignored `review/video-explorations/` directory.
+The recording loops silently only while visible, pauses behind the full preview and in hidden tabs, and has an explicit pause/play control. Reduced motion and data-saving preferences show the poster until playback is requested. The full preview has video controls and close, with no placeholder destination. On phones, the original first-screen intro and project links remain in place, with the motion study available by scrolling below. A solid header protects the fixed appearance and clock controls.
+
+Validation includes the full build, playback-controller tests, all nine gallery progress positions, and browser playback, pause/close and frame-containment checks at phone, landscape and desktop sizes. Phone checks use browser viewports rather than a physical iPhone. Review output is kept under the ignored `review/income-frame-v2/` directory.
 
 ## Homepage gallery removal — 21 October 2026
 

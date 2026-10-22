@@ -19,7 +19,7 @@ const makeVideo = name => {
     toggle() { listeners['button.click']({stopPropagation(){}}); },
   };
 };
-const videos = [makeVideo('soja'),makeVideo('income'),makeVideo('soja')];
+const videos = [makeVideo('income'),makeVideo('other'),makeVideo('income')];
 const document = { hidden:false, querySelectorAll:() => videos, addEventListener:(name,fn) => events.set(name,fn) };
 let observe;
 vm.runInNewContext(fs.readFileSync(new URL('../dist/motion-gallery.js',import.meta.url),'utf8'), {
