@@ -14,6 +14,7 @@ const title = html => html.match(/data-title="([^"]+)"/)[1];
 assert.deepEqual(pieces.map(title),cards.map(title),'Phone and desktop must show the same selected work in the same order');
 assert.equal(title(pieces[0]),'Income slider');
 assert.equal(title(pieces[1]),'Catch Live Activity');
+assert(!page.includes('exploration-caption'), 'Keep labels and descriptions out of the media feed');
 assert(home.includes('class="mobile-explorations-link" href="/explorations/"'),'Give phone visitors a discoverable entry point');
 assert(read('motion-gallery.css').includes('.shell > .gallery-wrap { display:none !important; }'),'Keep the reel off the phone homepage');
 assert(!read('motion-gallery.css').includes('display:block !important; height:auto'),'Do not restore the phone reel');

@@ -30,3 +30,20 @@ html:not([data-theme="dark"]) .project-link-glass {
   background:radial-gradient(ellipse at var(--glint-x,45%) var(--glint-y,20%),#ffffffed,transparent 85%),linear-gradient(150deg,#ffffffb8,#ede9df55);
   box-shadow:inset 0 2px 2px #fff,inset 0 -2px 2px #9b937324,0 12px 30px #51462c24,0 2px 5px #51462c12;
 }
+
+/* All three project entries share the same quiet glass surface. */
+.project-note,.mobile-explorations-link {
+  border:0; border-radius:19px;
+  background:linear-gradient(145deg,#ffffff35,#ffffff08),color-mix(in srgb,var(--ink) 4%,transparent);
+  box-shadow:inset 0 1px 1px #ffffff75,0 5px 16px #00000008;
+  transition:box-shadow 280ms ease,transform 280ms cubic-bezier(.2,.8,.2,1);
+}
+html[data-theme="dark"] :is(.project-note,.mobile-explorations-link) {
+  background:linear-gradient(145deg,#ffffff08,#ffffff02),color-mix(in srgb,var(--ink) 4%,transparent);
+  box-shadow:inset 0 1px 1px #ffffff20,0 5px 16px #0002;
+}
+.project-note:active,.mobile-explorations-link:active { transform:scale(.985); }
+@media(prefers-reduced-motion:reduce) {
+  .project-note,.mobile-explorations-link { transition:none; }
+  .project-note:active,.mobile-explorations-link:active { transform:none; }
+}

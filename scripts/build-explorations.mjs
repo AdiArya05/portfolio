@@ -22,13 +22,11 @@ const feed = cards.map(card => {
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}</button>
           ${toggle}
         </div>
-        <div class="exploration-caption"><strong>${title}</strong><p>${description}</p></div>
       </article>`;
   }
   const image = card.match(/<img class="card-media"[^>]+>/)[0].replaceAll('="media/', '="/media/');
   return `<article class="exploration" ${attributes}>
         <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${image}</button>
-        <div class="exploration-caption"><strong>${title}</strong><p>${description}</p></div>
       </article>`;
 }).join('\n      ');
 
@@ -51,7 +49,7 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261022-v2" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261022-v3" />
   <link rel="stylesheet" href="/modal-glass.css?v=20261019-v22" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261021-v27" defer></script>
