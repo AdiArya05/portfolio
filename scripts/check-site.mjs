@@ -10,13 +10,15 @@ const dist = path.join(root, 'dist');
 const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const origin = 'https://adiarya.vercel.app';
 const cards = [...html.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
-assert.equal(cards.length, 8, 'Keep seven images plus the featured income motion study');
-assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 8);
-assert(cards[0].includes('income-slider-motion'), 'Feature the income recording first');
+assert.equal(cards.length, 7, 'Keep six stills plus the income motion study');
+assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 7);
+assert(cards[2].includes('income-slider-motion'), 'Keep the income recording third');
 assert(!html.includes('catch-live-board-motion') && !html.includes('media/soja-welcome.'), 'Keep removed Catch recording and Soja welcome out of the reel');
+assert(!html.includes('data-framing=') && !html.includes('--media-zoom'), 'Keep stills at their original framing');
+assert(!html.includes('Previous Portfolio') && !html.includes('media/portfolio-showcase.'), 'Keep the old portfolio out of the reel');
 assert(!html.includes('soja-recovery-motion'), 'Keep the removed Soja video out of the gallery');
 assert(!html.includes('media/soja-overview.'), 'Do not restore the removed homepage Soja overview image');
-cards.forEach((card, index) => {
+for (const [index, card] of cards.entries()) {
   if (card.includes('data-motion=')) {
     const video = card.match(/<video[^>]+>/)[0];
     assert(video.includes('muted loop playsinline'), 'Motion previews stay silent and inline');
@@ -28,7 +30,7 @@ cards.forEach((card, index) => {
     }
     assert(card.includes('class="motion-toggle"'), 'Allow pausing looping motion');
     assert(card.includes('aria-haspopup="dialog"'), 'Offer a full preview');
-    return;
+    continue;
   }
   const destination = card.match(/data-link="([^"]+)"/)[1];
   assert.equal(new URL(destination).protocol, 'https:');
@@ -39,13 +41,14 @@ cards.forEach((card, index) => {
   } else assert(card.includes(`href="${destination}"`), 'Preview and original destinations must match');
   assert(/loading="lazy"/.test(card), 'Offscreen gallery images should load lazily');
   const image = card.match(/<img[^>]+>/)[0];
-  const file = fs.readFileSync(path.join(dist, image.match(/src="([^"]+)"/)[1]));
-  assert.equal(Number(image.match(/width="(\d+)"/)[1]), file.readUInt32BE(16));
-  assert.equal(Number(image.match(/height="(\d+)"/)[1]), file.readUInt32BE(20));
+  const file = await sharp(path.join(dist, image.match(/src="([^"]+)"/)[1])).metadata();
+  assert.equal(Number(image.match(/width="(\d+)"/)[1]), file.width);
+  assert.equal(Number(image.match(/height="(\d+)"/)[1]), file.height);
+  assert.equal(file.width, 3840, 'Use the full 4K image in the reel and expanded preview');
   assert(!card.includes('data-link-label="App Store"') ||
     !cards[(index + 1) % cards.length].includes('data-link-label="App Store"'),
   'Keep App Store screenshots separated, including the loop boundary');
-});
+}
 
 for (const match of html.matchAll(/<(?:img|script|link)\b[^>]*?\b(?:src|href)="([^"]+)"/g)) {
   const url = new URL(match[1], origin);
@@ -88,7 +91,8 @@ assert(fs.readFileSync(path.join(dist,'fonts/Space-Grotesk-OFL.txt'),'utf8').inc
 for (const card of cards) {
   if (card.includes('data-motion=')) continue;
   assert(card.includes('media="(max-width:700px)"'), 'Hidden phone gallery must not fetch desktop images');
-  const file = card.match(/srcset="(media\/[^\"]+\.webp)"/)[1];
+  const exportFile = card.match(/srcset="(media\/[^\"]+\.webp)"/)[1];
+  const file = exportFile.replace('-4k.webp', '.webp');
   const original = file.replace('.webp', '.png');
   const before = await sharp(path.join(dist, original)).ensureAlpha().raw().toBuffer({resolveWithObject:true});
   const after = await sharp(path.join(dist, file)).ensureAlpha().raw().toBuffer({resolveWithObject:true});
@@ -195,5 +199,5 @@ for (const filename of ['theme-init.js', 'case-study.js']) {
   new vm.Script(fs.readFileSync(path.join(dist, 'work', filename), 'utf8'), { filename });
 }
 console.log('PASS: five previewable gallery story links, personal Soja and Catch stories, local routes/assets, original image dimensions, image descriptions and shared script syntax.');
-console.log(`PASS: eight gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
+console.log(`PASS: seven gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
 console.log('PASS: lossless image pixel equality, smaller assets, restored original typography, phone media guards, deferred footer, keyboard gallery pause, close control and canonical-host redirect.');

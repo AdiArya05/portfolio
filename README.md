@@ -249,13 +249,15 @@ Homepage previews and both story image viewers now share Recent.design's open an
 
 ## App media and motion — 22 October 2026
 
-The reel contains seven stills and one income slider recording, featured first. The Catch motion clip and Soja welcome image are removed from the homepage. All stills retain their original card proportions; four app images use a small, individually positioned zoom inside the existing 4:3 box. Website overviews retain their original layouts. Source images remain pixel-identical and previews open the full uncropped original. Case-study images are unchanged.
+The reel order is Sailorfy, Catch Live Board, income slider, Soja recovery, Catch Live Activity, Soja website and Catch nearby. The income slider is third and drifts upward with the reel at 35 pixels per second. Warm orange, charcoal, blue, purple and green views alternate; Catch views are separated by other work. The old portfolio, Catch motion recording and Soja welcome image stay out of the homepage.
+
+All six stills have their original proportions and framing with no extra crop or zoom. Their reel and full-preview sources are lossless WebP exports at 3840 pixels wide (2880 high, or 2487 for the wider Soja website). These are Lanczos upscales from the supplied 1920-pixel and 1541-pixel originals, not native 4K detail. Originals remain untouched. Run `npm run export:gallery` to rebuild the exports. Case-study images are unchanged.
 
 The income recording retains the approved enlarged Silver iPhone 17 Pro frame by [Hoverify](https://tryhoverify.com/tools/device-frames/iphone-17-pro/). Its [license](https://tryhoverify.com/tools/device-frames/license/) permits finished portfolio mockups; the standalone frame stays in the ignored review directory. The silent H.264 MP4 is 1080×1440 at 60fps, about 605KB, with fast-start metadata.
 
 The recording plays only while visible, pauses behind full previews and in hidden tabs, and has explicit playback controls. Reduced motion and data-saving preferences show a poster until requested. On phones it remains below the original intro and project links, with an opaque header protecting the fixed appearance and clock controls.
 
-Validation includes the full build, playback-controller tests, eight gallery progress positions, card proportions, original full-image previews and desktop/phone layouts.
+Validation includes the full build, playback-controller tests, seven gallery progress positions, card proportions, original full-image previews and desktop/phone layouts.
 
 ## Homepage gallery removal — 21 October 2026
 
