@@ -12,7 +12,7 @@ const origin = 'https://adiarya.vercel.app';
 const cards = [...html.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
 assert.equal(cards.length, 7, 'Keep six stills plus the income motion study');
 assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 7);
-assert(cards[1].includes('income-slider-motion'), 'Keep the income recording second');
+assert(cards[0].includes('income-slider-motion') && cards[1].includes('data-title="Catch Live Activity"'), 'Lead with income, followed by Catch Live Activity');
 assert(!html.includes('catch-live-board-motion') && !html.includes('media/soja-welcome.'), 'Keep removed Catch recording and Soja welcome out of the reel');
 assert(!html.includes('data-framing=') && !html.includes('--media-zoom'), 'Keep stills at their original framing');
 assert(!html.includes('Previous Portfolio') && !html.includes('media/portfolio-showcase.'), 'Keep the old portfolio out of the reel');

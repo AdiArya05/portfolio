@@ -6,57 +6,84 @@
   <title>Explorations — Aditya Arya</title>
   <meta name="description" content="Interfaces, websites and motion studies by Aditya Arya." />
   <meta name="robots" content="noindex" />
-  <meta name="theme-color" content="#ffffff" />
+  <meta name="theme-color" content="#fbf8ef" />
+  <link rel="icon" href="/media/aditya-arya-icon.png" />
   <link rel="canonical" href="https://adiarya.vercel.app/explorations" />
   <script src="/explorations/phone-only.js?v=20261022-v1"></script>
   <script src="/work/theme-init.js"></script>
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261022-v1" />
+  <link rel="preload" href="/fonts/space-grotesk-v22-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/typography.css?v=20261019-original-v20" />
+  <link rel="stylesheet" href="/work/case-study.css?v=20261019-v25" />
+  <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
+  <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
+  <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261022-v2" />
   <link rel="stylesheet" href="/modal-glass.css?v=20261019-v22" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
-  <script src="/explorations/explorations.js?v=20261022-v1" defer></script>
+  <script src="/interface-sounds.js?v=20261021-v27" defer></script>
+  <script src="/world-times.js?v=20261019-v17" defer></script>
+  <script src="/explorations/explorations.js?v=20261022-v2" defer></script>
   <script src="/motion-gallery.js?v=20261022-v1" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
 </head>
-<body>
+<body class="reading-page explorations-view">
+  <header class="reading-toolbar" aria-label="Reading controls">
+    <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Appearance">
+      <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+    </div>
+    <div class="time-zones" id="time-zones">
+      <button class="time-zone-toggle" id="time-zone-toggle" type="button" aria-expanded="false" aria-controls="time-zone-dropdown" aria-label="Show local time and places I have visited">
+        <span class="matrix-row" id="local-matrix" aria-hidden="true"></span>
+        <svg class="zone-chevron" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <div class="time-zone-dropdown" id="time-zone-dropdown" inert>
+        <div class="time-zone-panel">
+          <div id="visited-time-zones"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <nav class="site-nav" aria-label="Main navigation"><a class="back-link" href="/"><span aria-hidden="true">←</span> Back to home</a></nav>
   <main id="explorations" class="explorations-page">
-    <header class="profile">
-      <a class="profile-avatar" href="/" aria-label="Back to the homepage"><img src="/media/aditya-profile.jpg" width="32" height="32" alt="" /></a>
-      <h1>Aditya Arya</h1>
-      <p>Designing and building apps.</p>
-      <nav class="section-nav" aria-label="Portfolio sections">
-        <a href="/">Work</a>
-        <a href="/explorations/" aria-current="page">Explorations</a>
-        <a href="/work/catch/">Catch</a>
-        <a href="/work/soja/">Soja</a>
-      </nav>
+    <header class="explorations-header">
+      <div class="explorations-identity"><img class="explorations-avatar" src="/media/aditya-arya-icon.png" width="44" height="44" alt="Aditya Arya" /><div><span class="explorations-author">Aditya Arya</span><h1>Explorations</h1></div></div>
+      <p>Interfaces, websites and motion studies.</p>
     </header>
     <section class="explorations-feed" aria-label="Interfaces, websites and motion studies">
-      <article class="exploration" data-title="Sailorfy" data-description="A calmer way to navigate the maritime world." data-destination="https://sailorfy.framer.website/" data-action="Live site">
-        <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Sailorfy preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="/media/sailorfy-showcase-4k.webp" alt="Sailorfy website displayed in a desktop browser mockup" /></button>
-      </article>
       <article class="exploration" data-title="Income slider" data-description="Exploring a sliding scale and rolling numbers." data-destination="" data-action="">
         <div class="motion-stage">
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Income slider preview"><video class="card-media" width="1080" height="1440" poster="/media/income-slider-iphone17pro.webp" data-src="/media/income-slider-iphone17pro.mp4" data-name="income slider animation" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video></button>
           <button class="motion-toggle" type="button" aria-label="Play income slider animation preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></button>
         </div>
-      </article>
-      <article class="exploration" data-title="Catch Live Board" data-description="Fast, legible Singapore bus arrivals designed for the moment you need them." data-destination="/work/catch/" data-action="Explore case study" data-case-study="/work/catch/">
-        <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Catch Live Board preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="/media/catch-live-board-4k.webp" alt="Catch bus arrival board on an iPhone" /></button>
-      </article>
-      <article class="exploration" data-title="Soja Recovery" data-description="A personalised plan for rebuilding your body clock after disruption." data-destination="/work/soja/" data-action="Explore case study" data-case-study="/work/soja/">
-        <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Soja Recovery preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="/media/soja-recovery-4k.webp" alt="Soja circadian recovery dashboard on an iPhone" /></button>
+        <div class="exploration-caption"><strong>Income slider</strong><p>Exploring a sliding scale and rolling numbers.</p></div>
       </article>
       <article class="exploration" data-title="Catch Live Activity" data-description="The next bus, timing, and leave-now guidance at a glance." data-destination="/work/catch/" data-action="Explore case study" data-case-study="/work/catch/">
         <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="/media/catch-live-detail-4k.webp" alt="Catch Live Activity showing the next bus and leave-now guidance" /></button>
+        <div class="exploration-caption"><strong>Catch Live Activity</strong><p>The next bus, timing, and leave-now guidance at a glance.</p></div>
+      </article>
+      <article class="exploration" data-title="Sailorfy" data-description="A calmer way to navigate the maritime world." data-destination="https://sailorfy.framer.website/" data-action="Live site">
+        <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Sailorfy preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="/media/sailorfy-showcase-4k.webp" alt="Sailorfy website displayed in a desktop browser mockup" /></button>
+        <div class="exploration-caption"><strong>Sailorfy</strong><p>A calmer way to navigate the maritime world.</p></div>
+      </article>
+      <article class="exploration" data-title="Soja Recovery" data-description="A personalised plan for rebuilding your body clock after disruption." data-destination="/work/soja/" data-action="Explore case study" data-case-study="/work/soja/">
+        <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Soja Recovery preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="/media/soja-recovery-4k.webp" alt="Soja circadian recovery dashboard on an iPhone" /></button>
+        <div class="exploration-caption"><strong>Soja Recovery</strong><p>A personalised plan for rebuilding your body clock after disruption.</p></div>
+      </article>
+      <article class="exploration" data-title="Catch Live Board" data-description="Fast, legible Singapore bus arrivals designed for the moment you need them." data-destination="/work/catch/" data-action="Explore case study" data-case-study="/work/catch/">
+        <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Catch Live Board preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="/media/catch-live-board-4k.webp" alt="Catch bus arrival board on an iPhone" /></button>
+        <div class="exploration-caption"><strong>Catch Live Board</strong><p>Fast, legible Singapore bus arrivals designed for the moment you need them.</p></div>
       </article>
       <article class="exploration" data-title="Soja Website" data-description="The product story and science behind personalised sleep recovery." data-destination="/work/soja/" data-action="Explore case study" data-case-study="/work/soja/">
         <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Soja Website preview"><img class="card-media" width="3840" height="2487" style="aspect-ratio:1541/998" loading="lazy" decoding="async" src="/media/soja-website-4k.webp" alt="Soja website with a landscape and the message Reset your sleep" /></button>
+        <div class="exploration-caption"><strong>Soja Website</strong><p>The product story and science behind personalised sleep recovery.</p></div>
       </article>
       <article class="exploration" data-title="Catch Nearby" data-description="Nearby stops and arrivals placed directly on the map." data-destination="/work/catch/" data-action="Explore case study" data-case-study="/work/catch/">
         <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Catch Nearby preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="/media/catch-map-4k.webp" alt="Catch nearby bus stops map on an iPhone" /></button>
+        <div class="exploration-caption"><strong>Catch Nearby</strong><p>Nearby stops and arrivals placed directly on the map.</p></div>
       </article>
     </section>
-    <footer class="explorations-footer"><a href="/">Back to work</a><button type="button" id="appearance">Dark appearance</button></footer>
+    <footer class="explorations-footer"><a class="back-link" href="/">← Back to home</a><a href="#explorations">Back to top ↑</a></footer>
   </main>
   <dialog class="modal-panel" id="media-viewer" aria-labelledby="modal-title" aria-describedby="modal-description">
     <div class="viewer-stage"><img id="modal-image" alt="" hidden /><video id="modal-video" controls muted loop playsinline hidden aria-label="Animation playback"></video></div>

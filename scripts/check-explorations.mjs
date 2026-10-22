@@ -12,11 +12,18 @@ const cards = [...home.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].ma
 const pieces = [...page.matchAll(/<article class="exploration"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const title = html => html.match(/data-title="([^"]+)"/)[1];
 assert.deepEqual(pieces.map(title),cards.map(title),'Phone and desktop must show the same selected work in the same order');
-assert.equal(title(pieces[1]),'Income slider');
+assert.equal(title(pieces[0]),'Income slider');
+assert.equal(title(pieces[1]),'Catch Live Activity');
 assert(home.includes('class="mobile-explorations-link" href="/explorations/"'),'Give phone visitors a discoverable entry point');
 assert(read('motion-gallery.css').includes('.shell > .gallery-wrap { display:none !important; }'),'Keep the reel off the phone homepage');
 assert(!read('motion-gallery.css').includes('display:block !important; height:auto'),'Do not restore the phone reel');
-assert(page.includes('aria-current="page"') && page.includes('aria-label="Portfolio sections"'));
+const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
+assert(toolbar?.includes('id="theme-toggle"') && toolbar.includes('id="time-zones"'), 'Use the case studies opaque reading toolbar');
+assert(page.includes('src="/media/aditya-arya-icon.png" width="44" height="44"'), 'Restore the original profile portrait');
+assert(!page.includes('aditya-profile.jpg') && !page.includes('section-nav'), 'Use the portfolio identity rather than the reference layout');
+assert(page.includes('/typography.css') && page.includes('/work/reading-toolbar.css') && page.includes('/interface-controls.css'));
+assert(page.includes('/interface-sounds.js') && page.includes('/world-times.js'));
+assert(page.includes('Back to home') && page.includes('Back to top'));
 assert(page.includes('<dialog') && page.includes('aria-labelledby="modal-title"') && page.includes('aria-describedby="modal-description"'));
 assert(page.includes('viewport-fit=cover'));
 assert(!page.includes('Previous Portfolio') && !page.includes('catch-live-board-motion') && !page.includes('soja-welcome.'));
@@ -38,6 +45,6 @@ for (const match of page.matchAll(/<(?:img|script|link|a|video)\b[^>]*?\b(?:src|
   assert(fs.existsSync(file),`Missing phone-page destination ${file}`);
 }
 for (const file of ['explorations/phone-only.js','explorations/explorations.js']) new vm.Script(read(file),{filename:file});
-assert(read('explorations/explorations.js').includes('PortfolioMediaSound'));
+assert(read('explorations/explorations.js').includes("PortfolioSounds?.play('image'"));
 assert(read('explorations/explorations.js').includes('preventScroll:true'),'Closing a preview must retain the reading position');
 console.log('PASS: phone-only explorations, complete gallery parity, 4K stills, silent recording, live destinations, preview accessibility and shared sounds.');
