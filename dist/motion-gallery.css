@@ -1,4 +1,8 @@
-/* Quiet motion previews, framed like the existing grey screen mockups. */
+/* Tighter app screenshots and quiet motion previews; originals stay in the lightbox. */
+.card[data-framing] > .case-study-media { position:relative; display:block; aspect-ratio:3/4; overflow:hidden; }
+.card[data-framing="square"] > .case-study-media { aspect-ratio:1; }
+.card[data-framing] > .case-study-media > picture { position:absolute; inset:0; display:block; }
+.card[data-framing] > .case-study-media .card-media { width:100%; height:100%; object-fit:cover; object-position:center; border:0; border-radius:0; }
 .motion-stage { position:relative; aspect-ratio:3/4; background:#e4e4e4; overflow:hidden; }
 .motion-open { position:absolute; inset:0; display:block; width:100%; padding:0; border:0; background:none; cursor:zoom-in; }
 .motion-open .card-media { display:block; width:100%; height:100%; border:0; border-radius:0; object-fit:contain; background:#e4e4e4; }
