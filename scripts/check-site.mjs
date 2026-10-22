@@ -10,10 +10,23 @@ const dist = path.join(root, 'dist');
 const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const origin = 'https://adiarya.vercel.app';
 const cards = [...html.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
-assert.equal(cards.length, 8, 'Keep the remaining gallery without phone icon mockups or the removed Soja overview');
-assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 8);
+assert.equal(cards.length, 10, 'Keep eight original images and two motion studies');
+assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 10);
 assert(!html.includes('media/soja-overview.'), 'Do not restore the removed homepage Soja overview image');
 cards.forEach((card, index) => {
+  if (card.includes('data-motion=')) {
+    const video = card.match(/<video[^>]+>/)[0];
+    assert(video.includes('muted loop playsinline'), 'Motion previews stay silent and inline');
+    assert(video.includes('preload="none"') && !/\ssrc=/.test(video), 'Load video only when visible');
+    for (const attr of ['data-src','poster']) {
+      const file = path.join(dist, video.match(new RegExp(`${attr}="([^"]+)"`))[1]);
+      assert(fs.existsSync(file), `Missing motion asset ${file}`);
+      assert(fs.statSync(file).size < 2_000_000, 'Keep motion assets light');
+    }
+    assert(card.includes('class="motion-toggle"'), 'Allow pausing looping motion');
+    assert(card.includes('aria-haspopup="dialog"'), 'Offer a full preview');
+    return;
+  }
   const destination = card.match(/data-link="([^"]+)"/)[1];
   assert.equal(new URL(destination).protocol, 'https:');
   const story = card.match(/data-case-study="([^"]+)"/)?.[1];
@@ -70,6 +83,7 @@ assert(html.includes('got something in mind?'), 'Keep the original contact promp
 assert(fs.readFileSync(path.join(dist,'fonts/space-grotesk-v22-latin.woff2')).subarray(0,4).toString() === 'wOF2');
 assert(fs.readFileSync(path.join(dist,'fonts/Space-Grotesk-OFL.txt'),'utf8').includes('SIL OPEN FONT LICENSE'));
 for (const card of cards) {
+  if (card.includes('data-motion=')) continue;
   assert(card.includes('media="(max-width:700px)"'), 'Hidden phone gallery must not fetch desktop images');
   const file = card.match(/srcset="(media\/[^\"]+\.webp)"/)[1];
   const original = file.replace('.webp', '.png');
@@ -143,10 +157,10 @@ const { parseContributions } = require('../lib/github-contributions.js');
 assert.throws(() => parseContributions('<html>Temporarily unavailable</html>'), /Incomplete/);
 // Follow every story entry point to a real document and verify its local dependencies.
 const storyCards = cards.filter(card => card.includes('data-case-study='));
-assert.equal(storyCards.length, 6, 'All remaining Soja and Catch gallery media should open stories');
+assert.equal(storyCards.length, 7, 'Soja and Catch screens, including Soja motion, should open stories');
 for (const project of ['soja', 'catch']) {
   const route = `/work/${project}/`;
-  assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, 3);
+  assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, project === 'soja' ? 4 : 3);
   const story = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8');
   const readingToolbar = story.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
   assert(readingToolbar?.includes('id="theme-toggle"') && readingToolbar.includes('id="time-zones"'), 'Keep reading controls in one header so content cannot scroll between them');
@@ -177,6 +191,6 @@ for (const project of ['soja', 'catch']) {
 for (const filename of ['theme-init.js', 'case-study.js']) {
   new vm.Script(fs.readFileSync(path.join(dist, 'work', filename), 'utf8'), { filename });
 }
-console.log('PASS: six previewable gallery story links, personal Soja and Catch stories, local routes/assets, original image dimensions, image descriptions and shared script syntax.');
-console.log(`PASS: eight gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
+console.log('PASS: seven previewable gallery story links, personal Soja and Catch stories, local routes/assets, original image dimensions, image descriptions and shared script syntax.');
+console.log(`PASS: ten gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
 console.log('PASS: lossless image pixel equality, smaller assets, restored original typography, phone media guards, deferred footer, keyboard gallery pause, close control and canonical-host redirect.');

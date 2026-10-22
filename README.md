@@ -247,6 +247,14 @@ Homepage previews and both story image viewers now share Recent.design's open an
 
 `npm run build` passes, including a new audio scheduling check for both presets, cleanup and script loading on all three routes. Browser Web Audio diagnostics confirmed running contexts and oscillator creation for homepage previews and story opening/closing at 390×844, with no console errors. This verifies browser synthesis and activation, not physical iPhone speaker output. Existing theme, clock and hover sounds are unchanged.
 
+## Motion studies — 22 October 2026
+
+Two supplied recordings join the existing eight images in the desktop reel: Soja's recovery setup and an income slider with rolling numbers. Grey stages and phone frames match the screen mockups. Videos loop silently only while visible, pause behind the full preview and in hidden tabs, and have explicit pause/play controls. Reduced motion and data-saving preferences show a poster until playback is requested. The Soja preview links to its case study; the standalone income study has playback controls and close, with no placeholder destination.
+
+On phones, the original first-screen intro and project links remain in place, with the two motion studies available by scrolling below. Original image cards and loop copies remain hidden there, and a solid header protects the fixed appearance and clock controls. Videos use H.264 MP4 with fast-start metadata at 720×1566 and 60fps, without recording audio; each is under 660KB. Original recordings remain outside the deployed site.
+
+Validation includes the full build, video loading/pause/reduced-motion controller tests, all ten gallery progress positions, browser playback and frame containment at 320×568, 390×844, 430×932, 844×390 and desktop size, keyboard open/close and pause controls, and no browser console errors. Phone checks use browser viewports rather than a physical iPhone. Review screenshots and source contact sheets are kept under the ignored `review/video-explorations/` directory.
+
 ## Homepage gallery removal — 21 October 2026
 
 Removed the Soja Overview calendar/timeline card from the homepage carousel and its progress marker. The eight remaining cards keep their order, original assets, previews and destinations. The Soja case study is unchanged; source image files are retained. Gallery and loop-tracking checks now cover eight cards.

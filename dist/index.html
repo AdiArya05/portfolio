@@ -1208,9 +1208,6 @@
 
       .modal-panel video { display:block; width:auto; max-width:86vw; max-height:76vh; object-fit:contain; background:#111; }
       .modal-panel [hidden] { display:none !important; }
-      .modal-panel:has(#modal-video:not([hidden])) { width:min(86vw,calc(76vh * 1206 / 2622)); }
-      .modal-panel:has(#modal-video:not([hidden])) video { width:100%; }
-      .modal-panel:has(#modal-video:not([hidden])) .modal-details { gap:10px; align-items:flex-start; }
       .modal-copy { min-width:0; }
 
       .modal-details {
@@ -1770,6 +1767,8 @@
     <script src="/story-glass.js?v=20261019-v22" defer></script>
     <script src="/project-links.js?v=20261019-glass-v22-ready" defer></script>
     <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
+    <link rel="stylesheet" href="/motion-gallery.css?v=20261022-v1" />
+    <script src="/motion-gallery.js?v=20261022-v1" defer></script>
     <link rel="stylesheet" href="/footer-layout.css?v=20261019-v24" />
   </head>
   <body>
@@ -1792,6 +1791,7 @@
     </div>
     <button class="footer-discover" id="footer-discover" type="button" aria-label="Scroll down to the Singapore skyline" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll down</span></button>
     <script src="/footer-discovery.js?v=20261019-v24" defer></script>
+    <div class="motion-header-shield" aria-hidden="true"></div>
     <main class="shell">
       <section class="story" aria-labelledby="intro-heading">
         <div class="story-inner">
@@ -1866,6 +1866,7 @@
       </section>
 
       <aside class="gallery-wrap" aria-label="Selected project gallery">
+        <h2 class="motion-heading">A few things in motion</h2>
         <div class="gallery" id="gallery" tabindex="0">
           <div class="reel" id="reel">
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Sailorfy website showcase" data-title="Sailorfy" data-description="A calmer way to navigate the maritime world." data-link="https://sailorfy.framer.website/" data-link-label="Live site">
@@ -1881,6 +1882,17 @@
             <article class="card" data-case-study="/work/catch/" aria-label="Catch bus arrival board" data-title="Catch Live Board" data-description="Fast, legible Singapore bus arrivals designed for the moment you need them." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
               <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-board.webp" /><img class="card-media" width="1920" height="1440" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-live-board.png" alt="Catch bus arrival board on an iPhone" /></picture></a>
               <div class="meta"><span class="meta-copy"><strong>Catch Live Board</strong><span>Singapore bus arrivals, made clearer.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
+            </article>
+
+            <article class="card" data-motion="soja-recovery-motion" data-title="Soja, in motion" data-description="From setting up a recovery plan to the first morning." data-case-study="/work/soja/" aria-label="Soja, in motion">
+              <div class="motion-stage">
+                <button class="motion-open" type="button" aria-haspopup="dialog" aria-label="Open Soja animation">
+                  <span class="motion-device"><video class="card-media" width="720" height="1566" poster="/media/soja-recovery-motion.webp" data-src="/media/soja-recovery-motion.mp4" data-name="Soja animation" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video></span>
+                </button>
+                <span class="motion-badge" aria-hidden="true">Motion study</span>
+                <button class="motion-toggle" type="button" aria-label="Play Soja animation preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></button>
+              </div>
+              <div class="motion-caption"><strong>Soja, in motion</strong><span>From setting up a recovery plan to the first morning.</span></div>
             </article>
 
             <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open portfolio website showcase" data-title="Previous Portfolio" data-description="An earlier visual portfolio built in Framer." data-link="https://adityaarya.framer.website/" data-link-label="Visit site">
@@ -1903,6 +1915,17 @@
               <div class="meta"><span class="meta-copy"><strong>Soja Website</strong><span>Reset your sleep, one plan at a time.</span></span><a class="project-link" href="/work/soja/">Read story <span aria-hidden="true">↗</span></a></div>
             </article>
 
+            <article class="card" data-motion="income-slider-motion" data-title="Income slider" data-description="Exploring a sliding scale and rolling numbers." aria-label="Income slider">
+              <div class="motion-stage">
+                <button class="motion-open" type="button" aria-haspopup="dialog" aria-label="Open income slider animation">
+                  <span class="motion-device"><video class="card-media" width="720" height="1566" poster="/media/income-slider-motion.webp" data-src="/media/income-slider-motion.mp4" data-name="income slider animation" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video></span>
+                </button>
+                <span class="motion-badge" aria-hidden="true">Motion study</span>
+                <button class="motion-toggle" type="button" aria-label="Play income slider animation preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></button>
+              </div>
+              <div class="motion-caption"><strong>Income slider</strong><span>Exploring a sliding scale and rolling numbers.</span></div>
+            </article>
+
             <article class="card" data-case-study="/work/catch/" aria-label="Catch nearby stop map" data-title="Catch Nearby" data-description="Nearby stops and arrivals placed directly on the map." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
               <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-map.webp" /><img class="card-media" width="1920" height="1440" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-map.png" alt="Catch nearby bus stops map on an iPhone" /></picture></a>
               <div class="meta"><span class="meta-copy"><strong>Catch Nearby</strong><span>Find the right stop around you.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
@@ -1911,7 +1934,7 @@
           </div>
         </div>
         <div class="reel-progress" id="reel-progress" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
       </aside>
     </main>
@@ -1950,7 +1973,7 @@
     <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-description" hidden>
       <div class="modal-panel" id="modal-panel" tabindex="-1">
         <img id="modal-image" alt="" />
-        <video id="modal-video" controls muted loop playsinline hidden></video>
+        <div class="modal-motion-stage"><video id="modal-video" controls muted loop playsinline tabindex="0" aria-label="Animation playback" hidden></video></div>
         <div class="modal-details">
           <span class="modal-copy"><strong id="modal-title"></strong><span id="modal-description"></span></span>
           <span class="modal-actions"><a class="modal-link" data-liquid-glass id="modal-link" href="#" target="_blank" rel="noreferrer"></a><button class="modal-close" data-liquid-glass id="modal-close" type="button" aria-label="Close project preview"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button></span>
@@ -2499,6 +2522,12 @@
       let loopReady = false;
 
       function refreshLoopMetrics() {
+        if (matchMedia('(max-width:700px)').matches) {
+          loopPoint = 0;
+          loopReady = false;
+          gallery.scrollTop = 0;
+          return;
+        }
         const previousProgress = loopPoint
           ? (((gallery.scrollTop - loopStart) % loopPoint) + loopPoint) % loopPoint / loopPoint
           : 0;
@@ -2592,7 +2621,7 @@
         if (!image || isModalOpen) return;
 
         window.clearTimeout(closeTimer);
-        lastFocusedCard = card.querySelector('.case-study-media') || card;
+        lastFocusedCard = card.querySelector('.case-study-media, .motion-open') || card;
         restoreFocusOnClose = true;
         isModalOpen = true;
         isModalClosing = false;
@@ -2600,13 +2629,18 @@
         modalImage.hidden = isVideo;
         modalVideo.hidden = !isVideo;
         if (isVideo) {
-          modalVideo.src = image.currentSrc || image.src;
+          modalPanel.style.setProperty('--media-ratio', `${image.width / image.height}`);
+          modalVideo.poster = image.poster;
+          modalVideo.src = image.dataset.src || image.currentSrc || image.src;
+          modalVideo.currentTime = 0;
+          modalVideo.setAttribute('aria-label', card.dataset.title || 'Animation playback');
           modalVideo.play().catch(() => {});
         } else {
           modalImage.src = image.currentSrc || image.src;
           modalImage.alt = image.alt;
         }
         modalTitle.textContent = card.dataset.title || image.alt;
+        modalLink.hidden = !card.dataset.caseStudy && !card.dataset.link;
         modalDescription.textContent = card.dataset.description || '';
         modalLink.href = card.dataset.caseStudy || card.dataset.link || '#';
         modalLink.replaceChildren();
@@ -2635,6 +2669,7 @@
           backgroundInertState.set(element, element.inert);
           element.inert = true;
         });
+        window.dispatchEvent(new CustomEvent('portfolio-media-state', { detail:{open:true} }));
         playInterfaceSound('open');
 
         modalPanel.focus({ preventScroll: true });
@@ -2654,6 +2689,7 @@
           backgroundInertState.clear();
           isModalOpen = false;
           isModalClosing = false;
+          window.dispatchEvent(new CustomEvent('portfolio-media-state', { detail:{open:false} }));
           if (restoreFocusOnClose && lastFocusedCard && !lastFocusedCard.closest('[aria-hidden="true"]')) {
             lastFocusedCard.focus({ preventScroll: true });
           }
@@ -2684,6 +2720,7 @@
       });
 
       reel.addEventListener('click', (event) => {
+        if (event.target.closest('.motion-toggle')) return;
         const mediaLink = event.target.closest('.case-study-media');
         if (mediaLink && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) {
           event.preventDefault();
@@ -2702,6 +2739,7 @@
       });
 
       reel.addEventListener('keydown', (event) => {
+        if (event.target.closest('.motion-toggle')) return;
         if (event.target.closest('.case-study-media') && event.key === ' ') {
           event.preventDefault();
           openProject(event.target.closest('.card'));
@@ -2724,7 +2762,7 @@
         if (event.key === 'Escape') closeProject();
         if (event.key === 'Tab' && isModalOpen) {
           event.preventDefault();
-          const controls = [modalLink, modalClose];
+          const controls = [modalVideo, modalLink, modalClose].filter(control => !control.hidden);
           const current = controls.indexOf(document.activeElement);
           const next = current === -1 ? (event.shiftKey ? controls.length - 1 : 0) :
             (current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
@@ -2736,6 +2774,7 @@
       let galleryOnscreen = false;
 
       function resumeGallery() {
+        if (matchMedia('(max-width:700px)').matches) return;
         if (!galleryFrame && galleryOnscreen && !document.hidden &&
             !document.documentElement.classList.contains('is-page-scrolling')) {
           lastTime = performance.now();
@@ -2745,7 +2784,7 @@
 
       function tick(now) {
         galleryFrame = 0;
-        if (!galleryOnscreen || document.hidden ||
+        if (matchMedia('(max-width:700px)').matches || !galleryOnscreen || document.hidden ||
             document.documentElement.classList.contains('is-page-scrolling')) return;
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
@@ -2785,6 +2824,7 @@
         resumeGallery();
       }, { threshold: 0.01 }).observe(gallery);
       document.addEventListener('visibilitychange', resumeGallery);
+      window.addEventListener('resize', resumeGallery, {passive:true});
       window.addEventListener('portfolio-scroll-start', () => {
         cancelAnimationFrame(galleryFrame);
         galleryFrame = 0;
