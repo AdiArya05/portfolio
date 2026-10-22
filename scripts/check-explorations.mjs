@@ -13,7 +13,7 @@ const pieces = [...page.matchAll(/<article class="exploration"[\s\S]*?<\/article
 const title = html => html.match(/data-title="([^"]+)"/)[1];
 assert.deepEqual(pieces.map(title).sort(),cards.map(title).sort(),'Phone and desktop must contain the same selected work');
 assert.equal(title(pieces[0]),'Income slider','Lead with the recording on phone');
-assert.equal(title(cards[2]),'Income slider','Keep the recording third on desktop');
+assert.equal(title(cards[1]),'Income slider','Keep the recording second on desktop');
 assert.equal(title(pieces[1]),'Catch Live Activity');
 assert(!page.includes('exploration-caption'), 'Keep labels and descriptions out of the media feed');
 assert(home.includes('class="mobile-explorations-link" href="/explorations/"'),'Give phone visitors a discoverable entry point');
