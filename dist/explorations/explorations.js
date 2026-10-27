@@ -52,7 +52,12 @@
         video.poster = media.poster;
         video.src = media.dataset.src;
         video.muted = true;
+        video.width = media.width;
+        video.height = media.height;
+        video.currentTime = media.currentTime || 0;
       } else {
+        image.width = Number(media.getAttribute('width')) || media.naturalWidth;
+        image.height = Number(media.getAttribute('height')) || media.naturalHeight;
         image.src = media.currentSrc || media.src;
         image.alt = media.alt;
       }
@@ -81,7 +86,7 @@
         link.append(label,arrow);
       }
       window.dispatchEvent(new CustomEvent('portfolio-media-state',{detail:{open:true}}));
-      dialogMotion.open();
+      dialogMotion.open(media);
       if (motion) video.play().catch(() => {});
       sound('open');
     });

@@ -47,7 +47,8 @@ const html = `<!doctype html>
   <meta name="theme-color" content="#fbf8ef" />
   <link rel="icon" href="/media/aditya-arya-icon.png" />
   <link rel="canonical" href="https://adiarya.vercel.app/explorations" />
-  <script src="/media-dialog.js?v=20261022-v1" defer></script>
+  <script src="/media-motion.js?v=20261027-v1" defer></script>
+  <script src="/media-dialog.js?v=20261027-v2" defer></script>
   <script src="/explorations/phone-only.js?v=20261022-v1"></script>
   <script src="/work/theme-init.js"></script>
   <link rel="preload" href="/fonts/space-grotesk-v22-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -61,10 +62,11 @@ const html = `<!doctype html>
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261019-v17" defer></script>
-  <script src="/explorations/explorations.js?v=20261022-v3" defer></script>
+  <script src="/explorations/explorations.js?v=20261027-v4" defer></script>
   <script src="/motion-gallery.js?v=20261022-v1" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
+  <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
 </head>
 <body class="reading-page explorations-view">
   ${toolbar}

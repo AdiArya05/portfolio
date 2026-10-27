@@ -34,6 +34,7 @@
     />
     <meta name="twitter:image" content="https://adiarya.vercel.app/media/aditya-arya-social.jpg?v=20261026" />
     <meta name="twitter:image:alt" content="Aditya Arya. Creating thoughtful products. A blue Singapore skyline on cream." />
+    <script src="/media-motion.js?v=20261027-v1" defer></script>
     <script type="application/ld+json">
       {"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://adiarya.vercel.app/#aditya","name":"Aditya Arya","url":"https://adiarya.vercel.app/","image":"https://adiarya.vercel.app/media/aditya-profile.jpg","description":"AI product builder based in Singapore. Building Catch SG Buses, Soja, and digital products.","sameAs":["https://www.linkedin.com/in/aditya-arya1/","https://x.com/adiarya05","https://github.com/AdiArya05"]},{"@type":"WebSite","@id":"https://adiarya.vercel.app/#website","url":"https://adiarya.vercel.app/","name":"Aditya Arya","author":{"@id":"https://adiarya.vercel.app/#aditya"},"inLanguage":"en"},{"@type":"ProfilePage","@id":"https://adiarya.vercel.app/#profile","url":"https://adiarya.vercel.app/","name":"Aditya Arya — AI Builder & Product Portfolio","mainEntity":{"@id":"https://adiarya.vercel.app/#aditya"},"isPartOf":{"@id":"https://adiarya.vercel.app/#website"}}]}
     </script>
@@ -1770,6 +1771,7 @@
     <link rel="stylesheet" href="/motion-gallery.css?v=20261022-v8" />
     <script src="/motion-gallery.js?v=20261022-v1" defer></script>
     <link rel="stylesheet" href="/footer-layout.css?v=20261019-v24" />
+    <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
   </head>
   <body>
     <div class="time-zones" id="time-zones">
@@ -2150,7 +2152,7 @@
       let isModalOpen = false;
       let isModalClosing = false;
       let lastFocusedCard = null;
-      let closeTimer = null;
+      let mediaMotion = null;
       let restoreFocusOnClose = false;
       let pressedGalleryCard = null;
       let scrollRate = 0.035;
@@ -2601,7 +2603,7 @@
         const image = card.querySelector('.card-media');
         if (!image || isModalOpen) return;
 
-        window.clearTimeout(closeTimer);
+        mediaMotion ||= window.PortfolioMediaMotion.create(modalPanel);
         lastFocusedCard = card.querySelector('.case-study-media, .motion-open') || card;
         restoreFocusOnClose = true;
         isModalOpen = true;
@@ -2611,12 +2613,16 @@
         modalVideo.hidden = !isVideo;
         if (isVideo) {
           modalPanel.style.setProperty('--media-ratio', `${image.width / image.height}`);
+          modalVideo.width = Number(image.getAttribute('width')) || image.videoWidth;
+          modalVideo.height = Number(image.getAttribute('height')) || image.videoHeight;
           modalVideo.poster = image.poster;
           modalVideo.src = image.dataset.src || image.currentSrc || image.src;
-          modalVideo.currentTime = 0;
+          modalVideo.currentTime = image.currentTime || 0;
           modalVideo.setAttribute('aria-label', card.dataset.title || 'Animation playback');
           modalVideo.play().catch(() => {});
         } else {
+          modalImage.width = Number(image.getAttribute('width')) || image.naturalWidth;
+          modalImage.height = Number(image.getAttribute('height')) || image.naturalHeight;
           modalImage.src = image.currentSrc || image.src;
           modalImage.alt = image.alt;
         }
@@ -2644,8 +2650,8 @@
         projectModal.hidden = false;
         projectModal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
-        void projectModal.offsetWidth;
         projectModal.classList.add('is-open');
+        mediaMotion.open(image);
         modalBackground.forEach(element => {
           backgroundInertState.set(element, element.inert);
           element.inert = true;
@@ -2664,6 +2670,7 @@
         projectModal.classList.remove('is-open');
 
         const finishClose = () => {
+          mediaMotion.reset();
           projectModal.hidden = true;
           document.body.classList.remove('modal-open');
           modalBackground.forEach(element => { element.inert = backgroundInertState.get(element) || false; });
@@ -2684,12 +2691,7 @@
           });
         };
 
-        if (reduceMotion) {
-          finishClose();
-          return;
-        }
-
-        closeTimer = window.setTimeout(finishClose, 380);
+        mediaMotion.close(finishClose);
       }
 
       reel.addEventListener('pointerdown', (event) => {

@@ -42,11 +42,13 @@
     button.addEventListener('click', () => {
       if (lightbox.open) return;
       const image = button.querySelector('img');
+      enlarged.width = Number(image.getAttribute('width')) || image.naturalWidth;
+      enlarged.height = Number(image.getAttribute('height')) || image.naturalHeight;
       enlarged.src = image.currentSrc || image.src;
       enlarged.alt = image.alt;
       opener = button;
       window.PortfolioSounds?.play('image', 'open');
-      dialogMotion.open();
+      dialogMotion.open(image);
       root.classList.add('image-open');
     });
   });
