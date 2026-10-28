@@ -34,7 +34,7 @@
     />
     <meta name="twitter:image" content="https://adiarya.vercel.app/media/aditya-arya-social.jpg?v=20261026" />
     <meta name="twitter:image:alt" content="Aditya Arya. Creating thoughtful products. A blue Singapore skyline on cream." />
-    <script src="/media-motion.js?v=20261027-v1" defer></script>
+    <script src="/media-motion.js?v=20261028-v2" defer></script>
     <script type="application/ld+json">
       {"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://adiarya.vercel.app/#aditya","name":"Aditya Arya","url":"https://adiarya.vercel.app/","image":"https://adiarya.vercel.app/media/aditya-profile.jpg","description":"AI product builder based in Singapore. Building Catch SG Buses, Soja, and digital products.","sameAs":["https://www.linkedin.com/in/aditya-arya1/","https://x.com/adiarya05","https://github.com/AdiArya05"]},{"@type":"WebSite","@id":"https://adiarya.vercel.app/#website","url":"https://adiarya.vercel.app/","name":"Aditya Arya","author":{"@id":"https://adiarya.vercel.app/#aditya"},"inLanguage":"en"},{"@type":"ProfilePage","@id":"https://adiarya.vercel.app/#profile","url":"https://adiarya.vercel.app/","name":"Aditya Arya — AI Builder & Product Portfolio","mainEntity":{"@id":"https://adiarya.vercel.app/#aditya"},"isPartOf":{"@id":"https://adiarya.vercel.app/#website"}}]}
     </script>
@@ -2149,6 +2149,7 @@
       let lastTime = performance.now();
       let galleryScrollCarry = 0;
       let isHoveringGallery = false;
+      let isKeyboardNavigatingGallery = false;
       let isModalOpen = false;
       let isModalClosing = false;
       let lastFocusedCard = null;
@@ -2570,7 +2571,15 @@
         isHoveringGallery = false;
       });
 
+      // Mouse-restored focus must not latch the reel in its keyboard pause.
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Tab') isKeyboardNavigatingGallery = true;
+      });
+      document.addEventListener('pointerdown', () => {
+        isKeyboardNavigatingGallery = false;
+      }, { capture: true, passive: true });
       document.addEventListener('pointermove', (event) => {
+        isKeyboardNavigatingGallery = false;
         isHoveringGallery = gallery.contains(event.target);
       }, { passive: true });
 
@@ -2766,6 +2775,11 @@
         }
       }
 
+      function isGalleryPaused() {
+        return isHoveringGallery || isModalOpen ||
+          (isKeyboardNavigatingGallery && gallery.contains(document.activeElement));
+      }
+
       function tick(now) {
         galleryFrame = 0;
         if (matchMedia('(max-width:700px)').matches || !galleryOnscreen || document.hidden ||
@@ -2773,8 +2787,7 @@
         const elapsed = Math.min(now - lastTime, 32);
         lastTime = now;
 
-        const galleryPaused = isHoveringGallery || isModalOpen ||
-          gallery.contains(document.activeElement);
+        const galleryPaused = isGalleryPaused();
         const targetRate = galleryPaused ? 0 : 0.035;
         const easing = 1 - Math.exp(-elapsed / 105);
         scrollRate += (targetRate - scrollRate) * easing;

@@ -53,12 +53,12 @@ const panel={style:{},querySelector:()=>null,classList:{add:x=>panelClasses.add(
 vm.runInNewContext(fs.readFileSync(new URL('media-motion.js',dist),'utf8'),{window,innerHeight:900,
  matchMedia:()=>({matches:reduce}),getComputedStyle:()=>({transform:'none',borderRadius:'20px',clipPath:'none',objectFit:'contain'}),
  DOMMatrixReadOnly:function(){return {a:1,d:1,e:0,f:0};},setTimeout:fn=>{latestTimer=fn;return 1;},clearTimeout(){}});
-assert.equal(window.PortfolioMediaMotion.duration,450);
+assert.equal(window.PortfolioMediaMotion.duration,360);
 assert.equal(window.PortfolioMediaMotion.springAt(0),0);assert.equal(window.PortfolioMediaMotion.springAt(1),1);
 assert(window.PortfolioMediaMotion.springAt(.2)>.3,'respond immediately rather than easing in slowly');
 let completed=0;const morph=window.PortfolioMediaMotion.create(panel);
 morph.open(source);assert.equal(source.style.visibility,'hidden');assert.equal(animations[0].frames.length,61);
-assert(animations[0].frames[0].transform.includes('600px,120px'));assert.equal(animations[0].options.duration,450);
+assert(animations[0].frames[0].transform.includes('600px,120px'));assert.equal(animations[0].options.duration,360);
 const staleFinish=latestTimer;
 morph.close(()=>completed++);assert(animations[0].cancelled);staleFinish();assert.equal(completed,0,'cancelled opening cannot finish a closing transition');
 latestTimer();assert.equal(completed,1);assert.equal(source.style.visibility,'');

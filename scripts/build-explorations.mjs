@@ -47,7 +47,7 @@ const html = `<!doctype html>
   <meta name="theme-color" content="#fbf8ef" />
   <link rel="icon" href="/media/aditya-arya-icon.png" />
   <link rel="canonical" href="https://adiarya.vercel.app/explorations" />
-  <script src="/media-motion.js?v=20261027-v1" defer></script>
+  <script src="/media-motion.js?v=20261028-v2" defer></script>
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
   <script src="/explorations/phone-only.js?v=20261022-v1"></script>
   <script src="/work/theme-init.js"></script>

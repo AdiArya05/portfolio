@@ -1,8 +1,8 @@
-/* Thumbnail-to-viewer motion. Matches Recent's 450ms, bounce .15 spring.
+/* Thumbnail-to-viewer motion. Recent-style 360ms, bounce .15 spring.
    Duration-defined underdamped response, as used by Motion (MIT):
    https://github.com/motiondivision/motion/blob/main/packages/motion-dom/src/animation/generators/spring.ts */
 (() => {
-  const duration = 450;
+  const duration = 360;
   const damping = .85;
   const root = Math.sqrt(1 - damping * damping);
   const frequency = -Math.log(.001 * root / damping) / (damping * duration / 1000);

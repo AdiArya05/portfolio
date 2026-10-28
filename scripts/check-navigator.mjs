@@ -24,3 +24,24 @@ for(const [top,index] of [[500,0],[1370,2],[1770,3],[3010,6],[3370,0],[499,6],[5
 }
 assert(html.includes("gallery.contains(document.activeElement)"),'Keep the keyboard pause for gallery media');
 console.log('PASS: original passive progress bars; correct card/loop tracking; no scroll text popups; project tabs without a heading.');
+
+// A restored mouse focus must not stop the reel after the pointer leaves.
+const pauseFunction = html.match(/      function isGalleryPaused\(\) \{[\s\S]*?\n      \}/);
+assert(pauseFunction);
+const pauseContext = vm.createContext({
+  isHoveringGallery:false, isModalOpen:false, isKeyboardNavigatingGallery:false,
+  gallery:{contains:element => element?.inGallery === true},
+  document:{activeElement:{inGallery:true}},
+});
+vm.runInContext(pauseFunction[0],pauseContext);
+assert.equal(pauseContext.isGalleryPaused(),false,'Mouse-restored focus allows automatic movement');
+pauseContext.isKeyboardNavigatingGallery=true;
+assert.equal(pauseContext.isGalleryPaused(),true,'Keyboard navigation holds the focused card still');
+pauseContext.document.activeElement=null;
+assert.equal(pauseContext.isGalleryPaused(),false,'Tabbing out resumes automatic movement');
+pauseContext.isHoveringGallery=true;
+assert.equal(pauseContext.isGalleryPaused(),true,'Pointer hover still pauses the reel');
+pauseContext.isHoveringGallery=false;
+pauseContext.isModalOpen=true;
+assert.equal(pauseContext.isGalleryPaused(),true,'A preview keeps the source reel still');
+console.log('PASS: reel resumes after mouse focus restoration; keyboard, hover and preview pauses remain.');
