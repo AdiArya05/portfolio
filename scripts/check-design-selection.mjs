@@ -5,7 +5,7 @@ const source=fs.readFileSync(new URL('../dist/design-selection.js',import.meta.u
 const html=fs.readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
 assert.deepEqual([...html.matchAll(/data-design-target="([^"]+)"/g)].map(m=>m[1]),['designing','building']);
 let now=0,next=0;const frames=new Map(),events={},classes=new Set();
-const word=(left,width)=>({box:{left,top:120,width,height:24},events:{},getBoundingClientRect(){return this.box;},addEventListener(name,fn){this.events[name]=fn;}});
+const word=(left,width)=>({box:{left,top:120,width,height:24},events:{},getBoundingClientRect(){return {...this.box,height:this.box.height+19};},querySelector(){return {getBoundingClientRect:()=>this.box};},addEventListener(name,fn){this.events[name]=fn;}});
 const words=[word(120,110),word(310,160)];
 const intro={getBoundingClientRect:()=>({left:100,top:100})};
 const frame={hidden:true,style:{},classList:{add:x=>classes.add(x),remove:x=>classes.delete(x)}};
@@ -14,7 +14,7 @@ const doc={hidden:false,fonts:{ready:{then(){}}},querySelector:q=>({'#intro-head
 const step=()=>{now+=1000/60;const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn(now));};
 let observe;
 vm.runInNewContext(source,{document:doc,window:{addEventListener(name,fn){events[name]=fn;}},matchMedia:()=>reduced,performance:{now:()=>now},requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id),ResizeObserver:class{constructor(fn){observe=fn;}observe(){}}});
-assert.equal(frame.hidden,false);assert.equal(frame.style.transform,'translate3d(17px,18px,0)');
+assert.equal(frame.hidden,false);assert.equal(frame.style.height,'28px','Frame follows text, excluding the reserved badge space');assert.equal(frame.style.transform,'translate3d(17px,18px,0)');
 const initial=frame.style.transform;words[1].events.pointerenter();
 assert.equal(frame.style.transform,initial,'Pointer entry begins at the current position');
 step();assert.notEqual(frame.style.transform,initial);assert.notEqual(frame.style.transform,'translate3d(207px,18px,0)','Move through intermediate positions');

@@ -41,7 +41,7 @@
   }
 
   function measure(animate = false) {
-    const word = active.getBoundingClientRect();
+    const word = active.querySelector('.design-selection-text').getBoundingClientRect();
     const origin = intro.getBoundingClientRect();
     target = {x:word.left-origin.left-3,y:word.top-origin.top-2,width:word.width+6,height:word.height+4};
     if (!current || !animate || reduced.matches) return settle();

@@ -1,6 +1,13 @@
 /* One selection moves between these two phrases without moving the text. */
 .intro { position:relative; }
-.design-selection-word { display:inline-block; line-height:1; white-space:nowrap; }
+.design-selection-word {
+  display:inline-block;
+  line-height:1;
+  white-space:nowrap;
+  /* The badge owns this space, even when the next line contains a tall icon. */
+  padding-bottom:calc(clamp(8px,.38em,10px) + 9px);
+}
+.design-selection-text { display:inline-block; }
 .design-selection-frame {
   --selection-blue:#58a6ff;
   position:absolute;
