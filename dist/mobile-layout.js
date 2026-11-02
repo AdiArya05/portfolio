@@ -23,7 +23,7 @@
     const notes = story.querySelector('.notes-links');
     const notesHeight = notes ? notes.getBoundingClientRect().height + parseFloat(getComputedStyle(notes).marginTop) : 0;
     const available = Math.max(80,story.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-notesHeight-3);
-    root.style.setProperty('--mobile-intro-leading','1.52');
+    root.style.setProperty('--mobile-intro-leading','1.68');
     let low = 12;
     let high = Math.min(30,innerWidth*.067);
     // Fit once per layout change, never on a continuously running animation.
@@ -33,14 +33,7 @@
       if(intro.getBoundingClientRect().height<=available) low=size; else high=size;
     }
     root.style.setProperty('--mobile-intro-size',`${low}px`);
-    let leadingLow=1.52;
-    let leadingHigh=1.86;
-    for(let i=0;i<10;i++) {
-      const leading=(leadingLow+leadingHigh)/2;
-      root.style.setProperty('--mobile-intro-leading',String(leading));
-      if(intro.getBoundingClientRect().height<=available) leadingLow=leading; else leadingHigh=leading;
-    }
-    root.style.setProperty('--mobile-intro-leading',String(leadingLow));
+    // One line-height throughout; only font size adapts to available room.
     // Very short landscape viewports retain access to all text, never clipping it.
     story.style.overflowY=story.scrollHeight>story.clientHeight+3?'auto':'hidden';
   }

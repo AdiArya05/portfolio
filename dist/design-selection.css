@@ -4,8 +4,6 @@
   display:inline-block;
   line-height:1;
   white-space:nowrap;
-  /* The badge owns this space, even when the next line contains a tall icon. */
-  padding-bottom:calc(clamp(8px,.38em,10px) + 9px);
 }
 .design-selection-text { display:inline-block; }
 .design-selection-frame {
@@ -34,14 +32,14 @@
 .design-selection-frame i:nth-child(4) { bottom:-3px; right:-3px; }
 .design-selection-size {
   position:absolute;
-  top:calc(100% + 3px);
+  top:100%;
   left:50%;
   transform:translateX(-50%);
-  padding:1px 5px;
+  padding:0 5px;
   border-radius:3px;
   background:var(--selection-blue);
   color:#080b10;
-  font:clamp(8px,.38em,10px)/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font:clamp(6px,.35em,9px)/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   letter-spacing:0;
   word-spacing:0;
   white-space:nowrap;

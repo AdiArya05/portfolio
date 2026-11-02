@@ -193,9 +193,9 @@
         max-width: 950px;
         font-size: clamp(1.55rem, 2vw, 2.2rem);
         font-weight: 500;
-        letter-spacing: -0.008em;
-        line-height: 1.66;
-        word-spacing: 0.04em;
+        letter-spacing: -0.015em;
+        line-height: 1.68;
+        word-spacing: 0;
       }
 
       .intro .soft {
@@ -287,7 +287,7 @@
       }
 
       .sentence + .sentence {
-        margin-left: 0.22em;
+        margin-left: 0;
       }
 
       .inline-link,
@@ -338,7 +338,7 @@
       }
 
       /* A soft marker stroke; it paints behind the text without changing its box. */
-      .inline-link.marker-highlight { isolation:isolate; background:none; border-radius:0; }
+      .inline-link.marker-highlight { line-height:1.15; isolation:isolate; background:none; border-radius:0; }
       .inline-link.marker-highlight::before { content:none; }
       .inline-link.marker-highlight::after { content:""; position:absolute; z-index:-1; inset:.015em -.025em .065em -.02em; background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201000%20100%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22ink%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ed881d%22%20stop-opacity%3D%22.66%22%2F%3E%3Cstop%20offset%3D%22.026%22%20stop-color%3D%22%23ffad45%22%20stop-opacity%3D%22.53%22%2F%3E%3Cstop%20offset%3D%22.06%22%20stop-color%3D%22%23ffb84f%22%20stop-opacity%3D%22.38%22%2F%3E%3Cstop%20offset%3D%22.91%22%20stop-color%3D%22%23ffb84f%22%20stop-opacity%3D%22.38%22%2F%3E%3Cstop%20offset%3D%22.972%22%20stop-color%3D%22%23f29a29%22%20stop-opacity%3D%22.52%22%2F%3E%3Cstop%20offset%3D%22.994%22%20stop-color%3D%22%23d9750c%22%20stop-opacity%3D%22.69%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23ed9225%22%20stop-opacity%3D%22.58%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cpath%20d%3D%22M44%205C19%204%203%2022%202%2048L2%2083Q2%2096%2022%2096L955%2093Q983%2098%20995%2086L997%2024Q999%205%20978%205L695%207%20427%204%20204%207Z%22%20fill%3D%22url%28%23ink%29%22%2F%3E%3Cpath%20d%3D%22M10%2038Q7%2061%208%2087Q9%2092%2020%2092%22%20fill%3D%22none%22%20stroke%3D%22%23da7810%22%20stroke-opacity%3D%22.32%22%20stroke-width%3D%227%22%2F%3E%3Cpath%20d%3D%22M979%209Q987%2011%20987%2024L985%2078Q985%2090%20973%2091%22%20fill%3D%22none%22%20stroke%3D%22%23c96808%22%20stroke-opacity%3D%22.4%22%20stroke-width%3D%227%22%2F%3E%3Cpath%20d%3D%22M36%2012%20340%2010%20650%2012%20958%2010%22%20fill%3D%22none%22%20stroke%3D%22%23ffd085%22%20stroke-opacity%3D%22.2%22%20stroke-width%3D%223%22%2F%3E%3C%2Fsvg%3E") center/100% 100% no-repeat; transform:rotate(-.4deg); pointer-events:none; }
       html[data-theme="dark"] .marker-highlight::after { opacity:.9; }
@@ -876,7 +876,7 @@
         flex-wrap: wrap;
         align-items: center;
         gap: 10px;
-        margin-top: clamp(42px, 7vh, 76px);
+        margin-top: 32px;
         color: var(--muted);
         font-size: clamp(1.6rem, 2.05vw, 2.2rem);
         font-weight: 400;
@@ -1613,11 +1613,11 @@
 
         .intro {
           font-size: clamp(1.45rem, 5.8vw, 2rem);
-          line-height: 1.66;
+          line-height: 1.68;
         }
 
         .links {
-          margin-top: 50px;
+          margin-top: 32px;
           font-size: 1.4rem;
         }
 
@@ -1688,12 +1688,12 @@
         .intro {
           max-width: none;
           font-size: var(--mobile-intro-size, clamp(1.16rem, 5.8vw, 1.6rem));
-          line-height: var(--mobile-intro-leading, 1.52);
-          letter-spacing: -0.008em;
+          line-height: var(--mobile-intro-leading, 1.68);
+          letter-spacing: -0.015em;
         }
 
         .sentence + .sentence {
-          margin-left: 0.14em;
+          margin-left: 0;
         }
 
         .links,
@@ -1760,7 +1760,7 @@
     </style>
     <link rel="preload" href="/fonts/space-grotesk-v22-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="/typography.css?v=20261019-original-v20" />
-    <link rel="stylesheet" href="/project-links.css?v=20261022-glass-v3" />
+    <link rel="stylesheet" href="/project-links.css?v=20261102-spacing-v4" />
     <link rel="stylesheet" href="/focus-glass.css?v=20261019-v22" />
     <script src="/media-sounds.js?v=20261021-v28" defer></script>
     <script src="/focus-glass.js?v=20261019-v22-complete" defer></script>
@@ -1772,7 +1772,7 @@
     <script src="/motion-gallery.js?v=20261022-v1" defer></script>
     <link rel="stylesheet" href="/footer-layout.css?v=20261019-v24" />
     <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
-    <link rel="stylesheet" href="/design-selection.css?v=20261102-v3" />
+    <link rel="stylesheet" href="/design-selection.css?v=20261102-v4" />
     <script src="/design-selection.js?v=20261102-v3" defer></script>
 </head>
   <body>
@@ -1788,7 +1788,7 @@
       </div>
     </div>
     <script src="/world-times.js?v=20261018-restored" defer></script>
-    <script src="/mobile-layout.js?v=20261102-spacing" defer></script>
+    <script src="/mobile-layout.js?v=20261102-even-spacing" defer></script>
     <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Appearance">
       <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>

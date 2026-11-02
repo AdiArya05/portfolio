@@ -14,7 +14,7 @@ const doc={hidden:false,fonts:{ready:{then(){}}},querySelector:q=>({'#intro-head
 const step=()=>{now+=1000/60;const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn(now));};
 let observe;
 vm.runInNewContext(source,{document:doc,window:{addEventListener(name,fn){events[name]=fn;}},matchMedia:()=>reduced,performance:{now:()=>now},requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id),ResizeObserver:class{constructor(fn){observe=fn;}observe(){}}});
-assert.equal(frame.hidden,false);assert.equal(frame.style.height,'28px','Frame follows text, excluding the reserved badge space');assert.equal(frame.style.transform,'translate3d(17px,18px,0)');
+assert.equal(frame.hidden,false);assert.equal(frame.style.height,'28px','Frame follows the text independently of surrounding leading');assert.equal(frame.style.transform,'translate3d(17px,18px,0)');
 const initial=frame.style.transform;words[1].events.pointerenter();
 assert.equal(frame.style.transform,initial,'Pointer entry begins at the current position');
 step();assert.notEqual(frame.style.transform,initial);assert.notEqual(frame.style.transform,'translate3d(207px,18px,0)','Move through intermediate positions');
