@@ -1,0 +1,40 @@
+/* A design-tool selection, kept outside the paragraph's text flow. */
+.design-selection {
+  --selection-blue:#58a6ff;
+  position:relative;
+  display:inline-block;
+  line-height:1;
+}
+.design-selection-word { display:inline-block; }
+.design-selection-frame {
+  position:absolute;
+  inset:-2px -3px;
+  border:1px solid var(--selection-blue);
+  pointer-events:none;
+}
+.design-selection-frame i {
+  position:absolute;
+  width:5px;
+  height:5px;
+  border:1px solid var(--selection-blue);
+  background:var(--paper);
+}
+.design-selection-frame i:nth-child(1) { top:-3px; left:-3px; }
+.design-selection-frame i:nth-child(2) { top:-3px; right:-3px; }
+.design-selection-frame i:nth-child(3) { bottom:-3px; left:-3px; }
+.design-selection-frame i:nth-child(4) { bottom:-3px; right:-3px; }
+.design-selection-size {
+  position:absolute;
+  top:calc(100% + 3px);
+  left:50%;
+  transform:translateX(-50%);
+  padding:1px 5px;
+  border-radius:3px;
+  background:var(--selection-blue);
+  color:#080b10;
+  font:clamp(8px,.38em,10px)/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  letter-spacing:0;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.design-selection-size:empty { display:none; }
