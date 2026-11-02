@@ -1,17 +1,19 @@
-/* A design-tool selection, kept outside the paragraph's text flow. */
-.design-selection {
-  --selection-blue:#58a6ff;
-  position:relative;
-  display:inline-block;
-  line-height:1;
-}
-.design-selection-word { display:inline-block; }
+/* One selection moves between these two phrases without moving the text. */
+.intro { position:relative; }
+.design-selection-word { display:inline-block; line-height:1; white-space:nowrap; }
 .design-selection-frame {
+  --selection-blue:#58a6ff;
   position:absolute;
-  inset:-2px -3px;
+  z-index:1;
+  top:0;
+  left:0;
+  box-sizing:border-box;
   border:1px solid var(--selection-blue);
   pointer-events:none;
+  transform-origin:0 0;
 }
+.design-selection-frame[hidden] { display:none; }
+.design-selection-frame.is-moving { will-change:transform; }
 .design-selection-frame i {
   position:absolute;
   width:5px;
@@ -34,7 +36,7 @@
   color:#080b10;
   font:clamp(8px,.38em,10px)/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   letter-spacing:0;
+  word-spacing:0;
   white-space:nowrap;
-  pointer-events:none;
 }
 .design-selection-size:empty { display:none; }
