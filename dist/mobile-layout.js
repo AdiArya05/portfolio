@@ -34,6 +34,16 @@
       if(intro.getBoundingClientRect().height<=available && fitsWidth) low=size; else high=size;
     }
     root.style.setProperty('--mobile-intro-size',`${low}px`);
+    // Fill the remaining room with uniform leading, never sentence gaps.
+    let leadingLow = 1.68;
+    let leadingHigh = Math.max(leadingLow, available / low);
+    for(let i=0;i<14;i++) {
+      const leading = (leadingLow + leadingHigh) / 2;
+      root.style.setProperty('--mobile-intro-leading', `${leading}`);
+      if(intro.getBoundingClientRect().height <= available) leadingLow = leading;
+      else leadingHigh = leading;
+    }
+    root.style.setProperty('--mobile-intro-leading', `${leadingLow}`);
     // One line-height throughout; size fits both the height and unbroken link rows.
     // Very short landscape viewports retain access to all text, never clipping it.
     story.style.overflowY=story.scrollHeight>story.clientHeight+3?'auto':'hidden';
