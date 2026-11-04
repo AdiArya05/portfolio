@@ -24,5 +24,5 @@ for(let i=0;i<120&&frames.size;i++)step();
 assert.equal(frame.style.transform,'translate3d(17px,18px,0)');assert(!classes.has('is-moving'));assert.equal(frames.size,0,'No idle animation loop');
 reduced.matches=true;words[1].events.pointerdown();assert.equal(frame.style.transform,'translate3d(207px,18px,0)');assert.equal(frames.size,0);
 words[1].box={left:130,top:200,width:145,height:22};observe();step();
-assert.equal(frame.style.transform,'translate3d(27px,98px,0)','Responsive reflow remeasures the selected phrase');assert.equal(label.textContent,'145 × 22');
+assert.equal(frame.style.transform,'translate3d(27px,98px,0)','Responsive reflow remeasures the selected phrase');assert.equal(label.textContent,'145 × 22 px');
 console.log('PASS: two hover targets, continuous spring retargeting, no idle frames, touch, reduced motion, responsive position and dimensions.');

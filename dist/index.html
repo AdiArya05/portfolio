@@ -198,6 +198,49 @@
         word-spacing: 0;
       }
 
+      .outfield-trigger {
+        font: inherit;
+        letter-spacing: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        text-decoration: underline dotted;
+        text-underline-offset: .19em;
+        text-decoration-color: #789051;
+      }
+
+      .outfield-trigger:focus-visible {
+        outline: 2px solid #789051;
+        outline-offset: 3px;
+        border-radius: 3px;
+      }
+
+      .outfield-trigger:active { color: #64803d; }
+
+      .outfield-burst {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 45;
+      }
+
+      .outfield-particle {
+        position: absolute;
+        width: 12px;
+        height: 7px;
+        border-radius: 0 85%;
+      }
+
+      .outfield-particle.is-grass {
+        width: 9px;
+        height: 14px;
+        border-radius: 0;
+        clip-path: polygon(43% 100%, 0 30%, 44% 65%, 55% 0, 66% 61%, 100% 32%, 66% 100%);
+      }
+
       .intro .soft {
         color: var(--muted);
         font-weight: 400;
@@ -1778,8 +1821,9 @@
     <script src="/motion-gallery.js?v=20261022-v1" defer></script>
     <link rel="stylesheet" href="/footer-layout.css?v=20261019-v24" />
     <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
-    <link rel="stylesheet" href="/design-selection.css?v=20261102-v4" />
-    <script src="/design-selection.js?v=20261104-auto" defer></script>
+    <link rel="stylesheet" href="/design-selection.css?v=20261104-pixels" />
+    <script src="/design-selection.js?v=20261104-pixels" defer></script>
+    <script src="/outfield.js?v=1" defer></script>
 </head>
   <body>
     <div class="time-zones" id="time-zones">
@@ -1808,7 +1852,7 @@
           <h1 class="intro" id="intro-heading">
             <span class="design-selection-frame" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><span class="design-selection-size"></span></span>
             <span class="sentence">hello, i’m <span class="name name-swap" tabindex="0" aria-label="aditya arya, adi"><span class="name-cancel"><span class="name-full">aditya</span><svg class="name-strike" aria-hidden="true" viewBox="0 0 132 28" preserveAspectRatio="none"><path pathLength="1" d="M2 21 L15 5 L10 22 L27 4 L21 22 L39 5 L33 23 L51 4 L45 22 L63 5 L57 23 L75 5 L69 22 L87 4 L81 22 L99 5 L93 22 L111 5 L105 21 L130 7"/><path pathLength="1" d="M3 8 L18 23 L14 6 L31 23 L27 5 L44 22 L40 6 L57 23 L53 5 L70 22 L66 6 L83 23 L79 5 L96 22 L92 6 L109 22 L105 7 L129 20"/><path pathLength="1" d="M2 14 C16 8 27 20 42 13 S69 19 84 12 S111 18 130 11"/></svg><span class="name-short" aria-hidden="true">adi</span></span> arya</span>.</span>
-            <span class="sentence"><span class="soft">i’m currently serving national service in singapore
+            <span class="sentence"><span class="soft">i’m currently serving <button class="outfield-trigger" type="button" aria-label="National service, play outfield effect">national service</button> in singapore
             while</span> <span class="name"><span class="design-selection-word" data-design-target="designing"><span class="design-selection-text">designing</span></span> and <span class="design-selection-word" data-design-target="building"><span class="design-selection-text">building apps</span></span> of my own.</span></span>
             <span class="sentence">right now i’m building
             <a class="project-icon external-link" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer" aria-label="View Catch on the App Store"><picture><source type="image/webp" srcset="media/catch-icon.webp" /><img src="media/catch-icon.png" alt="" /></picture></a>,

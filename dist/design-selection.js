@@ -14,7 +14,7 @@
     frame.style.transform = `translate3d(${current.x}px,${current.y}px,0)`;
     frame.style.width = `${current.width}px`;
     frame.style.height = `${current.height}px`;
-    label.textContent = `${Math.round(current.width - 6)} × ${Math.round(current.height - 4)}`;
+    label.textContent = `${Math.round(current.width - 6)} × ${Math.round(current.height - 4)} px`;
   }
 
   function settle() {
