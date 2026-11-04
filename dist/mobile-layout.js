@@ -30,10 +30,11 @@
     for(let i=0;i<11;i++) {
       const size=(low+high)/2;
       root.style.setProperty('--mobile-intro-size',`${size}px`);
-      if(intro.getBoundingClientRect().height<=available) low=size; else high=size;
+      const fitsWidth = intro.scrollWidth <= intro.clientWidth;
+      if(intro.getBoundingClientRect().height<=available && fitsWidth) low=size; else high=size;
     }
     root.style.setProperty('--mobile-intro-size',`${low}px`);
-    // One line-height throughout; only font size adapts to available room.
+    // One line-height throughout; size fits both the height and unbroken link rows.
     // Very short landscape viewports retain access to all text, never clipping it.
     story.style.overflowY=story.scrollHeight>story.clientHeight+3?'auto':'hidden';
   }
