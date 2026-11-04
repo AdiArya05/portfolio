@@ -60,19 +60,23 @@
   }
 
   let rotation;
+  let hovering = false;
   function restartRotation() {
     clearInterval(rotation);
-    if (reduced.matches || document.hidden) return;
+    if (hovering || reduced.matches || document.hidden) return;
     rotation = setInterval(() => select(active === words[0] ? words[1] : words[0]), 3000);
   }
 
   for (const word of words) {
-    const selectWord = () => {
-      select(word);
+    word.addEventListener('pointerenter', event => {
+      if (event.pointerType === 'touch') return;
+      hovering = true;
       restartRotation();
-    };
-    word.addEventListener('pointerenter', selectWord);
-    word.addEventListener('pointerdown', selectWord, {passive:true});
+    });
+    word.addEventListener('pointerleave', () => {
+      hovering = false;
+      restartRotation();
+    });
   }
 
   function scheduleLayout() {

@@ -30,11 +30,11 @@
       const y = Math.sin(angle) * distance - 34;
       const spin = (Math.random() - .5) * 600;
       particle.animate([
-        { transform: 'translate(-50%, -50%) scale(.4)', opacity: 1 },
-        { transform: `translate(${x * .8}px, ${y}px) rotate(${spin * .55}deg)`, opacity: 1, offset: .48 },
+        { transform: 'translate(-50%, -50%) scale(.25)', opacity: 0, easing: 'cubic-bezier(.24,.52,.45,1)' },
+        { transform: `translate(${x * .8}px, ${y}px) rotate(${spin * .55}deg)`, opacity: 1, offset: .37, easing: 'cubic-bezier(.38,0,.75,.65)' },
         { transform: `translate(${x}px, ${y + 76}px) rotate(${spin}deg) scale(.65)`, opacity: 0 }
-      ], { duration: 650 + Math.random() * 250, easing: 'cubic-bezier(.15,.65,.32,1)', fill: 'forwards' });
+      ], { duration: 1350 + Math.random() * 300, delay: index * 5, fill: 'forwards' });
     }
-    setTimeout(() => layer.remove(), 920);
+    setTimeout(() => layer.remove(), 1800);
   });
 })();

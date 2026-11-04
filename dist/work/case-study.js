@@ -7,7 +7,7 @@
     appearance.querySelectorAll('[data-select-theme]').forEach(button => {
       button.setAttribute('aria-pressed', String(button.dataset.selectTheme === (dark ? 'dark' : 'light')));
     });
-    themeMeta.content = dark ? '#181815' : '#fbf8ef';
+    themeMeta.content = dark ? '#161617' : '#f5f5f7';
   };
   appearance.addEventListener('click', event => {
     const nextTheme = event.target.closest('[data-select-theme]')?.dataset.selectTheme;
