@@ -53,30 +53,14 @@
     }
   }
 
-  function select(word) {
-    if (active === word) return;
-    active = word;
-    measure(true);
-  }
-
-  let rotation;
-  let hovering = false;
-  function restartRotation() {
-    clearInterval(rotation);
-    if (hovering || reduced.matches || document.hidden) return;
-    rotation = setInterval(() => select(active === words[0] ? words[1] : words[0]), 3000);
-  }
-
   for (const word of words) {
-    word.addEventListener('pointerenter', event => {
+    const select = event => {
       if (event.pointerType === 'touch') return;
-      hovering = true;
-      restartRotation();
-    });
-    word.addEventListener('pointerleave', () => {
-      hovering = false;
-      restartRotation();
-    });
+      if (active === word) return;
+      active = word;
+      measure(true);
+    };
+    word.addEventListener('pointerenter', select);
   }
 
   function scheduleLayout() {
@@ -86,9 +70,8 @@
   const observer = new ResizeObserver(scheduleLayout);
   [intro,...words].forEach(element => observer.observe(element));
   window.addEventListener('resize', scheduleLayout, {passive:true});
-  reduced.addEventListener('change', () => { if (target) settle(); restartRotation(); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden && target) settle(); restartRotation(); });
+  reduced.addEventListener('change', () => { if (target) settle(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && target) settle(); });
   document.fonts.ready.then(scheduleLayout);
   measure();
-  restartRotation();
 })();
