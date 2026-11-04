@@ -59,7 +59,7 @@
     }
     return svg;
   }
-  const rows = places.map(([name,zone]) => {
+  const rows = [[localName, localZone], ...places].map(([name,zone], index) => {
     const row = document.createElement('div');
     row.className = 'matrix-row';
     row.setAttribute('aria-hidden','true');
@@ -73,13 +73,13 @@
       return reel;
     });
     visited.append(row);
-    return {name,zone,cells,text:' '.repeat(15),formatter:timeFormat(zone),offsetFormatter:offsetFormat(zone)};
+    return {name,label:index === 0 ? 'LOCAL' : name,cells,text:' '.repeat(15),formatter:timeFormat(zone),offsetFormatter:offsetFormat(zone)};
   });
   let signature = '';
   function drawBoard(roll = false) {
     const now = new Date();
-    const texts = rows.map(row => `${row.formatter.format(now)} ${row.name.toUpperCase()}`.padEnd(15));
-    visited.setAttribute('aria-label',rows.map(row => `${row.name}: ${row.formatter.format(now)}, ${getOffset(row.offsetFormatter,now)}`).join('; '));
+    const texts = rows.map(row => `${row.formatter.format(now)} ${row.label.toUpperCase()}`.padEnd(15));
+    visited.setAttribute('aria-label',rows.map(row => `${row.label === 'LOCAL' ? `Local time (${row.name})` : row.name}: ${row.formatter.format(now)}, ${getOffset(row.offsetFormatter,now)}`).join('; '));
     const nextSignature = texts.join('|');
     if(!roll && signature === nextSignature) return;
     signature = nextSignature;
@@ -103,7 +103,7 @@
     const now = new Date();
     const value = localFormatter.format(now);
     const offset = getOffset(localOffset,now);
-    const localText = `${value} ${localName.toUpperCase()}`.slice(0,24).padEnd(15);
+    const localText = `${value} ${localName.toUpperCase()}`.slice(0,15).padEnd(15);
     if (localSignature !== localText) {
       localSignature = localText;
       localMatrix.replaceChildren(...[...localText].map(character => {
@@ -123,13 +123,13 @@
     button.setAttribute('aria-expanded',String(open));
     dropdown.inert = !open;
     if(open && !wasOpen) {
-      drawBoard(true);
+      drawBoard(matchMedia('(hover: hover) and (pointer: fine)').matches);
       window.dispatchEvent(new Event('portfolio-clock-hover'));
     }
   }
   widget.addEventListener('pointerenter',event => {if(event.pointerType !== 'touch') setOpen(true);});
   widget.addEventListener('pointerleave',() => {if(!pinned && !widget.contains(document.activeElement)) setOpen(false);});
-  widget.addEventListener('focusin',() => setOpen(true));
+  widget.addEventListener('focusin',event => {if(event.target.matches(':focus-visible')) setOpen(true);});
   widget.addEventListener('focusout',event => {if(!pinned && !widget.contains(event.relatedTarget)) setOpen(false);});
   button.addEventListener('click',() => {pinned = !pinned; setOpen(pinned);});
   document.addEventListener('pointerdown',event => {if(!widget.contains(event.target)) {pinned=false;setOpen(false);}});
