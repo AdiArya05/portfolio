@@ -5,7 +5,6 @@
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const helmet = new Image();
   helmet.src = '/outfield-camo.png?v=helmet';
-  const fallback = ['#61d8a4', '#a5de79', '#f6dc80', '#38bb86'];
   let active = false;
 
   function play() {
@@ -15,18 +14,40 @@
     overlay.className = 'outfield-pixels';
     overlay.setAttribute('aria-hidden', 'true');
     const canvas = document.createElement('canvas');
-    canvas.width = 360;
-    canvas.height = 48;
+    canvas.width = 112;
+    canvas.height = 20;
     overlay.append(canvas);
     const context = canvas.getContext('2d');
-    if (!context) return;
+    const texture = document.createElement('canvas');
+    texture.width = canvas.width;
+    texture.height = canvas.height;
+    const ink = texture.getContext('2d');
+    if (!context || !ink) return;
+
+    // Use the actual lowercase lettering as a mask for the uniform texture.
+    const style = getComputedStyle(trigger);
+    ink.font = `600 16px ${style.fontFamily}`;
+    ink.textAlign = 'center';
+    ink.textBaseline = 'middle';
+    const phrase = trigger.textContent;
+    const scale = (texture.width - 2) / ink.measureText(phrase).width;
+    ink.translate(texture.width / 2, 0);
+    ink.scale(scale, 1);
+    ink.fillText(phrase, 0, 10);
+    ink.setTransform(1, 0, 0, 1, 0, 0);
+    ink.globalCompositeOperation = 'source-in';
+    if (helmet.complete && helmet.naturalWidth) {
+      ink.drawImage(helmet, 125, 210, 250, 100, 0, 0, texture.width, texture.height);
+    } else {
+      ink.fillStyle = '#65a67a';
+      ink.fillRect(0, 0, texture.width, texture.height);
+    }
 
     active = true;
     trigger.append(overlay);
-
-    const duration = 570;
-    const trail = 108;
-    const cell = 6;
+    const paper = getComputedStyle(document.documentElement).getPropertyValue('--paper').trim();
+    const duration = 1120;
+    const waveWidth = 82;
     const start = performance.now();
 
     function tick(now) {
@@ -37,25 +58,18 @@
         return;
       }
 
-      const head = progress * (canvas.width + trail);
+      const head = progress * (canvas.width + waveWidth);
       context.clearRect(0, 0, canvas.width, canvas.height);
-
-      for (let x = Math.max(0, Math.floor((head - trail) / cell) * cell); x < head && x < canvas.width; x += cell) {
-        const age = (head - x) / trail;
-        const center = 24 + Math.sin(x / 32 - progress * 8) * 8;
-        const radius = 20 * Math.sin(Math.PI * Math.min(1, age) ** .65) ** .45;
-        for (let y = 0; y < canvas.height; y += cell) {
-          if (Math.abs(y + cell / 2 - center) > radius) continue;
-          if (helmet.complete && helmet.naturalWidth) {
-            const sampleX = 125 + (x * 2 + y) % 240;
-            const sampleY = 215 + (x + y * 3) % 100;
-            context.drawImage(helmet, sampleX, sampleY, 6, 6, x, y, cell, cell);
-          } else {
-            context.fillStyle = fallback[(x / cell + y / cell) % fallback.length];
-            context.fillRect(x, y, cell, cell);
-          }
-        }
+      for (let x = Math.max(0, Math.floor(head - waveWidth)); x < head && x < canvas.width; x++) {
+        const phase = (head - x) / waveWidth;
+        const strength = Math.sin(Math.PI * Math.min(1, phase)) ** .55;
+        const bend = Math.round(Math.sin(phase * Math.PI * 2) * 3 * strength);
+        context.globalAlpha = Math.min(1, strength * 2);
+        context.fillStyle = paper;
+        context.fillRect(x, 0, 1, canvas.height);
+        context.drawImage(texture, x, 0, 1, texture.height, x, bend, 1, texture.height);
       }
+      context.globalAlpha = 1;
       requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
