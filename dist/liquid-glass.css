@@ -26,8 +26,8 @@ html body :is(.time-zone-toggle,.project-note,.mobile-explorations-link,.footer-
   outline-offset:4px;
 }
 html body :is(.time-zone-toggle,.project-note,.mobile-explorations-link,.footer-discover,.contact-link,.modal-actions .modal-link,.modal-actions .modal-close,.lightbox-close,.back-link,.next-project,.site-footer a,.explorations-footer a,.motion-toggle):active { transform:scale(.98); }
-html body .project-note { padding:14px 18px; min-height:76px; }
-html body .mobile-explorations-link { padding:14px 20px; min-height:76px; }
+html body .project-note { padding:11px 12px; min-height:72px; }
+html body .mobile-explorations-link { padding:12px 14px; min-height:68px; }
 html body .next-project.next-project { border-radius:28px; }
 html body :is(.back-link,.site-footer a,.explorations-footer a,.contact-link) { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 18px; font-size:15px; font-weight:500; line-height:1.5; }
 html body .modal-actions .modal-link { padding:10px 16px; font-size:15px; }
@@ -43,12 +43,20 @@ html body :is(.modal-panel,.lightbox) { border:1px solid #ffffffb3; border-radiu
 .project-link-glass { display:none; }
 html body .modal-actions [data-liquid-glass]::before,html body .next-project::before { display:none; }
 @media(max-width:700px) {
-  html body .project-note { padding:12px; gap:8px; min-height:72px; }
+  html body .project-note { padding:9px 8px; gap:8px; min-height:64px; }
   html body .project-note small { font-size:10px; }
-  html body .mobile-explorations-link { min-height:72px; }
+  html body .mobile-explorations-link { min-height:68px; }
   html body .site-footer a { font-size:13px; padding:8px 12px; }
 }
 @media(prefers-reduced-motion:reduce) {
   html body :is(.time-zone-toggle,.project-note,.mobile-explorations-link,.footer-discover,.contact-link,.modal-actions .modal-link,.modal-actions .modal-close,.lightbox-close,.back-link,.next-project,.site-footer a,.explorations-footer a,.motion-toggle) { transition:none; }
   html body :is(.time-zone-toggle,.project-note,.mobile-explorations-link,.footer-discover,.contact-link,.modal-actions .modal-link,.modal-actions .modal-close,.lightbox-close,.back-link,.next-project,.site-footer a,.explorations-footer a,.motion-toggle):active { transform:none; }
+}
+
+/* Retain the original text hierarchy and gallery navigator dimensions. */
+html body .contact-link.contact-link { font-size:inherit; font-weight:680; }
+html body .reel-progress {
+  border:1px solid var(--glass-edge); border-top-color:#fff;
+  background:var(--glass-fill); box-shadow:var(--glass-shadow);
+  backdrop-filter:blur(20px) saturate(125%); -webkit-backdrop-filter:blur(20px) saturate(125%);
 }

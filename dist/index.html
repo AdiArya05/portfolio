@@ -1777,8 +1777,7 @@
     <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
     <link rel="stylesheet" href="/design-selection.css?v=20261102-v4" />
     <script src="/design-selection.js?v=20261102-v3" defer></script>
-<link rel="stylesheet" href="/quiet-layout.css?v=20261104-v1" />
-    <link rel="stylesheet" href="/liquid-glass.css?v=20261104-v1" />
+    <link rel="stylesheet" href="/liquid-glass.css?v=20261104-v2" />
 </head>
   <body>
     <div class="time-zones" id="time-zones">
@@ -1793,7 +1792,7 @@
       </div>
     </div>
     <script src="/world-times.js?v=20261018-restored" defer></script>
-    <script src="/mobile-layout.js?v=20261104-system" defer></script>
+    <script src="/mobile-layout.js?v=20261104-restored-layout" defer></script>
     <button class="footer-discover" id="footer-discover" type="button" aria-label="Scroll down to the Singapore skyline" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll down</span></button>
     <script src="/footer-discovery.js?v=20261019-v24" defer></script>
     <div class="motion-header-shield" aria-hidden="true"></div>
@@ -2757,7 +2756,7 @@
         lastTime = now;
 
         const galleryPaused = isGalleryPaused();
-        const targetRate = galleryPaused ? 0 : 0.018;
+        const targetRate = galleryPaused ? 0 : 0.035;
         const easing = 1 - Math.exp(-elapsed / 105);
         scrollRate += (targetRate - scrollRate) * easing;
         if (galleryPaused && scrollRate < 0.0005) scrollRate = 0;

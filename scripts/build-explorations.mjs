@@ -66,7 +66,7 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
-  <link rel="stylesheet" href="/liquid-glass.css?v=20261104-v1" />
+  <link rel="stylesheet" href="/liquid-glass.css?v=20261104-v2" />
 </head>
 <body class="reading-page explorations-view">
   ${toolbar}
