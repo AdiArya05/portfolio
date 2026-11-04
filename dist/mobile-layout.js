@@ -10,7 +10,7 @@
   function fit() {
     frame = 0;
     if (!mobile.matches) {
-      ['--mobile-story-top','--mobile-intro-size','--mobile-intro-leading','--mobile-sentence-gap'].forEach(name=>root.style.removeProperty(name));
+      ['--mobile-story-top','--mobile-intro-size','--mobile-intro-leading'].forEach(name=>root.style.removeProperty(name));
       story.style.overflowY = '';
       return;
     }
@@ -24,9 +24,8 @@
     const notesHeight = notes ? notes.getBoundingClientRect().height + parseFloat(getComputedStyle(notes).marginTop) : 0;
     const available = Math.max(80,story.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)-notesHeight-3);
     root.style.setProperty('--mobile-intro-leading','1.68');
-    root.style.setProperty('--mobile-sentence-gap','0px');
     let low = 12;
-    let high = Math.min(30,innerWidth*.067);
+    let high = Math.min(36,innerWidth*.09);
     // Fit once per layout change, never on a continuously running animation.
     for(let i=0;i<11;i++) {
       const size=(low+high)/2;
@@ -35,11 +34,6 @@
       if(intro.getBoundingClientRect().height<=available && fitsWidth) low=size; else high=size;
     }
     root.style.setProperty('--mobile-intro-size',`${low}px`);
-    // Distribute unused height between sentences, keeping line spacing natural
-    // and the project cards near the bottom of the visible screen.
-    const breaks = intro.querySelectorAll(':scope > .sentence').length - 1;
-    const spare = Math.max(0, available - intro.getBoundingClientRect().height);
-    root.style.setProperty('--mobile-sentence-gap', `${breaks > 0 ? spare / breaks : 0}px`);
     // One line-height throughout; size fits both the height and unbroken link rows.
     // Very short landscape viewports retain access to all text, never clipping it.
     story.style.overflowY=story.scrollHeight>story.clientHeight+3?'auto':'hidden';
