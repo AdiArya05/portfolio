@@ -16,9 +16,9 @@
   <link rel="icon" href="/media/aditya-arya-icon.png" />
   <script src="/media-motion.js?v=20261028-v2" defer></script>
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
-  <script src="/work/theme-init.js?v=20261104-light"></script>
+  <script src="/work/theme-init.js"></script>
   <link rel="stylesheet" href="/typography.css?v=20261104-system-v1" />
-  <link rel="stylesheet" href="/work/case-study.css?v=20261104-system" />
+  <link rel="stylesheet" href="/work/case-study.css?v=20261019-v25" />
   <link rel="stylesheet" href="/work/catch/catch.css?v=20261019-mobile-v23" />
   <link rel="stylesheet" href="/work/app-icons.css?v=20261019-mobile-v23" />
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
@@ -26,15 +26,18 @@
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261019-v17" defer></script>
   <script src="/story-glass.js?v=20261019-v17" defer></script>
-  <script src="/work/case-study.js?light=20261104&v=20261027-v27" defer></script>
+  <script src="/work/case-study.js?v=20261027-v27" defer></script>
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
-  <link rel="stylesheet" href="/liquid-glass.css?v=20261104-v2" />
 </head>
 <body class="catch-story reading-page">
   <header class="reading-toolbar" aria-label="Reading controls">
+    <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Appearance">
+      <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+      <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
+    </div>
     <div class="time-zones" id="time-zones">
       <button class="time-zone-toggle" id="time-zone-toggle" type="button" aria-expanded="false" aria-controls="time-zone-dropdown" aria-label="Show local time and places I have visited">
         <span class="matrix-row" id="local-matrix" aria-hidden="true"></span>

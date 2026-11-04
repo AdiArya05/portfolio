@@ -77,12 +77,15 @@ assert(html.includes('aria-labelledby="modal-title"'));
 assert(html.includes('aria-describedby="modal-description"'));
 assert(html.includes('href="https://drive.google.com/file/d/16-1kgD510pvwfmND5SYUP0pWbivKd8OM/view?usp=sharing"'), 'Keep the public-facing Maritime Fusion destination');
 assert(!html.includes('href="https://github.com/Rajsuthan/maritime-fusion"'), 'Do not restore the private repository destination');
+assert(html.includes('grid-template-columns:44px 44px; width:104px; height:52px; padding:4px; border:0; border-radius:999px; gap:8px;'));
+assert(html.includes('top:4px; left:4px; width:44px; height:44px;'));
+assert(html.includes('html[data-theme="dark"] .theme-toggle::before { transform:translateX(52px); }'));
 assert(html.includes('aria-label="Close project preview"'));
 assert(html.includes('gallery.contains(document.activeElement)'), 'Pause moving gallery for keyboard users');
 assert(!html.includes('fonts.googleapis.com') && !html.includes('fonts.gstatic.com'), 'Typography must not depend on remote fonts');
 assert(html.includes('/typography.css?v=20261104-system-v1'));
 assert(fs.readFileSync(path.join(dist, 'typography.css'), 'utf8').includes("--font-sans:ui-sans-serif,system-ui"));
-assert(html.includes('got something in mind?'), 'Keep the original contact prompt');
+assert(!html.includes('class="contact-shine"'), 'Keep the homepage contact prompt removed');
 assert(fs.readFileSync(path.join(dist,'fonts/space-grotesk-v22-latin.woff2')).subarray(0,4).toString() === 'wOF2');
 assert(fs.readFileSync(path.join(dist,'fonts/Space-Grotesk-OFL.txt'),'utf8').includes('SIL OPEN FONT LICENSE'));
 for (const card of cards) {
@@ -167,7 +170,7 @@ for (const project of ['soja', 'catch']) {
   assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, project === 'catch' ? 3 : 2);
   const story = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8');
   const readingToolbar = story.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
-  assert(readingToolbar?.includes('id="time-zones"') && !readingToolbar.includes('id="theme-toggle"'), 'Keep reading controls in one header so content cannot scroll between them');
+  assert(readingToolbar?.includes('id="theme-toggle"') && readingToolbar.includes('id="time-zones"'), 'Keep reading controls in one header so content cannot scroll between them');
   assert(story.includes('viewport-fit=cover'), 'Account for iPhone safe areas in the story header');
   assert(!story.includes('class="icon-mockup"'), 'Remove phone icon mockups from case studies');
   if (project === 'soja') assert.equal((story.match(/src="\/work\/soja\/media\/final-home.webp"/g) || []).length, 1, 'Show the final home screen only once');

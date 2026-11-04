@@ -4,6 +4,7 @@
   const story = document.querySelector('.story');
   const intro = document.querySelector('#intro-heading');
   const widget = document.querySelector('#time-zones');
+  const theme = document.querySelector('#theme-toggle');
   let frame = 0;
 
   function fit() {
@@ -13,7 +14,8 @@
       story.style.overflowY = '';
       return;
     }
-    const headerBottom = widget.querySelector('button').getBoundingClientRect().bottom;
+    const headerBottom = Math.max(theme.getBoundingClientRect().bottom,
+      widget.querySelector('button').getBoundingClientRect().bottom);
     // The clock is an overlay: opening it must never reflow the paragraph.
     const top = headerBottom+20;
     root.style.setProperty('--mobile-story-top',`${Math.ceil(top)}px`);
