@@ -53,14 +53,26 @@
     }
   }
 
+  function select(word) {
+    if (active === word) return;
+    active = word;
+    measure(true);
+  }
+
+  let rotation;
+  function restartRotation() {
+    clearInterval(rotation);
+    if (reduced.matches || document.hidden) return;
+    rotation = setInterval(() => select(active === words[0] ? words[1] : words[0]), 3000);
+  }
+
   for (const word of words) {
-    const select = () => {
-      if (active === word) return;
-      active = word;
-      measure(true);
+    const selectWord = () => {
+      select(word);
+      restartRotation();
     };
-    word.addEventListener('pointerenter', select);
-    word.addEventListener('pointerdown', select, {passive:true});
+    word.addEventListener('pointerenter', selectWord);
+    word.addEventListener('pointerdown', selectWord, {passive:true});
   }
 
   function scheduleLayout() {
@@ -70,8 +82,9 @@
   const observer = new ResizeObserver(scheduleLayout);
   [intro,...words].forEach(element => observer.observe(element));
   window.addEventListener('resize', scheduleLayout, {passive:true});
-  reduced.addEventListener('change', () => { if (target) settle(); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden && target) settle(); });
+  reduced.addEventListener('change', () => { if (target) settle(); restartRotation(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden && target) settle(); restartRotation(); });
   document.fonts.ready.then(scheduleLayout);
   measure();
+  restartRotation();
 })();

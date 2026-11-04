@@ -59,7 +59,15 @@
     }
     return svg;
   }
-  const rows = [[localName, localZone], ...places].map(([name,zone], index) => {
+  const matchingZones = {
+    'Asia/Calcutta': 'Asia/Kolkata',
+    'US/Eastern': 'America/New_York',
+    'Canada/Pacific': 'America/Vancouver',
+    'Singapore': 'Asia/Singapore'
+  };
+  const visitorZone = matchingZones[localZone] || localZone;
+  const otherPlaces = places.filter(([, zone]) => zone !== visitorZone);
+  const rows = [[localName, localZone], ...otherPlaces].map(([name,zone], index) => {
     const row = document.createElement('div');
     row.className = 'matrix-row';
     row.setAttribute('aria-hidden','true');

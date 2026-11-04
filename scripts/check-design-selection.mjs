@@ -12,10 +12,10 @@ const frame={hidden:true,style:{},classList:{add:x=>classes.add(x),remove:x=>cla
 const label={textContent:''};const reduced={matches:false,addEventListener(name,fn){events.reduced=fn;}};
 const doc={hidden:false,fonts:{ready:{then(){}}},querySelector:q=>({'#intro-heading':intro,'.design-selection-frame':frame,'.design-selection-size':label}[q]),querySelectorAll:()=>words,addEventListener(name,fn){events[name]=fn;}};
 const step=()=>{now+=1000/60;const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn(now));};
-let observe;
-vm.runInNewContext(source,{document:doc,window:{addEventListener(name,fn){events[name]=fn;}},matchMedia:()=>reduced,performance:{now:()=>now},requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id),ResizeObserver:class{constructor(fn){observe=fn;}observe(){}}});
+let observe, rotate;
+vm.runInNewContext(source,{setInterval(fn,ms){assert.equal(ms,3000);rotate=fn;return 1;},clearInterval(){rotate=undefined;},document:doc,window:{addEventListener(name,fn){events[name]=fn;}},matchMedia:()=>reduced,performance:{now:()=>now},requestAnimationFrame:fn=>{frames.set(++next,fn);return next;},cancelAnimationFrame:id=>frames.delete(id),ResizeObserver:class{constructor(fn){observe=fn;}observe(){}}});
 assert.equal(frame.hidden,false);assert.equal(frame.style.height,'28px','Frame follows the text independently of surrounding leading');assert.equal(frame.style.transform,'translate3d(17px,18px,0)');
-const initial=frame.style.transform;words[1].events.pointerenter();
+const initial=frame.style.transform;rotate();
 assert.equal(frame.style.transform,initial,'Pointer entry begins at the current position');
 step();assert.notEqual(frame.style.transform,initial);assert.notEqual(frame.style.transform,'translate3d(207px,18px,0)','Move through intermediate positions');
 for(let i=0;i<7;i++)step();const interrupted=frame.style.transform;
