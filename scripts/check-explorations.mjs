@@ -20,7 +20,7 @@ assert(home.includes('class="mobile-explorations-link" href="/explorations/"'),'
 assert(read('motion-gallery.css').includes('.shell > .gallery-wrap { display:none !important; }'),'Keep the reel off the phone homepage');
 assert(!read('motion-gallery.css').includes('display:block !important; height:auto'),'Do not restore the phone reel');
 const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
-assert(toolbar?.includes('id="theme-toggle"') && toolbar.includes('id="time-zones"'), 'Use the case studies opaque reading toolbar');
+assert(toolbar?.includes('id="time-zones"') && !toolbar.includes('id="theme-toggle"'), 'Use the case studies opaque reading toolbar');
 assert(page.includes('src="/media/aditya-arya-icon.png" width="44" height="44"'), 'Restore the original profile portrait');
 assert(!page.includes('aditya-profile.jpg') && !page.includes('section-nav'), 'Use the portfolio identity rather than the reference layout');
 assert(page.includes('/typography.css') && page.includes('/work/reading-toolbar.css') && page.includes('/interface-controls.css'));

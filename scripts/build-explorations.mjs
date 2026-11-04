@@ -50,10 +50,9 @@ const html = `<!doctype html>
   <script src="/media-motion.js?v=20261028-v2" defer></script>
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
   <script src="/explorations/phone-only.js?v=20261022-v1"></script>
-  <script src="/work/theme-init.js"></script>
-  <link rel="preload" href="/fonts/space-grotesk-v22-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/typography.css?v=20261019-original-v20" />
-  <link rel="stylesheet" href="/work/case-study.css?v=20261019-v25" />
+  <script src="/work/theme-init.js?v=20261104-light"></script>
+  <link rel="stylesheet" href="/typography.css?v=20261104-system-v1" />
+  <link rel="stylesheet" href="/work/case-study.css?v=20261104-system" />
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
@@ -62,11 +61,12 @@ const html = `<!doctype html>
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261019-v17" defer></script>
-  <script src="/explorations/explorations.js?v=20261027-v4" defer></script>
+  <script src="/explorations/explorations.js?v=20261104-light" defer></script>
   <script src="/motion-gallery.js?v=20261022-v1" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
+  <link rel="stylesheet" href="/liquid-glass.css?v=20261104-v1" />
 </head>
 <body class="reading-page explorations-view">
   ${toolbar}

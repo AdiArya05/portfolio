@@ -4,40 +4,13 @@
   const image = viewer.querySelector('#modal-image');
   const video = viewer.querySelector('#modal-video');
   const link = viewer.querySelector('#modal-link');
-  const appearance = document.querySelector('#theme-toggle');
   let opener;
   const dialogMotion = window.PortfolioDialogMotion(viewer, () => { video.pause(); sound('close'); });
   function sound(direction) {
     window.PortfolioSounds?.play('image', direction);
   }
 
-  function syncAppearance() {
-    const dark = root.dataset.theme === 'dark';
-    appearance.querySelectorAll('[data-select-theme]').forEach(button => {
-      button.setAttribute('aria-pressed', String(button.dataset.selectTheme === (dark ? 'dark' : 'light')));
-    });
-    document.querySelector('meta[name="theme-color"]').content = dark ? '#181815' : '#fbf8ef';
-  }
-  appearance.addEventListener('click', event => {
-    const next = event.target.closest('[data-select-theme]')?.dataset.selectTheme;
-    if (!['light','dark'].includes(next) || root.dataset.theme === next) return;
-    root.dataset.theme = next;
-    try { localStorage.setItem('portfolio-theme', next); } catch {}
-    syncAppearance();
-    window.PortfolioSounds?.play('theme', next);
-  });
-  window.addEventListener('pageshow', () => {
-    try { const saved = localStorage.getItem('portfolio-theme'); if (['light','dark'].includes(saved)) root.dataset.theme = saved; } catch {}
-    syncAppearance();
-  });
-  window.addEventListener('storage', event => {
-    if (event.key === 'portfolio-theme' && ['light','dark'].includes(event.newValue)) {
-      root.dataset.theme = event.newValue;
-      syncAppearance();
-    }
-  });
-  syncAppearance();
-
+  root.dataset.theme = 'light';
   document.querySelectorAll('.preview-open').forEach(button => {
     button.addEventListener('click', () => {
       if (viewer.open) return;
