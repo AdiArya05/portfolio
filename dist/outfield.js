@@ -33,7 +33,7 @@
     trigger.append(overlay);
 
     const duration = 720;
-    const start = performance.now();
+    let start;
     const ease = progress => progress * progress * (3 - 2 * progress);
     const fallback = ['#61d8a4', '#a5de79', '#f6dc80', '#38bb86'];
 
@@ -62,6 +62,7 @@
     }
 
     function tick(now) {
+      start ??= now;
       const elapsed = now - start;
       if (elapsed >= duration) {
         overlay.remove();
