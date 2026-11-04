@@ -5,60 +5,55 @@
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const helmet = new Image();
   helmet.src = '/outfield-camo.png?v=helmet';
-  const fallback = ['#61d8a4', '#a5de79', '#f6dc80', '#38bb86'];
-  let active = false;
+  let playing = false;
 
-  function play() {
-    if (active || reducedMotion.matches) return;
+  async function play() {
+    if (playing || reducedMotion.matches) return;
+    playing = true;
 
-    const overlay = document.createElement('span');
-    overlay.className = 'outfield-pixels';
-    overlay.setAttribute('aria-hidden', 'true');
-    const canvas = document.createElement('canvas');
-    canvas.width = 360;
-    canvas.height = 48;
-    overlay.append(canvas);
-    const context = canvas.getContext('2d');
-    if (!context) return;
-
-    active = true;
-    trigger.append(overlay);
-
-    const duration = 760;
-    const trail = 132;
-    const cell = 8;
-    const start = performance.now();
-
-    function tick(now) {
-      const progress = (now - start) / duration;
-      if (progress >= 1) {
-        overlay.remove();
-        active = false;
-        return;
-      }
-
-      const head = progress * (canvas.width + trail);
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      for (let x = Math.max(0, Math.floor((head - trail) / cell) * cell); x < head && x < canvas.width; x += cell) {
-        const age = (head - x) / trail;
-        const center = 24 + Math.sin(x / 32 - progress * 8) * 8;
-        const radius = 22 * Math.sin(Math.PI * Math.min(1, age) ** .65) ** .45;
-        for (let y = 0; y < canvas.height; y += cell) {
-          if (Math.abs(y + cell / 2 - center) > radius) continue;
-          if (helmet.complete && helmet.naturalWidth) {
-            const sampleX = 125 + (x * 2 + y) % 240;
-            const sampleY = 215 + (x + y * 3) % 100;
-            context.drawImage(helmet, sampleX, sampleY, 8, 8, x, y, cell, cell);
-          } else {
-            context.fillStyle = fallback[(x / cell + y / cell) % fallback.length];
-            context.fillRect(x, y, cell, cell);
-          }
-        }
-      }
-      requestAnimationFrame(tick);
+    try {
+      await helmet.decode();
+    } catch {
+      playing = false;
+      return;
     }
-    requestAnimationFrame(tick);
+    if (reducedMotion.matches) {
+      playing = false;
+      return;
+    }
+
+    const patch = document.createElement('span');
+    patch.className = 'outfield-pixels';
+    patch.setAttribute('aria-hidden', 'true');
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 42;
+    canvas.height = 12;
+    const context = canvas.getContext('2d');
+    if (!context) {
+      playing = false;
+      return;
+    }
+    context.imageSmoothingEnabled = false;
+    context.drawImage(helmet, 125, 210, 245, 100, 0, 0, canvas.width, canvas.height);
+
+    const label = document.createElement('span');
+    label.textContent = trigger.textContent;
+    patch.append(canvas, label);
+    trigger.append(patch);
+
+    const animation = patch.animate([
+      { clipPath: 'inset(0 100% 0 0)', opacity: 1, easing: 'steps(14, end)' },
+      { clipPath: 'inset(0 0 0 0)', opacity: 1, offset: .25 },
+      { clipPath: 'inset(0 0 0 0)', opacity: 1, offset: .78 },
+      { clipPath: 'inset(0 0 0 0)', opacity: 0 }
+    ], { duration: 1650 });
+    const restore = () => {
+      patch.remove();
+      playing = false;
+    };
+    animation.onfinish = restore;
+    animation.oncancel = restore;
   }
 
   trigger.addEventListener('pointerenter', event => {
