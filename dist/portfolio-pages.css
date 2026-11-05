@@ -394,3 +394,22 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
 .portfolio-avatar img { display: block; width: 40px; height: 40px; border-radius: inherit; object-fit: cover; }
 .portfolio-avatar:focus-visible { outline: 2px solid #005fd1; outline-offset: 3px; }
 .portfolio-tagline { margin-top: .2em; }
+
+.story-read { display: none; }
+@media (max-width: 700px) {
+  html { overflow-x: clip; overflow-y: auto; }
+  body.portfolio-index { height: auto; overflow: visible; }
+  .time-zones { display: none !important; }
+  .portfolio-index .index-toolbar, .reading-toolbar { flex-direction: row; }
+  .preview-open:disabled, .preview-label:disabled { opacity: 1; cursor: default; color: inherit; }
+  .preview-label:disabled { text-decoration: none; }
+  .story-entry {
+    position: relative;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: linear-gradient(145deg, #fff, #f0f1f4);
+  }
+  .story-entry + .story-entry { margin-top: 14px; }
+  .story-read { display: block; margin-top: 14px; color: var(--muted); font-size: 14px; }
+}

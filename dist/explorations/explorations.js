@@ -2,15 +2,27 @@
   const viewer = document.querySelector('#media-viewer');
   const image = viewer.querySelector('.viewer-stage img');
   const video = viewer.querySelector('.viewer-stage video');
+  const phone = matchMedia('(max-width:700px)');
+  const previews = [...document.querySelectorAll('.preview-open, .preview-label')];
+  function updatePhonePreviews() {
+    for (const button of previews) {
+      button.disabled = phone.matches;
+      if (phone.matches) button.removeAttribute('aria-haspopup');
+      else button.setAttribute('aria-haspopup', 'dialog');
+    }
+    if (phone.matches && viewer.open) dialogMotion.close();
+  }
   let opener;
   const dialogMotion = window.PortfolioDialogMotion(viewer, () => { video.pause(); sound('close'); });
   function sound(direction) {
     window.PortfolioSounds?.play('image', direction);
   }
 
-  document.querySelectorAll('.preview-open, .preview-label').forEach(button => {
+  phone.addEventListener('change', updatePhonePreviews);
+  updatePhonePreviews();
+  previews.forEach(button => {
     button.addEventListener('click', () => {
-      if (viewer.open) return;
+      if (phone.matches || viewer.open) return;
       const piece = button.closest('.exploration');
       const media = piece.querySelector('.card-media');
       const motion = media.tagName === 'VIDEO';

@@ -10,7 +10,7 @@
   const dialogMotion = window.PortfolioDialogMotion(lightbox, () => window.PortfolioSounds?.play('image', 'close'));
   document.querySelectorAll('.image-button').forEach(button => {
     button.addEventListener('click', () => {
-      if (lightbox.open) return;
+      if (matchMedia('(max-width:700px)').matches || lightbox.open) return;
       const image = button.querySelector('img');
       enlarged.width = Number(image.getAttribute('width')) || image.naturalWidth;
       enlarged.height = Number(image.getAttribute('height')) || image.naturalHeight;

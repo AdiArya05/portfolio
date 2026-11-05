@@ -12,6 +12,8 @@
   function select(name, animate = true) {
     if (!panels.has(name) || name === current) return;
     animation?.cancel();
+    for (const popover of document.querySelectorAll(':popover-open')) popover.hidePopover();
+    window.scrollTo({top: 0, left: 0, behavior: 'instant'});
     panels.get(current).hidden = true;
     const panel = panels.get(name);
     panel.hidden = false;
@@ -22,11 +24,10 @@
       else link.removeAttribute('aria-current');
     }
     window.PortfolioNav.selectCurrent();
-    window.scrollTo(0, 0);
     if (animate && !reduced.matches) {
       animation = panel.animate(
-        [{opacity: 0}, {opacity: 1}],
-        {duration: 220, easing: 'cubic-bezier(.2,.65,.3,1)'}
+        [{opacity: .45}, {opacity: 1}],
+        {duration: 180, easing: 'cubic-bezier(.2,.65,.3,1)'}
       );
     }
   }
