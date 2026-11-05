@@ -413,16 +413,28 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
 }
 
 @media (max-width: 700px) {
-  html:has([data-portfolio-panel="index"]:not([hidden])),
-  body.portfolio-index:has([data-portfolio-panel="index"]:not([hidden])) {
-    height: 100svh;
-    overflow: hidden;
-  }
   .portfolio-content:has([data-portfolio-panel="index"]:not([hidden])) {
     height: 100svh;
     min-height: 0;
   }
-  .portfolio-index .closing { display: none; }
+  .portfolio-index .closing {
+    display: block;
+    height: max(60svh, 400px);
+    min-height: 0;
+    background: var(--paper);
+  }
+  .portfolio-index .closing-copy {
+    margin: 48px var(--portfolio-gutter, 26px);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  .portfolio-index .singapore-skyline {
+    width: 100%;
+    max-width: none;
+    left: 0;
+    right: 0;
+    transform: none;
+  }
   .portfolio-index .intro { line-height: 1.5; }
   body.portfolio-index .story { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
 }
