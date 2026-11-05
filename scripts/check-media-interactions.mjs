@@ -74,9 +74,9 @@ const videoMorph=window.PortfolioMediaMotion.create(panel);videoMorph.open(sourc
 const scales=animations.at(-1).frames[0].transform.match(/scale\(([^,]+),([^\)]+)\)/);
 assert(Math.abs(Number(scales[1])-Number(scales[2]))<1e-10,'letterboxed video retains its aspect ratio at the thumbnail');
 videoMorph.reset();assert.equal(source.style.visibility,'');
-for (const route of ['work/catch/index.html','work/soja/index.html','explorations/index.html']) {
+for (const route of ['work/catch/index.html','work/soja/index.html','work/index.html']) {
  const html=fs.readFileSync(new URL(route,dist),'utf8');
- const consumer=route.startsWith('work/')?'/work/case-study.js':'/explorations/explorations.js';
+ const consumer=route !== 'work/index.html'?'/work/case-study.js':'/explorations/explorations.js';
  assert(html.indexOf('/media-motion.js')<html.indexOf('/media-dialog.js'),'spring must load before native adapter');
  assert(html.indexOf('/media-dialog.js')<html.indexOf(consumer),`${route}: dialog controller loads before route handler`);
 }

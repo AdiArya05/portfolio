@@ -7,14 +7,14 @@
       name="description"
       content="Aditya Arya is an AI product builder based in Singapore. Explore Catch SG Buses, Soja, Maritime Fusion, and thoughtfully designed digital projects."
     />
-    <meta name="theme-color" content="#f5f5f7" />
+    <meta name="theme-color" content="#fafafa" />
     <link rel="canonical" href="https://adiarya.vercel.app/" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="author" content="Aditya Arya" />
     <meta property="og:title" content="Aditya Arya" />
     <meta
       property="og:description"
-      content="Creating thoughtful products."
+      content="Building with intent."
     />
     <meta property="og:url" content="https://adiarya.vercel.app/" />
     <meta property="og:site_name" content="Aditya Arya" />
@@ -23,18 +23,18 @@
     <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Aditya Arya. Creating thoughtful products. A blue Singapore skyline on cream." />
+    <meta property="og:image:alt" content="Aditya Arya. Building with intent. A blue Singapore skyline on cream." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content="@adiarya05" />
     <meta name="twitter:title" content="Aditya Arya" />
     <meta
       name="twitter:description"
-      content="Creating thoughtful products."
+      content="Building with intent."
     />
     <meta name="twitter:image" content="https://adiarya.vercel.app/media/aditya-arya-social.jpg?v=20261026" />
-    <meta name="twitter:image:alt" content="Aditya Arya. Creating thoughtful products. A blue Singapore skyline on cream." />
-    <script src="/media-motion.js?v=20261028-v2" defer></script>
+    <meta name="twitter:image:alt" content="Aditya Arya. Building with intent. A blue Singapore skyline on cream." />
+
     <script type="application/ld+json">
       {"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://adiarya.vercel.app/#aditya","name":"Aditya Arya","url":"https://adiarya.vercel.app/","image":"https://adiarya.vercel.app/media/aditya-profile.jpg","description":"AI product builder based in Singapore. Building Catch SG Buses, Soja, and digital products.","sameAs":["https://www.linkedin.com/in/aditya-arya1/","https://x.com/adiarya05","https://github.com/AdiArya05"]},{"@type":"WebSite","@id":"https://adiarya.vercel.app/#website","url":"https://adiarya.vercel.app/","name":"Aditya Arya","author":{"@id":"https://adiarya.vercel.app/#aditya"},"inLanguage":"en"},{"@type":"ProfilePage","@id":"https://adiarya.vercel.app/#profile","url":"https://adiarya.vercel.app/","name":"Aditya Arya — AI Builder & Product Portfolio","mainEntity":{"@id":"https://adiarya.vercel.app/#aditya"},"isPartOf":{"@id":"https://adiarya.vercel.app/#website"}}]}
     </script>
@@ -49,14 +49,6 @@
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
-    <script>
-      (() => {
-        let savedTheme;
-        try { savedTheme = localStorage.getItem('portfolio-theme'); } catch {}
-        const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-        document.documentElement.dataset.theme = ['light', 'dark'].includes(savedTheme) ? savedTheme : systemTheme;
-      })();
-    </script>
     <style>
       :root {
         color-scheme: light;
@@ -1803,23 +1795,27 @@
       @media(prefers-reduced-motion:reduce) { .theme-toggle::before { transition:none; } ::view-transition-old(root), ::view-transition-new(root) { animation:none; } }
     </style>
   <link rel="stylesheet" href="/typography.css?v=20261104-system-v1" />
-    <link rel="stylesheet" href="/project-links.css?v=20261104-glass-rim" />
+
     <link rel="stylesheet" href="/focus-glass.css?v=20261019-v22" />
     <script src="/media-sounds.js?v=20261021-v28" defer></script>
     <script src="/focus-glass.js?v=20261019-v22-complete" defer></script>
-    <link rel="stylesheet" href="/modal-glass.css?v=20261022-v23" />
-    <script src="/story-glass.js?v=20261019-v22" defer></script>
-    <script src="/project-links.js?v=20261019-glass-v22-ready" defer></script>
+
+
+
     <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
-    <link rel="stylesheet" href="/motion-gallery.css?v=20261022-v8" />
-    <script src="/motion-gallery.js?v=20261022-v1" defer></script>
+
+
     <link rel="stylesheet" href="/footer-layout.css?v=20261019-v24" />
-    <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
+
     <link rel="stylesheet" href="/design-selection.css?v=20261104-timed" />
     <script src="/design-selection.js?v=20261104-hover" defer></script>
     <script src="/outfield.js?v=13" defer></script>
+  <link rel="stylesheet" href="/portfolio-pages.css?v=1" />
+  <script src="/portfolio-nav.js?v=1" defer></script>
 </head>
-  <body>
+  <body class="portfolio-index">
+    <header class="index-toolbar">
+      <nav class="portfolio-nav" aria-label="Portfolio"><span class="nav-glass" aria-hidden="true"></span><a href="/" aria-current="page">Index</a><a href="/work/">Work</a><a href="/stories/">Stories</a></nav>
     <div class="time-zones" id="time-zones">
       <button class="time-zone-toggle" id="time-zone-toggle" type="button" aria-expanded="false" aria-controls="time-zone-dropdown" aria-label="Show local time and places I have visited">
         <span class="matrix-row" id="local-matrix" aria-hidden="true"></span>
@@ -1831,18 +1827,16 @@
         </div>
       </div>
     </div>
+    </header>
     <script src="/world-times.js?v=20261104-local-unique" defer></script>
-    <script src="/mobile-layout.js?v=20261104-even-leading" defer></script>
-    <div class="theme-toggle" id="theme-toggle" role="group" aria-label="Appearance">
-      <button class="theme-choice" data-select-theme="light" type="button" aria-label="Light mode" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-      <button class="theme-choice" data-select-theme="dark" type="button" aria-label="Dark mode" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14a8.5 8.5 0 0 1-10.5-10.5A8.5 8.5 0 1 0 20.5 14Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
-    </div>
+
     <button class="footer-discover" id="footer-discover" type="button" aria-label="Scroll down to the Singapore skyline" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll down</span></button>
     <script src="/footer-discovery.js?v=20261019-v24" defer></script>
     <div class="motion-header-shield" aria-hidden="true"></div>
     <main class="shell">
       <section class="story" aria-labelledby="intro-heading">
         <div class="story-inner">
+          <p class="portfolio-tagline">Building with intent</p>
           <h1 class="intro" id="intro-heading">
             <span class="design-selection-frame" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><span class="design-selection-size"></span></span>
             <span class="sentence">hello, i’m <span class="name name-swap" tabindex="0" aria-label="aditya arya, adi"><span class="name-cancel"><span class="name-full">aditya</span><svg class="name-strike" aria-hidden="true" viewBox="0 0 132 28" preserveAspectRatio="none"><path pathLength="1" d="M2 21 L15 5 L10 22 L27 4 L21 22 L39 5 L33 23 L51 4 L45 22 L63 5 L57 23 L75 5 L69 22 L87 4 L81 22 L99 5 L93 22 L111 5 L105 21 L130 7"/><path pathLength="1" d="M3 8 L18 23 L14 6 L31 23 L27 5 L44 22 L40 6 L57 23 L53 5 L70 22 L66 6 L83 23 L79 5 L96 22 L92 6 L109 22 L105 7 L129 20"/><path pathLength="1" d="M2 14 C16 8 27 20 42 13 S69 19 84 12 S111 18 130 11"/></svg><span class="name-short" aria-hidden="true">adi</span></span> arya</span>.</span>
@@ -1894,78 +1888,9 @@
             </span>.</span>
           </h1>
 
-          <nav class="notes-links" aria-label="Project stories">
-            <div class="project-notes-list">
-              <span class="project-link-glass" aria-hidden="true"></span>
-              <a class="project-note" href="/work/catch/" aria-label="Explore Catch case study" data-name="Catch" data-preview="/media/catch-live-board.webp">
-                <img src="/media/catch-icon.webp" width="32" height="32" alt="" decoding="async" />
-                <span class="project-note-copy"><strong>Catch</strong><small>Singapore buses</small></span><span class="project-note-arrow" aria-hidden="true">↗</span>
-              </a>
-              <a class="project-note" href="/work/soja/" aria-label="Explore Soja case study" data-name="Soja" data-preview="/media/soja-recovery.webp">
-                <img src="/media/soja-note-icon.webp" width="32" height="32" alt="" decoding="async" />
-                <span class="project-note-copy"><strong>Soja</strong><small>Sleep recovery</small></span><span class="project-note-arrow" aria-hidden="true">↗</span>
-              </a>
-            </div>
-            <a class="mobile-explorations-link" href="/explorations/" aria-label="Open Explorations" data-liquid-glass>
-              <span class="explorations-entry-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="m16 14 5 3.5-5 3.5Z"/></svg></span>
-              <span class="explorations-entry-copy"><strong>Explorations</strong><small>Interfaces, websites &amp; motion</small></span>
-              <span class="explorations-entry-arrow" aria-hidden="true">↗</span>
-            </a>
-          </nav>
         </div>
       </section>
 
-      <aside class="gallery-wrap" aria-label="Selected project gallery">
-        <h2 class="motion-heading">In motion</h2>
-        <div class="gallery" id="gallery" tabindex="0">
-          <div class="reel" id="reel">
-            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Sailorfy website showcase" data-title="Sailorfy" data-description="A calmer way to navigate the maritime world." data-link="https://sailorfy.framer.website/" data-link-label="Live site">
-              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/sailorfy-showcase-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/sailorfy-showcase-4k.webp" alt="Sailorfy website displayed in a desktop browser mockup" /></picture>
-              <div class="meta"><span class="meta-copy"><strong>Sailorfy</strong><span>Sailing, simplified.</span></span><a class="project-link" href="https://sailorfy.framer.website/" target="_blank" rel="noreferrer">Live site</a></div>
-            </article>
-
-            <article class="card" data-motion="income-slider-motion" data-title="Income slider" data-description="Exploring a sliding scale and rolling numbers." aria-label="Income slider">
-              <div class="motion-stage">
-                <button class="motion-open" type="button" aria-haspopup="dialog" aria-label="Open income slider animation">
-                  <video class="card-media" width="1080" height="1440" poster="/media/income-slider-iphone17pro.webp" data-src="/media/income-slider-iphone17pro.mp4" data-name="income slider animation" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>
-                </button>
-                <span class="motion-badge" aria-hidden="true">Motion study</span>
-                <button class="motion-toggle" type="button" aria-label="Play income slider animation preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></button>
-              </div>
-              <div class="motion-caption"><strong>Income slider</strong><span>Exploring a sliding scale and rolling numbers.</span></div>
-            </article>
-
-            <article class="card" data-case-study="/work/catch/" aria-label="Catch Live Activity detail" data-title="Catch Live Activity" data-description="The next bus, timing, and leave-now guidance at a glance." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-detail-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-live-detail-4k.webp" alt="Catch Live Activity showing the next bus and leave-now guidance" /></picture></a>
-              <div class="meta"><span class="meta-copy"><strong>Catch Live Activity</strong><span>Know exactly when to leave.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
-            </article>
-
-            <article class="card" data-case-study="/work/soja/" aria-label="Soja recovery dashboard" data-title="Soja Recovery" data-description="A personalised plan for rebuilding your body clock after disruption." data-link="https://www.reddit.com/r/sleep/comments/1uq93wn/how_circadian_recoverytherapy_helped_me_fix_my/" data-link-label="Reddit post">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/soja/" aria-label="Preview the Soja"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-recovery-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/soja-recovery-4k.webp" alt="Soja circadian recovery dashboard on an iPhone" /></picture></a>
-              <div class="meta"><span class="meta-copy"><strong>Soja Recovery</strong><span>Reset your rhythm with a daily plan.</span></span><a class="project-link" href="/work/soja/">Read story <span aria-hidden="true">↗</span></a></div>
-            </article>
-
-            <article class="card" data-case-study="/work/catch/" aria-label="Catch bus arrival board" data-title="Catch Live Board" data-description="Fast, legible Singapore bus arrivals designed for the moment you need them." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-board-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-live-board-4k.webp" alt="Catch bus arrival board on an iPhone" /></picture></a>
-              <div class="meta"><span class="meta-copy"><strong>Catch Live Board</strong><span>Singapore bus arrivals, made clearer.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
-            </article>
-
-            <article class="card" data-case-study="/work/soja/" aria-label="Soja website showcase" data-title="Soja Website" data-description="The product story and science behind personalised sleep recovery." data-link="https://soja.framer.website/" data-link-label="Live site">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/soja/" aria-label="Preview the Soja"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-website-4k.webp" /><img class="card-media" width="3840" height="2487" style="aspect-ratio:1541/998" loading="lazy" decoding="async" src="media/soja-website-4k.webp" alt="Soja website with a landscape and the message Reset your sleep" /></picture></a>
-              <div class="meta"><span class="meta-copy"><strong>Soja Website</strong><span>Reset your sleep, one plan at a time.</span></span><a class="project-link" href="/work/soja/">Read story <span aria-hidden="true">↗</span></a></div>
-            </article>
-
-            <article class="card" data-case-study="/work/catch/" aria-label="Catch nearby stop map" data-title="Catch Nearby" data-description="Nearby stops and arrivals placed directly on the map." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-map-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-map-4k.webp" alt="Catch nearby bus stops map on an iPhone" /></picture></a>
-              <div class="meta"><span class="meta-copy"><strong>Catch Nearby</strong><span>Find the right stop around you.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
-            </article>
-
-          </div>
-        </div>
-        <div class="reel-progress" id="reel-progress" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-      </aside>
     </main>
 
     <footer class="closing" id="singapore-footer" aria-label="Singapore skyline">
@@ -1999,53 +1924,7 @@
 
     <div class="focus-veil" id="focus-veil" popover="manual" aria-hidden="true"></div>
 
-    <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-description" hidden>
-      <div class="modal-panel" id="modal-panel" tabindex="-1">
-        <img id="modal-image" alt="" />
-        <div class="modal-motion-stage"><video id="modal-video" controls muted loop playsinline tabindex="0" aria-label="Animation playback" hidden></video></div>
-        <div class="modal-details">
-          <span class="modal-copy"><strong id="modal-title"></strong><span id="modal-description"></span></span>
-          <span class="modal-actions"><a class="modal-link" data-liquid-glass id="modal-link" href="#" target="_blank" rel="noreferrer"></a><button class="modal-close" data-liquid-glass id="modal-close" type="button" aria-label="Close project preview"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button></span>
-        </div>
-      </div>
-    </div>
-
     <script>
-      const themeToggle = document.querySelector('#theme-toggle');
-      const themeMeta = document.querySelector('meta[name="theme-color"]');
-
-      function syncThemeControl() {
-        const isDark = document.documentElement.dataset.theme === 'dark';
-        themeToggle.querySelectorAll('[data-select-theme]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.selectTheme === (isDark ? 'dark' : 'light'))));
-        themeMeta.setAttribute('content', isDark ? '#161617' : '#f5f5f7');
-      }
-
-      syncThemeControl();
-
-      let changingTheme = false;
-      themeToggle.addEventListener('click', (event) => {
-        const nextTheme = event.target.closest('[data-select-theme]')?.dataset.selectTheme;
-        if (!nextTheme || changingTheme || nextTheme === document.documentElement.dataset.theme) return;
-        const apply = () => {
-          document.documentElement.dataset.theme = nextTheme;
-          try { localStorage.setItem('portfolio-theme', nextTheme); } catch {}
-          syncThemeControl();
-        };
-        // Phone controls animate directly. A page snapshot freezes the sliding
-        // thumb mid-transition, then reveals it in a different position.
-        const desktopPointer = matchMedia('(min-width:701px) and (hover:hover) and (pointer:fine)').matches;
-        if (desktopPointer && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          changingTheme = true;
-          document.documentElement.classList.add('theme-transitioning');
-          document.startViewTransition(apply).finished.catch(() => {}).finally(() => {
-            changingTheme = false;
-            document.documentElement.classList.remove('theme-transitioning');
-          });
-        } else apply();
-        playThemeSound(nextTheme);
-      });
-
-
       const codexGrid = document.querySelector('#codex-grid');
       const codexDays = 140;
 
@@ -2173,37 +2052,6 @@
         });
       }, { passive: true });
 
-      const gallery = document.querySelector('#gallery');
-      const reel = document.querySelector('#reel');
-      const progressRail = document.querySelector('#reel-progress');
-      const progressDots = [...progressRail.children];
-      const projectModal = document.querySelector('#project-modal');
-      const modalPanel = document.querySelector('#modal-panel');
-      const modalImage = document.querySelector('#modal-image');
-      const modalVideo = document.querySelector('#modal-video');
-      const modalTitle = document.querySelector('#modal-title');
-      const modalDescription = document.querySelector('#modal-description');
-      const modalLink = document.querySelector('#modal-link');
-      const modalClose = document.querySelector('#modal-close');
-      const modalBackground = [...document.body.children].filter(element =>
-        element !== projectModal && !['SCRIPT', 'STYLE'].includes(element.tagName));
-      const backgroundInertState = new Map();
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let lastTime = performance.now();
-      let galleryScrollCarry = 0;
-      let isHoveringGallery = false;
-      let isKeyboardNavigatingGallery = false;
-      let isModalOpen = false;
-      let isModalClosing = false;
-      let lastFocusedCard = null;
-      let mediaMotion = null;
-      let restoreFocusOnClose = false;
-      let pressedGalleryCard = null;
-      let scrollRate = 0.035;
-      let galleryActiveIndex = -1;
-      let galleryCardStarts = [];
-      let loopStart = 0;
-      let loopPoint = 0;
       let audioContext = null;
       let audioResumePromise = null;
 
@@ -2261,54 +2109,6 @@
         scheduleAudioEffect((context) => window.PortfolioMediaSound(context, direction));
       }
 
-      function playThemeSound(theme) {
-        scheduleAudioEffect((context) => {
-          const now = context.currentTime;
-
-          function switchImpact(at, centerFrequency, level, duration = 0.032) {
-            const frameCount = Math.ceil(context.sampleRate * duration);
-            const buffer = context.createBuffer(1, frameCount, context.sampleRate);
-            const samples = buffer.getChannelData(0);
-            for (let index = 0; index < frameCount; index += 1) {
-              const progress = index / frameCount;
-              const snap = index < 4 ? (index % 2 === 0 ? 1 : -0.82) : Math.random() * 2 - 1;
-              samples[index] = snap * Math.pow(1 - progress, 9.5);
-            }
-
-            const source = context.createBufferSource();
-            const filter = context.createBiquadFilter();
-            const gain = context.createGain();
-            source.buffer = buffer;
-            filter.type = 'bandpass';
-            filter.frequency.setValueAtTime(centerFrequency, at);
-            filter.Q.setValueAtTime(0.72, at);
-            gain.gain.setValueAtTime(level, at);
-            gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
-            source.connect(filter).connect(gain).connect(context.destination);
-            source.start(at);
-            source.stop(at + duration);
-          }
-
-          function switchBody(at, frequency, level, duration = 0.034) {
-            const click = context.createOscillator();
-            const gain = context.createGain();
-            click.type = 'triangle';
-            click.frequency.setValueAtTime(frequency, at);
-            gain.gain.setValueAtTime(level, at);
-            gain.gain.exponentialRampToValueAtTime(0.0001, at + duration);
-            click.connect(gain).connect(context.destination);
-            click.start(at);
-            click.stop(at + duration + 0.004);
-          }
-
-          const isLight = theme === 'light';
-          switchImpact(now, isLight ? 1480 : 1180, 0.12, 0.036);
-          switchBody(now, isLight ? 238 : 196, 0.072, 0.042);
-          switchImpact(now + 0.029, isLight ? 760 : 680, 0.044, 0.024);
-          switchBody(now + 0.029, isLight ? 154 : 132, 0.028, 0.028);
-        });
-      }
-
       let lastHoverTickAt = 0;
 
       function playHoverTick(step = 0) {
@@ -2331,27 +2131,6 @@
         });
       }
 
-      let lastGalleryTickAt = 0;
-
-      function playGalleryTick(velocity = 1) {
-        scheduleAudioEffect((context) => {
-          const now = context.currentTime;
-          const tone = context.createOscillator();
-          const gain = context.createGain();
-          const speed = Math.min(5, Math.max(0.4, velocity));
-          const duration = Math.max(0.018, 0.033 - speed * 0.0025);
-          tone.type = 'triangle';
-          tone.frequency.setValueAtTime(700 + speed * 42, now);
-          tone.frequency.exponentialRampToValueAtTime(520 + speed * 31, now + duration);
-          gain.gain.setValueAtTime(0.032 + Math.min(speed, 3) * 0.0045, now);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-          tone.connect(gain).connect(context.destination);
-          tone.start(now);
-          tone.stop(now + duration + 0.004);
-        }, 90);
-      }
-
-      // Short high-passed impacts: crisp flap chatter without a low buzzing body.
       function playSplitFlapRefresh() {
         scheduleAudioEffect((context) => {
           const duration = .48;
@@ -2383,57 +2162,6 @@
         }, 250);
       }
 
-
-      let lastWarpAt = 0;
-
-      function playContactWarp() {
-        const timestamp = performance.now();
-        if (timestamp - lastWarpAt < 360) return;
-        lastWarpAt = timestamp;
-        scheduleAudioEffect((context) => {
-          const now = context.currentTime;
-          const duration = 0.18;
-          const master = context.createGain();
-          const filter = context.createBiquadFilter();
-          master.gain.setValueAtTime(0.0001, now);
-          master.gain.exponentialRampToValueAtTime(0.052, now + 0.018);
-          master.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-          filter.type = 'bandpass';
-          filter.frequency.setValueAtTime(900, now);
-          filter.frequency.exponentialRampToValueAtTime(7600, now + 0.075);
-          filter.frequency.exponentialRampToValueAtTime(2100, now + duration);
-          filter.Q.setValueAtTime(1.45, now);
-          filter.connect(master).connect(context.destination);
-
-          const frameCount = Math.ceil(context.sampleRate * duration);
-          const buffer = context.createBuffer(1, frameCount, context.sampleRate);
-          const samples = buffer.getChannelData(0);
-          for (let index = 0; index < frameCount; index += 1) {
-            const progress = index / frameCount;
-            const flicker = 0.55 + 0.45 * Math.sin(progress * Math.PI * 18);
-            samples[index] = (Math.random() * 2 - 1) * flicker * Math.sin(Math.PI * progress);
-          }
-          const noise = context.createBufferSource();
-          noise.buffer = buffer;
-          noise.connect(filter);
-          noise.start(now);
-          noise.stop(now + duration);
-
-          [0, 0.01].forEach((offset, index) => {
-            const oscillator = context.createOscillator();
-            const gain = context.createGain();
-            oscillator.type = index ? 'triangle' : 'sawtooth';
-            oscillator.frequency.setValueAtTime(index ? 310 : 220, now + offset);
-            oscillator.frequency.exponentialRampToValueAtTime(index ? 2200 : 1540, now + 0.09 + offset);
-            oscillator.frequency.exponentialRampToValueAtTime(index ? 980 : 720, now + duration + offset);
-            gain.gain.setValueAtTime(index ? 0.16 : 0.24, now + offset);
-            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + offset);
-            oscillator.connect(gain).connect(filter);
-            oscillator.start(now + offset);
-            oscillator.stop(now + duration + offset + 0.01);
-          });
-        }, 220);
-      }
 
       let lastScribbleAt = 0;
 
@@ -2525,353 +2253,6 @@
         });
       });
 
-      const originalCards = [...reel.children];
-      gallery.addEventListener('scroll', updateProgress, {passive:true});
-
-      const leadingCards = document.createDocumentFragment();
-      const trailingCards = document.createDocumentFragment();
-
-      originalCards.forEach((card) => {
-        const leadingClone = card.cloneNode(true);
-        const trailingClone = card.cloneNode(true);
-        [leadingClone, trailingClone].forEach((clone) => {
-          clone.setAttribute('aria-hidden', 'true');
-          clone.setAttribute('tabindex', '-1');
-          clone.querySelectorAll('a, button, [tabindex]').forEach(control => control.setAttribute('tabindex', '-1'));
-        });
-        leadingCards.appendChild(leadingClone);
-        trailingCards.appendChild(trailingClone);
-      });
-
-      reel.prepend(leadingCards);
-      reel.append(trailingCards);
-
-      let loopReady = false;
-
-      function refreshLoopMetrics() {
-        if (matchMedia('(max-width:700px)').matches) {
-          loopPoint = 0;
-          loopReady = false;
-          gallery.scrollTop = 0;
-          return;
-        }
-        const previousProgress = loopPoint
-          ? (((gallery.scrollTop - loopStart) % loopPoint) + loopPoint) % loopPoint / loopPoint
-          : 0;
-        const middleFirstCard = reel.children[originalCards.length];
-        const trailingFirstCard = reel.children[originalCards.length * 2];
-        loopStart = middleFirstCard.offsetTop;
-        loopPoint = trailingFirstCard.offsetTop - loopStart;
-        galleryCardStarts = originalCards.map(card => card.offsetTop - loopStart);
-        gallery.scrollTop = Math.round(loopStart + previousProgress * loopPoint);
-        loopReady = loopPoint > 0;
-      }
-
-      refreshLoopMetrics();
-      window.addEventListener('load', refreshLoopMetrics, { once: true });
-      window.addEventListener('resize', refreshLoopMetrics, { passive: true });
-
-      let manualGalleryInputUntil = 0;
-      let lastGalleryScrollTop = gallery.scrollTop;
-      let galleryTickDistance = 0;
-
-      gallery.addEventListener('wheel', () => {
-        manualGalleryInputUntil = performance.now() + 720;
-      }, { passive: true });
-
-      gallery.addEventListener('pointerdown', () => {
-        manualGalleryInputUntil = performance.now() + 1200;
-      }, { passive: true });
-
-      gallery.addEventListener('scroll', () => {
-        const timestamp = performance.now();
-        let distance = Math.abs(gallery.scrollTop - lastGalleryScrollTop);
-        lastGalleryScrollTop = gallery.scrollTop;
-        if (loopPoint && distance > loopPoint / 2) distance = 0;
-        if (timestamp > manualGalleryInputUntil || distance === 0) return;
-
-        galleryTickDistance += distance;
-        const elapsed = Math.max(8, timestamp - lastGalleryTickAt);
-        const velocity = Math.min(6, distance / elapsed * 12);
-        const distanceStep = Math.max(24, 58 - velocity * 6);
-        const minimumGap = Math.max(26, 96 - velocity * 13);
-        if (galleryTickDistance >= distanceStep && timestamp - lastGalleryTickAt >= minimumGap) {
-          galleryTickDistance %= distanceStep;
-          lastGalleryTickAt = timestamp;
-          playGalleryTick(velocity);
-        }
-      }, { passive: true });
-
-      gallery.addEventListener('pointerenter', () => {
-        isHoveringGallery = true;
-      });
-
-      gallery.addEventListener('pointerleave', () => {
-        isHoveringGallery = false;
-      });
-
-      gallery.addEventListener('pointercancel', () => {
-        isHoveringGallery = false;
-      });
-
-      // Mouse-restored focus must not latch the reel in its keyboard pause.
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Tab') isKeyboardNavigatingGallery = true;
-      });
-      document.addEventListener('pointerdown', () => {
-        isKeyboardNavigatingGallery = false;
-      }, { capture: true, passive: true });
-      document.addEventListener('pointermove', (event) => {
-        isKeyboardNavigatingGallery = false;
-        isHoveringGallery = gallery.contains(event.target);
-      }, { passive: true });
-
-      window.addEventListener('blur', () => {
-        isHoveringGallery = false;
-      });
-
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) isHoveringGallery = false;
-      });
-
-      function updateProgress() {
-        if (!loopPoint) return;
-        const position = (((gallery.scrollTop - loopStart) % loopPoint) + loopPoint) % loopPoint;
-        let active = 0;
-        galleryCardStarts.forEach((start, index) => {
-          if (position + 1 >= start) active = index;
-        });
-        if (active === galleryActiveIndex) return;
-        galleryActiveIndex = active;
-
-        progressDots.forEach((dot, index) => {
-          const distance = Math.abs(index - active);
-          dot.classList.toggle('is-active', distance === 0);
-          dot.classList.toggle('is-near', distance === 1);
-        });
-      }
-
-      function openProject(card, options = {}) {
-        const image = card.querySelector('.card-media');
-        if (!image || isModalOpen) return;
-
-        mediaMotion ||= window.PortfolioMediaMotion.create(modalPanel);
-        lastFocusedCard = card.querySelector('.case-study-media, .motion-open') || card;
-        restoreFocusOnClose = true;
-        isModalOpen = true;
-        isModalClosing = false;
-        const isVideo = image.tagName === 'VIDEO';
-        modalImage.hidden = isVideo;
-        modalVideo.hidden = !isVideo;
-        if (isVideo) {
-          modalPanel.style.setProperty('--media-ratio', `${image.width / image.height}`);
-          modalVideo.width = Number(image.getAttribute('width')) || image.videoWidth;
-          modalVideo.height = Number(image.getAttribute('height')) || image.videoHeight;
-          modalVideo.poster = image.poster;
-          modalVideo.src = image.dataset.src || image.currentSrc || image.src;
-          modalVideo.currentTime = image.currentTime || 0;
-          modalVideo.setAttribute('aria-label', card.dataset.title || 'Animation playback');
-          modalVideo.play().catch(() => {});
-        } else {
-          modalImage.width = Number(image.getAttribute('width')) || image.naturalWidth;
-          modalImage.height = Number(image.getAttribute('height')) || image.naturalHeight;
-          modalImage.src = image.currentSrc || image.src;
-          modalImage.alt = image.alt;
-        }
-        modalTitle.textContent = card.dataset.title || image.alt;
-        modalLink.hidden = !card.dataset.caseStudy && !card.dataset.link;
-        modalDescription.textContent = card.dataset.description || '';
-        modalLink.href = card.dataset.caseStudy || card.dataset.link || '#';
-        modalLink.replaceChildren();
-        if (card.dataset.caseStudy) {
-          const appIcon = document.createElement('img');
-          appIcon.className = 'modal-app-icon';
-          appIcon.src = card.dataset.caseStudy.includes('/catch/') ? '/media/catch-icon.webp' : '/media/soja-note-icon.webp';
-          appIcon.alt = '';
-          appIcon.width = appIcon.height = 24;
-          modalLink.append(appIcon);
-        }
-        const actionLabel = document.createElement('span');
-        actionLabel.textContent = card.dataset.caseStudy ? 'Explore case study' : card.dataset.linkLabel || 'View project';
-        const actionArrow = document.createElement('span');
-        actionArrow.className = 'modal-action-arrow';
-        actionArrow.setAttribute('aria-hidden','true');
-        actionArrow.textContent = '↗';
-        modalLink.append(actionLabel,actionArrow);
-        modalLink.target = card.dataset.caseStudy ? '_self' : '_blank';
-        projectModal.hidden = false;
-        projectModal.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('modal-open');
-        projectModal.classList.add('is-open');
-        mediaMotion.open(image);
-        modalBackground.forEach(element => {
-          backgroundInertState.set(element, element.inert);
-          element.inert = true;
-        });
-        window.dispatchEvent(new CustomEvent('portfolio-media-state', { detail:{open:true} }));
-        playInterfaceSound('open');
-
-        modalPanel.focus({ preventScroll: true });
-      }
-
-      function closeProject() {
-        if (!isModalOpen || isModalClosing) return;
-        isModalClosing = true;
-        modalVideo.pause();
-        playInterfaceSound('close');
-        projectModal.classList.remove('is-open');
-
-        const finishClose = () => {
-          mediaMotion.reset();
-          projectModal.hidden = true;
-          document.body.classList.remove('modal-open');
-          modalBackground.forEach(element => { element.inert = backgroundInertState.get(element) || false; });
-          backgroundInertState.clear();
-          isModalOpen = false;
-          isModalClosing = false;
-          window.dispatchEvent(new CustomEvent('portfolio-media-state', { detail:{open:false} }));
-          if (restoreFocusOnClose && lastFocusedCard && !lastFocusedCard.closest('[aria-hidden="true"]')) {
-            lastFocusedCard.focus({ preventScroll: true });
-          }
-          projectModal.setAttribute('aria-hidden', 'true');
-          requestAnimationFrame(() => {
-            if (isModalOpen) return;
-            modalImage.removeAttribute('src');
-            modalImage.alt = '';
-            modalVideo.removeAttribute('src');
-            modalVideo.load();
-          });
-        };
-
-        mediaMotion.close(finishClose);
-      }
-
-      reel.addEventListener('pointerdown', (event) => {
-        pressedGalleryCard = event.target.closest('.card');
-        isHoveringGallery = true;
-      }, { capture: true });
-
-      reel.addEventListener('pointercancel', () => {
-        pressedGalleryCard = null;
-      });
-
-      reel.addEventListener('click', (event) => {
-        if (event.target.closest('.motion-toggle')) return;
-        const mediaLink = event.target.closest('.case-study-media');
-        if (mediaLink && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) {
-          event.preventDefault();
-          const card = pressedGalleryCard || mediaLink.closest('.card');
-          pressedGalleryCard = null;
-          openProject(card);
-          return;
-        }
-        if (event.target.closest('a')) {
-          pressedGalleryCard = null;
-          return;
-        }
-        const card = pressedGalleryCard || event.target.closest('.card');
-        pressedGalleryCard = null;
-        if (card) openProject(card);
-      });
-
-      reel.addEventListener('keydown', (event) => {
-        if (event.target.closest('.motion-toggle')) return;
-        if (event.target.closest('.case-study-media') && event.key === ' ') {
-          event.preventDefault();
-          openProject(event.target.closest('.card'));
-          return;
-        }
-        if (event.target.closest('a')) return;
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        const card = event.target.closest('.card');
-        if (!card) return;
-        event.preventDefault();
-        openProject(card, { focus: true });
-      });
-
-      projectModal.addEventListener('click', (event) => {
-        if (event.target === projectModal) closeProject();
-      });
-      modalClose.addEventListener('click', closeProject);
-
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') closeProject();
-        if (event.key === 'Tab' && isModalOpen) {
-          event.preventDefault();
-          const controls = [modalVideo, modalLink, modalClose].filter(control => !control.hidden);
-          const current = controls.indexOf(document.activeElement);
-          const next = current === -1 ? (event.shiftKey ? controls.length - 1 : 0) :
-            (current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
-          controls[next].focus({ preventScroll: true });
-        }
-      });
-
-      let galleryFrame = 0;
-      let galleryOnscreen = false;
-
-      function resumeGallery() {
-        if (matchMedia('(max-width:700px)').matches) return;
-        if (!galleryFrame && galleryOnscreen && !document.hidden &&
-            !document.documentElement.classList.contains('is-page-scrolling')) {
-          lastTime = performance.now();
-          galleryFrame = requestAnimationFrame(tick);
-        }
-      }
-
-      function isGalleryPaused() {
-        return isHoveringGallery || isModalOpen ||
-          (isKeyboardNavigatingGallery && gallery.contains(document.activeElement));
-      }
-
-      function tick(now) {
-        galleryFrame = 0;
-        if (matchMedia('(max-width:700px)').matches || !galleryOnscreen || document.hidden ||
-            document.documentElement.classList.contains('is-page-scrolling')) return;
-        const elapsed = Math.min(now - lastTime, 32);
-        lastTime = now;
-
-        const galleryPaused = isGalleryPaused();
-        const targetRate = galleryPaused ? 0 : 0.035;
-        const easing = 1 - Math.exp(-elapsed / 105);
-        scrollRate += (targetRate - scrollRate) * easing;
-        if (galleryPaused && scrollRate < 0.0005) scrollRate = 0;
-
-        if (!reduceMotion) {
-          galleryScrollCarry += elapsed * scrollRate;
-          const wholePixels = Math.trunc(galleryScrollCarry);
-          if (wholePixels !== 0) {
-            gallery.scrollTop += wholePixels;
-            galleryScrollCarry -= wholePixels;
-          }
-        }
-
-        if (loopReady && gallery.scrollTop >= loopStart + loopPoint) {
-          gallery.scrollTop = Math.round(gallery.scrollTop - loopPoint);
-          lastGalleryScrollTop = gallery.scrollTop;
-        }
-        if (loopReady && gallery.scrollTop < loopStart) {
-          gallery.scrollTop = Math.round(gallery.scrollTop + loopPoint);
-          lastGalleryScrollTop = gallery.scrollTop;
-        }
-
-        updateProgress();
-
-        galleryFrame = requestAnimationFrame(tick);
-      }
-
-      new IntersectionObserver(entries => {
-        galleryOnscreen = entries[0].isIntersecting && entries[0].intersectionRatio > 0.01;
-        resumeGallery();
-      }, { threshold: 0.01 }).observe(gallery);
-      document.addEventListener('visibilitychange', resumeGallery);
-      window.addEventListener('resize', resumeGallery, {passive:true});
-      window.addEventListener('portfolio-scroll-start', () => {
-        cancelAnimationFrame(galleryFrame);
-        galleryFrame = 0;
-        galleryScrollCarry = 0;
-        scrollRate = 0;
-      });
-      window.addEventListener('portfolio-scroll-settled', resumeGallery);
     </script>
   </body>
 </html>

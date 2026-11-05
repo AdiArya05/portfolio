@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "build": "npm run build:explorations && npm test",
-    "test": "node scripts/check-site.mjs && node scripts/check-navigator.mjs && node scripts/check-media-sounds.mjs && node scripts/check-motion-gallery.mjs && node scripts/check-explorations.mjs && node scripts/check-media-interactions.mjs && node scripts/check-design-selection.mjs",
-    "test:navigator": "node scripts/check-navigator.mjs",
+    "test": "node scripts/check-site.mjs && node scripts/check-media-sounds.mjs && node scripts/check-motion-gallery.mjs && node scripts/check-explorations.mjs && node scripts/check-media-interactions.mjs && node scripts/check-design-selection.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "start": "python3 -m http.server 4173 --directory dist",
     "export:gallery": "node scripts/export-gallery-4k.mjs",

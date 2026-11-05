@@ -9,7 +9,15 @@ const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
 const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const origin = 'https://adiarya.vercel.app';
-const cards = [...html.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
+for (const route of ['index.html', 'work/index.html', 'stories/index.html', 'work/catch/index.html', 'work/soja/index.html']) {
+  const page = fs.readFileSync(path.join(dist, route), 'utf8');
+  assert(!page.includes('id="theme-toggle"') && !page.includes('theme-init.js'), route + ' must remain light only');
+  for (const href of ['/', '/work/', '/stories/']) assert(page.includes('href="' + href + '"'), route + ' missing navigation to ' + href);
+}
+assert(!html.includes('<article class="card"') && !html.includes('class="project-note"'), 'Keep the Index free of gallery and project cards');
+const catalog = fs.readFileSync(path.join(root, 'scripts/gallery-cards.html'), 'utf8');
+const work = fs.readFileSync(path.join(dist, 'work/index.html'), 'utf8');
+const cards = [...catalog.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
 assert.equal(cards.length, 7, 'Keep six stills plus the income motion study');
 assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 7);
 assert(cards[1].includes('income-slider-motion'), 'Keep the income recording second');
@@ -73,15 +81,11 @@ assert(html.includes('<html lang="en">'));
 assert(html.includes(`<link rel="canonical" href="${origin}/"`));
 assert(/name="description"\s+content="[^"]+"/.test(html));
 assert(!/content="[^"]*\bnoindex\b/.test(html));
-assert(html.includes('aria-labelledby="modal-title"'));
-assert(html.includes('aria-describedby="modal-description"'));
+assert(work.includes('aria-labelledby="modal-title"'));
+assert(work.includes('aria-describedby="modal-description"'));
 assert(html.includes('href="https://drive.google.com/file/d/16-1kgD510pvwfmND5SYUP0pWbivKd8OM/view?usp=sharing"'), 'Keep the public-facing Maritime Fusion destination');
 assert(!html.includes('href="https://github.com/Rajsuthan/maritime-fusion"'), 'Do not restore the private repository destination');
-assert(html.includes('grid-template-columns:44px 44px; width:104px; height:52px; padding:4px; border:0; border-radius:999px; gap:8px;'));
-assert(html.includes('top:4px; left:4px; width:44px; height:44px;'));
-assert(html.includes('html[data-theme="dark"] .theme-toggle::before { transform:translateX(52px); }'));
-assert(html.includes('aria-label="Close project preview"'));
-assert(html.includes('gallery.contains(document.activeElement)'), 'Pause moving gallery for keyboard users');
+assert(work.includes('aria-label="Close project preview"'));
 assert(!html.includes('fonts.googleapis.com') && !html.includes('fonts.gstatic.com'), 'Typography must not depend on remote fonts');
 assert(html.includes('/typography.css?v=20261104-system-v1'));
 assert(fs.readFileSync(path.join(dist, 'typography.css'), 'utf8').includes("--font-sans:ui-sans-serif,system-ui"));
@@ -90,7 +94,6 @@ assert(fs.readFileSync(path.join(dist,'fonts/space-grotesk-v22-latin.woff2')).su
 assert(fs.readFileSync(path.join(dist,'fonts/Space-Grotesk-OFL.txt'),'utf8').includes('SIL OPEN FONT LICENSE'));
 for (const card of cards) {
   if (card.includes('data-motion=')) continue;
-  assert(card.includes('media="(max-width:700px)"'), 'Hidden phone gallery must not fetch desktop images');
   const exportFile = card.match(/srcset="(media\/[^\"]+\.webp)"/)[1];
   const file = exportFile.replace('-4k.webp', '.webp');
   const original = file.replace('.webp', '.png');
@@ -113,7 +116,6 @@ assert(html.includes('Scroll down'));
 assert(!discovery.includes('portfolio-footer-reveal') && !html.includes('playFooterRevealSound'),
   'Footer scrolling must remain silent');
 assert(html.includes('html.is-page-scrolling .skyline-motion * { animation-play-state:paused; }'));
-assert(html.includes("window.addEventListener('portfolio-scroll-settled', resumeGallery)"));
 // Exercise the real discovery controller with deterministic scroll events.
 const handlers = new Map();
 const buttonHandlers = new Map();
@@ -170,7 +172,7 @@ for (const project of ['soja', 'catch']) {
   assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, project === 'catch' ? 3 : 2);
   const story = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8');
   const readingToolbar = story.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
-  assert(readingToolbar?.includes('id="theme-toggle"') && readingToolbar.includes('id="time-zones"'), 'Keep reading controls in one header so content cannot scroll between them');
+  assert(readingToolbar?.includes('class="portfolio-nav"') && readingToolbar.includes('id="time-zones"'), 'Keep reading controls in one header so content cannot scroll between them');
   assert(story.includes('viewport-fit=cover'), 'Account for iPhone safe areas in the story header');
   assert(!story.includes('class="icon-mockup"'), 'Remove phone icon mockups from case studies');
   if (project === 'soja') assert.equal((story.match(/src="\/work\/soja\/media\/final-home.webp"/g) || []).length, 1, 'Show the final home screen only once');
@@ -195,9 +197,9 @@ for (const project of ['soja', 'catch']) {
     assert(/alt="[^"]+"/.test(match[0]), 'Describe story images');
   }
 }
-for (const filename of ['theme-init.js', 'case-study.js']) {
+for (const filename of ['case-study.js']) {
   new vm.Script(fs.readFileSync(path.join(dist, 'work', filename), 'utf8'), { filename });
 }
 console.log('PASS: five previewable gallery story links, personal Soja and Catch stories, local routes/assets, original image dimensions, image descriptions and shared script syntax.');
 console.log(`PASS: seven gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
-console.log('PASS: lossless image pixel equality, smaller assets, system typography, phone media guards, deferred footer, keyboard gallery pause, close control and canonical-host redirect.');
+console.log('PASS: lossless image pixel equality, smaller assets, system typography, phone media guards, deferred footer, close control and canonical-host redirect.');

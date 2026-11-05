@@ -1,0 +1,119 @@
+:root {
+  color-scheme: light;
+  --paper: #fafafa;
+  --ink: #202124;
+  --muted: #62646d;
+  --line: #2021241a;
+}
+.index-toolbar, .stories-toolbar, .reading-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.index-toolbar, .stories-toolbar {
+  padding: max(20px, env(safe-area-inset-top)) clamp(18px, 4vw, 64px) 12px;
+}
+.index-toolbar .time-zones { position: relative; inset: auto; }
+.portfolio-nav {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: none;
+  gap: 3px;
+  width: max-content;
+}
+.portfolio-nav a {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  padding: 0 13px;
+  border-radius: 999px;
+  color: var(--muted);
+  font: 500 14px/1 system-ui, sans-serif;
+  text-decoration: none;
+}
+.portfolio-nav a[aria-current="page"], .portfolio-nav a:is(:hover, :focus-visible) { color: var(--ink); }
+.portfolio-nav:not(.glass-ready) a[aria-current="page"] { background: #e9e9ec; }
+.portfolio-nav .nav-glass {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: -1;
+  width: var(--glass-width, 0px);
+  opacity: 0;
+  border: 1px solid #a6a9b140;
+  border-radius: 999px;
+  background: linear-gradient(155deg, #fff, #ebedf0b8 58%, #d6d9df99);
+  box-shadow: inset 0 1px 2px #fff, 0 4px 9px #20212412;
+  backdrop-filter: blur(14px) saturate(140%);
+  transform: translateX(var(--glass-x, 0px));
+  transition: transform 330ms cubic-bezier(.2,.75,.25,1), width 330ms cubic-bezier(.2,.75,.25,1);
+  pointer-events: none;
+}
+.portfolio-nav.glass-ready .nav-glass { opacity: 1; }
+.portfolio-nav a:focus-visible { outline: 2px solid #005fd1; outline-offset: 2px; }
+
+body.portfolio-index .shell { display: block; height: auto; min-height: 0; overflow: visible; }
+body.portfolio-index .story {
+  display: flex;
+  align-items: center;
+  height: auto;
+  min-height: max(420px, calc(100svh - 130px));
+  padding: 40px clamp(18px, 7vw, 110px) 96px;
+  overflow: visible;
+}
+.portfolio-index .intro {
+  max-width: 780px;
+  font-size: clamp(20px, 2.45vw, 34px);
+  line-height: 1.65;
+}
+.portfolio-tagline {
+  margin: 0 0 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+body.explorations-view main.explorations-page {
+  width: min(calc(100% - 2 * clamp(18px, 4vw, 64px)), 1200px);
+  margin-top: 30px;
+}
+.explorations-view .explorations-feed {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 3vw, 38px);
+  align-items: start;
+}
+.explorations-feed .preview-open, .explorations-feed .motion-stage { border-radius: 14px; }
+.explorations-feed .preview-open:focus-visible { outline: 2px solid #005fd1; outline-offset: 4px; }
+.explorations-feed .motion-toggle { opacity: 1; }
+.stories-index { width: min(calc(100% - 36px), 660px); margin: clamp(35px, 8vw, 105px) auto; }
+.stories-index h1 { font-size: 34px; letter-spacing: -.04em; margin: 0; }
+.stories-index > p { color: var(--muted); font-size: 16px; margin: 7px 0 30px; }
+.story-entry {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding: 20px 8px;
+  font-size: 18px;
+  text-decoration: none;
+}
+.story-entry:last-child { border-bottom: 1px solid var(--line); }
+.story-entry:hover { background: #f0f1f3; }
+.story-entry img { border-radius: 12px; }
+.story-entry small { display: block; color: var(--muted); font-size: 14px; }
+@media (max-width: 600px) {
+  .explorations-view .explorations-feed { grid-template-columns: 1fr; }
+  body.portfolio-index .story { min-height: 0; padding-block: 40px; }
+}
+@media (max-width: 530px) {
+  .index-toolbar, .reading-toolbar { flex-direction: column; align-items: flex-start; }
+  .reading-toolbar { height: var(--reading-toolbar-height); justify-content: center; }
+  :root { --reading-toolbar-height: calc(var(--reading-safe-top) + 132px); }
+  .index-toolbar .time-zones, .reading-page .reading-toolbar .time-zones { align-self: flex-end; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-nav .nav-glass { transition: none; }
+}
+.work-caption { margin: 10px 0 0; font-size: 15px; font-weight: 500; }

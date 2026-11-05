@@ -2,10 +2,10 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const dist = path.resolve(import.meta.dirname, '../dist');
-const home = await fs.readFile(path.join(dist, 'index.html'), 'utf8');
+const catalog = await fs.readFile(new URL('./gallery-cards.html', import.meta.url), 'utf8');
 const story = await fs.readFile(path.join(dist, 'work/catch/index.html'), 'utf8');
 const toolbar = story.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)[0];
-const cards = [...home.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
+const cards = [...catalog.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
 const attribute = (card, name) => card.match(new RegExp(`${name}="([^"]*)"`))?.[1] || '';
 // Phone visitors start with motion, then Catch's Live Activity. The desktop reel keeps its own order.
 const phoneLeadTitles = ['Income slider', 'Catch Live Activity'];
@@ -28,11 +28,13 @@ const feed = phoneCards.map(card => {
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}</button>
           ${toggle}
         </div>
+        <h2 class="work-caption">${title}</h2>
       </article>`;
   }
   const image = card.match(/<img class="card-media"[^>]+>/)[0].replaceAll('="media/', '="/media/');
   return `<article class="exploration" ${attributes}>
         <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${image}</button>
+        <h2 class="work-caption">${title}</h2>
       </article>`;
 }).join('\n      ');
 
@@ -41,16 +43,13 @@ const html = `<!doctype html>
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Explorations — Aditya Arya</title>
+  <title>Work — Aditya Arya</title>
   <meta name="description" content="Interfaces, websites and motion studies by Aditya Arya." />
-  <meta name="robots" content="noindex" />
-  <meta name="theme-color" content="#f5f5f7" />
+  <meta name="theme-color" content="#fafafa" />
   <link rel="icon" href="/media/aditya-arya-icon.png" />
-  <link rel="canonical" href="https://adiarya.vercel.app/explorations" />
+  <link rel="canonical" href="https://adiarya.vercel.app/work" />
   <script src="/media-motion.js?v=20261028-v2" defer></script>
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
-  <script src="/explorations/phone-only.js?v=20261022-v1"></script>
-  <script src="/work/theme-init.js"></script>
   <link rel="stylesheet" href="/typography.css?v=20261104-system-v1" />
   <link rel="stylesheet" href="/work/case-study.css?v=20261104-neutral" />
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
@@ -61,19 +60,20 @@ const html = `<!doctype html>
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261104-local-unique" defer></script>
-  <script src="/explorations/explorations.js?v=20261104-neutral" defer></script>
+  <script src="/explorations/explorations.js?v=20261105-light" defer></script>
   <script src="/motion-gallery.js?v=20261022-v1" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=1" />
+  <script src="/portfolio-nav.js?v=1" defer></script>
 </head>
 <body class="reading-page explorations-view">
-  ${toolbar}
-  <nav class="site-nav" aria-label="Main navigation"><a class="back-link" href="/"><span aria-hidden="true">←</span> Back to home</a></nav>
+  ${toolbar.replace('href="/work/">Work', 'href="/work/" aria-current="page">Work').replace('href="/stories/" aria-current="page"','href="/stories/"')}
   <main id="explorations" class="explorations-page">
     <header class="explorations-header">
-      <div class="explorations-identity"><a class="explorations-home" href="/" aria-label="Aditya Arya, back to home"><img class="explorations-avatar" src="/media/aditya-arya-icon.png" width="44" height="44" alt="Aditya Arya" /></a><div><span class="explorations-author">Aditya Arya</span><h1>Explorations</h1></div></div>
-      <p>Interfaces, websites and motion studies.</p>
+      <h1>Work</h1>
+      <p>Interfaces, websites, and motion studies.</p>
     </header>
     <section class="explorations-feed" aria-label="Interfaces, websites and motion studies">
       ${feed}
@@ -92,5 +92,9 @@ const html = `<!doctype html>
 `;
 
 await fs.mkdir(path.join(dist, 'explorations'), {recursive:true});
-await fs.writeFile(path.join(dist, 'explorations/index.html'), html);
-console.log(`Built phone explorations from ${cards.length} current gallery pieces.`);
+await fs.writeFile(path.join(dist, 'work/index.html'), html);
+console.log(`Built Work gallery from ${cards.length} current gallery pieces.`);
+
+await fs.writeFile(path.join(dist, 'explorations/index.html'), `<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=/work/"><title>Work — Aditya Arya</title></head>
+<body><a href="/work/">Continue to Work</a></body></html>\n`);
