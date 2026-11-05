@@ -14,7 +14,7 @@ for (const route of ['index.html', 'work/index.html', 'stories/index.html', 'wor
   assert(!page.includes('id="theme-toggle"') && !page.includes('theme-init.js'), route + ' must remain light only');
   for (const href of ['/', '/work/', '/stories/']) assert(page.includes('href="' + href + '"'), route + ' missing navigation to ' + href);
 }
-assert(!html.includes('<article class="card"') && !html.includes('class="project-note"'), 'Keep the Index free of gallery and project cards');
+assert(html.includes('<article class="card"') && !html.includes('class="project-note"'), 'Keep the Index reel without case study cards');
 const catalog = fs.readFileSync(path.join(root, 'scripts/gallery-cards.html'), 'utf8');
 const work = fs.readFileSync(path.join(dist, 'work/index.html'), 'utf8');
 const cards = [...catalog.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);

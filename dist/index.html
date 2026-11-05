@@ -1810,8 +1810,14 @@
     <link rel="stylesheet" href="/design-selection.css?v=20261104-timed" />
     <script src="/design-selection.js?v=20261104-hover" defer></script>
     <script src="/outfield.js?v=13" defer></script>
-  <link rel="stylesheet" href="/portfolio-pages.css?v=1" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=2" />
   <script src="/portfolio-nav.js?v=1" defer></script>
+  <link rel="stylesheet" href="/motion-gallery.css?v=20261022-v8" />
+  <script src="/motion-gallery.js?v=20261022-v1" defer></script>
+  <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
+  <script src="/media-motion.js?v=20261028-v2" defer></script>
+  <link rel="stylesheet" href="/modal-glass.css?v=20261022-v23" />
+  <script src="/story-glass.js?v=20261019-v22" defer></script>
 </head>
   <body class="portfolio-index">
     <header class="index-toolbar">
@@ -1891,6 +1897,57 @@
         </div>
       </section>
 
+      <aside class="gallery-wrap" aria-label="Selected project gallery">
+        <h2 class="motion-heading">In motion</h2>
+        <div class="gallery" id="gallery" tabindex="0">
+          <div class="reel" id="reel">
+            <article class="card" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Open Sailorfy website showcase" data-title="Sailorfy" data-description="A calmer way to navigate the maritime world." data-link="https://sailorfy.framer.website/" data-link-label="Live site">
+              <picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/sailorfy-showcase-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/sailorfy-showcase-4k.webp" alt="Sailorfy website displayed in a desktop browser mockup" /></picture>
+              <div class="meta"><span class="meta-copy"><strong>Sailorfy</strong><span>Sailing, simplified.</span></span><a class="project-link" href="https://sailorfy.framer.website/" target="_blank" rel="noreferrer">Live site</a></div>
+            </article>
+
+            <article class="card" data-motion="income-slider-motion" data-title="Income slider" data-description="Exploring a sliding scale and rolling numbers." aria-label="Income slider">
+              <div class="motion-stage">
+                <button class="motion-open" type="button" aria-haspopup="dialog" aria-label="Open income slider animation">
+                  <video class="card-media" width="1080" height="1440" poster="/media/income-slider-iphone17pro.webp" data-src="/media/income-slider-iphone17pro.mp4" data-name="income slider animation" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>
+                </button>
+                <span class="motion-badge" aria-hidden="true">Motion study</span>
+                <button class="motion-toggle" type="button" aria-label="Play income slider animation preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></button>
+              </div>
+              <div class="motion-caption"><strong>Income slider</strong><span>Exploring a sliding scale and rolling numbers.</span></div>
+            </article>
+
+            <article class="card" data-case-study="/work/catch/" aria-label="Catch Live Activity detail" data-title="Catch Live Activity" data-description="The next bus, timing, and leave-now guidance at a glance." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
+              <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-detail-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-live-detail-4k.webp" alt="Catch Live Activity showing the next bus and leave-now guidance" /></picture></a>
+              <div class="meta"><span class="meta-copy"><strong>Catch Live Activity</strong><span>Know exactly when to leave.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
+            </article>
+
+            <article class="card" data-case-study="/work/soja/" aria-label="Soja recovery dashboard" data-title="Soja Recovery" data-description="A personalised plan for rebuilding your body clock after disruption." data-link="https://www.reddit.com/r/sleep/comments/1uq93wn/how_circadian_recoverytherapy_helped_me_fix_my/" data-link-label="Reddit post">
+              <a class="case-study-media" aria-haspopup="dialog" href="/work/soja/" aria-label="Preview the Soja"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-recovery-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/soja-recovery-4k.webp" alt="Soja circadian recovery dashboard on an iPhone" /></picture></a>
+              <div class="meta"><span class="meta-copy"><strong>Soja Recovery</strong><span>Reset your rhythm with a daily plan.</span></span><a class="project-link" href="/work/soja/">Read story <span aria-hidden="true">↗</span></a></div>
+            </article>
+
+            <article class="card" data-case-study="/work/catch/" aria-label="Catch bus arrival board" data-title="Catch Live Board" data-description="Fast, legible Singapore bus arrivals designed for the moment you need them." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
+              <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-board-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-live-board-4k.webp" alt="Catch bus arrival board on an iPhone" /></picture></a>
+              <div class="meta"><span class="meta-copy"><strong>Catch Live Board</strong><span>Singapore bus arrivals, made clearer.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
+            </article>
+
+            <article class="card" data-case-study="/work/soja/" aria-label="Soja website showcase" data-title="Soja Website" data-description="The product story and science behind personalised sleep recovery." data-link="https://soja.framer.website/" data-link-label="Live site">
+              <a class="case-study-media" aria-haspopup="dialog" href="/work/soja/" aria-label="Preview the Soja"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-website-4k.webp" /><img class="card-media" width="3840" height="2487" style="aspect-ratio:1541/998" loading="lazy" decoding="async" src="media/soja-website-4k.webp" alt="Soja website with a landscape and the message Reset your sleep" /></picture></a>
+              <div class="meta"><span class="meta-copy"><strong>Soja Website</strong><span>Reset your sleep, one plan at a time.</span></span><a class="project-link" href="/work/soja/">Read story <span aria-hidden="true">↗</span></a></div>
+            </article>
+
+            <article class="card" data-case-study="/work/catch/" aria-label="Catch nearby stop map" data-title="Catch Nearby" data-description="Nearby stops and arrivals placed directly on the map." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
+              <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-map-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-map-4k.webp" alt="Catch nearby bus stops map on an iPhone" /></picture></a>
+              <div class="meta"><span class="meta-copy"><strong>Catch Nearby</strong><span>Find the right stop around you.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
+            </article>
+
+          </div>
+        </div>
+        <div class="reel-progress" id="reel-progress" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </aside>
     </main>
 
     <footer class="closing" id="singapore-footer" aria-label="Singapore skyline">
@@ -1923,6 +1980,17 @@
     </div>
 
     <div class="focus-veil" id="focus-veil" popover="manual" aria-hidden="true"></div>
+
+    <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-description" hidden>
+      <div class="modal-panel" id="modal-panel" tabindex="-1">
+        <img id="modal-image" alt="" />
+        <div class="modal-motion-stage"><video id="modal-video" controls muted loop playsinline tabindex="0" aria-label="Animation playback" hidden></video></div>
+        <div class="modal-details">
+          <span class="modal-copy"><strong id="modal-title"></strong><span id="modal-description"></span></span>
+          <span class="modal-actions"><a class="modal-link" data-liquid-glass id="modal-link" href="#" target="_blank" rel="noreferrer"></a><button class="modal-close" data-liquid-glass id="modal-close" type="button" aria-label="Close project preview"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button></span>
+        </div>
+      </div>
+    </div>
 
     <script>
       const codexGrid = document.querySelector('#codex-grid');
@@ -2052,6 +2120,37 @@
         });
       }, { passive: true });
 
+      const gallery = document.querySelector('#gallery');
+      const reel = document.querySelector('#reel');
+      const progressRail = document.querySelector('#reel-progress');
+      const progressDots = [...progressRail.children];
+      const projectModal = document.querySelector('#project-modal');
+      const modalPanel = document.querySelector('#modal-panel');
+      const modalImage = document.querySelector('#modal-image');
+      const modalVideo = document.querySelector('#modal-video');
+      const modalTitle = document.querySelector('#modal-title');
+      const modalDescription = document.querySelector('#modal-description');
+      const modalLink = document.querySelector('#modal-link');
+      const modalClose = document.querySelector('#modal-close');
+      const modalBackground = [...document.body.children].filter(element =>
+        element !== projectModal && !['SCRIPT', 'STYLE'].includes(element.tagName));
+      const backgroundInertState = new Map();
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let lastTime = performance.now();
+      let galleryScrollCarry = 0;
+      let isHoveringGallery = false;
+      let isKeyboardNavigatingGallery = false;
+      let isModalOpen = false;
+      let isModalClosing = false;
+      let lastFocusedCard = null;
+      let mediaMotion = null;
+      let restoreFocusOnClose = false;
+      let pressedGalleryCard = null;
+      let scrollRate = 0.035;
+      let galleryActiveIndex = -1;
+      let galleryCardStarts = [];
+      let loopStart = 0;
+      let loopPoint = 0;
       let audioContext = null;
       let audioResumePromise = null;
 
@@ -2131,6 +2230,27 @@
         });
       }
 
+      let lastGalleryTickAt = 0;
+
+      function playGalleryTick(velocity = 1) {
+        scheduleAudioEffect((context) => {
+          const now = context.currentTime;
+          const tone = context.createOscillator();
+          const gain = context.createGain();
+          const speed = Math.min(5, Math.max(0.4, velocity));
+          const duration = Math.max(0.018, 0.033 - speed * 0.0025);
+          tone.type = 'triangle';
+          tone.frequency.setValueAtTime(700 + speed * 42, now);
+          tone.frequency.exponentialRampToValueAtTime(520 + speed * 31, now + duration);
+          gain.gain.setValueAtTime(0.032 + Math.min(speed, 3) * 0.0045, now);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+          tone.connect(gain).connect(context.destination);
+          tone.start(now);
+          tone.stop(now + duration + 0.004);
+        }, 90);
+      }
+
+      // Short high-passed impacts: crisp flap chatter without a low buzzing body.
       function playSplitFlapRefresh() {
         scheduleAudioEffect((context) => {
           const duration = .48;
@@ -2253,6 +2373,353 @@
         });
       });
 
+      const originalCards = [...reel.children];
+      gallery.addEventListener('scroll', updateProgress, {passive:true});
+
+      const leadingCards = document.createDocumentFragment();
+      const trailingCards = document.createDocumentFragment();
+
+      originalCards.forEach((card) => {
+        const leadingClone = card.cloneNode(true);
+        const trailingClone = card.cloneNode(true);
+        [leadingClone, trailingClone].forEach((clone) => {
+          clone.setAttribute('aria-hidden', 'true');
+          clone.setAttribute('tabindex', '-1');
+          clone.querySelectorAll('a, button, [tabindex]').forEach(control => control.setAttribute('tabindex', '-1'));
+        });
+        leadingCards.appendChild(leadingClone);
+        trailingCards.appendChild(trailingClone);
+      });
+
+      reel.prepend(leadingCards);
+      reel.append(trailingCards);
+
+      let loopReady = false;
+
+      function refreshLoopMetrics() {
+        if (matchMedia('(max-width:700px)').matches) {
+          loopPoint = 0;
+          loopReady = false;
+          gallery.scrollTop = 0;
+          return;
+        }
+        const previousProgress = loopPoint
+          ? (((gallery.scrollTop - loopStart) % loopPoint) + loopPoint) % loopPoint / loopPoint
+          : 0;
+        const middleFirstCard = reel.children[originalCards.length];
+        const trailingFirstCard = reel.children[originalCards.length * 2];
+        loopStart = middleFirstCard.offsetTop;
+        loopPoint = trailingFirstCard.offsetTop - loopStart;
+        galleryCardStarts = originalCards.map(card => card.offsetTop - loopStart);
+        gallery.scrollTop = Math.round(loopStart + previousProgress * loopPoint);
+        loopReady = loopPoint > 0;
+      }
+
+      refreshLoopMetrics();
+      window.addEventListener('load', refreshLoopMetrics, { once: true });
+      window.addEventListener('resize', refreshLoopMetrics, { passive: true });
+
+      let manualGalleryInputUntil = 0;
+      let lastGalleryScrollTop = gallery.scrollTop;
+      let galleryTickDistance = 0;
+
+      gallery.addEventListener('wheel', () => {
+        manualGalleryInputUntil = performance.now() + 720;
+      }, { passive: true });
+
+      gallery.addEventListener('pointerdown', () => {
+        manualGalleryInputUntil = performance.now() + 1200;
+      }, { passive: true });
+
+      gallery.addEventListener('scroll', () => {
+        const timestamp = performance.now();
+        let distance = Math.abs(gallery.scrollTop - lastGalleryScrollTop);
+        lastGalleryScrollTop = gallery.scrollTop;
+        if (loopPoint && distance > loopPoint / 2) distance = 0;
+        if (timestamp > manualGalleryInputUntil || distance === 0) return;
+
+        galleryTickDistance += distance;
+        const elapsed = Math.max(8, timestamp - lastGalleryTickAt);
+        const velocity = Math.min(6, distance / elapsed * 12);
+        const distanceStep = Math.max(24, 58 - velocity * 6);
+        const minimumGap = Math.max(26, 96 - velocity * 13);
+        if (galleryTickDistance >= distanceStep && timestamp - lastGalleryTickAt >= minimumGap) {
+          galleryTickDistance %= distanceStep;
+          lastGalleryTickAt = timestamp;
+          playGalleryTick(velocity);
+        }
+      }, { passive: true });
+
+      gallery.addEventListener('pointerenter', () => {
+        isHoveringGallery = true;
+      });
+
+      gallery.addEventListener('pointerleave', () => {
+        isHoveringGallery = false;
+      });
+
+      gallery.addEventListener('pointercancel', () => {
+        isHoveringGallery = false;
+      });
+
+      // Mouse-restored focus must not latch the reel in its keyboard pause.
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Tab') isKeyboardNavigatingGallery = true;
+      });
+      document.addEventListener('pointerdown', () => {
+        isKeyboardNavigatingGallery = false;
+      }, { capture: true, passive: true });
+      document.addEventListener('pointermove', (event) => {
+        isKeyboardNavigatingGallery = false;
+        isHoveringGallery = gallery.contains(event.target);
+      }, { passive: true });
+
+      window.addEventListener('blur', () => {
+        isHoveringGallery = false;
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) isHoveringGallery = false;
+      });
+
+      function updateProgress() {
+        if (!loopPoint) return;
+        const position = (((gallery.scrollTop - loopStart) % loopPoint) + loopPoint) % loopPoint;
+        let active = 0;
+        galleryCardStarts.forEach((start, index) => {
+          if (position + 1 >= start) active = index;
+        });
+        if (active === galleryActiveIndex) return;
+        galleryActiveIndex = active;
+
+        progressDots.forEach((dot, index) => {
+          const distance = Math.abs(index - active);
+          dot.classList.toggle('is-active', distance === 0);
+          dot.classList.toggle('is-near', distance === 1);
+        });
+      }
+
+      function openProject(card, options = {}) {
+        const image = card.querySelector('.card-media');
+        if (!image || isModalOpen) return;
+
+        mediaMotion ||= window.PortfolioMediaMotion.create(modalPanel);
+        lastFocusedCard = card.querySelector('.case-study-media, .motion-open') || card;
+        restoreFocusOnClose = true;
+        isModalOpen = true;
+        isModalClosing = false;
+        const isVideo = image.tagName === 'VIDEO';
+        modalImage.hidden = isVideo;
+        modalVideo.hidden = !isVideo;
+        if (isVideo) {
+          modalPanel.style.setProperty('--media-ratio', `${image.width / image.height}`);
+          modalVideo.width = Number(image.getAttribute('width')) || image.videoWidth;
+          modalVideo.height = Number(image.getAttribute('height')) || image.videoHeight;
+          modalVideo.poster = image.poster;
+          modalVideo.src = image.dataset.src || image.currentSrc || image.src;
+          modalVideo.currentTime = image.currentTime || 0;
+          modalVideo.setAttribute('aria-label', card.dataset.title || 'Animation playback');
+          modalVideo.play().catch(() => {});
+        } else {
+          modalImage.width = Number(image.getAttribute('width')) || image.naturalWidth;
+          modalImage.height = Number(image.getAttribute('height')) || image.naturalHeight;
+          modalImage.src = image.currentSrc || image.src;
+          modalImage.alt = image.alt;
+        }
+        modalTitle.textContent = card.dataset.title || image.alt;
+        modalLink.hidden = !card.dataset.caseStudy && !card.dataset.link;
+        modalDescription.textContent = card.dataset.description || '';
+        modalLink.href = card.dataset.caseStudy || card.dataset.link || '#';
+        modalLink.replaceChildren();
+        if (card.dataset.caseStudy) {
+          const appIcon = document.createElement('img');
+          appIcon.className = 'modal-app-icon';
+          appIcon.src = card.dataset.caseStudy.includes('/catch/') ? '/media/catch-icon.webp' : '/media/soja-note-icon.webp';
+          appIcon.alt = '';
+          appIcon.width = appIcon.height = 24;
+          modalLink.append(appIcon);
+        }
+        const actionLabel = document.createElement('span');
+        actionLabel.textContent = card.dataset.caseStudy ? 'Explore case study' : card.dataset.linkLabel || 'View project';
+        const actionArrow = document.createElement('span');
+        actionArrow.className = 'modal-action-arrow';
+        actionArrow.setAttribute('aria-hidden','true');
+        actionArrow.textContent = '↗';
+        modalLink.append(actionLabel,actionArrow);
+        modalLink.target = card.dataset.caseStudy ? '_self' : '_blank';
+        projectModal.hidden = false;
+        projectModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        projectModal.classList.add('is-open');
+        mediaMotion.open(image);
+        modalBackground.forEach(element => {
+          backgroundInertState.set(element, element.inert);
+          element.inert = true;
+        });
+        window.dispatchEvent(new CustomEvent('portfolio-media-state', { detail:{open:true} }));
+        playInterfaceSound('open');
+
+        modalPanel.focus({ preventScroll: true });
+      }
+
+      function closeProject() {
+        if (!isModalOpen || isModalClosing) return;
+        isModalClosing = true;
+        modalVideo.pause();
+        playInterfaceSound('close');
+        projectModal.classList.remove('is-open');
+
+        const finishClose = () => {
+          mediaMotion.reset();
+          projectModal.hidden = true;
+          document.body.classList.remove('modal-open');
+          modalBackground.forEach(element => { element.inert = backgroundInertState.get(element) || false; });
+          backgroundInertState.clear();
+          isModalOpen = false;
+          isModalClosing = false;
+          window.dispatchEvent(new CustomEvent('portfolio-media-state', { detail:{open:false} }));
+          if (restoreFocusOnClose && lastFocusedCard && !lastFocusedCard.closest('[aria-hidden="true"]')) {
+            lastFocusedCard.focus({ preventScroll: true });
+          }
+          projectModal.setAttribute('aria-hidden', 'true');
+          requestAnimationFrame(() => {
+            if (isModalOpen) return;
+            modalImage.removeAttribute('src');
+            modalImage.alt = '';
+            modalVideo.removeAttribute('src');
+            modalVideo.load();
+          });
+        };
+
+        mediaMotion.close(finishClose);
+      }
+
+      reel.addEventListener('pointerdown', (event) => {
+        pressedGalleryCard = event.target.closest('.card');
+        isHoveringGallery = true;
+      }, { capture: true });
+
+      reel.addEventListener('pointercancel', () => {
+        pressedGalleryCard = null;
+      });
+
+      reel.addEventListener('click', (event) => {
+        if (event.target.closest('.motion-toggle')) return;
+        const mediaLink = event.target.closest('.case-study-media');
+        if (mediaLink && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) {
+          event.preventDefault();
+          const card = pressedGalleryCard || mediaLink.closest('.card');
+          pressedGalleryCard = null;
+          openProject(card);
+          return;
+        }
+        if (event.target.closest('a')) {
+          pressedGalleryCard = null;
+          return;
+        }
+        const card = pressedGalleryCard || event.target.closest('.card');
+        pressedGalleryCard = null;
+        if (card) openProject(card);
+      });
+
+      reel.addEventListener('keydown', (event) => {
+        if (event.target.closest('.motion-toggle')) return;
+        if (event.target.closest('.case-study-media') && event.key === ' ') {
+          event.preventDefault();
+          openProject(event.target.closest('.card'));
+          return;
+        }
+        if (event.target.closest('a')) return;
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        const card = event.target.closest('.card');
+        if (!card) return;
+        event.preventDefault();
+        openProject(card, { focus: true });
+      });
+
+      projectModal.addEventListener('click', (event) => {
+        if (event.target === projectModal) closeProject();
+      });
+      modalClose.addEventListener('click', closeProject);
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeProject();
+        if (event.key === 'Tab' && isModalOpen) {
+          event.preventDefault();
+          const controls = [modalVideo, modalLink, modalClose].filter(control => !control.hidden);
+          const current = controls.indexOf(document.activeElement);
+          const next = current === -1 ? (event.shiftKey ? controls.length - 1 : 0) :
+            (current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+          controls[next].focus({ preventScroll: true });
+        }
+      });
+
+      let galleryFrame = 0;
+      let galleryOnscreen = false;
+
+      function resumeGallery() {
+        if (matchMedia('(max-width:700px)').matches) return;
+        if (!galleryFrame && galleryOnscreen && !document.hidden &&
+            !document.documentElement.classList.contains('is-page-scrolling')) {
+          lastTime = performance.now();
+          galleryFrame = requestAnimationFrame(tick);
+        }
+      }
+
+      function isGalleryPaused() {
+        return isHoveringGallery || isModalOpen ||
+          (isKeyboardNavigatingGallery && gallery.contains(document.activeElement));
+      }
+
+      function tick(now) {
+        galleryFrame = 0;
+        if (matchMedia('(max-width:700px)').matches || !galleryOnscreen || document.hidden ||
+            document.documentElement.classList.contains('is-page-scrolling')) return;
+        const elapsed = Math.min(now - lastTime, 32);
+        lastTime = now;
+
+        const galleryPaused = isGalleryPaused();
+        const targetRate = galleryPaused ? 0 : 0.035;
+        const easing = 1 - Math.exp(-elapsed / 105);
+        scrollRate += (targetRate - scrollRate) * easing;
+        if (galleryPaused && scrollRate < 0.0005) scrollRate = 0;
+
+        if (!reduceMotion) {
+          galleryScrollCarry += elapsed * scrollRate;
+          const wholePixels = Math.trunc(galleryScrollCarry);
+          if (wholePixels !== 0) {
+            gallery.scrollTop += wholePixels;
+            galleryScrollCarry -= wholePixels;
+          }
+        }
+
+        if (loopReady && gallery.scrollTop >= loopStart + loopPoint) {
+          gallery.scrollTop = Math.round(gallery.scrollTop - loopPoint);
+          lastGalleryScrollTop = gallery.scrollTop;
+        }
+        if (loopReady && gallery.scrollTop < loopStart) {
+          gallery.scrollTop = Math.round(gallery.scrollTop + loopPoint);
+          lastGalleryScrollTop = gallery.scrollTop;
+        }
+
+        updateProgress();
+
+        galleryFrame = requestAnimationFrame(tick);
+      }
+
+      new IntersectionObserver(entries => {
+        galleryOnscreen = entries[0].isIntersecting && entries[0].intersectionRatio > 0.01;
+        resumeGallery();
+      }, { threshold: 0.01 }).observe(gallery);
+      document.addEventListener('visibilitychange', resumeGallery);
+      window.addEventListener('resize', resumeGallery, {passive:true});
+      window.addEventListener('portfolio-scroll-start', () => {
+        cancelAnimationFrame(galleryFrame);
+        galleryFrame = 0;
+        galleryScrollCarry = 0;
+        scrollRate = 0;
+      });
+      window.addEventListener('portfolio-scroll-settled', resumeGallery);
     </script>
   </body>
 </html>

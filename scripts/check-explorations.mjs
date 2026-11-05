@@ -11,11 +11,12 @@ const page = read('work/index.html');
 const cards = [...catalog.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const pieces = [...page.matchAll(/<article class="exploration"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const title = html => html.match(/data-title="([^"]+)"/)[1];
-assert.deepEqual(pieces.map(title).sort(),cards.map(title).sort(),'Work must include all catalog media');
+assert(cards.every(card => pieces.some(piece => title(piece) === title(card))), 'Work must include all catalog media');
+assert(pieces.length > cards.length && page.includes('class="work-icon-grid"'), 'Work includes additional media and app icons');
 assert.equal(title(pieces[0]),'Income slider','Lead with the recording on phone');
 assert.equal(title(cards[1]),'Income slider','Keep the recording second on desktop');
 assert.equal(title(pieces[1]),'Catch Live Activity');
-assert(!page.includes('exploration-caption'), 'Keep labels and descriptions out of the media feed');
+assert(!page.includes('exploration-caption') && !page.includes('work-caption'), 'Keep labels and descriptions out of the media feed');
 const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
 assert(toolbar?.includes('class="portfolio-nav"') && toolbar.includes('id="time-zones"'), 'Use the case studies opaque reading toolbar');
 assert(page.includes('/typography.css') && page.includes('/work/reading-toolbar.css') && page.includes('/interface-controls.css'));
@@ -29,7 +30,7 @@ for (const piece of pieces) {
   const image = piece.match(/<img class="card-media"[^>]+>/)?.[0];
   if (image) {
     const metadata = await sharp(path.join(dist,image.match(/src="([^"]+)"/)[1])).metadata();
-    assert.equal(metadata.width,3840);
+    if (image.includes('-4k.webp')) assert.equal(metadata.width,3840);
     assert.equal(Number(image.match(/width="(\d+)"/)[1]),metadata.width);
     assert.equal(Number(image.match(/height="(\d+)"/)[1]),metadata.height);
     assert(!piece.includes('max-width:700px'),'Visible phone images must load real media');

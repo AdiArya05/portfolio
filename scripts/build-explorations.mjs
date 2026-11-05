@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import sharp from 'sharp';
 
 const dist = path.resolve(import.meta.dirname, '../dist');
 const catalog = await fs.readFile(new URL('./gallery-cards.html', import.meta.url), 'utf8');
@@ -13,7 +14,7 @@ const phoneCards = [
   ...phoneLeadTitles.map(title => cards.find(card => attribute(card, 'data-title') === title)),
   ...cards.filter(card => !phoneLeadTitles.includes(attribute(card, 'data-title'))),
 ];
-const feed = phoneCards.map(card => {
+const feed = phoneCards.map((card, index) => {
   const title = attribute(card, 'data-title');
   const description = attribute(card, 'data-description');
   const route = attribute(card, 'data-case-study');
@@ -28,15 +29,36 @@ const feed = phoneCards.map(card => {
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}</button>
           ${toggle}
         </div>
-        <h2 class="work-caption">${title}</h2>
       </article>`;
   }
-  const image = card.match(/<img class="card-media"[^>]+>/)[0].replaceAll('="media/', '="/media/');
+  let image = card.match(/<img class="card-media"[^>]+>/)[0].replaceAll('="media/', '="/media/');
+  if (index < 2) image = image.replace('loading="lazy"', 'loading="eager" fetchpriority="high"');
   return `<article class="exploration" ${attributes}>
         <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${image}</button>
-        <h2 class="work-caption">${title}</h2>
       </article>`;
 }).join('\n      ');
+
+const extraMedia = [
+  ['Catch home screen', '/work/catch/media/current-home.webp', '/work/catch/'],
+  ['Soja onboarding', '/work/soja/media/onboarding.webp', '/work/soja/'],
+  ['Soja recovery overview', '/work/soja/media/final-overview.webp', '/work/soja/'],
+  ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/'],
+  ['Catch icon collection', '/media/catch-icon-collection-grey.webp', '/work/catch/']
+];
+const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route]) => {
+  const {width, height} = await sharp(path.join(dist, src)).metadata();
+  return `<article class="exploration" data-title="${title}" data-destination="${route}" data-action="Read story" data-case-study="${route}">
+    <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview"><img class="card-media" src="${src}" width="${width}" height="${height}" alt="${title}" loading="lazy" decoding="async"></button>
+  </article>`;
+}));
+
+const icons = [
+  ['Catch', '/media/catch-icon.webp'],
+  ['Soja', '/media/soja-note-icon.webp'],
+  ...['black','coral','monochrome','disco','painted-blue','painted-orange'].map(variant => ['Catch · ' + variant.replaceAll('-', ' '), '/work/catch/media/icon-' + variant + '.webp']),
+  ...['peach','blue'].map(variant => ['Soja · ' + variant, '/work/soja/media/icon-' + variant + '.webp'])
+];
+const iconFeed = icons.map(([title, src]) => `<figure class="work-icon"><div><img src="${src}" alt="${title} app icon" loading="lazy" decoding="async"></div><figcaption>${title}</figcaption></figure>`).join('\n');
 
 const html = `<!doctype html>
 <html lang="en">
@@ -65,7 +87,7 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=1" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=2" />
   <script src="/portfolio-nav.js?v=1" defer></script>
 </head>
 <body class="reading-page explorations-view">
@@ -77,6 +99,11 @@ const html = `<!doctype html>
     </header>
     <section class="explorations-feed" aria-label="Interfaces, websites and motion studies">
       ${feed}
+      ${extraFeed.join('\n')}
+    </section>
+    <section class="work-icons" aria-labelledby="work-icons-title">
+      <h2 id="work-icons-title">App icons</h2>
+      <div class="work-icon-grid">${iconFeed}</div>
     </section>
     <footer class="explorations-footer"><a class="back-link" href="/">← Back to home</a><a href="#explorations">Back to top ↑</a></footer>
   </main>
@@ -93,7 +120,7 @@ const html = `<!doctype html>
 
 await fs.mkdir(path.join(dist, 'explorations'), {recursive:true});
 await fs.writeFile(path.join(dist, 'work/index.html'), html);
-console.log(`Built Work gallery from ${cards.length} current gallery pieces.`);
+console.log(`Built Work gallery with ${cards.length + extraMedia.length} media tiles and ${icons.length} app icons.`);
 
 await fs.writeFile(path.join(dist, 'explorations/index.html'), `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=/work/"><title>Work — Aditya Arya</title></head>
