@@ -422,11 +422,15 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
     flex-direction: column;
     height: auto;
     min-height: 0;
+    margin: 0;
+    padding: 0;
     background: var(--paper);
   }
   .portfolio-index .closing-copy {
-    order: 0;
-    margin: 28px var(--portfolio-gutter, 26px) 24px;
+    position: absolute;
+    top: 28px;
+    left: var(--portfolio-gutter, 26px);
+    margin: 0;
     font-size: 18px;
     line-height: 1.6;
   }
