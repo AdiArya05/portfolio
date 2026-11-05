@@ -32,3 +32,10 @@
   cursor: pointer;
 }
 .project-modal .modal-close svg, #media-viewer .modal-close svg { width: 18px; height: 18px; }
+
+.dismiss-key { display: none; }
+@media (min-width: 701px) and (pointer: fine) {
+  .project-modal .modal-close, #media-viewer .modal-close { width: auto; padding-inline: 12px; border-radius: 10px; }
+  .dismiss-key { display: inline; font-size: 13px; }
+  .project-modal .modal-close svg, #media-viewer .modal-close svg { display: none; }
+}

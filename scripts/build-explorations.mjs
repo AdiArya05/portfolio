@@ -70,7 +70,7 @@ const html = `<!doctype html>
   <meta name="theme-color" content="#fafafa" />
   <link rel="icon" href="/media/aditya-arya-icon.png" />
   <link rel="canonical" href="https://adiarya.vercel.app/work" />
-  <script src="/media-motion.js?v=20261105-fade" defer></script>
+  <script src="/media-motion.js?v=20261105-spring" defer></script>
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
   <link rel="stylesheet" href="/typography.css?v=20261105-system" />
   <link rel="stylesheet" href="/work/case-study.css?v=20261104-neutral" />
@@ -82,12 +82,12 @@ const html = `<!doctype html>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261104-local-unique" defer></script>
   <script src="/explorations/explorations.js?v=20261105-media-only" defer></script>
-  <script src="/motion-gallery.js?v=20261105-reuse" defer></script>
+  <script src="/motion-gallery.js?v=20261105-frame" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
-  <link rel="stylesheet" href="/media-motion.css?v=20261105-overlay" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=6" />
-  <script src="/portfolio-nav.js?v=2" defer></script>
+  <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=7" />
+  <script src="/portfolio-nav.js?v=3" defer></script>
 </head>
 <body class="reading-page explorations-view">
   ${toolbar.replace('href="/work/">Work', 'href="/work/" aria-current="page">Work').replace('href="/stories/" aria-current="page"','href="/stories/"')}
@@ -104,7 +104,7 @@ const html = `<!doctype html>
   </main>
   <dialog class="modal-panel" id="media-viewer" aria-label="Media preview">
     <div class="viewer-stage"><img id="modal-image" alt="" hidden /><video id="modal-video" controls muted loop playsinline hidden aria-label="Animation playback"></video></div>
-    <button class="modal-close" data-liquid-glass type="button" aria-label="Close project preview"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
+    <button class="modal-close" data-liquid-glass type="button" aria-label="Close project preview"><span class="dismiss-key" aria-hidden="true">Esc</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
   </dialog>
 </body>
 </html>

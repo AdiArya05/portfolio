@@ -1,3 +1,12 @@
+// Warm the next portfolio document on hover while preserving normal links and history.
+if (HTMLScriptElement.supports?.('speculationrules')) {
+  const rules = document.createElement('script');
+  rules.type = 'speculationrules';
+  rules.textContent = JSON.stringify({
+    prefetch: [{where: {selector_matches: '.portfolio-nav a:not([aria-current])'}, eagerness: 'moderate'}]
+  });
+  document.head.append(rules);
+}
 for (const nav of document.querySelectorAll('.portfolio-nav')) {
   const current = nav.querySelector('[aria-current="page"]');
   if (!current) continue;

@@ -4,6 +4,16 @@
       video.width = Number(source.getAttribute('width')) || source.videoWidth;
       video.height = Number(source.getAttribute('height')) || source.videoHeight;
       video.poster = source.poster;
+      if (source.readyState >= 2 && source.videoWidth) {
+        const frame = document.createElement('canvas');
+        frame.width = Math.min(540, source.videoWidth);
+        frame.height = Math.round(frame.width * source.videoHeight / source.videoWidth);
+        const context = frame.getContext('2d');
+        if (context) {
+          context.drawImage(source, 0, 0, frame.width, frame.height);
+          video.poster = frame.toDataURL('image/jpeg', .87);
+        }
+      }
       video.muted = true;
       const url = source.dataset.src || source.currentSrc || source.src;
       if (video.getAttribute('src') !== url) video.src = url;
