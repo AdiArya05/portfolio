@@ -29,7 +29,7 @@
     const details = panel.querySelector('.modal-details');
     const restoreSource = () => {
       if (source) {
-        const video = panel.querySelector('#modal-video:not([hidden])');
+        const video = panel.querySelector('video:not([hidden])');
         if (source.tagName === 'VIDEO' && video) { try { source.currentTime = video.currentTime; } catch {} }
         source.style.visibility = sourceVisibility;
       }
@@ -82,7 +82,7 @@
         source = origin;
         sourceVisibility = source?.style.visibility || '';
         base = panel.getBoundingClientRect();
-        const media = panel.querySelector('#modal-image:not([hidden]),#modal-video:not([hidden])') || panel;
+        const media = panel.querySelector('img:not([hidden]),video:not([hidden])') || panel;
         mediaBox = contentBox(media);
         const radius = parseFloat(getComputedStyle(panel).borderRadius) || 0;
         const from = sourceFrame();
@@ -103,7 +103,7 @@
         const clipFrom = clipValues.length === 4 ? clipValues : [clipValues[0]||0,clipValues[1]||0,clipValues[2]||clipValues[0]||0,clipValues[3]||clipValues[1]||0];
         if (!animation) {
           base = panel.getBoundingClientRect();
-          const media = panel.querySelector('#modal-image:not([hidden]),#modal-video:not([hidden])') || panel;
+          const media = panel.querySelector('img:not([hidden]),video:not([hidden])') || panel;
           mediaBox = contentBox(media);
         }
         const to = sourceFrame();

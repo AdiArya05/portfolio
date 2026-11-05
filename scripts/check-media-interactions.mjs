@@ -69,7 +69,7 @@ assert.equal(source.style.visibility,'');
 sourceBox={left:800,top:200,width:200,height:200*4/3,bottom:200+200*4/3};
 source.width=1080;source.height=1440;
 const fittedVideo={width:1080,height:1440,getBoundingClientRect:()=>({left:200,top:80,width:800,height:500,bottom:580})};
-panel.querySelector=selector=>selector.includes('#modal-')?fittedVideo:null;
+panel.querySelector=selector=>selector.includes('video:not')?fittedVideo:null;
 const videoMorph=window.PortfolioMediaMotion.create(panel);videoMorph.open(source);
 const scales=animations.at(-1).frames[0].transform.match(/scale\(([^,]+),([^\)]+)\)/);
 assert(Math.abs(Number(scales[1])-Number(scales[2]))<1e-10,'letterboxed video retains its aspect ratio at the thumbnail');

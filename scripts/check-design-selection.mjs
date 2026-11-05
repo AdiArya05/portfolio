@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const source=fs.readFileSync(new URL('../dist/design-selection.js',import.meta.url),'utf8');
 const html=fs.readFileSync(new URL('../dist/index.html',import.meta.url),'utf8');
-assert.deepEqual([...html.matchAll(/data-design-target="([^"]+)"/g)].map(m=>m[1]),['designing','building']);
+assert.deepEqual([...html.matchAll(/data-design-target="([^"]+)"/g)].map(m=>m[1]),['designing']);
 let now=0,next=0;const frames=new Map(),events={},classes=new Set();
 const word=(left,width)=>({box:{left,top:120,width,height:24},events:{},getBoundingClientRect(){return {...this.box,height:this.box.height+19};},querySelector(){return {getBoundingClientRect:()=>this.box};},addEventListener(name,fn){this.events[name]=fn;}});
 const words=[word(120,110),word(310,160)];

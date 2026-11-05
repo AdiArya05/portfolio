@@ -70,31 +70,30 @@ const html = `<!doctype html>
   <meta name="theme-color" content="#fafafa" />
   <link rel="icon" href="/media/aditya-arya-icon.png" />
   <link rel="canonical" href="https://adiarya.vercel.app/work" />
-  <script src="/media-motion.js?v=20261105-spring" defer></script>
+  <script src="/media-motion.js?v=20261105-tabs" defer></script>
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
   <link rel="stylesheet" href="/typography.css?v=20261105-system" />
   <link rel="stylesheet" href="/work/case-study.css?v=20261104-neutral" />
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-media" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261104-local-unique" defer></script>
-  <script src="/explorations/explorations.js?v=20261105-media-only" defer></script>
+  <script src="/explorations/explorations.js?v=20261105-tabs" defer></script>
   <script src="/motion-gallery.js?v=20261105-frame" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=7" />
-  <script src="/portfolio-nav.js?v=3" defer></script>
+  <link rel="stylesheet" href="/portfolio-pages.css?v=16" />
+  <script src="/portfolio-nav.js?v=4" defer></script>
 </head>
 <body class="reading-page explorations-view">
   ${toolbar.replace('href="/work/">Work', 'href="/work/" aria-current="page">Work').replace('href="/stories/" aria-current="page"','href="/stories/"')}
   <main id="explorations" class="explorations-page">
     <header class="explorations-header">
       <h1>Work</h1>
-      <p>Interfaces, websites, and motion studies.</p>
     </header>
     <section class="explorations-feed" aria-label="Interfaces, websites and motion studies">
       ${feed}
@@ -102,7 +101,7 @@ const html = `<!doctype html>
     </section>
     <footer class="explorations-footer"><a class="back-link" href="/">← Back to home</a><a href="#explorations">Back to top ↑</a></footer>
   </main>
-  <dialog class="modal-panel" id="media-viewer" aria-label="Media preview">
+  <dialog id="media-viewer" aria-label="Media preview">
     <div class="viewer-stage"><img id="modal-image" alt="" hidden /><video id="modal-video" controls muted loop playsinline hidden aria-label="Animation playback"></video></div>
     <button class="modal-close" data-liquid-glass type="button" aria-label="Close project preview"><span class="dismiss-key" aria-hidden="true">Esc</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
   </dialog>
@@ -117,3 +116,25 @@ console.log(`Built Work gallery with ${cards.length + extraMedia.length} media t
 await fs.writeFile(path.join(dist, 'explorations/index.html'), `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=/work/"><title>Work — Aditya Arya</title></head>
 <body><a href="/work/">Continue to Work</a></body></html>\n`);
+
+// The home document owns the tabs. Keep the individual documents as direct-link fallbacks.
+const indexPath = path.join(dist, 'index.html');
+const index = await fs.readFile(indexPath, 'utf8');
+const panels = await Promise.all([
+  ['work', html],
+  ['stories', await fs.readFile(path.join(dist, 'stories/index.html'), 'utf8')],
+  ['icons', await fs.readFile(path.join(dist, 'icons/index.html'), 'utf8')],
+].map(async ([name, page]) => {
+  const main = page.match(/<main\b[\s\S]*?<\/main>/)[0]
+    .replace('<main ', `<main data-portfolio-panel="${name}" aria-label="${name[0].toUpperCase() + name.slice(1)}" hidden `)
+    .replace(/<header class="explorations-header">[\s\S]*?<\/header>\s*/, '')
+    .replace(/<h1>[^<]+<\/h1>\s*/, '')
+    .replace('href="/">← Back to home','href="#index">← Back to home');
+  if (name !== 'work') return main;
+  const dialog = page.match(/<dialog\b[\s\S]*?<\/dialog>/)[0].replaceAll('id="modal-', 'id="work-modal-');
+  return `${main}\n    ${dialog}`;
+}));
+await fs.writeFile(indexPath, index.replace(
+  /<!-- portfolio-tabs:start -->[\s\S]*?<!-- portfolio-tabs:end -->/,
+  `<!-- portfolio-tabs:start -->\n    ${panels.join('\n    ')}\n    <!-- portfolio-tabs:end -->`
+));

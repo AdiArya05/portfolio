@@ -1,7 +1,7 @@
 (() => {
   const viewer = document.querySelector('#media-viewer');
-  const image = viewer.querySelector('#modal-image');
-  const video = viewer.querySelector('#modal-video');
+  const image = viewer.querySelector('.viewer-stage img');
+  const video = viewer.querySelector('.viewer-stage video');
   let opener;
   const dialogMotion = window.PortfolioDialogMotion(viewer, () => { video.pause(); sound('close'); });
   function sound(direction) {

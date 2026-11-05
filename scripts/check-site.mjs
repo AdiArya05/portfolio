@@ -76,7 +76,7 @@ for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)) {
 for (const filename of fs.readdirSync(dist).filter(name => name.endsWith('.js'))) {
   new vm.Script(fs.readFileSync(path.join(dist, filename), 'utf8'), { filename });
 }
-assert.equal((html.match(/<h1\b/g) || []).length, 1, 'Keep one main heading');
+assert.equal((html.match(/<h1\b/g) || []).length, 1, 'Keep the shared intro heading');
 assert(html.includes('<html lang="en">'));
 assert(html.includes(`<link rel="canonical" href="${origin}/"`));
 assert(/name="description"\s+content="[^"]+"/.test(html));

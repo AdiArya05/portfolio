@@ -3,7 +3,7 @@
   const words = [...document.querySelectorAll('[data-design-target]')];
   const frame = document.querySelector('.design-selection-frame');
   const label = document.querySelector('.design-selection-size');
-  if (!intro || words.length !== 2 || !frame || !label) return;
+  if (!intro || !words.length || !frame || !label) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const axes = ['x','y','width','height'];
   let active = words[0], current, target, animation = 0, layoutFrame = 0, lastTime = 0;
