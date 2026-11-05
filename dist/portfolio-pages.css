@@ -418,17 +418,25 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
     min-height: 0;
   }
   .portfolio-index .closing {
-    display: block;
-    height: max(60svh, 400px);
+    display: flex;
+    flex-direction: column;
+    height: auto;
     min-height: 0;
     background: var(--paper);
   }
   .portfolio-index .closing-copy {
-    margin: 48px var(--portfolio-gutter, 26px);
+    order: 0;
+    margin: 28px var(--portfolio-gutter, 26px) 24px;
     font-size: 18px;
     line-height: 1.6;
   }
+  .portfolio-index .closing picture { display: block; order: 1; }
+  .portfolio-index .closing .skyline-motion,
+  .portfolio-index .closing .skyline-ripple { display: none !important; }
+  .portfolio-index .closing::before { display: none; }
   .portfolio-index .singapore-skyline {
+    position: static;
+    mask: none !important;
     width: 100%;
     max-width: none;
     left: 0;
