@@ -240,6 +240,7 @@ button.catalog-title { display: block; padding: 0; border: 0; background: none; 
 .portfolio-index .intro .sentence:nth-child(3),
 .portfolio-index .intro .tools-sentence,
 .portfolio-index .intro .social-sentence { display: block; margin: .85em 0 0; }
+.portfolio-index .intro .achievement-sentence { display: block; margin-top: .45em; }
 .portfolio-index .intro :is(.tool-stack, .social-icons) { display: inline; margin: 0; vertical-align: baseline; }
 .portfolio-index .intro :is(.tool, .project-icon, .inline-link) {
   display: inline;
@@ -365,7 +366,7 @@ body.portfolio-index :is(main.explorations-page, .stories-index) {
   to { opacity: 1; transform: none; }
 }
 
-/* The expanded clock takes up header space instead of covering the page. */
+/* Keep the clock dropdown outside document flow so the header never grows. */
 html:has(body.reading-page) { scroll-padding-top: 20px; }
 body.reading-page { padding-top: 0; }
 body.reading-page .reading-toolbar { position: relative; height: auto; }
@@ -378,15 +379,32 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
   width: min(220px, calc(100vw - 100px));
 }
 :is(.index-toolbar, .reading-toolbar) .time-zone-dropdown {
-  display: none;
-  position: static;
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 60;
   box-sizing: border-box;
   width: min(290px, calc(100vw - 48px));
   max-height: 38svh;
-  margin-inline-start: auto;
+  margin: 0;
   overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 180ms ease, transform 220ms ease, visibility 180ms;
 }
-:is(.index-toolbar, .reading-toolbar) .time-zones.is-open .time-zone-dropdown { display: block; }
+.index-toolbar .time-zones, .reading-page .reading-toolbar .time-zones { position: relative; inset: auto; z-index: 60; }
+:is(.index-toolbar, .reading-toolbar) .time-zones.is-open .time-zone-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.index-toolbar, .reading-toolbar) .time-zone-dropdown { transition: none; }
+}
 
 .portfolio-identity { display: flex; align-items: center; gap: 12px; }
 .portfolio-avatar { display: block; flex: none; border-radius: 50%; }

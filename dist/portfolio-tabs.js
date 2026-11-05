@@ -7,7 +7,28 @@
   const footerButton = document.querySelector('#footer-discover');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let current = 'index';
-  let animation;
+  let animations = [];
+  function cancelEntrance() {
+    for (const animation of animations) animation.cancel();
+    animations = [];
+  }
+  function reveal(panel) {
+    if (reduced.matches) return;
+    const easing = 'cubic-bezier(.22,1,.36,1)';
+    animations.push(panel.animate([
+      {opacity: 0, filter: 'blur(4px)'},
+      {opacity: 1, filter: 'blur(0px)'}
+    ], {duration: 380, easing}));
+    const items = [...panel.querySelectorAll('.exploration, .work-icon, .story-entry, .story-inner')]
+      .filter(item => item.getBoundingClientRect().top < innerHeight + 80);
+    for (const [index, item] of items.entries()) {
+      animations.push(item.animate([
+        {opacity: 0, transform: 'translateY(8px)'},
+        {opacity: 1, transform: 'translateY(0px)'}
+      ], {duration: 460, delay: Math.min(index * 35, 140), easing, fill: 'backwards'}));
+    }
+  }
+  reduced.addEventListener('change', cancelEntrance);
   const phone = matchMedia('(max-width:700px)');
   const content = document.querySelector('.portfolio-content');
   let fitFrame;
@@ -36,7 +57,7 @@
 
   function select(name, animate = true) {
     if (!panels.has(name) || name === current) return;
-    animation?.cancel();
+    cancelEntrance();
     for (const popover of document.querySelectorAll(':popover-open')) popover.hidePopover();
     window.scrollTo({top: 0, left: 0, behavior: 'instant'});
     panels.get(current).hidden = true;
@@ -50,12 +71,7 @@
       else link.removeAttribute('aria-current');
     }
     window.PortfolioNav.selectCurrent();
-    if (animate && !reduced.matches) {
-      animation = panel.animate(
-        [{opacity: .45}, {opacity: 1}],
-        {duration: 180, easing: 'cubic-bezier(.2,.65,.3,1)'}
-      );
-    }
+    if (animate) reveal(panel);
   }
 
   for (const link of links) {
@@ -73,4 +89,5 @@
   window.addEventListener('popstate', selectHash);
   select(location.hash.slice(1) || 'index', false);
   fitIndex();
+  requestAnimationFrame(() => reveal(panels.get(current)));
 })();
