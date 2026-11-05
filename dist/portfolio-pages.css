@@ -401,15 +401,26 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
   .portfolio-index .index-toolbar, .reading-toolbar { flex-direction: row; }
   .preview-open:disabled, .preview-label:disabled { opacity: 1; cursor: default; color: inherit; }
   .preview-label:disabled { text-decoration: none; }
+  .story-list { margin-top: 8px; }
   .story-entry {
     position: relative;
-    padding: 18px;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    background: linear-gradient(145deg, #fff, #f0f1f4);
+    padding: 22px 32px 22px 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    font-size: 20px;
   }
-  .story-entry + .story-entry { margin-top: 14px; }
-  .story-read { display: block; margin-top: 14px; color: var(--muted); font-size: 14px; }
+  .story-entry + .story-entry { margin-top: 0; border-top: 1px solid var(--line); }
+  .story-entry .catalog-title { text-decoration: none; }
+  .story-entry time { margin-top: 6px; font-size: 16px; }
+  .story-read { display: block; position: absolute; right: 0; top: 24px; color: var(--muted); font-size: 0; }
+  .story-read > span { font-size: 20px; }
+  .story-entry:active { opacity: .65; }
+  html.is-footer-visible:has(body.portfolio-index) {
+    background: var(--paper) url('/media/singapore-mobile-v5.webp') center bottom / 100% auto no-repeat;
+  }
+  html.is-footer-visible body.portfolio-index { background: transparent; }
+  .portfolio-index .portfolio-content { background: var(--paper); }
 }
 
 @media (max-width: 700px) {
@@ -434,7 +445,12 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
     font-size: 18px;
     line-height: 1.6;
   }
-  .portfolio-index .closing picture { display: block; order: 1; }
+  .portfolio-index .closing picture {
+    display: block;
+    order: 1;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: url('/media/singapore-mobile-v5.webp') center bottom / 100% auto no-repeat;
+  }
   .portfolio-index .closing .skyline-motion,
   .portfolio-index .closing .skyline-ripple { display: none !important; }
   .portfolio-index .closing::before { display: none; }
