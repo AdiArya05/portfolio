@@ -8,6 +8,31 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let current = 'index';
   let animation;
+  const phone = matchMedia('(max-width:700px)');
+  const content = document.querySelector('.portfolio-content');
+  let fitFrame;
+
+  function fitIndex() {
+    cancelAnimationFrame(fitFrame);
+    fitFrame = requestAnimationFrame(() => {
+      content.style.removeProperty('--portfolio-copy-size');
+      if (!phone.matches || current !== 'index') return;
+      const available = window.visualViewport?.height || innerHeight;
+      const maximum = parseFloat(getComputedStyle(document.querySelector('#intro-heading')).fontSize);
+      let low = 12;
+      let high = maximum;
+      for (let step = 0; step < 10; step++) {
+        const size = (low + high) / 2;
+        content.style.setProperty('--portfolio-copy-size', size + 'px');
+        if (content.scrollHeight <= available + 1) low = size;
+        else high = size;
+      }
+      content.style.setProperty('--portfolio-copy-size', low + 'px');
+    });
+  }
+  window.addEventListener('resize', fitIndex, {passive: true});
+  window.visualViewport?.addEventListener('resize', fitIndex, {passive: true});
+  document.fonts.ready.then(fitIndex);
 
   function select(name, animate = true) {
     if (!panels.has(name) || name === current) return;
@@ -19,6 +44,7 @@
     panel.hidden = false;
     footer.hidden = footerButton.hidden = name !== 'index';
     current = name;
+    fitIndex();
     for (const link of links) {
       if (link.dataset.portfolioTab === name) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
@@ -46,4 +72,5 @@
   window.addEventListener('hashchange', selectHash);
   window.addEventListener('popstate', selectHash);
   select(location.hash.slice(1) || 'index', false);
+  fitIndex();
 })();
