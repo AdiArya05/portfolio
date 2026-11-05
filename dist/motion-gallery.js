@@ -1,4 +1,16 @@
 (() => {
+  window.PortfolioMotionVideo = {
+    prepare(video, source) {
+      video.width = Number(source.getAttribute('width')) || source.videoWidth;
+      video.height = Number(source.getAttribute('height')) || source.videoHeight;
+      video.poster = source.poster;
+      video.muted = true;
+      const url = source.dataset.src || source.currentSrc || source.src;
+      if (video.getAttribute('src') !== url) video.src = url;
+      video.currentTime = source.currentTime || 0;
+    }
+  };
+
   const videos = [...document.querySelectorAll('.motion-stage video')];
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const visible = new Set();
@@ -20,7 +32,7 @@
     const automatic = !reduced.matches && !navigator.connection?.saveData;
     const shouldPlay = visible.has(video) && !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
     if (shouldPlay) {
-      if (!video.hasAttribute('src')) { video.src = video.dataset.src; video.load(); }
+      if (!video.hasAttribute('src')) { video.src = video.dataset.src; }
       if (video.paused) video.play().catch(() => paint(video));
     } else video.pause();
     paint(video);

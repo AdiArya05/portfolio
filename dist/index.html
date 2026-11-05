@@ -217,14 +217,15 @@
         inset: 0;
         display: grid;
         align-items: center;
-        background: var(--paper);
+        background: linear-gradient(100deg, #182d24, #24392a 55%, #192d24);
+        border-radius: .16em;
         pointer-events: none;
       }
 
       .outfield-pixels canvas {
         width: 100%;
         height: .85em;
-        filter: brightness(1.85) saturate(1.9);
+        filter: brightness(1.62) saturate(1.55);
       }
 
       .intro .soft {
@@ -1238,52 +1239,6 @@
 
       .modal-panel video { display:block; width:auto; max-width:86vw; max-height:76vh; object-fit:contain; background:#111; }
       .modal-panel [hidden] { display:none !important; }
-      .modal-copy { min-width:0; }
-
-      .modal-details {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        padding: 16px 18px 18px;
-        border-top: 1px solid var(--line);
-      }
-
-      .modal-copy {
-        display: grid;
-        gap: 3px;
-      }
-
-      .modal-copy strong {
-        font-size: 1rem;
-        letter-spacing: -0.02em;
-      }
-
-      .modal-copy span {
-        color: var(--ink);
-        opacity: .75;
-        font-size: 0.82rem;
-        line-height: 1.35;
-      }
-
-      .modal-link {
-        flex: 0 0 auto;
-        padding: 9px 13px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        text-decoration: none;
-        font-size: 0.78rem;
-        white-space: nowrap;
-        transition: background-color 180ms ease, color 180ms ease;
-      }
-
-      .modal-link:is(:hover, :focus-visible) {
-        color: var(--paper);
-        background: var(--ink);
-        outline: none;
-      }
-
-      .modal-actions { display:flex; align-items:center; gap:8px; flex-shrink:0; }
       .modal-close { display:grid; place-items:center; width:40px; height:40px; padding:0; border:1px solid var(--line); border-radius:50%; color:var(--ink); background:var(--paper); cursor:pointer; }
       .modal-close svg { width:18px; height:18px; }
       .modal-close:is(:hover,:focus-visible) { color:var(--paper); background:var(--ink); }
@@ -1794,7 +1749,7 @@
       @media(max-width:700px) { #local-matrix { width:min(220px,calc(100vw - 190px)); } .time-zone-toggle { max-width:calc(100vw - 145px); padding:9px 8px; } .footer-discover { display:none; } }
       @media(prefers-reduced-motion:reduce) { .theme-toggle::before { transition:none; } ::view-transition-old(root), ::view-transition-new(root) { animation:none; } }
     </style>
-  <link rel="stylesheet" href="/typography.css?v=20261104-system-v1" />
+  <link rel="stylesheet" href="/typography.css?v=20261105-system" />
 
     <link rel="stylesheet" href="/focus-glass.css?v=20261019-v22" />
     <script src="/media-sounds.js?v=20261021-v28" defer></script>
@@ -1810,18 +1765,17 @@
     <link rel="stylesheet" href="/design-selection.css?v=20261104-timed" />
     <script src="/design-selection.js?v=20261104-hover" defer></script>
     <script src="/outfield.js?v=13" defer></script>
-  <link rel="stylesheet" href="/portfolio-pages.css?v=2" />
-  <script src="/portfolio-nav.js?v=1" defer></script>
+  <link rel="stylesheet" href="/portfolio-pages.css?v=6" />
+  <script src="/portfolio-nav.js?v=2" defer></script>
   <link rel="stylesheet" href="/motion-gallery.css?v=20261022-v8" />
-  <script src="/motion-gallery.js?v=20261022-v1" defer></script>
-  <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
-  <script src="/media-motion.js?v=20261028-v2" defer></script>
-  <link rel="stylesheet" href="/modal-glass.css?v=20261022-v23" />
+  <script src="/motion-gallery.js?v=20261105-reuse" defer></script>
+  <link rel="stylesheet" href="/media-motion.css?v=20261105-overlay" />
+  <script src="/media-motion.js?v=20261105-fade" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
 </head>
   <body class="portfolio-index">
     <header class="index-toolbar">
-      <nav class="portfolio-nav" aria-label="Portfolio"><span class="nav-glass" aria-hidden="true"></span><a href="/" aria-current="page">Index</a><a href="/work/">Work</a><a href="/stories/">Stories</a></nav>
+      <nav class="portfolio-nav" aria-label="Portfolio"><span class="nav-glass" aria-hidden="true"></span><a href="/" aria-current="page">Index</a><a href="/work/">Work</a><a href="/stories/">Stories</a><a href="/icons/">Icons</a></nav>
     <div class="time-zones" id="time-zones">
       <button class="time-zone-toggle" id="time-zone-toggle" type="button" aria-expanded="false" aria-controls="time-zone-dropdown" aria-label="Show local time and places I have visited">
         <span class="matrix-row" id="local-matrix" aria-hidden="true"></span>
@@ -1842,14 +1796,13 @@
     <main class="shell">
       <section class="story" aria-labelledby="intro-heading">
         <div class="story-inner">
-          <p class="portfolio-tagline">Building with intent</p>
           <h1 class="intro" id="intro-heading">
             <span class="design-selection-frame" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><span class="design-selection-size"></span></span>
             <span class="sentence">hello, i’m <span class="name name-swap" tabindex="0" aria-label="aditya arya, adi"><span class="name-cancel"><span class="name-full">aditya</span><svg class="name-strike" aria-hidden="true" viewBox="0 0 132 28" preserveAspectRatio="none"><path pathLength="1" d="M2 21 L15 5 L10 22 L27 4 L21 22 L39 5 L33 23 L51 4 L45 22 L63 5 L57 23 L75 5 L69 22 L87 4 L81 22 L99 5 L93 22 L111 5 L105 21 L130 7"/><path pathLength="1" d="M3 8 L18 23 L14 6 L31 23 L27 5 L44 22 L40 6 L57 23 L53 5 L70 22 L66 6 L83 23 L79 5 L96 22 L92 6 L109 22 L105 7 L129 20"/><path pathLength="1" d="M2 14 C16 8 27 20 42 13 S69 19 84 12 S111 18 130 11"/></svg><span class="name-short" aria-hidden="true">adi</span></span> arya</span>.</span>
             <span class="sentence"><span class="soft">i’m currently serving <button class="outfield-trigger" type="button" aria-label="National service, play camouflage effect">national service</button> in singapore
             while</span> <span class="name"><span class="design-selection-word" data-design-target="designing"><span class="design-selection-text">designing</span></span> and <span class="design-selection-word" data-design-target="building"><span class="design-selection-text">building apps</span></span> of my own.</span></span>
             <span class="sentence"><span class="soft">right now i’m building</span>
-            <a class="project-icon external-link" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer" aria-label="View Catch on the App Store"><picture><source type="image/webp" srcset="media/catch-icon.webp" /><img src="media/catch-icon.png" alt="" /></picture></a>,
+            <a class="project-icon" data-label="Catch" href="/work/catch/" aria-label="Read the Catch story"><picture><source type="image/webp" srcset="media/catch-icon.webp" /><img src="media/catch-icon.png" alt="" /></picture></a>,
             <span class="soft">a bus timing app for singapore.</span></span>
             <span class="sentence"><span class="soft">we <strong class="emphasis">placed second</strong> at a <strong class="emphasis">defence-tech</strong> hackathon with</span>
             <a class="inline-link marker-highlight external-link" href="https://drive.google.com/file/d/16-1kgD510pvwfmND5SYUP0pWbivKd8OM/view?usp=sharing" target="_blank" rel="noreferrer">maritime fusion</a>,
@@ -1918,27 +1871,27 @@
             </article>
 
             <article class="card" data-case-study="/work/catch/" aria-label="Catch Live Activity detail" data-title="Catch Live Activity" data-description="The next bus, timing, and leave-now guidance at a glance." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-detail-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-live-detail-4k.webp" alt="Catch Live Activity showing the next bus and leave-now guidance" /></picture></a>
+              <a class="case-study-media" href="/work/catch/" aria-label="Read the Catch story"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-detail-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-live-detail-4k.webp" alt="Catch Live Activity showing the next bus and leave-now guidance" /></picture></a>
               <div class="meta"><span class="meta-copy"><strong>Catch Live Activity</strong><span>Know exactly when to leave.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
             </article>
 
             <article class="card" data-case-study="/work/soja/" aria-label="Soja recovery dashboard" data-title="Soja Recovery" data-description="A personalised plan for rebuilding your body clock after disruption." data-link="https://www.reddit.com/r/sleep/comments/1uq93wn/how_circadian_recoverytherapy_helped_me_fix_my/" data-link-label="Reddit post">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/soja/" aria-label="Preview the Soja"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-recovery-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/soja-recovery-4k.webp" alt="Soja circadian recovery dashboard on an iPhone" /></picture></a>
+              <a class="case-study-media" href="/work/soja/" aria-label="Read the Soja story"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-recovery-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/soja-recovery-4k.webp" alt="Soja circadian recovery dashboard on an iPhone" /></picture></a>
               <div class="meta"><span class="meta-copy"><strong>Soja Recovery</strong><span>Reset your rhythm with a daily plan.</span></span><a class="project-link" href="/work/soja/">Read story <span aria-hidden="true">↗</span></a></div>
             </article>
 
             <article class="card" data-case-study="/work/catch/" aria-label="Catch bus arrival board" data-title="Catch Live Board" data-description="Fast, legible Singapore bus arrivals designed for the moment you need them." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-board-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-live-board-4k.webp" alt="Catch bus arrival board on an iPhone" /></picture></a>
+              <a class="case-study-media" href="/work/catch/" aria-label="Read the Catch story"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-live-board-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-live-board-4k.webp" alt="Catch bus arrival board on an iPhone" /></picture></a>
               <div class="meta"><span class="meta-copy"><strong>Catch Live Board</strong><span>Singapore bus arrivals, made clearer.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
             </article>
 
             <article class="card" data-case-study="/work/soja/" aria-label="Soja website showcase" data-title="Soja Website" data-description="The product story and science behind personalised sleep recovery." data-link="https://soja.framer.website/" data-link-label="Live site">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/soja/" aria-label="Preview the Soja"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-website-4k.webp" /><img class="card-media" width="3840" height="2487" style="aspect-ratio:1541/998" loading="lazy" decoding="async" src="media/soja-website-4k.webp" alt="Soja website with a landscape and the message Reset your sleep" /></picture></a>
+              <a class="case-study-media" href="/work/soja/" aria-label="Read the Soja story"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/soja-website-4k.webp" /><img class="card-media" width="3840" height="2487" style="aspect-ratio:1541/998" loading="lazy" decoding="async" src="media/soja-website-4k.webp" alt="Soja website with a landscape and the message Reset your sleep" /></picture></a>
               <div class="meta"><span class="meta-copy"><strong>Soja Website</strong><span>Reset your sleep, one plan at a time.</span></span><a class="project-link" href="/work/soja/">Read story <span aria-hidden="true">↗</span></a></div>
             </article>
 
             <article class="card" data-case-study="/work/catch/" aria-label="Catch nearby stop map" data-title="Catch Nearby" data-description="Nearby stops and arrivals placed directly on the map." data-link="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" data-link-label="App Store">
-              <a class="case-study-media" aria-haspopup="dialog" href="/work/catch/" aria-label="Preview the Catch"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-map-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-map-4k.webp" alt="Catch nearby bus stops map on an iPhone" /></picture></a>
+              <a class="case-study-media" href="/work/catch/" aria-label="Read the Catch story"><picture><source media="(max-width:700px)" srcset="data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%221%22%20height=%221%22/%3E" /><source type="image/webp" srcset="media/catch-map-4k.webp" /><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="media/catch-map-4k.webp" alt="Catch nearby bus stops map on an iPhone" /></picture></a>
               <div class="meta"><span class="meta-copy"><strong>Catch Nearby</strong><span>Find the right stop around you.</span></span><a class="project-link" href="/work/catch/">Read story <span aria-hidden="true">↗</span></a></div>
             </article>
 
@@ -1981,14 +1934,11 @@
 
     <div class="focus-veil" id="focus-veil" popover="manual" aria-hidden="true"></div>
 
-    <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title" aria-describedby="modal-description" hidden>
+    <div class="project-modal" id="project-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Media preview" hidden>
       <div class="modal-panel" id="modal-panel" tabindex="-1">
         <img id="modal-image" alt="" />
         <div class="modal-motion-stage"><video id="modal-video" controls muted loop playsinline tabindex="0" aria-label="Animation playback" hidden></video></div>
-        <div class="modal-details">
-          <span class="modal-copy"><strong id="modal-title"></strong><span id="modal-description"></span></span>
-          <span class="modal-actions"><a class="modal-link" data-liquid-glass id="modal-link" href="#" target="_blank" rel="noreferrer"></a><button class="modal-close" data-liquid-glass id="modal-close" type="button" aria-label="Close project preview"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button></span>
-        </div>
+        <button class="modal-close" data-liquid-glass id="modal-close" type="button" aria-label="Close project preview"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
       </div>
     </div>
 
@@ -2128,9 +2078,6 @@
       const modalPanel = document.querySelector('#modal-panel');
       const modalImage = document.querySelector('#modal-image');
       const modalVideo = document.querySelector('#modal-video');
-      const modalTitle = document.querySelector('#modal-title');
-      const modalDescription = document.querySelector('#modal-description');
-      const modalLink = document.querySelector('#modal-link');
       const modalClose = document.querySelector('#modal-close');
       const modalBackground = [...document.body.children].filter(element =>
         element !== projectModal && !['SCRIPT', 'STYLE'].includes(element.tagName));
@@ -2416,6 +2363,15 @@
       }
 
       refreshLoopMetrics();
+      if (loopReady) {
+        const savedProgress = Number(sessionStorage.getItem('portfolio-reel-progress'));
+        if (savedProgress > 0 && savedProgress < 1) gallery.scrollTop = loopStart + savedProgress * loopPoint;
+      }
+      window.addEventListener('pagehide', () => {
+        if (!loopReady) return;
+        const progress = ((gallery.scrollTop - loopStart) % loopPoint + loopPoint) % loopPoint / loopPoint;
+        sessionStorage.setItem('portfolio-reel-progress', String(progress));
+      });
       window.addEventListener('load', refreshLoopMetrics, { once: true });
       window.addEventListener('resize', refreshLoopMetrics, { passive: true });
 
@@ -2513,11 +2469,7 @@
         modalVideo.hidden = !isVideo;
         if (isVideo) {
           modalPanel.style.setProperty('--media-ratio', `${image.width / image.height}`);
-          modalVideo.width = Number(image.getAttribute('width')) || image.videoWidth;
-          modalVideo.height = Number(image.getAttribute('height')) || image.videoHeight;
-          modalVideo.poster = image.poster;
-          modalVideo.src = image.dataset.src || image.currentSrc || image.src;
-          modalVideo.currentTime = image.currentTime || 0;
+          window.PortfolioMotionVideo.prepare(modalVideo, image);
           modalVideo.setAttribute('aria-label', card.dataset.title || 'Animation playback');
           modalVideo.play().catch(() => {});
         } else {
@@ -2526,27 +2478,6 @@
           modalImage.src = image.currentSrc || image.src;
           modalImage.alt = image.alt;
         }
-        modalTitle.textContent = card.dataset.title || image.alt;
-        modalLink.hidden = !card.dataset.caseStudy && !card.dataset.link;
-        modalDescription.textContent = card.dataset.description || '';
-        modalLink.href = card.dataset.caseStudy || card.dataset.link || '#';
-        modalLink.replaceChildren();
-        if (card.dataset.caseStudy) {
-          const appIcon = document.createElement('img');
-          appIcon.className = 'modal-app-icon';
-          appIcon.src = card.dataset.caseStudy.includes('/catch/') ? '/media/catch-icon.webp' : '/media/soja-note-icon.webp';
-          appIcon.alt = '';
-          appIcon.width = appIcon.height = 24;
-          modalLink.append(appIcon);
-        }
-        const actionLabel = document.createElement('span');
-        actionLabel.textContent = card.dataset.caseStudy ? 'Explore case study' : card.dataset.linkLabel || 'View project';
-        const actionArrow = document.createElement('span');
-        actionArrow.className = 'modal-action-arrow';
-        actionArrow.setAttribute('aria-hidden','true');
-        actionArrow.textContent = '↗';
-        modalLink.append(actionLabel,actionArrow);
-        modalLink.target = card.dataset.caseStudy ? '_self' : '_blank';
         projectModal.hidden = false;
         projectModal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
@@ -2586,8 +2517,6 @@
             if (isModalOpen) return;
             modalImage.removeAttribute('src');
             modalImage.alt = '';
-            modalVideo.removeAttribute('src');
-            modalVideo.load();
           });
         };
 
@@ -2605,14 +2534,6 @@
 
       reel.addEventListener('click', (event) => {
         if (event.target.closest('.motion-toggle')) return;
-        const mediaLink = event.target.closest('.case-study-media');
-        if (mediaLink && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey && event.button === 0) {
-          event.preventDefault();
-          const card = pressedGalleryCard || mediaLink.closest('.card');
-          pressedGalleryCard = null;
-          openProject(card);
-          return;
-        }
         if (event.target.closest('a')) {
           pressedGalleryCard = null;
           return;
@@ -2624,11 +2545,6 @@
 
       reel.addEventListener('keydown', (event) => {
         if (event.target.closest('.motion-toggle')) return;
-        if (event.target.closest('.case-study-media') && event.key === ' ') {
-          event.preventDefault();
-          openProject(event.target.closest('.card'));
-          return;
-        }
         if (event.target.closest('a')) return;
         if (event.key !== 'Enter' && event.key !== ' ') return;
         const card = event.target.closest('.card');
@@ -2646,7 +2562,7 @@
         if (event.key === 'Escape') closeProject();
         if (event.key === 'Tab' && isModalOpen) {
           event.preventDefault();
-          const controls = [modalVideo, modalLink, modalClose].filter(control => !control.hidden);
+          const controls = [modalVideo, modalClose].filter(control => !control.hidden);
           const current = controls.indexOf(document.activeElement);
           const next = current === -1 ? (event.shiftKey ? controls.length - 1 : 0) :
             (current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;

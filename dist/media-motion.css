@@ -9,3 +9,26 @@
 .animated-media-dialog.is-closing::backdrop { animation:media-backdrop-out 200ms cubic-bezier(.2,0,0,1) both; }
 .lightbox { background:transparent; }
 @media(prefers-reduced-motion:reduce) { .project-modal::before,.animated-media-dialog[open]::backdrop { transition:none; animation:none; } }
+
+/* Keep the dismiss control on the image without adding a caption bar. */
+.project-modal .modal-panel, #media-viewer { width: fit-content; overflow: hidden; }
+#media-viewer { max-width: none; }
+#media-viewer .viewer-stage { width: min(86vw, 1440px, calc((100svh - 32px) * var(--viewer-ratio, 1.3333))); }
+.project-modal .modal-close, #media-viewer .modal-close {
+  position: absolute;
+  z-index: 1;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #fff6;
+  border-radius: 50%;
+  background: #17171799;
+  color: #fff;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+}
+.project-modal .modal-close svg, #media-viewer .modal-close svg { width: 18px; height: 18px; }

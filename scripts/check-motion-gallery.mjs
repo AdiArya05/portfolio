@@ -28,10 +28,10 @@ vm.runInNewContext(fs.readFileSync(new URL('../dist/motion-gallery.js',import.me
   IntersectionObserver:class { constructor(fn) { observe=fn; } observe(){} },
 });
 const visibility = (video,on) => observe([{target:video,isIntersecting:on,intersectionRatio:on ? 1 : 0}]);
-assert(videos.every(video => video.loads===0 && video.muted), 'No eager video downloads; always silent');
+assert(videos.every(video => !video.hasAttribute('src') && video.muted), 'No eager video downloads; always silent');
 visibility(videos[0],true);
-assert(!videos[0].paused && videos[0].loads===1);
-assert(videos[1].paused && videos[1].loads===0, 'Offscreen recordings stay unloaded');
+assert(!videos[0].paused && videos[0].hasAttribute('src'));
+assert(videos[1].paused && !videos[1].hasAttribute('src'), 'Offscreen recordings stay unloaded');
 events.get('portfolio-media-state')({detail:{open:true}});
 assert(videos[0].paused, 'Pause reel when full preview opens');
 events.get('portfolio-media-state')({detail:{open:false}});
@@ -49,7 +49,7 @@ document.hidden=false; events.get('visibilitychange')();
 assert(!videos[2].paused);
 reduced.matches=true; events.get('reduced')();
 visibility(videos[1],true);
-assert(videos[1].paused && videos[1].loads===0, 'Reduced motion starts with a static poster');
+assert(videos[1].paused && !videos[1].hasAttribute('src'), 'Reduced motion starts with a static poster');
 videos[1].toggle();
 assert(!videos[1].paused, 'Reduced motion still allows intentional playback');
 visibility(videos[1],false);

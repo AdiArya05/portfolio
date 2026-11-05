@@ -14,12 +14,18 @@ const phoneCards = [
   ...phoneLeadTitles.map(title => cards.find(card => attribute(card, 'data-title') === title)),
   ...cards.filter(card => !phoneLeadTitles.includes(attribute(card, 'data-title'))),
 ];
+const caption = (title, route) => {
+  const control = route
+    ? `<a class="catalog-title" href="${route}">${title}</a>`
+    : `<button class="catalog-title preview-label" type="button" aria-haspopup="dialog">${title}</button>`;
+  return `<div class="catalog-caption">${control}<time datetime="2026">2026</time></div>`;
+};
 const feed = phoneCards.map((card, index) => {
   const title = attribute(card, 'data-title');
   const description = attribute(card, 'data-description');
   const route = attribute(card, 'data-case-study');
-  const destination = route || attribute(card, 'data-link');
-  const label = route ? 'Explore case study' : attribute(card, 'data-link-label');
+  const destination = route ? '' : attribute(card, 'data-link');
+  const label = attribute(card, 'data-link-label');
   const attributes = `data-title="${title}" data-description="${description}" data-destination="${destination}" data-action="${label}"${route ? ` data-case-study="${route}"` : ''}`;
   if (card.includes('data-motion=')) {
     const video = card.match(/<video[^>]+><\/video>/)[0];
@@ -29,36 +35,30 @@ const feed = phoneCards.map((card, index) => {
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}</button>
           ${toggle}
         </div>
+        ${caption(title, route)}
       </article>`;
   }
   let image = card.match(/<img class="card-media"[^>]+>/)[0].replaceAll('="media/', '="/media/');
   if (index < 2) image = image.replace('loading="lazy"', 'loading="eager" fetchpriority="high"');
   return `<article class="exploration" ${attributes}>
         <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${image}</button>
+        ${caption(title, route)}
       </article>`;
 }).join('\n      ');
 
 const extraMedia = [
-  ['Catch home screen', '/work/catch/media/current-home.webp', '/work/catch/'],
-  ['Soja onboarding', '/work/soja/media/onboarding.webp', '/work/soja/'],
+  ['Soja onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/'],
   ['Soja recovery overview', '/work/soja/media/final-overview.webp', '/work/soja/'],
   ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/'],
   ['Catch icon collection', '/media/catch-icon-collection-grey.webp', '/work/catch/']
 ];
 const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
-  return `<article class="exploration" data-title="${title}" data-destination="${route}" data-action="Read story" data-case-study="${route}">
+  return `<article class="exploration" data-title="${title}" data-case-study="${route}">
     <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview"><img class="card-media" src="${src}" width="${width}" height="${height}" alt="${title}" loading="lazy" decoding="async"></button>
+    ${caption(title, route)}
   </article>`;
 }));
-
-const icons = [
-  ['Catch', '/media/catch-icon.webp'],
-  ['Soja', '/media/soja-note-icon.webp'],
-  ...['black','coral','monochrome','disco','painted-blue','painted-orange'].map(variant => ['Catch · ' + variant.replaceAll('-', ' '), '/work/catch/media/icon-' + variant + '.webp']),
-  ...['peach','blue'].map(variant => ['Soja · ' + variant, '/work/soja/media/icon-' + variant + '.webp'])
-];
-const iconFeed = icons.map(([title, src]) => `<figure class="work-icon"><div><img src="${src}" alt="${title} app icon" loading="lazy" decoding="async"></div><figcaption>${title}</figcaption></figure>`).join('\n');
 
 const html = `<!doctype html>
 <html lang="en">
@@ -70,25 +70,24 @@ const html = `<!doctype html>
   <meta name="theme-color" content="#fafafa" />
   <link rel="icon" href="/media/aditya-arya-icon.png" />
   <link rel="canonical" href="https://adiarya.vercel.app/work" />
-  <script src="/media-motion.js?v=20261028-v2" defer></script>
+  <script src="/media-motion.js?v=20261105-fade" defer></script>
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
-  <link rel="stylesheet" href="/typography.css?v=20261104-system-v1" />
+  <link rel="stylesheet" href="/typography.css?v=20261105-system" />
   <link rel="stylesheet" href="/work/case-study.css?v=20261104-neutral" />
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261022-v4" />
-  <link rel="stylesheet" href="/modal-glass.css?v=20261022-v23" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-media" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261104-local-unique" defer></script>
-  <script src="/explorations/explorations.js?v=20261105-light" defer></script>
-  <script src="/motion-gallery.js?v=20261022-v1" defer></script>
+  <script src="/explorations/explorations.js?v=20261105-media-only" defer></script>
+  <script src="/motion-gallery.js?v=20261105-reuse" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
-  <link rel="stylesheet" href="/media-motion.css?v=20261027-v1" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=2" />
-  <script src="/portfolio-nav.js?v=1" defer></script>
+  <link rel="stylesheet" href="/media-motion.css?v=20261105-overlay" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=6" />
+  <script src="/portfolio-nav.js?v=2" defer></script>
 </head>
 <body class="reading-page explorations-view">
   ${toolbar.replace('href="/work/">Work', 'href="/work/" aria-current="page">Work').replace('href="/stories/" aria-current="page"','href="/stories/"')}
@@ -101,18 +100,11 @@ const html = `<!doctype html>
       ${feed}
       ${extraFeed.join('\n')}
     </section>
-    <section class="work-icons" aria-labelledby="work-icons-title">
-      <h2 id="work-icons-title">App icons</h2>
-      <div class="work-icon-grid">${iconFeed}</div>
-    </section>
     <footer class="explorations-footer"><a class="back-link" href="/">← Back to home</a><a href="#explorations">Back to top ↑</a></footer>
   </main>
-  <dialog class="modal-panel" id="media-viewer" aria-labelledby="modal-title" aria-describedby="modal-description">
+  <dialog class="modal-panel" id="media-viewer" aria-label="Media preview">
     <div class="viewer-stage"><img id="modal-image" alt="" hidden /><video id="modal-video" controls muted loop playsinline hidden aria-label="Animation playback"></video></div>
-    <div class="modal-details">
-      <span class="modal-copy"><strong id="modal-title"></strong><span id="modal-description"></span></span>
-      <span class="modal-actions"><a class="modal-link" data-liquid-glass id="modal-link" href="#" hidden></a><button class="modal-close" data-liquid-glass type="button" aria-label="Close project preview"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button></span>
-    </div>
+    <button class="modal-close" data-liquid-glass type="button" aria-label="Close project preview"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
   </dialog>
 </body>
 </html>
@@ -120,7 +112,7 @@ const html = `<!doctype html>
 
 await fs.mkdir(path.join(dist, 'explorations'), {recursive:true});
 await fs.writeFile(path.join(dist, 'work/index.html'), html);
-console.log(`Built Work gallery with ${cards.length + extraMedia.length} media tiles and ${icons.length} app icons.`);
+console.log(`Built Work gallery with ${cards.length + extraMedia.length} media tiles.`);
 
 await fs.writeFile(path.join(dist, 'explorations/index.html'), `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=/work/"><title>Work — Aditya Arya</title></head>

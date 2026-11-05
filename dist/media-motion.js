@@ -26,6 +26,7 @@
   const noClip = [0,0,0,0];
   const create = panel => {
     let animation, detailAnimation, timer, generation = 0, source, sourceVisibility, base, mediaBox;
+    let videoFade = false;
     const details = panel.querySelector('.modal-details');
     const restoreSource = () => {
       if (source) {
@@ -79,6 +80,11 @@
     return {
       open(origin) {
         stop(); restoreSource();
+        videoFade = origin?.tagName === 'VIDEO';
+        if (videoFade) {
+          if (!reduced()) animation = panel.animate([{opacity:0},{opacity:1}], {duration:200, easing:'ease-out', fill:'both'});
+          return;
+        }
         source = origin;
         sourceVisibility = source?.style.visibility || '';
         base = panel.getBoundingClientRect();
@@ -92,6 +98,14 @@
         if (details) detailAnimation = details.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:200,delay:90,easing:'cubic-bezier(.2,0,0,1)',fill:'both'});
       },
       close(done) {
+        if (videoFade) {
+          const opacity = Number(getComputedStyle(panel).opacity);
+          stop();
+          if (reduced()) { done(); return; }
+          animation = panel.animate([{opacity},{opacity:0}], {duration:200, easing:'ease-in', fill:'both'});
+          animation.finished.then(done, () => {});
+          return;
+        }
         const style = getComputedStyle(panel);
         const matrix = new DOMMatrixReadOnly(style.transform === 'none' ? undefined : style.transform);
         const from = {x:matrix.e,y:matrix.f,sx:matrix.a,sy:matrix.d,radius:parseFloat(style.borderRadius)||0};

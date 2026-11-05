@@ -9,10 +9,10 @@ const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
 const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const origin = 'https://adiarya.vercel.app';
-for (const route of ['index.html', 'work/index.html', 'stories/index.html', 'work/catch/index.html', 'work/soja/index.html']) {
+for (const route of ['index.html', 'work/index.html', 'stories/index.html', 'icons/index.html', 'work/catch/index.html', 'work/soja/index.html']) {
   const page = fs.readFileSync(path.join(dist, route), 'utf8');
   assert(!page.includes('id="theme-toggle"') && !page.includes('theme-init.js'), route + ' must remain light only');
-  for (const href of ['/', '/work/', '/stories/']) assert(page.includes('href="' + href + '"'), route + ' missing navigation to ' + href);
+  for (const href of ['/', '/work/', '/stories/', '/icons/']) assert(page.includes('href="' + href + '"'), route + ' missing navigation to ' + href);
 }
 assert(html.includes('<article class="card"') && !html.includes('class="project-note"'), 'Keep the Index reel without case study cards');
 const catalog = fs.readFileSync(path.join(root, 'scripts/gallery-cards.html'), 'utf8');
@@ -81,13 +81,13 @@ assert(html.includes('<html lang="en">'));
 assert(html.includes(`<link rel="canonical" href="${origin}/"`));
 assert(/name="description"\s+content="[^"]+"/.test(html));
 assert(!/content="[^"]*\bnoindex\b/.test(html));
-assert(work.includes('aria-labelledby="modal-title"'));
-assert(work.includes('aria-describedby="modal-description"'));
+assert(work.includes('aria-label="Media preview"'));
+assert(work.includes('id="modal-video"'));
 assert(html.includes('href="https://drive.google.com/file/d/16-1kgD510pvwfmND5SYUP0pWbivKd8OM/view?usp=sharing"'), 'Keep the public-facing Maritime Fusion destination');
 assert(!html.includes('href="https://github.com/Rajsuthan/maritime-fusion"'), 'Do not restore the private repository destination');
 assert(work.includes('aria-label="Close project preview"'));
 assert(!html.includes('fonts.googleapis.com') && !html.includes('fonts.gstatic.com'), 'Typography must not depend on remote fonts');
-assert(html.includes('/typography.css?v=20261104-system-v1'));
+assert(html.includes('/typography.css?v=20261105-system'));
 assert(fs.readFileSync(path.join(dist, 'typography.css'), 'utf8').includes("--font-sans:ui-sans-serif,system-ui"));
 assert(!html.includes('class="contact-shine"'), 'Keep the homepage contact prompt removed');
 assert(fs.readFileSync(path.join(dist,'fonts/space-grotesk-v22-latin.woff2')).subarray(0,4).toString() === 'wOF2');

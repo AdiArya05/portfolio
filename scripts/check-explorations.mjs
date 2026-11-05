@@ -12,17 +12,30 @@ const cards = [...catalog.matchAll(/<article class="card"[\s\S]*?<\/article>/g)]
 const pieces = [...page.matchAll(/<article class="exploration"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const title = html => html.match(/data-title="([^"]+)"/)[1];
 assert(cards.every(card => pieces.some(piece => title(piece) === title(card))), 'Work must include all catalog media');
-assert(pieces.length > cards.length && page.includes('class="work-icon-grid"'), 'Work includes additional media and app icons');
+assert(pieces.length > cards.length && !page.includes('class="work-icon-grid"'), 'Work is a media-only collage');
+assert(!page.includes('/work/catch/media/current-home.webp') && !page.includes('/work/soja/media/onboarding.webp'));
+assert(page.includes('/media/soja-welcome-framed-4k.webp'));
+const iconsPage = read('icons/index.html');
+const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div><img src="([^"]+)"/g)].map(match => match[1]);
+assert.deepEqual([...iconFiles].sort(), [
+  '/media/catch-icon.webp',
+  '/media/soja-icon-1024.webp',
+  '/work/soja/media/icon-peach.webp',
+  '/work/soja/media/icon-blue.webp',
+  '/work/catch/media/icon-painted-blue.webp',
+  '/work/catch/media/icon-painted-orange.webp',
+].sort());
+for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
 assert.equal(title(pieces[0]),'Income slider','Lead with the recording on phone');
 assert.equal(title(cards[1]),'Income slider','Keep the recording second on desktop');
 assert.equal(title(pieces[1]),'Catch Live Activity');
-assert(!page.includes('exploration-caption') && !page.includes('work-caption'), 'Keep labels and descriptions out of the media feed');
+assert(pieces.every(piece => piece.includes('class="catalog-title') && piece.includes('<time datetime=')), 'Each Work tile has a preview title and year');
 const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
 assert(toolbar?.includes('class="portfolio-nav"') && toolbar.includes('id="time-zones"'), 'Use the case studies opaque reading toolbar');
 assert(page.includes('/typography.css') && page.includes('/work/reading-toolbar.css') && page.includes('/interface-controls.css'));
 assert(page.includes('/interface-sounds.js') && page.includes('/world-times.js'));
 assert(page.includes('Back to home') && page.includes('Back to top'));
-assert(page.includes('<dialog') && page.includes('aria-labelledby="modal-title"') && page.includes('aria-describedby="modal-description"'));
+assert(page.includes('<dialog') && page.includes('aria-label="Media preview"') && page.includes('id="modal-video"'));
 assert(page.includes('viewport-fit=cover'));
 assert(!page.includes('Previous Portfolio') && !page.includes('catch-live-board-motion') && !page.includes('soja-welcome.'));
 for (const piece of pieces) {
