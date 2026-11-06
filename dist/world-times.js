@@ -69,23 +69,44 @@
   const localFormatter = timeFormat(localZone);
   const localOffset = offsetFormat(localZone);
 
+  const spotify = document.createElement('div');
+  spotify.className = 'island-spotify';
+  spotify.inert = true;
+  const spotifyToggle = document.createElement('button');
+  spotifyToggle.type = 'button';
+  spotifyToggle.className = 'island-spotify-toggle';
+  spotifyToggle.setAttribute('aria-label', 'Spotify Now Playing');
+  spotifyToggle.setAttribute('aria-controls', 'island-spotify-details');
+  spotifyToggle.setAttribute('aria-expanded', 'false');
+  spotifyToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.3-2.1-10.45-1.16a.75.75 0 0 1-.33-1.46c4.53-1.04 8.4-.6 11.53 1.34.35.2.46.67.25 1.03Zm1.47-3.26a.94.94 0 0 1-1.29.31c-3.2-1.97-8.1-2.54-11.9-1.38a.94.94 0 0 1-.55-1.8c4.33-1.31 9.72-.68 13.43 1.59.44.27.58.85.31 1.28Zm.13-3.4C15.26 8.36 8.94 8.16 5.29 9.27a1.13 1.13 0 0 1-.66-2.16C8.83 5.84 15.79 6.08 20.25 8.73a1.12 1.12 0 1 1-1.15 1.92Z"/></svg>';
   const spotifyLink = document.createElement('a');
-  spotifyLink.className = 'island-spotify-pill';
+  spotifyLink.id = 'island-spotify-details';
+  spotifyLink.className = 'island-track';
   spotifyLink.target = '_blank';
   spotifyLink.rel = 'noopener noreferrer';
-  spotifyLink.hidden = true;
-  const musicIcon = document.createElement('span');
-  musicIcon.textContent = '♫';
-  musicIcon.setAttribute('aria-hidden', 'true');
-  const trackLabel = document.createElement('span');
-  trackLabel.className = 'island-track';
+  spotifyLink.inert = true;
   const trackName = document.createElement('span');
   const trackArtist = document.createElement('span');
-  trackLabel.append(trackName, trackArtist);
-  spotifyLink.append(musicIcon, trackLabel);
-  widget.insertBefore(spotifyLink, button);
+  spotifyLink.append(trackName, trackArtist);
+  spotify.append(spotifyToggle, spotifyLink);
+  widget.insertBefore(spotify, button);
+
+  function setSpotifyOpen(open) {
+    spotify.classList.toggle('is-expanded', open);
+    spotifyToggle.setAttribute('aria-expanded', String(open));
+    spotifyLink.inert = !open;
+  }
+
+  function toggleSpotify(open) {
+    if (open) {
+      setOpen(false);
+      checkPlayback();
+    }
+    setSpotifyOpen(open);
+  }
 
   let checkingPlayback = false;
+  let lastPlaybackCheck = 0;
 
   function updateClockLabel(now) {
     const clockLabel = `${localName}, ${localMinutes.textContent.slice(0, -1)}, ${getOffset(localOffset, now)}. World times`;
@@ -98,25 +119,34 @@
     let track;
     try {
       const response = await fetch('/api/now-playing', { signal: AbortSignal.timeout(7000) });
-      track = response.ok ? (await response.json()).track : null;
+      if (!response.ok) throw new Error('Playback unavailable');
+      track = (await response.json()).track;
+      lastPlaybackCheck = Date.now();
     } catch {
-      track = null;
+      if (Date.now() - lastPlaybackCheck < 15000) return;
     } finally {
       checkingPlayback = false;
     }
     if (track) {
-      trackName.textContent = track.name;
-      trackArtist.textContent = track.artist;
-      spotifyLink.title = `Now playing on Spotify: ${track.name} · ${track.artist}`;
-      spotifyLink.setAttribute('aria-label', spotifyLink.title);
+      if (trackName.textContent !== track.name || trackArtist.textContent !== track.artist) {
+        trackName.textContent = track.name;
+        trackArtist.textContent = track.artist;
+        if (spotify.classList.contains('is-expanded') && !reduceMotion.matches) {
+          spotifyLink.animate([{ opacity: .45, transform: 'translateY(4px)' }, { opacity: 1, transform: 'translateY(0)' }],
+            { duration: 240, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+        }
+        spotifyLink.setAttribute('aria-label', `Open ${track.name} by ${track.artist} on Spotify`);
+      }
       spotifyLink.href = track.url;
     } else {
+      setSpotifyOpen(false);
       spotifyLink.removeAttribute('href');
     }
-    spotifyLink.hidden = !track;
+    spotify.inert = !track;
+    spotify.classList.toggle('has-track', Boolean(track));
   }
 
-  setInterval(checkPlayback, 30000);
+  setInterval(checkPlayback, 5000);
   document.addEventListener('visibilitychange', checkPlayback);
   phone.addEventListener('change', checkPlayback);
   checkPlayback();
@@ -158,6 +188,7 @@
 
   function setOpen(open) {
     open = open && !phone.matches;
+    if (open) setSpotifyOpen(false);
     widget.classList.toggle('is-open', open);
     button.setAttribute('aria-expanded', String(open));
     dropdown.inert = !open;
@@ -171,42 +202,56 @@
     }
   }
 
-  let hold;
-  let origin;
-  let expandedByHold = false;
-  function cancelHold() {
-    clearTimeout(hold);
-    origin = undefined;
-    widget.classList.remove('is-pressing');
+  function bindIslandPress(control, surface, isOpen, setExpanded) {
+    let hold;
+    let origin;
+    let expandedByHold = false;
+
+    function cancelHold() {
+      clearTimeout(hold);
+      origin = undefined;
+      surface.classList.remove('is-pressing');
+    }
+
+    control.addEventListener('pointerdown', event => {
+      if (event.button !== 0 || !event.isPrimary) return;
+      expandedByHold = false;
+      if (isOpen()) return;
+      origin = { x: event.clientX, y: event.clientY };
+      surface.classList.add('is-pressing');
+      hold = setTimeout(() => {
+        expandedByHold = true;
+        cancelHold();
+        setExpanded(true);
+      }, 360);
+    });
+    control.addEventListener('pointermove', event => {
+      if (origin && Math.hypot(event.clientX - origin.x, event.clientY - origin.y) > 10) cancelHold();
+    });
+    for (const event of ['pointerup', 'pointercancel', 'pointerleave', 'lostpointercapture']) {
+      control.addEventListener(event, cancelHold);
+    }
+    control.addEventListener('contextmenu', event => event.preventDefault());
+    control.addEventListener('click', event => {
+      if (expandedByHold && event.detail > 0) {
+        expandedByHold = false;
+        return;
+      }
+      setExpanded(!isOpen());
+    });
+    return cancelHold;
   }
 
-  button.addEventListener('pointerdown', event => {
-    if (event.button !== 0 || !event.isPrimary) return;
-    expandedByHold = false;
-    if (widget.classList.contains('is-open')) return;
-    origin = { x: event.clientX, y: event.clientY };
-    widget.classList.add('is-pressing');
-    hold = setTimeout(() => {
-      expandedByHold = true;
-      cancelHold();
-      setOpen(true);
-    }, 360);
-  });
-  button.addEventListener('pointermove', event => {
-    if (origin && Math.hypot(event.clientX - origin.x, event.clientY - origin.y) > 10) cancelHold();
-  });
-  for (const event of ['pointerup', 'pointercancel', 'pointerleave', 'lostpointercapture']) {
-    button.addEventListener(event, cancelHold);
+  const cancelClockHold = bindIslandPress(button, widget, () => widget.classList.contains('is-open'), setOpen);
+  const cancelSpotifyHold = bindIslandPress(spotifyToggle, spotify, () => spotify.classList.contains('is-expanded'), toggleSpotify);
+
+  function cancelHold() {
+    cancelClockHold();
+    cancelSpotifyHold();
   }
-  button.addEventListener('contextmenu', event => event.preventDefault());
-  button.addEventListener('click', event => {
-    if (expandedByHold && event.detail > 0) {
-      expandedByHold = false;
-      return;
-    }
-    setOpen(!widget.classList.contains('is-open'));
-  });
+
   document.addEventListener('pointerdown', event => {
+    if (!spotify.contains(event.target)) setSpotifyOpen(false);
     if (!widget.contains(event.target)) {
       cancelHold();
       setOpen(false);
@@ -215,6 +260,8 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       cancelHold();
+      if (spotifyLink.contains(document.activeElement)) spotifyToggle.focus();
+      setSpotifyOpen(false);
       if (dropdown.contains(document.activeElement)) button.focus();
       setOpen(false);
     }
@@ -227,6 +274,7 @@
   function syncViewport() {
     clearTimeout(timer);
     if (phone.matches) {
+      setSpotifyOpen(false);
       cancelHold();
       setOpen(false);
     } else {

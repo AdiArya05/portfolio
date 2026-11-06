@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).end();
   }
   const { SPOTIFY_CLIENT_ID: id, SPOTIFY_CLIENT_SECRET: secret, SPOTIFY_REFRESH_TOKEN: refreshToken } = process.env;
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=15');
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=4');
   if (!id || !secret || !refreshToken) {
     console.warn('Spotify production credentials are incomplete');
     return res.status(200).json({ track: null });
@@ -54,6 +54,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ track: { name: item.name, artist, url } });
   } catch (error) {
     console.warn('Now Playing request failed', error.message);
-    return res.status(200).json({ track: null });
+    res.setHeader('Cache-Control', 'no-store');
+    return res.status(503).json({ track: null });
   }
 };

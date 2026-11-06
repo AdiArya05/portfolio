@@ -680,37 +680,88 @@ a[data-liquid-glass]:focus-visible {
   }
 }
 
-/* Spotify is a satellite pill and uses no additional toolbar space. */
-.clock-island .island-spotify-pill {
+/* The clock stays anchored while the Spotify pill opens toward the left. */
+.clock-island .island-spotify {
   position: absolute;
   inset-block-start: 0;
   inset-inline-end: calc(100% + 6px);
   z-index: 2;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: max-content;
-  max-width: clamp(136px, 23vw, 220px);
+  width: var(--island-compact-height);
   height: var(--island-compact-height);
-  padding-inline: 11px;
-  border-radius: 999px;
+  overflow: hidden;
+  border-radius: calc(var(--island-compact-height) / 2);
   background: #111;
   color: #75e89b;
   box-shadow: 0 2px 5px #0002;
-  font: 600 12px/1.15 var(--font-sans);
-  text-decoration: none;
+  opacity: 0;
+  transform: scale(.78);
+  transform-origin: right center;
+  pointer-events: none;
+  transition: width 440ms var(--island-ease), height 440ms var(--island-ease),
+    border-radius 440ms var(--island-ease), box-shadow 440ms var(--island-ease),
+    opacity 180ms ease, transform 380ms var(--island-ease);
 }
-.clock-island .island-spotify-pill[hidden] { display: none; }
-.clock-island .island-spotify-pill:is(:hover, :focus-visible) { background: #202923; }
-.clock-island .island-spotify-pill:focus-visible { outline: 2px solid #388653; outline-offset: 2px; }
-.clock-island .island-track { min-width: 0; }
+.clock-island .island-spotify.has-track {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.clock-island .island-spotify.has-track.is-pressing { transform: scale(.92); }
+.clock-island .island-spotify.is-expanded {
+  width: min(250px, calc(100vw - var(--island-compact-width) - 2 * var(--island-gutter) - 6px));
+  height: 93px;
+  border-radius: 24px;
+  box-shadow: 0 12px 32px #0003;
+}
+.clock-island .island-spotify-toggle {
+  position: absolute;
+  inset: 0 0 auto auto;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--island-compact-height);
+  height: var(--island-compact-height);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms var(--island-ease);
+}
+.clock-island .island-spotify-toggle svg { width: 18px; height: 18px; }
+.clock-island .island-spotify-toggle:hover { background: #ffffff16; }
+.clock-island .island-spotify-toggle:active { transform: scale(.88); }
+.clock-island .island-spotify :focus-visible { outline: 2px solid currentColor; outline-offset: -3px; }
+.clock-island .island-track {
+  position: absolute;
+  inset: 34px 12px auto;
+  display: grid;
+  gap: 4px;
+  padding: 5px 4px;
+  border-radius: 6px;
+  color: #f4f4f4;
+  font: 600 13px/1.2 var(--font-sans);
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 130ms ease, transform 240ms var(--island-ease);
+}
+.clock-island .is-expanded .island-track {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 100ms;
+}
+.clock-island .island-track:hover { background: #ffffff12; }
 .clock-island .island-track span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.clock-island .island-track span + span { color: #c6d4ca; font-size: 10px; }
+.clock-island .island-track span + span { color: #b8c3ba; font-size: 11px; }
+@media (prefers-reduced-motion: reduce) {
+  .clock-island :is(.island-spotify, .island-spotify-toggle, .island-track) { transition: none; }
+}
 
 body:has([data-portfolio-panel="stories"]:not([hidden])) .back-to-top { display: none; }
