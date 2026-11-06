@@ -91,6 +91,7 @@
   artwork.alt = '';
   artwork.className = 'island-artwork';
   artwork.hidden = true;
+  artwork.addEventListener('error', () => { artwork.hidden = true; });
   const spotifyLink = document.createElement('a');
   spotifyLink.className = 'island-track';
   spotifyLink.target = '_blank';
@@ -169,8 +170,13 @@
     }
     playingTrack = track;
     spotify.classList.toggle('is-playing', Boolean(track));
-    artwork.hidden = !track?.artwork;
-    if (track?.artwork && artwork.getAttribute('src') !== track.artwork) artwork.src = track.artwork;
+    if (!track?.artwork) {
+      artwork.hidden = true;
+      artwork.removeAttribute('src');
+    } else if (artwork.getAttribute('src') !== track.artwork) {
+      artwork.hidden = false;
+      artwork.src = track.artwork;
+    }
     if (widget.classList.contains('is-spotify-open')) updateTimeline(Date.now());
     if (track) {
       if (trackName.textContent !== track.name || trackArtist.textContent !== track.artist) {
