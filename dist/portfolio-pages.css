@@ -494,3 +494,104 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 .back-to-top .down-arrow { transform: rotate(180deg); }
 @media (max-width: 700px) { .footer-discover { display: none; } }
 @media (prefers-reduced-motion: reduce) { .page-scroll-button { transition: none; } }
+
+
+/* One surface grows around the time-zone details without shifting the header. */
+:is(.index-toolbar, .reading-toolbar) .clock-island {
+  --island-width: 292px;
+  --island-row-height: 34px;
+  --island-details: min(calc(var(--island-rows) * var(--island-row-height) + 12px), 38svh);
+  --island-ease: cubic-bezier(.22, 1, .36, 1);
+  isolation: isolate;
+}
+.clock-island::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 26px;
+  background: #080808;
+  box-shadow: 0 2px 5px #0002;
+  transition: width 440ms var(--island-ease), height 440ms var(--island-ease), border-radius 440ms var(--island-ease), transform 160ms ease-out;
+}
+.clock-island.is-open::before {
+  width: var(--island-width);
+  height: calc(100% + var(--island-details));
+  border-radius: 32px;
+  box-shadow: 0 8px 26px #0003;
+}
+.clock-island.is-pressing::before { transform: scale(.95); }
+:is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-toggle {
+  width: 176px;
+  height: 46px;
+  padding: 0 14px;
+  border: 0;
+  color: #ff9f0a;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+:is(.index-toolbar, .reading-toolbar) .clock-island #local-matrix {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+.clock-island #local-matrix svg { width: 19px; height: 19px; flex: none; }
+.island-local-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #e5e5e7; font-size: 12px; }
+.clock-island #local-matrix time { margin-left: auto; font-size: 20px; font-weight: 500; line-height: 1; }
+.clock-island .zone-chevron { display: none; }
+:is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-dropdown {
+  width: var(--island-width);
+  max-height: var(--island-details);
+  padding: 0;
+  border-radius: 0 0 32px 32px;
+  transform: translateY(-5px);
+}
+:is(.index-toolbar, .reading-toolbar) .clock-island.is-open .time-zone-dropdown {
+  transition-delay: 80ms;
+  transform: none;
+}
+:is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-panel {
+  margin: 0;
+  padding: 0 18px 12px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.island-zone {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--island-row-height);
+  box-sizing: border-box;
+  border-top: 1px solid #ffffff23;
+  color: #e5e5e7;
+  font-size: 14px;
+}
+.island-zone time { color: #ff9f0a; font-size: 17px; }
+
+.back-to-top {
+  color: #242424;
+  border-color: #ffffffa0;
+  background: linear-gradient(160deg, #ffffff90, #dedede50);
+  box-shadow: inset 0 1px 1px #fff, inset 0 0 0 1px #77777740, 0 5px 16px #0002;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+.back-to-top:hover { background: linear-gradient(160deg, #ffffffb8, #e7e7e76b); }
+
+@media (prefers-reduced-motion: reduce) {
+  .clock-island::before,
+  :is(.index-toolbar, .reading-toolbar) .clock-island.is-open .time-zone-dropdown { transition: none; }
+}

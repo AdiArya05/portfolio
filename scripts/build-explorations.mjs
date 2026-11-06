@@ -80,13 +80,13 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
-  <script src="/world-times.js?v=20261104-local-unique" defer></script>
+  <script src="/world-times.js?v=20261106-island" defer></script>
   <script src="/explorations/explorations.js?v=20261105-phone" defer></script>
   <script src="/motion-gallery.js?v=20261105-frame" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=27" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=28" />
   <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
 </head>
