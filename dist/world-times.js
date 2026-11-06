@@ -11,17 +11,17 @@
     ['Vancouver', 'America/Vancouver'],
     ['India', 'Asia/Kolkata']
   ];
-  const timeFormat = zone => new Intl.DateTimeFormat('en-GB', {timeZone: zone, hour: '2-digit', minute: '2-digit', hourCycle: 'h23'});
+  const timeFormat = zone => new Intl.DateTimeFormat('en-GB', {timeZone: zone, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23'});
   const offsetFormat = zone => new Intl.DateTimeFormat('en', {timeZone: zone, timeZoneName: 'shortOffset'});
   const getOffset = (format, now) => format.formatToParts(now).find(part => part.type === 'timeZoneName').value.replace('GMT', 'UTC');
   const face = document.querySelector('#local-matrix');
   const visited = document.querySelector('#visited-time-zones');
   widget.classList.add('clock-island');
   face.classList.remove('matrix-row');
-  face.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="island-local-name"></span><time></time>';
-  const localLabel = face.querySelector('.island-local-name');
+  face.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg><time><span></span><span class="island-seconds"></span></time>';
   const localTime = face.querySelector('time');
-  localLabel.textContent = 'Local';
+  const [localMinutes, localSeconds] = localTime.children;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const matchingZones = {
     'Asia/Calcutta': 'Asia/Kolkata',
     'US/Eastern': 'America/New_York',
@@ -47,9 +47,21 @@
   function update() {
     const now = new Date();
     const value = localFormatter.format(now);
-    if (localTime.textContent !== value) {
-      localTime.textContent = value;
-      button.setAttribute('aria-label', `${localName}, ${value}, ${getOffset(localOffset, now)}. World times`);
+    const minutes = value.slice(0, -3);
+    if (localMinutes.textContent !== minutes) {
+      localMinutes.textContent = minutes;
+      button.setAttribute('aria-label', `${localName}, ${minutes}, ${getOffset(localOffset, now)}. World times`);
+    }
+    const seconds = value.slice(-3);
+    if (localSeconds.textContent !== seconds) {
+      const shouldAnimate = localSeconds.textContent && !reduceMotion.matches;
+      localSeconds.textContent = seconds;
+      if (shouldAnimate) {
+        localSeconds.animate(
+          [{ opacity: .35, transform: 'translateY(3px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 240, easing: 'cubic-bezier(.22, 1, .36, 1)' }
+        );
+      }
     }
     for (const { time, formatter } of rows) {
       const value = formatter.format(now);
@@ -107,6 +119,9 @@
       setOpen(false);
     }
   });
-  update();
-  setInterval(update, 1000);
+  function tick() {
+    update();
+    setTimeout(tick, 1000 - Date.now() % 1000);
+  }
+  tick();
 })();
