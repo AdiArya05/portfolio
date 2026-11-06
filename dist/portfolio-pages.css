@@ -450,17 +450,15 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 /* One surface grows around the time-zone details without shifting the header. */
 :is(.index-toolbar, .reading-toolbar) .clock-island {
   --island-gutter: max(22px, env(safe-area-inset-left), env(safe-area-inset-right));
-  --island-width: min(460px, calc(100vw - 2 * var(--island-gutter)));
+  --island-width: min(320px, calc(100vw - 2 * var(--island-gutter)));
   --island-compact-width: 125px;
   --island-compact-height: 37px;
-  --island-details: max(180px, calc(var(--island-rows) * 34px + 14px));
+  --island-row-height: 18px;
+  --island-details: max(92px, calc(var(--island-rows) * var(--island-row-height) + 8px));
   --island-ease: cubic-bezier(.22, 1, .36, 1);
   isolation: isolate;
-  padding-block-end: 0;
-  transition: transform 160ms ease-out, padding-block-end 440ms var(--island-ease);
-}
-:is(.index-toolbar, .reading-toolbar) .clock-island.is-open {
-  padding-block-end: calc(var(--island-details) + 12px);
+  padding-block-end: var(--island-details);
+  transition: transform 160ms ease-out;
 }
 .clock-island.is-pressing { transform: scale(.95); }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-toggle {
@@ -529,14 +527,14 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   position: absolute;
   inset: var(--island-compact-height) 0 auto auto;
   display: grid;
-  grid-template-columns: min(166px, 38%) minmax(0, 1fr);
+  grid-template-columns: 84px minmax(0, 1fr);
   align-items: center;
   gap: 12px;
   box-sizing: border-box;
   width: var(--island-width);
   min-height: var(--island-details);
   margin: 0;
-  padding: 0 16px 14px 10px;
+  padding: 0 13px 8px 10px;
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -569,21 +567,21 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   justify-content: space-between;
   gap: 12px;
   width: 100%;
-  min-height: 34px;
+  min-height: var(--island-row-height);
   box-sizing: border-box;
-  padding: 4px 8px;
+  padding: 1px 6px;
   border: 0;
   border-radius: 9px;
   background: transparent;
   color: #e5e5e7;
-  font: 500 13px/1.25 var(--font-sans);
+  font: 500 12px/1.25 var(--font-sans);
   text-align: start;
 }
 .island-zone + .island-zone { border-top: 1px solid #ffffff1c; }
 .island-zone span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 button.island-zone { cursor: pointer; }
 button.island-zone:is(:hover, [aria-pressed="true"]) { background: #ffffff15; }
-.island-zone time { color: #ff9f0a; font-size: 14px; font-variant-numeric: tabular-nums; }
+.island-zone time { color: #ff9f0a; font-size: 12px; font-variant-numeric: tabular-nums; }
 
 .page-scroll-button {
   color: #242424;
@@ -620,7 +618,7 @@ button.island-zone:is(:hover, [aria-pressed="true"]) { background: #ffffff15; }
 
 @media (min-width: 701px) and (max-width: 900px) {
   :is(.index-toolbar, .reading-toolbar) .clock-island {
-    --island-width: min(460px, calc(100vw - 385px));
+    --island-width: min(320px, calc(100vw - 385px));
   }
 }
 
