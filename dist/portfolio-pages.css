@@ -457,11 +457,12 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 /* One surface grows around the time-zone details without shifting the header. */
 :is(.index-toolbar, .reading-toolbar) .clock-island {
   --island-gutter: max(22px, env(safe-area-inset-left), env(safe-area-inset-right));
-  --island-width: min(500px, calc(100vw - 2 * var(--island-gutter)));
+  --island-width: min(466px, calc(100vw - 2 * var(--island-gutter)));
   --island-compact-width: 125px;
   --island-compact-height: 37px;
-  --island-row-height: 29px;
-  --island-details: max(180px, calc(var(--island-rows) * var(--island-row-height) + 8px));
+  --island-row-height: 26px;
+  --island-globe: 132px;
+  --island-details: max(140px, calc(var(--island-rows) * var(--island-row-height) + 8px));
   --island-ease: cubic-bezier(.22, 1, .36, 1);
   isolation: isolate;
   padding-block-end: var(--island-details);
@@ -534,7 +535,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   position: absolute;
   inset: var(--island-compact-height) 0 auto auto;
   display: grid;
-  grid-template-columns: min(172px, 43%) minmax(0, 1fr);
+  grid-template-columns: min(var(--island-globe), 43%) minmax(0, 1fr);
   align-items: center;
   gap: 12px;
   box-sizing: border-box;
@@ -629,7 +630,10 @@ button:is(.page-scroll-button, .motion-toggle, .lightbox-close, .project-modal .
 
 @media (min-width: 701px) and (max-width: 1000px) {
   :is(.index-toolbar, .reading-toolbar) .clock-island {
-    --island-width: min(500px, calc(100vw - 385px));
+    --island-width: min(466px, calc(100vw - 385px));
+    --island-globe: 100px;
+    --island-row-height: 20px;
+    --island-details: max(108px, calc(var(--island-rows) * var(--island-row-height) + 8px));
   }
 }
 
