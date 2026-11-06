@@ -237,10 +237,7 @@ button.catalog-title { display: block; padding: 0; border: 0; background: none; 
 .portfolio-index .intro { font: inherit; line-height: 1.58; letter-spacing: -.015em; color: var(--muted); }
 .portfolio-index .intro :is(.name, .emphasis, .outfield-trigger) { font-weight: 500; }
 .portfolio-index .intro :is(.sentence:first-of-type, .tools-sentence, .social-sentence) { white-space: normal; }
-.portfolio-index .intro .sentence:nth-child(3),
-.portfolio-index .intro .tools-sentence,
-.portfolio-index .intro .social-sentence { display: block; margin: .85em 0 0; }
-.portfolio-index .intro .achievement-sentence { display: block; margin-top: .45em; }
+.portfolio-index .intro .sentence + .sentence { display: block; margin: .85em 0 0; }
 .portfolio-index .intro :is(.tool-stack, .social-icons) { display: inline; margin: 0; vertical-align: baseline; }
 .portfolio-index .intro :is(.tool, .project-icon, .inline-link) {
   display: inline;

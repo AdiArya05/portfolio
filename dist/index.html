@@ -551,6 +551,7 @@
         top: 0;
         left: 0;
         margin: 0;
+        padding: 0;
         display: grid;
         width: min(340px, calc(100vw - 28px));
         overflow: hidden;
@@ -660,11 +661,11 @@
 
       .linkedin-profile-card {
         width: min(340px, calc(100vw - 28px));
-        border-color: rgba(255, 255, 255, 0.08);
+        border-color: rgba(17, 24, 39, 0.1);
         border-radius: 20px;
-        background: #1d2226;
-        color: #f7f7f7;
-        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+        background: #ffffff;
+        color: #1d2226;
+        box-shadow: 0 18px 44px rgba(17, 24, 39, 0.16);
       }
 
       .linkedin-cover {
@@ -675,11 +676,11 @@
       }
 
       .linkedin-cover img {
+        display: block;
         width: 100%;
         height: 100%;
         object-fit: cover;
         object-position: 50% 50%;
-        filter: saturate(0.94) brightness(0.88) contrast(1.04);
       }
 
       .linkedin-body {
@@ -687,7 +688,7 @@
         display: grid;
         padding: 42px 16px 16px;
         gap: 8px;
-        background: #1d2226;
+        background: #ffffff;
       }
 
       .linkedin-avatar {
@@ -697,7 +698,7 @@
         width: 78px;
         height: 78px;
         overflow: hidden;
-        border: 3px solid #1d2226;
+        border: 3px solid #ffffff;
         border-radius: 50%;
         background: #e7e7e7;
       }
@@ -726,27 +727,8 @@
       }
 
       .linkedin-profile-card .profile-location {
-        color: #c5c9cc;
-        font-size: 0.8rem;
-      }
-
-      html[data-theme="light"] .linkedin-profile-card {
-        border-color: rgba(17, 24, 39, 0.1);
-        background: #ffffff;
-        color: #1d2226;
-        box-shadow: 0 18px 44px rgba(17, 24, 39, 0.16);
-      }
-
-      html[data-theme="light"] .linkedin-body {
-        background: #ffffff;
-      }
-
-      html[data-theme="light"] .linkedin-avatar {
-        border-color: #ffffff;
-      }
-
-      html[data-theme="light"] .linkedin-profile-card .profile-location {
         color: #697078;
+        font-size: 0.8rem;
       }
 
       .social-icon > img {
@@ -1777,7 +1759,7 @@
 
     <link rel="stylesheet" href="/design-selection.css?v=20261104-timed" />
     <script src="/design-selection.js?v=20261105-designing" defer></script>
-  <link rel="stylesheet" href="/portfolio-pages.css?v=23" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=25" />
   <script src="/portfolio-nav.js?v=4" defer></script>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
@@ -1824,7 +1806,7 @@
         <div class="story-inner">
           <div class="intro" id="intro-heading">
             <span class="design-selection-frame" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><span class="design-selection-size"></span></span>
-            <span class="sentence"><span class="soft">I’m currently serving <strong class="emphasis">national service</strong> in Singapore
+            <span class="sentence"><span class="soft">I’m currently serving <span class="intro-craft">national service</span> in Singapore
             while</span> <strong class="intro-craft"><span class="design-selection-word" data-design-target="designing"><span class="design-selection-text">designing</span></span></strong> and <strong class="intro-craft">building</strong> projects of my own.</span>
             <span class="sentence"><span class="soft">I’m building</span>
             <a class="project-icon" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" aria-label="Catch SG Buses on the App Store"><img src="/media/catch-icon.webp" alt="" width="48" height="48" /></a>,
