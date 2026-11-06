@@ -38,9 +38,9 @@ export function createGlobe(canvas, pins, reducedMotion) {
   }
 
   const ocean = context.createRadialGradient(64, 49, 6, center, center, radius);
-  ocean.addColorStop(0, '#fbfbfc');
-  ocean.addColorStop(.65, '#eeeef1');
-  ocean.addColorStop(1, '#dcdde2');
+  ocean.addColorStop(0, '#282828');
+  ocean.addColorStop(.65, '#1b1b1b');
+  ocean.addColorStop(1, '#121212');
 
   function draw() {
     context.clearRect(0, 0, size, size);
@@ -48,10 +48,10 @@ export function createGlobe(canvas, pins, reducedMotion) {
     context.arc(center, center, radius, 0, Math.PI * 2);
     context.fillStyle = ocean;
     context.fill();
-    context.strokeStyle = '#00000018';
+    context.strokeStyle = '#ffffff20';
     context.stroke();
 
-    context.fillStyle = '#42464d';
+    context.fillStyle = '#f5f5f5';
     for (const dot of land) {
       const { x, y, front } = project(dot);
       if (front <= 0) continue;
@@ -77,7 +77,7 @@ export function createGlobe(canvas, pins, reducedMotion) {
       context.bezierCurveTo(5.5, -6, 2, -3, 0, 0);
       context.closePath();
       context.fillStyle = '#ff9f0a';
-      context.shadowColor = '#0003';
+      context.shadowColor = '#000b';
       context.shadowBlur = 4;
       context.fill();
       context.shadowBlur = 0;

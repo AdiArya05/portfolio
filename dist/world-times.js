@@ -243,7 +243,7 @@
     dropdown.inert = !open;
     globe?.setActive(open);
     if (open && !globeLoading) {
-      globeLoading = import('/world-globe.mjs?v=4').then(({ createGlobe }) => {
+      globeLoading = import('/world-globe.mjs?v=5').then(({ createGlobe }) => {
         globe = createGlobe(canvas, pins, reduceMotion);
         globe.setActive(!dropdown.inert);
         return globe;
