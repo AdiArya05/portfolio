@@ -59,32 +59,12 @@
 }
 
 @media (max-width: 700px) {
-  .rainbow-footer {
-    display: grid;
-    grid-template-rows: auto minmax(200px, 1fr);
-    min-height: clamp(310px, 44svh, 420px);
+  .rainbow-footer { min-height: 0; }
+  .rainbow-bands { display: none; }
+  .rainbow-footer-copy {
+    margin-inline: var(--portfolio-gutter, 26px);
+    padding-block: 28px max(76px, calc(52px + env(safe-area-inset-bottom)));
+    font-size: 18px;
   }
-  .rainbow-bands {
-    position: relative;
-    grid-row: 2;
-    inset: auto;
-    margin: 0;
-    display: block;
-    filter: none;
-    background: url('/media/footer-rainbow-phone.webp') center bottom / 100% 100% no-repeat;
-    transform-origin: bottom;
-  }
-  .rainbow-bands span { display: none; }
-  .rainbow-footer-copy { margin-inline: var(--portfolio-gutter, 26px); grid-row: 1; padding-block: 28px 18px; font-size: 18px; }
-}
-
-@supports (animation-timeline: view()) {
-  @media (max-width: 700px) and (prefers-reduced-motion: no-preference) {
-    .rainbow-bands {
-      --peak: 1;
-      animation: rainbow-stretch linear both;
-      animation-timeline: --footer-entry;
-      animation-range: entry 0% entry 100%;
-    }
-  }
+  .rainbow-footer-copy :is(.name-strike, .name-short) { display: none; }
 }

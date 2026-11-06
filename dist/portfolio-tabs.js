@@ -12,6 +12,10 @@
 
   function reveal(panel) {
     if (reduced.matches) return;
+    if (phone.matches) {
+      entrance = panel.animate([{opacity: .65}, {opacity: 1}], {duration: 200, easing: 'ease-out'});
+      return;
+    }
     entrance = panel.animate([
       {opacity: 0, filter: 'blur(3px)', transform: 'translateY(4px)'},
       {opacity: 1, filter: 'blur(0px)', transform: 'translateY(0px)'}
@@ -62,7 +66,7 @@
 
     const previous = panels.get(current);
     if (name === 'work') warmWork();
-    if (animate && !reduced.matches) {
+    if (animate && !phone.matches && !reduced.matches) {
       const leaving = previous.animate([
         {opacity: 1, filter: 'blur(0px)'},
         {opacity: 0, filter: 'blur(3px)'}
