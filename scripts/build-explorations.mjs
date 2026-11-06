@@ -47,24 +47,22 @@ const catalogFeed = phoneCards.map((card, index) => {
 });
 
 const extraMedia = [
-  ['Scroll controls', '/media/scroll-controls.webp', '', 'Glass Back to top and Scroll down buttons'],
-  ['Catch in the dock', '/media/catch-glass-dock.webp', '/work/catch/', 'Blue Catch bus app icon in an iOS glass dock'],
   ['Soja onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/'],
   ['Soja recovery overview', '/work/soja/media/final-overview.webp', '/work/soja/'],
   ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/']
 ];
-const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, alt = title]) => {
+const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
   return `<article class="exploration" data-title="${title}"${route ? ` data-case-study="${route}"` : ''}>
-    <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview"><img class="card-media" src="${src}" width="${width}" height="${height}" alt="${alt}" loading="lazy" decoding="async"></button>
+    <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview"><img class="card-media" src="${src}" width="${width}" height="${height}" alt="${title}" loading="lazy" decoding="async"></button>
     ${caption(title, route)}
   </article>`;
 }));
 
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
-const [scrollControls, catchDock, onboarding, overview, welcome] = extraFeed;
-const workFeed = catalogFeed.with(recoveryIndex, scrollControls);
-workFeed.push(catchDock, onboarding, catalogFeed[recoveryIndex], overview, welcome);
+const [onboarding, overview, welcome] = extraFeed;
+const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
+workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>
 <html lang="en">
@@ -88,12 +86,12 @@ const html = `<!doctype html>
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261106-globe-charcoal" defer></script>
-  <script src="/explorations/explorations.js?v=20261105-phone" defer></script>
+  <script src="/explorations/explorations.js?v=20261106-intrinsic" defer></script>
   <script src="/motion-gallery.js?v=20261105-frame" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=38" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=39" />
   <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
 </head>

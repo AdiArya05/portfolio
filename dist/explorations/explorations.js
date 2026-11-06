@@ -27,14 +27,16 @@
       const media = piece.querySelector('.card-media');
       const motion = media.tagName === 'VIDEO';
       opener = button;
-      viewer.querySelector('.viewer-stage').style.setProperty('--viewer-ratio', `${media.width / media.height}`);
+      const width = (motion ? media.videoWidth : media.naturalWidth) || Number(media.getAttribute('width'));
+      const height = (motion ? media.videoHeight : media.naturalHeight) || Number(media.getAttribute('height'));
+      viewer.querySelector('.viewer-stage').style.setProperty('--viewer-ratio', width && height ? String(width / height) : '4/3');
       image.hidden = motion;
       video.hidden = !motion;
       if (motion) {
         window.PortfolioMotionVideo.prepare(video, media);
       } else {
-        image.width = Number(media.getAttribute('width')) || media.naturalWidth;
-        image.height = Number(media.getAttribute('height')) || media.naturalHeight;
+        image.width = width;
+        image.height = height;
         image.src = media.currentSrc || media.src;
         image.alt = media.alt;
       }

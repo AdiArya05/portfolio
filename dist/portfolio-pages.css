@@ -617,6 +617,9 @@ button:is(.page-scroll-button, .motion-toggle, .lightbox-close, .project-modal .
 }
 
 .portfolio-index .index-toolbar .clock-island {
+  align-self: center;
+  margin-block-start: 0;
+  padding-block-end: 0;
   --island-gutter: max(var(--portfolio-gutter), env(safe-area-inset-left), env(safe-area-inset-right));
 }
 
