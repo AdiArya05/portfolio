@@ -44,14 +44,21 @@ module.exports = async function handler(req, res) {
     if (response.status === 204) return res.status(200).json({ track: null });
     if (response.status === 401) expiresAt = 0;
     if (!response.ok) throw new Error('Spotify playback unavailable (' + response.status + ')');
-    const { is_playing, item, device } = await response.json();
+    const { is_playing, item, device, progress_ms, timestamp } = await response.json();
     const url = item?.external_urls?.spotify;
     if (!is_playing || device?.is_private_session || item?.type !== 'track' ||
         !item.name || !/^https:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9]+$/.test(url)) {
       return res.status(200).json({ track: null });
     }
     const artist = (item.artists || []).map(entry => entry.name).filter(Boolean).join(', ');
-    return res.status(200).json({ track: { name: item.name, artist, url } });
+    const artwork = item.album?.images?.find(image => image.width >= 120)?.url;
+    return res.status(200).json({ track: {
+      name: item.name, artist, url,
+      artwork: /^https:\/\/i\.scdn\.co\/image\/[a-zA-Z0-9]+$/.test(artwork) ? artwork : null,
+      progressMs: progress_ms,
+      durationMs: item.duration_ms,
+      observedAt: timestamp || Date.now()
+    } });
   } catch (error) {
     console.warn('Now Playing request failed', error.message);
     res.setHeader('Cache-Control', 'no-store');

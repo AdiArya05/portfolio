@@ -78,23 +78,42 @@
   spotifyToggle.setAttribute('aria-controls', 'island-spotify-details');
   spotifyToggle.setAttribute('aria-expanded', 'false');
   spotifyToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.3-2.1-10.45-1.16a.75.75 0 0 1-.33-1.46c4.53-1.04 8.4-.6 11.53 1.34.35.2.46.67.25 1.03Zm1.47-3.26a.94.94 0 0 1-1.29.31c-3.2-1.97-8.1-2.54-11.9-1.38a.94.94 0 0 1-.55-1.8c4.33-1.31 9.72-.68 13.43 1.59.44.27.58.85.31 1.28Zm.13-3.4C15.26 8.36 8.94 8.16 5.29 9.27a1.13 1.13 0 0 1-.66-2.16C8.83 5.84 15.79 6.08 20.25 8.73a1.12 1.12 0 1 1-1.15 1.92Z"/></svg>';
+  const spotifyDetails = document.createElement('div');
+  spotifyDetails.id = 'island-spotify-details';
+  spotifyDetails.className = 'island-spotify-details';
+  spotifyDetails.inert = true;
+  const wave = document.createElement('span');
+  wave.className = 'island-wave';
+  wave.setAttribute('aria-hidden', 'true');
+  wave.innerHTML = '<i></i><i></i><i></i><i></i><i></i>';
+  spotifyToggle.append(wave);
+  const artwork = document.createElement('img');
+  artwork.alt = '';
+  artwork.className = 'island-artwork';
+  artwork.hidden = true;
   const spotifyLink = document.createElement('a');
-  spotifyLink.id = 'island-spotify-details';
   spotifyLink.className = 'island-track';
   spotifyLink.target = '_blank';
   spotifyLink.rel = 'noopener noreferrer';
-  spotifyLink.inert = true;
   const trackName = document.createElement('span');
   const trackArtist = document.createElement('span');
   trackName.textContent = 'Checking Spotify…';
   spotifyLink.append(trackName, trackArtist);
-  spotify.append(spotifyToggle, spotifyLink);
+  const timeline = document.createElement('div');
+  timeline.className = 'island-timeline';
+  timeline.hidden = true;
+  timeline.innerHTML = '<span></span><progress max="1" value="0" aria-label="Track progress"></progress><span></span>';
+  const [elapsed, progress, remaining] = timeline.children;
+  spotifyDetails.append(artwork, spotifyLink, timeline);
+  spotify.append(spotifyToggle, spotifyDetails);
   widget.insertBefore(spotify, button);
 
   function setSpotifyOpen(open) {
-    spotify.classList.toggle('is-expanded', open);
+    widget.classList.toggle('is-spotify-open', open);
+    button.inert = open;
     spotifyToggle.setAttribute('aria-expanded', String(open));
-    spotifyLink.inert = !open;
+    spotifyDetails.inert = !open;
+    if (open) updateTimeline(Date.now());
   }
 
   function toggleSpotify(open) {
@@ -107,6 +126,25 @@
 
   let checkingPlayback = false;
   let lastPlaybackCheck = 0;
+  let playingTrack;
+
+  function formatTrackTime(ms) {
+    const seconds = Math.floor(ms / 1000);
+    return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+  }
+
+  function updateTimeline(now) {
+    const track = playingTrack;
+    if (!track?.durationMs || !Number.isFinite(track.progressMs)) {
+      timeline.hidden = true;
+      return;
+    }
+    const position = Math.min(track.durationMs, Math.max(0, track.progressMs + now - track.observedAt));
+    progress.value = position / track.durationMs;
+    elapsed.textContent = formatTrackTime(position);
+    remaining.textContent = '−' + formatTrackTime(track.durationMs - position);
+    timeline.hidden = false;
+  }
 
   function updateClockLabel(now) {
     const clockLabel = `${localName}, ${localMinutes.textContent.slice(0, -1)}, ${getOffset(localOffset, now)}. World times`;
@@ -129,11 +167,16 @@
     } finally {
       checkingPlayback = false;
     }
+    playingTrack = track;
+    spotify.classList.toggle('is-playing', Boolean(track));
+    artwork.hidden = !track?.artwork;
+    if (track?.artwork && artwork.getAttribute('src') !== track.artwork) artwork.src = track.artwork;
+    if (widget.classList.contains('is-spotify-open')) updateTimeline(Date.now());
     if (track) {
       if (trackName.textContent !== track.name || trackArtist.textContent !== track.artist) {
         trackName.textContent = track.name;
         trackArtist.textContent = track.artist;
-        if (spotify.classList.contains('is-expanded') && !reduceMotion.matches) {
+        if (widget.classList.contains('is-spotify-open') && !reduceMotion.matches) {
           spotifyLink.animate([{ opacity: .45, transform: 'translateY(4px)' }, { opacity: 1, transform: 'translateY(0)' }],
             { duration: 240, easing: 'cubic-bezier(.22, 1, .36, 1)' });
         }
@@ -156,6 +199,7 @@
 
   function update() {
     const now = new Date();
+    if (widget.classList.contains('is-spotify-open')) updateTimeline(now.getTime());
     const value = localFormatter.format(now);
     const minutes = value.slice(0, -3);
     if (localMinutes.textContent !== minutes + ':') {
@@ -192,6 +236,7 @@
     open = open && !phone.matches;
     if (open) setSpotifyOpen(false);
     widget.classList.toggle('is-open', open);
+    spotify.inert = open;
     button.setAttribute('aria-expanded', String(open));
     dropdown.inert = !open;
     globe?.setActive(open);
@@ -245,7 +290,7 @@
   }
 
   const cancelClockHold = bindIslandPress(button, widget, () => widget.classList.contains('is-open'), setOpen);
-  const cancelSpotifyHold = bindIslandPress(spotifyToggle, spotify, () => spotify.classList.contains('is-expanded'), toggleSpotify);
+  const cancelSpotifyHold = bindIslandPress(spotifyToggle, spotify, () => widget.classList.contains('is-spotify-open'), toggleSpotify);
 
   function cancelHold() {
     cancelClockHold();
