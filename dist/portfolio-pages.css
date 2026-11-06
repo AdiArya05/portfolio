@@ -505,7 +505,15 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 }
 .clock-island #local-matrix svg { width: 15px; height: 15px; flex: none; }
 .clock-island #local-matrix time { font-size: 16px; font-weight: 500; line-height: 1; white-space: nowrap; }
-.island-seconds { display: inline-block; }
+.island-seconds { white-space: nowrap; }
+.island-digit {
+  display: inline-grid;
+  overflow: clip;
+  line-height: 1.25;
+  vertical-align: baseline;
+}
+.island-digit > span { grid-area: 1 / 1; }
+.island-digit > span + span { opacity: 0; }
 .clock-island .zone-chevron { display: none; }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-dropdown {
   left: 50%;
@@ -542,7 +550,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 }
 .island-zone time { color: #ff9f0a; font-size: 14px; font-variant-numeric: tabular-nums; }
 
-.back-to-top {
+.page-scroll-button {
   color: #242424;
   border-color: #ffffffa0;
   background: linear-gradient(160deg, #ffffff90, #dedede50);
@@ -550,7 +558,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
-.back-to-top:hover { background: linear-gradient(160deg, #ffffffb8, #e7e7e76b); }
+.page-scroll-button:hover { background: linear-gradient(160deg, #ffffffb8, #e7e7e76b); }
 
 @media (prefers-reduced-motion: reduce) {
   .clock-island::before,

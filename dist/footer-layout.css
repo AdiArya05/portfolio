@@ -16,14 +16,12 @@
   letter-spacing: -.01em;
 }
 
-.rainbow-footer-copy p { margin: 0 0 20px; }
-.rainbow-footer-copy nav { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: .8em; }
-.rainbow-footer-copy a { color: inherit; text-underline-offset: 4px; }
+.rainbow-footer-copy p { margin: 0; }
 
 .rainbow-bands {
   position: absolute;
   z-index: -1;
-  inset: 0 -40px -44px;
+  inset: clamp(140px, 14vw, 210px) -40px -44px;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   align-items: end;
@@ -61,5 +59,6 @@
 
 @media (max-width: 700px) {
   .rainbow-footer { min-height: clamp(300px, 54svh, 480px); }
+  .rainbow-bands { inset-block-start: 92px; }
   .rainbow-footer-copy { margin-inline: var(--portfolio-gutter, 26px); padding-top: 28px; font-size: 18px; }
 }

@@ -18,9 +18,10 @@
   const visited = document.querySelector('#visited-time-zones');
   widget.classList.add('clock-island');
   face.classList.remove('matrix-row');
-  face.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg><time><span></span><span class="island-seconds"></span></time>';
+  face.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg><time><span></span><span class="island-seconds"><span class="island-digit"><span></span><span></span></span><span class="island-digit"><span></span><span></span></span></span></time>';
   const localTime = face.querySelector('time');
   const [localMinutes, localSeconds] = localTime.children;
+  const digits = Array.from(localSeconds.children, digit => Array.from(digit.children));
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const matchingZones = {
     'Asia/Calcutta': 'Asia/Kolkata',
@@ -48,21 +49,30 @@
     const now = new Date();
     const value = localFormatter.format(now);
     const minutes = value.slice(0, -3);
-    if (localMinutes.textContent !== minutes) {
-      localMinutes.textContent = minutes;
+    if (localMinutes.textContent !== minutes + ':') {
+      localMinutes.textContent = minutes + ':';
       button.setAttribute('aria-label', `${localName}, ${minutes}, ${getOffset(localOffset, now)}. World times`);
     }
-    const seconds = value.slice(-3);
-    if (localSeconds.textContent !== seconds) {
-      const shouldAnimate = localSeconds.textContent && !reduceMotion.matches;
-      localSeconds.textContent = seconds;
-      if (shouldAnimate) {
-        localSeconds.animate(
-          [{ opacity: .35, transform: 'translateY(3px)' }, { opacity: 1, transform: 'none' }],
-          { duration: 240, easing: 'cubic-bezier(.22, 1, .36, 1)' }
-        );
-      }
-    }
+    const seconds = value.slice(-2);
+    digits.forEach(([current, previous], index) => {
+      const next = seconds[index];
+      if (current.textContent === next) return;
+
+      const outgoing = current.textContent;
+      current.textContent = next;
+      if (!outgoing || reduceMotion.matches || document.hidden) return;
+
+      previous.textContent = outgoing;
+      const timing = { duration: 330, easing: 'cubic-bezier(.22, .75, .24, 1)' };
+      previous.animate([
+        { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
+        { opacity: 0, transform: 'translateY(-.7em)', filter: 'blur(2px)' }
+      ], timing);
+      current.animate([
+        { opacity: 0, transform: 'translateY(.7em)', filter: 'blur(2px)' },
+        { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' }
+      ], timing);
+    });
     for (const { time, formatter } of rows) {
       const value = formatter.format(now);
       if (time.textContent !== value) time.textContent = value;
