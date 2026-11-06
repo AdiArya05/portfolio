@@ -489,7 +489,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   -webkit-backdrop-filter: none;
   user-select: none;
   -webkit-touch-callout: none;
-  touch-action: manipulation;
+  touch-action: pan-y;
 }
 :is(.index-toolbar, .reading-toolbar) .clock-island #local-matrix {
   display: flex;
@@ -500,13 +500,14 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   min-width: 0;
 }
 .clock-island #local-matrix time { font-size: 16px; font-weight: 500; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.island-seconds { white-space: nowrap; }
+.island-seconds { display: inline-flex; vertical-align: bottom; }
 .island-digit {
-  display: inline-grid;
-  width: 1ch;
-  overflow: clip;
+  display: grid;
+  place-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  width: .7em;
+  overflow: hidden;
   line-height: 1.25;
-  vertical-align: baseline;
 }
 .island-digit > span { grid-area: 1 / 1; }
 .island-digit > span + span { opacity: 0; }
@@ -694,9 +695,11 @@ a[data-liquid-glass]:focus-visible {
   color: #75e89b;
   box-shadow: 0 2px 5px #0002;
   transform-origin: right center;
+  touch-action: pan-y;
+  user-select: none;
   transition: width 440ms var(--island-ease), height 440ms var(--island-ease),
     border-radius 440ms var(--island-ease), box-shadow 440ms var(--island-ease),
-    inset-inline-end 440ms var(--island-ease), opacity 150ms ease,
+    inset-inline-end 440ms var(--island-ease), opacity 150ms ease, visibility 150ms,
     transform 380ms var(--island-ease);
 }
 .clock-island .island-spotify.is-pressing { transform: scale(.92); }
@@ -786,7 +789,6 @@ a[data-liquid-glass]:focus-visible {
   font: 600 16px/1.2 var(--font-sans);
   text-decoration: none;
 }
-.island-track[href]:hover { text-decoration: underline; }
 .island-track span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .island-track span + span { color: #99999f; font-size: 14px; font-weight: 400; }
 .island-timeline {

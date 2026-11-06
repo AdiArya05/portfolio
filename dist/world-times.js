@@ -92,20 +92,18 @@
   artwork.className = 'island-artwork';
   artwork.hidden = true;
   artwork.addEventListener('error', () => { artwork.hidden = true; });
-  const spotifyLink = document.createElement('a');
-  spotifyLink.className = 'island-track';
-  spotifyLink.target = '_blank';
-  spotifyLink.rel = 'noopener noreferrer';
+  const trackInfo = document.createElement('div');
+  trackInfo.className = 'island-track';
   const trackName = document.createElement('span');
   const trackArtist = document.createElement('span');
   trackName.textContent = 'Checking Spotify…';
-  spotifyLink.append(trackName, trackArtist);
+  trackInfo.append(trackName, trackArtist);
   const timeline = document.createElement('div');
   timeline.className = 'island-timeline';
   timeline.hidden = true;
   timeline.innerHTML = '<span></span><progress max="1" value="0" aria-label="Track progress"></progress><span></span>';
   const [elapsed, progress, remaining] = timeline.children;
-  spotifyDetails.append(artwork, spotifyLink, timeline);
+  spotifyDetails.append(artwork, trackInfo, timeline);
   spotify.append(spotifyToggle, spotifyDetails);
   widget.insertBefore(spotify, button);
 
@@ -183,15 +181,11 @@
         trackName.textContent = track.name;
         trackArtist.textContent = track.artist;
         if (widget.classList.contains('is-spotify-open') && !reduceMotion.matches) {
-          spotifyLink.animate([{ opacity: .45, transform: 'translateY(4px)' }, { opacity: 1, transform: 'translateY(0)' }],
+          trackInfo.animate([{ opacity: .45, transform: 'translateY(4px)' }, { opacity: 1, transform: 'translateY(0)' }],
             { duration: 240, easing: 'cubic-bezier(.22, 1, .36, 1)' });
         }
-        spotifyLink.setAttribute('aria-label', `Open ${track.name} by ${track.artist} on Spotify`);
       }
-      spotifyLink.href = track.url;
     } else {
-      spotifyLink.removeAttribute('href');
-      spotifyLink.removeAttribute('aria-label');
       trackName.textContent = unavailable ? 'Spotify is temporarily unavailable' : 'Nothing playing on Spotify';
       trackArtist.textContent = '';
     }
@@ -225,10 +219,10 @@
       const timing = { duration: 330, easing: 'cubic-bezier(.22, .75, .24, 1)' };
       previous.animate([
         { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
-        { opacity: 0, transform: 'translateY(-.7em)', filter: 'blur(2px)' }
+        { opacity: 0, transform: 'translateY(-.35em)' }
       ], timing);
       current.animate([
-        { opacity: 0, transform: 'translateY(.7em)', filter: 'blur(2px)' },
+        { opacity: .35, transform: 'translateY(.35em)' },
         { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' }
       ], timing);
     });
@@ -303,9 +297,69 @@
     cancelSpotifyHold();
   }
 
+  function swipeIsland(direction) {
+    cancelHold();
+    if (widget.classList.contains('is-open') || widget.classList.contains('is-spotify-open')) {
+      setOpen(false);
+      setSpotifyOpen(false);
+    } else if (direction < 0) {
+      setOpen(true);
+    } else {
+      toggleSpotify(true);
+    }
+  }
+
+  function isIslandGestureTarget(target) {
+    return !target.closest('.island-globe, .island-zone');
+  }
+
+  let swipeStart;
+  let suppressClick = false;
+  widget.addEventListener('pointerdown', event => {
+    suppressClick = false;
+    if (!event.isPrimary || event.button !== 0 || !isIslandGestureTarget(event.target)) return;
+    swipeStart = { id: event.pointerId, x: event.clientX, y: event.clientY };
+  });
+  window.addEventListener('pointerup', event => {
+    if (swipeStart?.id !== event.pointerId) return;
+    const dx = event.clientX - swipeStart.x;
+    const dy = event.clientY - swipeStart.y;
+    swipeStart = undefined;
+    if (Math.abs(dx) < 42 || Math.abs(dx) < 1.5 * Math.abs(dy)) return;
+    suppressClick = true;
+    swipeIsland(dx);
+  });
+  window.addEventListener('pointercancel', event => {
+    if (swipeStart?.id === event.pointerId) swipeStart = undefined;
+  });
+  widget.addEventListener('click', event => {
+    if (!suppressClick || event.detail === 0) return;
+    suppressClick = false;
+    event.stopPropagation();
+  }, true);
+
+  let wheelDistance = 0;
+  let lastWheel = 0;
+  let wheelHandled = false;
+  widget.addEventListener('wheel', event => {
+    if (!isIslandGestureTarget(event.target) || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+    if (event.cancelable) event.preventDefault();
+    const now = performance.now();
+    if (now - lastWheel > 180) {
+      wheelDistance = 0;
+      wheelHandled = false;
+    }
+    lastWheel = now;
+    if (wheelHandled) return;
+    wheelDistance += event.deltaX * (event.deltaMode === 1 ? 16 : 1);
+    if (Math.abs(wheelDistance) < 42) return;
+    wheelHandled = true;
+    swipeIsland(-wheelDistance);
+  }, { passive: false });
+
   document.addEventListener('pointerdown', event => {
-    if (!spotify.contains(event.target)) setSpotifyOpen(false);
     if (!widget.contains(event.target)) {
+      setSpotifyOpen(false);
       cancelHold();
       setOpen(false);
     }
@@ -313,7 +367,6 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       cancelHold();
-      if (spotifyLink.contains(document.activeElement)) spotifyToggle.focus();
       setSpotifyOpen(false);
       if (dropdown.contains(document.activeElement)) button.focus();
       setOpen(false);
