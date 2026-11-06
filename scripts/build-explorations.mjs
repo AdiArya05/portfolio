@@ -88,13 +88,13 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
-  <script src="/world-times.js?v=20261106-globe-charcoal" defer></script>
+  <script src="/world-times.js?v=20261106-text-face" defer></script>
   <script src="/explorations/explorations.js?v=20261106-intrinsic" defer></script>
   <script src="/motion-gallery.js?v=20261105-frame" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=42" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=43" />
   <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
 </head>
@@ -134,7 +134,7 @@ const panels = await Promise.all([
   ['icons', await fs.readFile(path.join(dist, 'icons/index.html'), 'utf8')],
 ].map(async ([name, page]) => {
   const main = page.match(/<main\b[\s\S]*?<\/main>/)[0]
-    .replace('<main ', `<main data-portfolio-panel="${name}" aria-label="${name === 'stories' ? 'Case studies' : name[0].toUpperCase() + name.slice(1)}" hidden `)
+    .replace('<main ', `<main data-portfolio-panel="${name}" aria-label="${name === 'stories' ? 'Case Studies' : name[0].toUpperCase() + name.slice(1)}" hidden `)
     .replace(/<header class="explorations-header">[\s\S]*?<\/header>\s*/, '')
     .replace(/<h1>[^<]+<\/h1>\s*/, '')
     .replace('href="/">← Back to home','href="#index">← Back to home')
