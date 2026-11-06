@@ -121,7 +121,10 @@
     setOpen(!widget.classList.contains('is-open'));
   });
   document.addEventListener('pointerdown', event => {
-    if (!widget.contains(event.target)) setOpen(false);
+    if (!widget.contains(event.target)) {
+      cancelHold();
+      setOpen(false);
+    }
   });
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {

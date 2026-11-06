@@ -58,7 +58,16 @@
 }
 
 @media (max-width: 700px) {
-  .rainbow-footer { min-height: clamp(300px, 54svh, 480px); }
-  .rainbow-bands { inset-block-start: 92px; }
-  .rainbow-footer-copy { margin-inline: var(--portfolio-gutter, 26px); padding-top: 28px; font-size: 18px; }
+  .rainbow-footer {
+    display: grid;
+    grid-template-rows: auto minmax(200px, 1fr);
+    min-height: clamp(310px, 44svh, 420px);
+  }
+  .rainbow-bands {
+    position: relative;
+    grid-row: 2;
+    inset: auto;
+    margin: 0 -40px -44px;
+  }
+  .rainbow-footer-copy { margin-inline: var(--portfolio-gutter, 26px); grid-row: 1; padding-block: 28px 18px; font-size: 18px; }
 }
