@@ -358,7 +358,7 @@ body.portfolio-index :is(main.explorations-page, .stories-index) {
   to { opacity: 1; transform: none; }
 }
 
-/* Keep the clock dropdown outside document flow so the header never grows. */
+/* Keep opening and closing the clock independent of document flow. */
 html:has(body.reading-page) { scroll-padding-top: 20px; }
 body.reading-page { padding-top: 0; }
 body.reading-page .reading-toolbar { position: relative; height: auto; }
@@ -626,6 +626,13 @@ button:is(.page-scroll-button, .motion-toggle, .lightbox-close, .project-modal .
 
 .portfolio-index .index-toolbar:has(.clock-island) {
   width: min(calc(100% - 2 * max(var(--portfolio-gutter), env(safe-area-inset-left), env(safe-area-inset-right))), 1200px);
+}
+
+/* Reserve the full clock height on galleries and articles in both states. */
+body.reading-page .reading-toolbar .clock-island,
+.portfolio-index:not(:has([data-portfolio-panel="index"]:not([hidden]))) .index-toolbar .clock-island,
+html[data-initial-panel]:not([data-initial-panel="index"]) .portfolio-index .index-toolbar .clock-island {
+  padding-block-end: var(--island-details);
 }
 
 @media (min-width: 701px) and (max-width: 1000px) {
