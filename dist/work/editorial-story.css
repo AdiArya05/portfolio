@@ -7,8 +7,15 @@ body.editorial-story {
   font: 400 15px/1.5 var(--font-sans);
 }
 
-body.editorial-story main#story {
+body.editorial-story .reading-toolbar { box-shadow: none; }
+
+body.editorial-story :is(main#story, .site-nav) {
   width: min(608px, calc(100% - 64px));
+}
+
+body.editorial-story .site-nav { margin-top: 12px; }
+
+body.editorial-story main#story {
   margin: 32px auto 0;
 }
 
