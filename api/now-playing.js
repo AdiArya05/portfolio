@@ -14,7 +14,7 @@ function getAccessToken(id, secret, refreshToken) {
       body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }),
       signal: AbortSignal.timeout(5000)
     });
-    if (!response.ok) throw new Error('Spotify authorization failed');
+    if (!response.ok) throw new Error('Spotify authorization failed (' + response.status + ')');
     const token = await response.json();
     accessToken = token.access_token;
     expiresAt = Date.now() + (token.expires_in - 60) * 1000;
@@ -30,7 +30,10 @@ module.exports = async function handler(req, res) {
   }
   const { SPOTIFY_CLIENT_ID: id, SPOTIFY_CLIENT_SECRET: secret, SPOTIFY_REFRESH_TOKEN: refreshToken } = process.env;
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=15');
-  if (!id || !secret || !refreshToken) return res.status(200).json({ track: null });
+  if (!id || !secret || !refreshToken) {
+    console.warn('Spotify production credentials are incomplete');
+    return res.status(200).json({ track: null });
+  }
 
   try {
     const token = await getAccessToken(id, secret, refreshToken);
@@ -40,7 +43,7 @@ module.exports = async function handler(req, res) {
     });
     if (response.status === 204) return res.status(200).json({ track: null });
     if (response.status === 401) expiresAt = 0;
-    if (!response.ok) throw new Error('Spotify playback unavailable');
+    if (!response.ok) throw new Error('Spotify playback unavailable (' + response.status + ')');
     const { is_playing, item, device } = await response.json();
     const url = item?.external_urls?.spotify;
     if (!is_playing || device?.is_private_session || item?.type !== 'track' ||
@@ -49,7 +52,8 @@ module.exports = async function handler(req, res) {
     }
     const artist = (item.artists || []).map(entry => entry.name).filter(Boolean).join(', ');
     return res.status(200).json({ track: { name: item.name, artist, url } });
-  } catch {
+  } catch (error) {
+    console.warn('Now Playing request failed', error.message);
     return res.status(200).json({ track: null });
   }
 };
