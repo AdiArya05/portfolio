@@ -69,35 +69,33 @@
   const localFormatter = timeFormat(localZone);
   const localOffset = offsetFormat(localZone);
 
-  const trackLabel = document.createElement('span');
-  trackLabel.className = 'island-track';
-  trackLabel.hidden = true;
-  const trackName = document.createElement('span');
-  const trackArtist = document.createElement('span');
-  trackLabel.append(trackName, trackArtist);
-  face.append(trackLabel);
-
   const spotifyLink = document.createElement('a');
-  spotifyLink.className = 'island-spotify-link';
+  spotifyLink.className = 'island-spotify-pill';
   spotifyLink.target = '_blank';
   spotifyLink.rel = 'noopener noreferrer';
   spotifyLink.hidden = true;
-  dropdown.prepend(spotifyLink);
-  let track;
+  const musicIcon = document.createElement('span');
+  musicIcon.textContent = '♫';
+  musicIcon.setAttribute('aria-hidden', 'true');
+  const trackLabel = document.createElement('span');
+  trackLabel.className = 'island-track';
+  const trackName = document.createElement('span');
+  const trackArtist = document.createElement('span');
+  trackLabel.append(trackName, trackArtist);
+  spotifyLink.append(musicIcon, trackLabel);
+  widget.insertBefore(spotifyLink, button);
+
   let checkingPlayback = false;
 
-  function renderFace() {
-    const showTrack = Boolean(track) && !widget.classList.contains('is-open');
-    trackLabel.hidden = !showTrack;
-    localTime.hidden = showTrack;
-    const clockLabel = `${localName}, ${localMinutes.textContent.slice(0, -1)}, ${getOffset(localOffset, new Date())}. World times`;
-    button.setAttribute('aria-label', showTrack ? `Now playing on Spotify: ${track.name} by ${track.artist}. Open world times` : clockLabel);
-    button.title = showTrack ? `${track.name} · ${track.artist}` : '';
+  function updateClockLabel(now) {
+    const clockLabel = `${localName}, ${localMinutes.textContent.slice(0, -1)}, ${getOffset(localOffset, now)}. World times`;
+    button.setAttribute('aria-label', clockLabel);
   }
 
   async function checkPlayback() {
     if (phone.matches || document.hidden || checkingPlayback) return;
     checkingPlayback = true;
+    let track;
     try {
       const response = await fetch('/api/now-playing', { signal: AbortSignal.timeout(7000) });
       track = response.ok ? (await response.json()).track : null;
@@ -107,15 +105,15 @@
       checkingPlayback = false;
     }
     if (track) {
-      trackName.textContent = `♫ ${track.name}`;
+      trackName.textContent = track.name;
       trackArtist.textContent = track.artist;
-      spotifyLink.textContent = `${track.name} · ${track.artist} · Spotify ↗`;
+      spotifyLink.title = `Now playing on Spotify: ${track.name} · ${track.artist}`;
+      spotifyLink.setAttribute('aria-label', spotifyLink.title);
       spotifyLink.href = track.url;
     } else {
       spotifyLink.removeAttribute('href');
     }
     spotifyLink.hidden = !track;
-    renderFace();
   }
 
   setInterval(checkPlayback, 30000);
@@ -130,7 +128,7 @@
     const minutes = value.slice(0, -3);
     if (localMinutes.textContent !== minutes + ':') {
       localMinutes.textContent = minutes + ':';
-      renderFace();
+      updateClockLabel(now);
     }
     const seconds = value.slice(-2);
     digits.forEach(([current, previous], index) => {
@@ -162,7 +160,6 @@
     open = open && !phone.matches;
     widget.classList.toggle('is-open', open);
     button.setAttribute('aria-expanded', String(open));
-    renderFace();
     dropdown.inert = !open;
     globe?.setActive(open);
     if (open && !globeLoading) {
