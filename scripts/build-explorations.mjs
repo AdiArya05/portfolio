@@ -20,7 +20,7 @@ const caption = (title, route) => {
     : `<button class="catalog-title preview-label" type="button" aria-haspopup="dialog">${title}</button>`;
   return `<div class="catalog-caption">${control}<time datetime="2026">2026</time></div>`;
 };
-const feed = phoneCards.map((card, index) => {
+const catalogFeed = phoneCards.map((card, index) => {
   const title = attribute(card, 'data-title');
   const description = attribute(card, 'data-description');
   const route = attribute(card, 'data-case-study');
@@ -44,20 +44,25 @@ const feed = phoneCards.map((card, index) => {
         <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${image}</button>
         ${caption(title, route)}
       </article>`;
-}).join('\n      ');
+});
 
 const extraMedia = [
+  ['Scroll controls', '/media/scroll-controls.webp', '', 'Glass Back to top and Scroll down buttons'],
   ['Soja onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/'],
-  ['Soja recovery overview', '/work/soja/media/final-overview.webp', '/work/soja/'],
   ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/']
 ];
-const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route]) => {
+const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, alt = title]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
-  return `<article class="exploration" data-title="${title}" data-case-study="${route}">
-    <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview"><img class="card-media" src="${src}" width="${width}" height="${height}" alt="${title}" loading="lazy" decoding="async"></button>
+  return `<article class="exploration" data-title="${title}"${route ? ` data-case-study="${route}"` : ''}>
+    <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview"><img class="card-media" src="${src}" width="${width}" height="${height}" alt="${alt}" loading="lazy" decoding="async"></button>
     ${caption(title, route)}
   </article>`;
 }));
+
+const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
+const [scrollControls, onboarding, welcome] = extraFeed;
+const workFeed = catalogFeed.with(recoveryIndex, scrollControls);
+workFeed.push(onboarding, catalogFeed[recoveryIndex], welcome);
 
 const html = `<!doctype html>
 <html lang="en">
@@ -97,8 +102,7 @@ const html = `<!doctype html>
       <h1>Work</h1>
     </header>
     <section class="explorations-feed" aria-label="Interfaces, websites and motion studies">
-      ${feed}
-      ${extraFeed.join('\n')}
+      ${workFeed.join('\n      ')}
     </section>
     <footer class="explorations-footer"><a class="back-link" href="/">← Back to home</a><a href="#explorations">Back to top ↑</a></footer>
   </main>
@@ -112,7 +116,7 @@ const html = `<!doctype html>
 
 await fs.mkdir(path.join(dist, 'explorations'), {recursive:true});
 await fs.writeFile(path.join(dist, 'work/index.html'), html);
-console.log(`Built Work gallery with ${cards.length + extraMedia.length} media tiles.`);
+console.log(`Built Work gallery with ${workFeed.length} media tiles.`);
 
 await fs.writeFile(path.join(dist, 'explorations/index.html'), `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=/work/"><title>Work — Aditya Arya</title></head>
