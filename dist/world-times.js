@@ -138,7 +138,8 @@
       timeline.hidden = true;
       return;
     }
-    const position = Math.min(track.durationMs, Math.max(0, track.progressMs + now - track.observedAt));
+    const timeSinceSample = track.isPlaying === false ? 0 : Math.max(0, now - track.observedAt);
+    const position = Math.min(track.durationMs, Math.max(0, track.progressMs + timeSinceSample));
     progress.value = position / track.durationMs;
     elapsed.textContent = formatTrackTime(position);
     remaining.textContent = '−' + formatTrackTime(track.durationMs - position);
@@ -167,7 +168,7 @@
       checkingPlayback = false;
     }
     playingTrack = track;
-    spotify.classList.toggle('is-playing', Boolean(track));
+    spotify.classList.toggle('is-playing', Boolean(track && track.isPlaying !== false));
     if (!track?.artwork) {
       artwork.hidden = true;
       artwork.removeAttribute('src');
@@ -177,9 +178,12 @@
     }
     if (widget.classList.contains('is-spotify-open')) updateTimeline(Date.now());
     if (track) {
-      if (trackName.textContent !== track.name || trackArtist.textContent !== track.artist) {
+      const artistLine = track.isPlaying === false
+        ? ['Paused', track.artist].filter(Boolean).join(' · ')
+        : track.artist;
+      if (trackArtist.textContent !== artistLine) trackArtist.textContent = artistLine;
+      if (trackName.textContent !== track.name) {
         trackName.textContent = track.name;
-        trackArtist.textContent = track.artist;
         if (widget.classList.contains('is-spotify-open') && !reduceMotion.matches) {
           trackInfo.animate([{ opacity: .45, transform: 'translateY(4px)' }, { opacity: 1, transform: 'translateY(0)' }],
             { duration: 240, easing: 'cubic-bezier(.22, 1, .36, 1)' });
@@ -191,7 +195,7 @@
     }
   }
 
-  setInterval(checkPlayback, 5000);
+  setInterval(checkPlayback, 2000);
   document.addEventListener('visibilitychange', checkPlayback);
   phone.addEventListener('change', checkPlayback);
   checkPlayback();

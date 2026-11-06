@@ -88,7 +88,7 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
-  <script src="/world-times.js?v=20261106-island-gesture" defer></script>
+  <script src="/world-times.js?v=20261106-playback-state" defer></script>
   <script src="/explorations/explorations.js?v=20261106-intrinsic" defer></script>
   <script src="/motion-gallery.js?v=20261105-frame" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>

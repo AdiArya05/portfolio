@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
     return res.status(405).end();
   }
   const { SPOTIFY_CLIENT_ID: id, SPOTIFY_CLIENT_SECRET: secret, SPOTIFY_REFRESH_TOKEN: refreshToken } = process.env;
-  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=4');
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=2');
   if (!id || !secret || !refreshToken) {
     console.warn('Spotify production credentials are incomplete');
     return res.status(200).json({ track: null });
@@ -46,7 +46,7 @@ module.exports = async function handler(req, res) {
     if (!response.ok) throw new Error('Spotify playback unavailable (' + response.status + ')');
     const { is_playing, item, device, progress_ms } = await response.json();
     const url = item?.external_urls?.spotify;
-    if (!is_playing || device?.is_private_session || item?.type !== 'track' ||
+    if (device?.is_private_session || item?.type !== 'track' ||
         !item.name || !/^https:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9]+$/.test(url)) {
       return res.status(200).json({ track: null });
     }
@@ -55,6 +55,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ track: {
       name: item.name, artist, url,
       artwork: /^https:\/\/i\.scdn\.co\/image\/[a-zA-Z0-9]+$/.test(artwork) ? artwork : null,
+      isPlaying: is_playing === true,
       progressMs: progress_ms,
       durationMs: item.duration_ms,
       observedAt: Date.now()
