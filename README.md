@@ -262,3 +262,9 @@ Validation includes the full build, playback-controller tests, seven gallery pro
 ## Homepage gallery removal — 21 October 2026
 
 Removed the Soja Overview calendar/timeline card from the homepage carousel and its progress marker. The eight remaining cards keep their order, original assets, previews and destinations. The Soja case study is unchanged; source image files are retained. Gallery and loop-tracking checks now cover eight cards.
+
+### Spotify Now Playing
+
+The Dynamic Island shows the portfolio owner's active Spotify track when configured. Set `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN` in the Vercel production environment and redeploy. Obtain the refresh token by authorizing the owner's Spotify account with the [Authorization Code flow](https://developer.spotify.com/documentation/web-api/tutorials/code-flow) and the `user-read-currently-playing` scope. Use the exact redirect URI registered in the Spotify app and keep the secret and refresh token server-side.
+
+The public endpoint returns only the active track name, artists, and Spotify track link. Without a connected account or active track, the island shows the clock.

@@ -14,11 +14,6 @@ body.editorial-story main#story {
   margin: 16px auto 0;
 }
 
-body.editorial-story .site-nav {
-  justify-content: center;
-  width: 100%;
-  margin: 0 0 24px;
-}
 
 .editorial-story article {
   display: flex;
