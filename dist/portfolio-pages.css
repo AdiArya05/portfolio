@@ -667,3 +667,27 @@ a[data-liquid-glass]:focus-visible {
 @media (max-width: 360px) {
   a[data-liquid-glass] { padding-inline: 10px; }
 }
+
+@media (min-width: 701px) and (pointer: fine) {
+  button:is(.lightbox-close, .project-modal .modal-close, #media-viewer .modal-close) .dismiss-key {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding-inline: 2px;
+    font: 600 15px/1.2 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: -.025em;
+    white-space: nowrap;
+  }
+  .dismiss-key::before {
+    content: "×";
+    display: grid;
+    place-items: center;
+    width: 21px;
+    height: 21px;
+    flex: none;
+    border-radius: 50%;
+    background: #242424;
+    color: #fff;
+    font-size: 18px;
+  }
+}

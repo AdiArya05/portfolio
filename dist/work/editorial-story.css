@@ -15,6 +15,7 @@ body.editorial-story main#story {
 }
 
 body.editorial-story .site-nav {
+  justify-content: center;
   width: 100%;
   margin: 0 0 24px;
 }
