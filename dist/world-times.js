@@ -71,7 +71,6 @@
 
   const spotify = document.createElement('div');
   spotify.className = 'island-spotify';
-  spotify.inert = true;
   const spotifyToggle = document.createElement('button');
   spotifyToggle.type = 'button';
   spotifyToggle.className = 'island-spotify-toggle';
@@ -87,6 +86,7 @@
   spotifyLink.inert = true;
   const trackName = document.createElement('span');
   const trackArtist = document.createElement('span');
+  trackName.textContent = 'Checking Spotify…';
   spotifyLink.append(trackName, trackArtist);
   spotify.append(spotifyToggle, spotifyLink);
   widget.insertBefore(spotify, button);
@@ -117,6 +117,7 @@
     if (phone.matches || document.hidden || checkingPlayback) return;
     checkingPlayback = true;
     let track;
+    let unavailable = false;
     try {
       const response = await fetch('/api/now-playing', { signal: AbortSignal.timeout(7000) });
       if (!response.ok) throw new Error('Playback unavailable');
@@ -124,6 +125,7 @@
       lastPlaybackCheck = Date.now();
     } catch {
       if (Date.now() - lastPlaybackCheck < 15000) return;
+      unavailable = true;
     } finally {
       checkingPlayback = false;
     }
@@ -139,11 +141,11 @@
       }
       spotifyLink.href = track.url;
     } else {
-      setSpotifyOpen(false);
       spotifyLink.removeAttribute('href');
+      spotifyLink.removeAttribute('aria-label');
+      trackName.textContent = unavailable ? 'Spotify is temporarily unavailable' : 'Nothing playing on Spotify';
+      trackArtist.textContent = '';
     }
-    spotify.inert = !track;
-    spotify.classList.toggle('has-track', Boolean(track));
   }
 
   setInterval(checkPlayback, 5000);

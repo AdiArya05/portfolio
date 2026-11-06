@@ -693,20 +693,12 @@ a[data-liquid-glass]:focus-visible {
   background: #111;
   color: #75e89b;
   box-shadow: 0 2px 5px #0002;
-  opacity: 0;
-  transform: scale(.78);
   transform-origin: right center;
-  pointer-events: none;
   transition: width 440ms var(--island-ease), height 440ms var(--island-ease),
     border-radius 440ms var(--island-ease), box-shadow 440ms var(--island-ease),
-    opacity 180ms ease, transform 380ms var(--island-ease);
+    transform 380ms var(--island-ease);
 }
-.clock-island .island-spotify.has-track {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
-}
-.clock-island .island-spotify.has-track.is-pressing { transform: scale(.92); }
+.clock-island .island-spotify.is-pressing { transform: scale(.92); }
 .clock-island .island-spotify.is-expanded {
   width: min(250px, calc(100vw - var(--island-compact-width) - 2 * var(--island-gutter) - 6px));
   height: 93px;
@@ -752,7 +744,7 @@ a[data-liquid-glass]:focus-visible {
   transform: translateY(0);
   transition-delay: 100ms;
 }
-.clock-island .island-track:hover { background: #ffffff12; }
+.clock-island .island-track[href]:hover { background: #ffffff12; }
 .clock-island .island-track span {
   display: block;
   overflow: hidden;
