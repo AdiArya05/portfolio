@@ -440,7 +440,14 @@ html[data-theme="dark"] .page-scroll-button:hover { background:#35352f; }
 .page-scroll-button .down-arrow { flex:none; width:23px; height:23px; }
 .page-scroll-button:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
 .page-scroll-button.is-hidden, body.modal-open .page-scroll-button { opacity:0; pointer-events:none; }
-.back-to-top.is-hidden { visibility: hidden; }
+.back-to-top {
+  transition: opacity 260ms ease, translate 260ms ease, scale 260ms ease, visibility 260ms;
+}
+.back-to-top.is-hidden {
+  visibility: hidden;
+  translate: 0 8px;
+  scale: .96;
+}
 body:has(dialog[open]) .back-to-top { visibility: hidden; }
 .back-to-top .down-arrow { transform: rotate(180deg); }
 @media (max-width: 700px) { .footer-discover { display: none; } }
@@ -450,11 +457,11 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 /* One surface grows around the time-zone details without shifting the header. */
 :is(.index-toolbar, .reading-toolbar) .clock-island {
   --island-gutter: max(22px, env(safe-area-inset-left), env(safe-area-inset-right));
-  --island-width: min(410px, calc(100vw - 2 * var(--island-gutter)));
+  --island-width: min(500px, calc(100vw - 2 * var(--island-gutter)));
   --island-compact-width: 125px;
   --island-compact-height: 37px;
-  --island-row-height: 23px;
-  --island-details: max(132px, calc(var(--island-rows) * var(--island-row-height) + 8px));
+  --island-row-height: 29px;
+  --island-details: max(180px, calc(var(--island-rows) * var(--island-row-height) + 8px));
   --island-ease: cubic-bezier(.22, 1, .36, 1);
   isolation: isolate;
   padding-block-end: var(--island-details);
@@ -527,7 +534,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   position: absolute;
   inset: var(--island-compact-height) 0 auto auto;
   display: grid;
-  grid-template-columns: min(124px, 34%) minmax(0, 1fr);
+  grid-template-columns: min(172px, 43%) minmax(0, 1fr);
   align-items: center;
   gap: 12px;
   box-sizing: border-box;
@@ -583,7 +590,7 @@ button.island-zone { cursor: pointer; }
 button.island-zone:is(:hover, [aria-pressed="true"]) { background: #ffffff15; }
 .island-zone time { color: #ff9f0a; font-size: 12px; font-variant-numeric: tabular-nums; }
 
-button:is(.page-scroll-button, .motion-toggle, .project-modal .modal-close, #media-viewer .modal-close) {
+button:is(.page-scroll-button, .motion-toggle, .lightbox-close, .project-modal .modal-close, #media-viewer .modal-close) {
   color: #242424;
   border-radius: 999px;
   border: 1px solid #ffffffa0;
@@ -592,7 +599,7 @@ button:is(.page-scroll-button, .motion-toggle, .project-modal .modal-close, #med
   backdrop-filter: blur(14px) saturate(140%);
   -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
-button:is(.page-scroll-button, .motion-toggle, .project-modal .modal-close, #media-viewer .modal-close):hover { background: linear-gradient(160deg, #ffffffb8, #e7e7e76b); }
+button:is(.page-scroll-button, .motion-toggle, .lightbox-close, .project-modal .modal-close, #media-viewer .modal-close):hover { background: linear-gradient(160deg, #ffffffb8, #e7e7e76b); }
 
 @media (prefers-reduced-motion: reduce) {
   .clock-island,
@@ -617,9 +624,9 @@ button:is(.page-scroll-button, .motion-toggle, .project-modal .modal-close, #med
   width: min(calc(100% - 2 * max(var(--portfolio-gutter), env(safe-area-inset-left), env(safe-area-inset-right))), 1200px);
 }
 
-@media (min-width: 701px) and (max-width: 900px) {
+@media (min-width: 701px) and (max-width: 1000px) {
   :is(.index-toolbar, .reading-toolbar) .clock-island {
-    --island-width: min(410px, calc(100vw - 385px));
+    --island-width: min(500px, calc(100vw - 385px));
   }
 }
 

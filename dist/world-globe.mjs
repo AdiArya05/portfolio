@@ -25,6 +25,7 @@ export function createGlobe(canvas, pins, reducedMotion) {
   let last = 0;
   let active = false;
   let drag;
+  let lastPulse = -Infinity;
 
   function project({ y, radius: parallel, lon }) {
     const relative = lon - angle;
@@ -37,9 +38,9 @@ export function createGlobe(canvas, pins, reducedMotion) {
   }
 
   const ocean = context.createRadialGradient(64, 49, 6, center, center, radius);
-  ocean.addColorStop(0, '#434b58');
-  ocean.addColorStop(.60, '#222831');
-  ocean.addColorStop(1, '#0b0d12');
+  ocean.addColorStop(0, '#282828');
+  ocean.addColorStop(.65, '#1b1b1b');
+  ocean.addColorStop(1, '#121212');
 
   function draw() {
     context.clearRect(0, 0, size, size);
@@ -47,15 +48,17 @@ export function createGlobe(canvas, pins, reducedMotion) {
     context.arc(center, center, radius, 0, Math.PI * 2);
     context.fillStyle = ocean;
     context.fill();
-    context.strokeStyle = '#ffffff36';
+    context.strokeStyle = '#ffffff20';
     context.stroke();
 
-    context.fillStyle = '#bcc8d7';
+    context.fillStyle = '#f5f5f5';
     for (const dot of land) {
       const { x, y, front } = project(dot);
       if (front <= 0) continue;
-      context.globalAlpha = .16 + .55 * front;
-      context.fillRect(x, y, 1.45, 1.45);
+      context.globalAlpha = .9 * Math.sqrt(front);
+      context.beginPath();
+      context.arc(x, y, .48 + .4 * front, 0, Math.PI * 2);
+      context.fill();
     }
     context.globalAlpha = 1;
 
@@ -131,7 +134,13 @@ export function createGlobe(canvas, pins, reducedMotion) {
   }
   canvas.addEventListener('wheel', event => {
     event.preventDefault();
-    rotate(Math.max(-60, Math.min(60, event.deltaX || event.deltaY)) * .009);
+    const delta = event.deltaX || event.deltaY;
+    rotate(Math.max(-60, Math.min(60, delta)) * .009);
+    const now = performance.now();
+    if (drag !== undefined && delta && now - lastPulse >= 90 && navigator.vibrate) {
+      navigator.vibrate(8);
+      lastPulse = now;
+    }
   }, { passive: false });
   canvas.addEventListener('keydown', event => {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
@@ -140,7 +149,7 @@ export function createGlobe(canvas, pins, reducedMotion) {
   });
 
   // The dots sample Natural Earth's 1:110m public-domain land polygons.
-  fetch('/media/world-land-dots.json').then(response => response.json()).then(data => {
+  fetch('/media/world-land-dots.json?v=2').then(response => response.json()).then(data => {
     for (let i = 0; i < data.length; i += 2) land.push(point(data[i], data[i + 1]));
     if (active) draw();
   }).catch(() => { /* The pins remain usable if the map asset fails to load. */ });

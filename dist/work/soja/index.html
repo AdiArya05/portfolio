@@ -23,15 +23,15 @@
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
-  <script src="/world-times.js?v=20261106-globe-pins" defer></script>
+  <script src="/world-times.js?v=20261106-globe-charcoal" defer></script>
   <script src="/story-glass.js?v=20261019-v17" defer></script>
   <script src="/work/case-study.js?v=20261105-phone" defer></script>
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=37" />
-  <link rel="stylesheet" href="/work/editorial-story.css?v=1" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=38" />
+  <link rel="stylesheet" href="/work/editorial-story.css?v=2" />
   <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=3" defer></script>
 </head>
@@ -75,10 +75,12 @@
         <h2 id="focus">Problem and scope</h2>
         <p>After staying up late to study, I’d sleep whenever I could and hope to get back to normal. The hard part was deciding what to do over the next few days: when to sleep, wake up, nap, have caffeine, or work out.</p>
         <p>I considered jet lag, all-nighters, and late nights out. I started with studying because I knew that situation firsthand and could work through one recovery plan in detail.</p>
+        <p>I wanted the plan to fit into an ordinary day. It needed to show when to do something and what was coming next, especially when I was already tired and had little patience for another schedule to manage.</p>
       </section>
       <section class="prose" aria-labelledby="explorations">
         <h2 id="explorations">Exploration</h2>
         <p>I designed Soja in Figma and looked at Supersleep as a reference. I tried a full daily schedule, a dashboard with smaller cards, and different questions for setting up the plan.</p>
+        <p>The schedule put the whole day in one place. The card layout gave individual actions more room, but it still left me deciding how much to show at once. In the setup prototype I worked through what the app needed to ask, including what disrupted my sleep and when I fell asleep and woke up.</p>
         <p>I expected the interface to be straightforward. It took several passes on type, spacing, and navigation to make checking the plan feel friendly and light enough to do when you’re tired.</p>
       </section>
       <figure class="wide-figure process-figure" aria-label="Three early Soja Figma explorations">
@@ -107,12 +109,13 @@
             </div>
           </div>
         </div>
-        <figcaption>Three early Figma explorations. The app screens follow below; tap any image for a closer look.</figcaption>
+        <figcaption>Three early Figma explorations. The early schedule, dashboard, and plan setup in Figma.</figcaption>
       </figure>
       <section class="prose" aria-labelledby="feedback">
         <h2 id="feedback">Solution</h2>
         <p>My brother found the early version hard to understand on first launch. Watching him use it showed how much of the interface I expected people to know already.</p>
-        <p>I moved today’s sleep and the next two actions to the home screen. The full schedule stayed available in the overview. I also softened the colours so the first screen felt more inviting.</p>
+        <p>I moved today’s sleep and the next two actions to the home screen. The full schedule stayed available in the overview. That split gave each screen a job: Home shows what to do next, and Overview shows how those actions fit into the day.</p>
+        <p>I softened the colours and used a sunrise on Home to make the check-in feel more inviting. The timeline could stay quieter, with colour reserved for cues like wake-up time and bright light.</p>
       </section>
       <section id="app-screens" class="wide-figure screen-showcase" aria-labelledby="screens-heading">
         <h2 id="screens-heading">Bringing the screens together</h2>
@@ -168,6 +171,6 @@
     </article>
     <footer class="site-footer"><a href="/">← Back to home</a><a href="#story">Back to top ↑</a></footer>
   </main>
-  <dialog class="lightbox" aria-label="Enlarged project image"><button class="lightbox-close" type="button" aria-label="Close enlarged image" autofocus>×</button><img alt="" /></dialog>
+  <dialog class="lightbox" aria-label="Enlarged project image"><button class="lightbox-close" type="button" aria-label="Close enlarged image" autofocus><span class="dismiss-key" aria-hidden="true">Esc to cancel</span><span class="dismiss-icon" aria-hidden="true">×</span></button><img alt="" /></dialog>
 </body>
 </html>
