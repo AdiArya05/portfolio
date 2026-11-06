@@ -1,13 +1,65 @@
-/* A continuous transition into the full-screen skyline ending. */
-@media(min-width:701px) {
-  .closing { height:max(100svh,48vw); background:var(--paper); }
-  .closing-copy { margin-block:clamp(112px,9vw,152px); }
-  .gallery-wrap::after {
-    content:""; position:absolute; z-index:2; inset:auto 0 0; height:80px;
-    pointer-events:none; opacity:0;
-    background:linear-gradient(transparent,var(--paper));
-    transition:opacity 240ms ease;
-  }
-  html.is-footer-visible .gallery-wrap::after { opacity:1; }
+.rainbow-footer {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: clamp(440px, 78svh, 740px);
+  background: var(--paper);
+  color: var(--ink);
+  text-align: center;
 }
-@media(prefers-reduced-motion:reduce) { .gallery-wrap::after { transition:none; } }
+
+.rainbow-footer-copy {
+  position: relative;
+  padding: 36px 24px max(24px, env(safe-area-inset-bottom));
+  font: 500 11px/1.7 ui-monospace, monospace;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.rainbow-footer-copy p { margin: 0 0 20px; }
+.rainbow-footer-copy nav { display: flex; justify-content: center; gap: 20px; }
+.rainbow-footer-copy a { color: inherit; text-underline-offset: 4px; }
+
+.rainbow-bands {
+  position: absolute;
+  z-index: -1;
+  inset: 0 -40px -44px;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: end;
+  filter: blur(clamp(14px, 2.1vw, 34px));
+  pointer-events: none;
+}
+
+.rainbow-bands span {
+  --peak: .69;
+  height: 100%;
+  background: linear-gradient(to bottom, #ed30dd00 6%, #ed30dd 26%, #e64432 39%, #ffe05d 54%, #dbe6ee 72%, #447cba 88%, #2654e3 95%);
+  transform-origin: bottom;
+  transform: scaleY(var(--peak));
+}
+
+.rainbow-bands span:is(:nth-child(2), :nth-child(6)) { --peak: .80; }
+.rainbow-bands span:is(:nth-child(3), :nth-child(5)) { --peak: .91; }
+.rainbow-bands span:nth-child(4) { --peak: 1; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rainbow-footer { view-timeline-name: --footer-entry; }
+    .rainbow-bands span {
+      animation: rainbow-stretch linear both;
+      animation-timeline: --footer-entry;
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+
+@keyframes rainbow-stretch {
+  from { transform: scaleY(calc(var(--peak) * .38)); }
+  to { transform: scaleY(var(--peak)); }
+}
+
+@media (max-width: 700px) {
+  .rainbow-footer { min-height: clamp(300px, 54svh, 480px); }
+  .rainbow-footer-copy { padding-top: 28px; }
+}

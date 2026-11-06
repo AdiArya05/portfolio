@@ -103,9 +103,6 @@ for (const card of cards) {
   assert(before.data.equals(after.data), `Pixel quality changed: ${file}`);
   assert(fs.statSync(path.join(dist, file)).size < fs.statSync(path.join(dist, original)).size);
 }
-const footerLoader = fs.readFileSync(path.join(dist, 'footer-loader.js'), 'utf8');
-assert(footerLoader.includes('!desktop.matches') && footerLoader.includes('requestIdleCallback'), 'Prepare footer effects in desktop idle time only');
-assert(footerLoader.includes("classList.contains('is-page-scrolling')"), 'Do not build footer effects during scrolling');
 const config = JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8'));
 assert(config.redirects.some(rule => rule.destination === `${origin}/:path*` && rule.permanent && rule.has.some(condition => condition.type === 'host' && condition.value === 'portfolio-template-ochre-rho.vercel.app')));
 const discovery = fs.readFileSync(path.join(dist, 'footer-discovery.js'), 'utf8');
@@ -115,7 +112,7 @@ assert(!html.includes('progress-ring') && !html.includes('--pull'), 'Do not rest
 assert(html.includes('Scroll down'));
 assert(!discovery.includes('portfolio-footer-reveal') && !html.includes('playFooterRevealSound'),
   'Footer scrolling must remain silent');
-assert(html.includes('html.is-page-scrolling .skyline-motion * { animation-play-state:paused; }'));
+assert(html.includes('class="rainbow-bands" aria-hidden="true"'));
 // Exercise the real discovery controller with deterministic scroll events.
 const handlers = new Map();
 const buttonHandlers = new Map();

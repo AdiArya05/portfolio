@@ -1255,60 +1255,6 @@
         opacity: 0 !important;
       }
 
-      .closing {
-        position: relative;
-        display: block;
-        height: max(100svh, 43vw);
-        overflow: hidden;
-        border-top: 1px solid var(--line);
-        color: #626268;
-        background: #f5f5f7;
-        font-size: 14px;
-        letter-spacing: -0.01em;
-        transition: background-color 320ms ease, color 320ms ease;
-      }
-
-      .singapore-skyline {
-        position: absolute;
-        inset: auto 0 0;
-        display: block;
-        width: 100%;
-        height: auto;
-        pointer-events: none;
-      }
-      .skyline-ripple { position:absolute; top:0; left:0; width:160px; height:160px; pointer-events:none; opacity:0; transition:opacity 180ms ease; mask-image:radial-gradient(circle,#000 25%,#0009 46%,transparent 70%); -webkit-mask-image:radial-gradient(circle,#000 25%,#0009 46%,transparent 70%); }
-      .has-engraved-motion .singapore-skyline { mask:url(#engraved-flyer-mask); }
-      .skyline-motion { position:absolute; inset:auto 0 0; width:100%; height:auto; pointer-events:none; }
-      .engraved-flyer-rotor { transform-origin:0 0; animation:engraved-flyer-turn 180s linear infinite; }
-      .engraved-cabin-upright { transform-origin:0 0; animation:engraved-flyer-turn 180s linear infinite reverse; }
-      .engraved-boat { animation:engraved-river-crossing 100s linear infinite; }
-      .engraved-boat-one { --boat-waterline:851px; animation-delay:-17s; }
-      .engraved-boat-two { --boat-waterline:815px; animation-delay:-70s; animation-duration:128s; animation-direction:reverse; }
-      .engraved-boat-bob { animation:engraved-boat-bob 6s ease-in-out infinite; }
-      .skyline-motion * { animation-play-state:paused; }
-      .skyline-motion-running .skyline-motion * { animation-play-state:running; }
-      html.is-page-scrolling .skyline-motion * { animation-play-state:paused; }
-      html.is-page-scrolling .skyline-ripple { opacity:0 !important; }
-      @keyframes engraved-flyer-turn { to { transform:rotate(360deg); } }
-      @keyframes engraved-river-crossing { from { transform:translate(490px,var(--boat-waterline)); opacity:0; } 5%,95% { opacity:.92; } to { transform:translate(1300px,var(--boat-waterline)); opacity:0; } }
-      @keyframes engraved-boat-bob { 0%,100% { transform:translateY(0) rotate(-.25deg); } 50% { transform:translateY(.7px) rotate(.25deg); } }
-      @media(prefers-reduced-motion:reduce) { .skyline-motion { display:none; } .has-engraved-motion .singapore-skyline { mask:none; } }
-      @media(prefers-reduced-motion:reduce) { .skyline-ripple { display:none; } }
-
-      .closing-copy {
-        position: relative;
-        z-index: 1;
-        display: inline-block;
-        margin: clamp(116px, 9vw, 152px) clamp(28px, 4.2vw, 76px);
-        max-width: 460px;
-        font-size: clamp(20px, 1.6vw, 28px);
-        line-height: 1.6;
-      }
-
-      html[data-theme="dark"] .closing { background:var(--paper); color:#a9a9b0; }
-      .closing { border-top:0; }
-      .closing::before { content:""; position:absolute; z-index:1; inset:0 0 auto; height:90px; pointer-events:none; background:linear-gradient(var(--paper),transparent); }
-
       .time-zones {
         position: fixed;
         top: 24px;
@@ -1623,9 +1569,6 @@
           min-width: 250px;
         }
 
-        .closing {
-          min-height: 170px;
-        }
       }
 
       @media (max-width: 700px) {
@@ -1747,11 +1690,11 @@
     <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
 
 
-    <link rel="stylesheet" href="/footer-layout.css?v=20261019-v24" />
+    <link rel="stylesheet" href="/footer-layout.css?v=rainbow" />
 
     <link rel="stylesheet" href="/design-selection.css?v=20261104-timed" />
     <script src="/design-selection.js?v=20261105-designing" defer></script>
-  <link rel="stylesheet" href="/portfolio-pages.css?v=28" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=29" />
   <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
@@ -1781,9 +1724,9 @@
       </div>
     </div>
     </header>
-    <script src="/world-times.js?v=20261106-island" defer></script>
+    <script src="/world-times.js?v=20261106-island-centered" defer></script>
 
-    <button class="page-scroll-button footer-discover" id="footer-discover" type="button" aria-label="Scroll down to the Singapore skyline" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll down</span></button>
+    <button class="page-scroll-button footer-discover" id="footer-discover" type="button" aria-label="Scroll down to the footer" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll down</span></button>
     <script src="/footer-discovery.js?v=20261019-v24" defer></script>
     <div class="motion-header-shield" aria-hidden="true"></div>
     <div class="portfolio-introduction">
@@ -1961,11 +1904,19 @@
   </main>
     <!-- portfolio-tabs:end -->
     </div>
-    <footer class="closing" id="singapore-footer" aria-label="Singapore skyline">
-      <picture><source media="(max-width:700px)" srcset="/media/singapore-mobile-v5.webp" width="1024" height="1536" /><img class="singapore-skyline" id="singapore-skyline" src="/media/singapore-engraving.svg" width="3840" height="2160" loading="lazy" decoding="async" alt="A detailed blue engraved Singapore skyline with Marina Bay Sands, the Singapore Flyer, ArtScience Museum and the downtown towers" /></picture>
-      <span class="closing-copy">Thanks for visiting.<br />Made by Aditya Arya.</span>
+    <footer class="rainbow-footer" id="singapore-footer" aria-label="Portfolio footer">
+      <div class="rainbow-bands" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="rainbow-footer-copy">
+        <p>Thanks for visiting.<br />Made by Aditya Arya.</p>
+        <nav aria-label="Social links">
+          <a href="https://x.com/adiarya05">X</a>
+          <a href="https://www.linkedin.com/in/aditya-arya1/">LinkedIn</a>
+          <a href="https://github.com/AdiArya05">GitHub</a>
+        </nav>
+      </div>
     </footer>
-    <script src="/footer-loader.js" defer></script>
 
     <div class="social-profile-card linkedin-profile-card" id="linkedin-profile-card" popover="manual" aria-hidden="true">
       <span class="linkedin-cover"><img loading="lazy" decoding="async" src="media/linkedin-cover.png" alt="" /></span>

@@ -21,7 +21,7 @@
   face.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="island-local-name"></span><time></time>';
   const localLabel = face.querySelector('.island-local-name');
   const localTime = face.querySelector('time');
-  localLabel.textContent = localName;
+  localLabel.textContent = 'Local';
   const matchingZones = {
     'Asia/Calcutta': 'Asia/Kolkata',
     'US/Eastern': 'America/New_York',
@@ -30,7 +30,7 @@
   };
   const visitorZone = matchingZones[localZone] || localZone;
   const otherPlaces = places.filter(([, zone]) => zone !== visitorZone);
-  const rows = otherPlaces.map(([name, zone]) => {
+  const rows = [[localName, localZone], ...otherPlaces].map(([name, zone]) => {
     const row = document.createElement('div');
     row.className = 'island-zone';
     const label = document.createElement('span');

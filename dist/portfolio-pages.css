@@ -291,11 +291,6 @@ body.portfolio-index .story {
   opacity: 1;
   transform: translate3d(-50%, 0, 0) scale(1);
 }
-@media (max-width: 700px) {
-  .portfolio-index .closing { height: auto; min-height: 180px; }
-  .portfolio-index .closing-copy { margin: 56px 26px; font-size: 16px; }
-}
-
 .portfolio-index .stories-index { padding-bottom: 48px; }
 .portfolio-index .intro .project-icon[data-label="Catch"] {
   display: inline-block;
@@ -412,7 +407,6 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
 @media (max-width: 700px) {
   html { overflow-x: clip; overflow-y: auto; }
   body.portfolio-index { height: auto; overflow: visible; }
-  .time-zones { display: none !important; }
   .portfolio-index .index-toolbar, .reading-toolbar { flex-direction: row; }
   .preview-open:disabled, .preview-label:disabled { opacity: 1; cursor: default; color: inherit; }
   .preview-label:disabled { text-decoration: none; }
@@ -431,10 +425,6 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
   .story-read { display: block; position: absolute; right: 0; top: 24px; color: var(--muted); font-size: 0; }
   .story-read > span { font-size: 20px; }
   .story-entry:active { opacity: .65; }
-  html.is-footer-visible:has(body.portfolio-index) {
-    background: var(--paper) url('/media/singapore-mobile-v5.webp') center bottom / 100% auto no-repeat;
-  }
-  html.is-footer-visible body.portfolio-index { background: transparent; }
   .portfolio-index .portfolio-content { background: var(--paper); }
 }
 
@@ -442,41 +432,6 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
   .portfolio-content:has([data-portfolio-panel="index"]:not([hidden])) {
     height: 100svh;
     min-height: 0;
-  }
-  .portfolio-index .closing {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    min-height: 0;
-    margin: 0;
-    padding: 0;
-    background: var(--paper);
-  }
-  .portfolio-index .closing-copy {
-    position: absolute;
-    top: 28px;
-    left: var(--portfolio-gutter, 26px);
-    margin: 0;
-    font-size: 18px;
-    line-height: 1.6;
-  }
-  .portfolio-index .closing picture {
-    display: block;
-    order: 1;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    background: url('/media/singapore-mobile-v5.webp') center bottom / 100% auto no-repeat;
-  }
-  .portfolio-index .closing .skyline-motion,
-  .portfolio-index .closing .skyline-ripple { display: none !important; }
-  .portfolio-index .closing::before { display: none; }
-  .portfolio-index .singapore-skyline {
-    position: static;
-    mask: none !important;
-    width: 100%;
-    max-width: none;
-    left: 0;
-    right: 0;
-    transform: none;
   }
   .portfolio-index .intro { line-height: 1.5; }
   body.portfolio-index .story { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
@@ -498,8 +453,8 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 
 /* One surface grows around the time-zone details without shifting the header. */
 :is(.index-toolbar, .reading-toolbar) .clock-island {
-  --island-width: 292px;
-  --island-row-height: 34px;
+  --island-width: min(371px, calc(100vw - 22px));
+  --island-row-height: 22px;
   --island-details: min(calc(var(--island-rows) * var(--island-row-height) + 12px), 38svh);
   --island-ease: cubic-bezier(.22, 1, .36, 1);
   isolation: isolate;
@@ -509,11 +464,12 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   position: absolute;
   z-index: -1;
   top: 0;
-  right: 0;
+  left: 50%;
+  translate: -50% 0;
   width: 100%;
   height: 100%;
-  border-radius: 26px;
-  background: #080808;
+  border-radius: 999px;
+  background: #000;
   box-shadow: 0 2px 5px #0002;
   transition: width 440ms var(--island-ease), height 440ms var(--island-ease), border-radius 440ms var(--island-ease), transform 160ms ease-out;
 }
@@ -525,9 +481,11 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 }
 .clock-island.is-pressing::before { transform: scale(.95); }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-toggle {
-  width: 176px;
-  height: 46px;
-  padding: 0 14px;
+  width: 125px;
+  height: 37px;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 0 11px;
   border: 0;
   color: #ff9f0a;
   background: transparent;
@@ -550,6 +508,9 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 .clock-island #local-matrix time { margin-left: auto; font-size: 20px; font-weight: 500; line-height: 1; }
 .clock-island .zone-chevron { display: none; }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-dropdown {
+  left: 50%;
+  right: auto;
+  translate: -50% 0;
   width: var(--island-width);
   max-height: var(--island-details);
   padding: 0;
@@ -557,7 +518,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   transform: translateY(-5px);
 }
 :is(.index-toolbar, .reading-toolbar) .clock-island.is-open .time-zone-dropdown {
-  transition-delay: 80ms;
+  transition-delay: 130ms;
   transform: none;
 }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-panel {
@@ -577,9 +538,9 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   box-sizing: border-box;
   border-top: 1px solid #ffffff23;
   color: #e5e5e7;
-  font-size: 14px;
+  font-size: 13px;
 }
-.island-zone time { color: #ff9f0a; font-size: 17px; }
+.island-zone time { color: #ff9f0a; font-size: 14px; font-variant-numeric: tabular-nums; }
 
 .back-to-top {
   color: #242424;
@@ -595,3 +556,21 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   .clock-island::before,
   :is(.index-toolbar, .reading-toolbar) .clock-island.is-open .time-zone-dropdown { transition: none; }
 }
+
+/* The clock stays centered over the page while its surface grows in place. */
+.index-toolbar:has(.clock-island),
+body.reading-page .reading-toolbar:has(.clock-island) {
+  padding-top: calc(57px + env(safe-area-inset-top));
+}
+.index-toolbar .time-zones.clock-island,
+.reading-page .reading-toolbar .time-zones.clock-island {
+  display: block;
+  position: fixed;
+  inset: calc(11px + env(safe-area-inset-top)) auto auto 50%;
+  z-index: 4000;
+  translate: -50% 0;
+  margin: 0;
+}
+.clock-island #local-matrix svg { width: 15px; height: 15px; }
+.clock-island #local-matrix time { font-size: 16px; }
+.island-local-name { font-size: 10px; }
