@@ -30,10 +30,12 @@
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=25" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=27" />
+  <link rel="stylesheet" href="/work/editorial-story.css?v=1" />
+  <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=3" defer></script>
 </head>
-<body class="catch-story reading-page">
+<body class="catch-story reading-page editorial-story">
   <header class="reading-toolbar" aria-label="Reading controls">
     <nav class="portfolio-nav" aria-label="Portfolio"><span class="nav-glass" aria-hidden="true"></span><a href="/">Index</a><a href="/work/">Work</a><a href="/stories/" aria-current="page">Stories</a><a href="/icons/">Icons</a></nav>
     <div class="time-zones" id="time-zones">
@@ -55,6 +57,7 @@
   <main id="story">
     <article>
       <header class="article-header">
+        <a class="story-avatar" href="/" aria-label="Go to the homepage"><img src="/media/aditya-avatar.webp" alt="Aditya Arya" width="192" height="192" /></a>
         <h1>Designing Catch</h1>
         <p class="subtitle">A bus app I wanted to use.</p>
       </header>
@@ -64,16 +67,14 @@
         </button>
         <figcaption>Bus timings, with a little help deciding which one to catch.</figcaption>
       </figure>
-      <section class="prose opening" aria-label="How Catch started">
-        <p>I hadn’t used a bus app that felt well designed and easy on the eye. I wanted one I could open, find my stop, and check the next bus without having to look through too much. That’s where Catch started.</p>
-        <p>One thing I really wanted was to see the next bus timing without opening the app. I thought Live Activities would be useful for that, especially when I was already on my way to the stop.</p>
-        <p>I handled the product design in Figma, with Mobbin as a reference. I used Codex for implementation, then tested the app and worked through the changes it needed.</p>
+      <section class="prose opening" aria-labelledby="context">
+        <h2 id="context">Context</h2>
+        <p>I started Catch because I wanted a Singapore bus app I could read at a glance. The basic flow was simple: open the app, find my stop, and see when the next bus was coming. I designed it in Figma, used Mobbin as a reference, and implemented and tested it with Codex.</p>
       </section>
       <section class="prose" aria-labelledby="first-glance">
-        <h2 id="first-glance">Simplifying the home screen</h2>
-        <p>The first home screen was more cluttered. I was trying to show nearby stops, bus timings, and whether you could catch the bus, but there was too much competing for space.</p>
-        <p>I kept nearby stops and the next bus timings upfront, then moved the extra details into each stop. The “Can I catch it?” card stayed near the top so you could see whether you needed to leave now.</p>
-        <p>That helped me decide what belonged on the home screen. If something only mattered after you picked a stop, it could go inside that stop instead.</p>
+        <h2 id="first-glance">Problem</h2>
+        <p>The first home screen tried to show nearby stops, arrival times, and whether I could make the bus. All three were useful, but they competed for attention.</p>
+        <p>I kept nearby stops and arrivals on the home screen, with “Can I catch it?” near the top to answer whether to leave now. Details that only mattered after choosing a stop moved into the stop view.</p>
       </section>
       <figure class="design-progression" aria-label="Catch home screen progression from the early Figma design to the current app">
         <p class="sketch-heading">Before and after</p>
@@ -95,9 +96,8 @@
         <figcaption>My first home screen in Figma, and the current version.</figcaption>
       </figure>
       <section class="prose" aria-labelledby="outside-app">
-        <h2 id="outside-app">Useful without opening the app</h2>
-        <p>Live Activities were on my list from the start. I wanted to glance at my phone and see when the next bus was coming, without opening Catch again.</p>
-        <p>There wasn’t much room, so I focused on the bus number, its timing, and whether to leave now. Those were the things I’d want to check while heading out.</p>
+        <h2 id="outside-app">Live Activities</h2>
+        <p>I wanted to check my bus on the way to the stop without reopening Catch. The lock screen has less room, so I used it for three things: the bus number, when it would arrive, and whether to leave now.</p>
       </section>
       <figure>
         <button class="image-button" type="button" aria-label="Enlarge the Catch Live Activity">
@@ -106,9 +106,8 @@
         <figcaption>The next bus, without opening Catch.</figcaption>
       </figure>
       <section class="prose" aria-labelledby="feedback">
-        <h2 id="feedback">Adding the map</h2>
-        <p>The map came from the feedback board. I wanted it to make nearby stops easier to find, especially when a stop name on its own didn’t tell you much about where it was.</p>
-        <p>The list is useful when you know what you’re looking for. The map gives you another way to look around and pick a stop, with its bus timings close by.</p>
+        <h2 id="feedback">Finding stops on a map</h2>
+        <p>The feedback board pointed to a gap in the list: a stop name doesn’t always tell you where it is. I added a map so you can look around, select a nearby stop, and see its arrivals. The list still works well when you know the stop you want.</p>
       </section>
       <figure class="map-figure">
         <button class="image-button" type="button" aria-label="Enlarge the Catch nearby stops map">
@@ -117,8 +116,8 @@
         <figcaption>The map, added after feedback.</figcaption>
       </figure>
       <section class="prose icon-introduction" aria-labelledby="icon-story-heading">
-        <h2 id="icon-story-heading">Trying a few icons</h2>
-        <p>I also tried a few versions of the app icon. The bus stayed, but I played around with the colours and finishes, from black and white to the painted versions below.</p>
+        <h2 id="icon-story-heading">App icon explorations</h2>
+        <p>The bus was the constant across the icon explorations. I tried monochrome, brighter colours, and painted finishes to see how differently the same subject could read.</p>
       </section>
       <figure class="icon-board" id="app-icons">
         <button class="image-button" type="button" aria-label="Enlarge the Catch app icon collection">
@@ -127,11 +126,10 @@
         <figcaption>A few different versions of the Catch icon.</figcaption>
       </figure>
       <section class="prose" aria-labelledby="lessons">
-        <h2 id="lessons">What I learned while building it</h2>
-        <p>My brother entered his name as Yash, but the app still greeted him as “Adi.” I’d been looking at my own name so often that I hadn’t noticed. Seeing him use it caught something I’d missed in my own testing.</p>
-        <p>Autocorrect was another one. “Summerdale” became “Summer sale” when entering a stop. It made me think more carefully about the input itself. Picking a real stop made more sense than expecting someone to type the name exactly.</p>
-        <p>I also had a shortcut that worked when Catch was already open, then ran into problems with the app fully closed. It reminded me to test it with the app fully closed too. I wouldn’t have found that just by repeating the same test.</p>
-        <p>Taking Catch from Figma into a working app taught me to look beyond the screens. Someone entering a different name, typing a stop, or launching a shortcut could expose a problem I hadn’t seen. Next time, I want to involve people earlier and give their feedback more time to shape the product.</p>
+        <h2 id="lessons">What testing revealed</h2>
+        <p>When my brother entered “Yash,” the app still greeted him as “Adi.” I’d seen my own name so often during testing that I’d stopped questioning it.</p>
+        <p>Autocorrect turned “Summerdale” into “Summer sale.” That made a stronger case for choosing a real stop than for asking people to type its name exactly. I also found that a shortcut that worked with Catch open could fail when the app was fully closed.</p>
+        <p>Those tests changed what I look for when a design becomes a working app. Next time, I’d bring people in earlier and test with different inputs and launch states before polishing the screens.</p>
         <a class="project-destination" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" target="_blank" rel="noreferrer">Catch on the App Store <span aria-hidden="true">↗</span></a>
       </section>
     </article>

@@ -481,3 +481,16 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
   .portfolio-index .intro { line-height: 1.5; }
   body.portfolio-index .story { padding-bottom: max(18px, env(safe-area-inset-bottom)); }
 }
+
+.page-scroll-button { position:fixed; z-index:34; bottom:max(24px, env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:10px 17px 10px 12px; border:1px solid color-mix(in srgb,var(--ink) 6%,transparent); border-radius:999px; color:#65625c; background:#f1eee5; font:600 15px/1.2 -apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; letter-spacing:-.025em; white-space:nowrap; cursor:pointer; transition:opacity 200ms ease,background-color 200ms ease,color 200ms ease; }
+html[data-theme="dark"] .page-scroll-button { color:#d5d1c8; background:#292925; }
+.page-scroll-button:hover { background:#e8e4d9; color:var(--ink); }
+html[data-theme="dark"] .page-scroll-button:hover { background:#35352f; }
+.page-scroll-button .down-arrow { flex:none; width:23px; height:23px; }
+.page-scroll-button:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
+.page-scroll-button.is-hidden, body.modal-open .page-scroll-button { opacity:0; pointer-events:none; }
+.back-to-top.is-hidden { visibility: hidden; }
+body:has(dialog[open]) .back-to-top { visibility: hidden; }
+.back-to-top .down-arrow { transform: rotate(180deg); }
+@media (max-width: 700px) { .footer-discover { display: none; } }
+@media (prefers-reduced-motion: reduce) { .page-scroll-button { transition: none; } }

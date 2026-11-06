@@ -49,8 +49,7 @@ const feed = phoneCards.map((card, index) => {
 const extraMedia = [
   ['Soja onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/'],
   ['Soja recovery overview', '/work/soja/media/final-overview.webp', '/work/soja/'],
-  ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/'],
-  ['Catch icon collection', '/media/catch-icon-collection-grey.webp', '/work/catch/']
+  ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/']
 ];
 const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
@@ -87,7 +86,8 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=25" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=27" />
+  <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
 </head>
 <body class="reading-page explorations-view">

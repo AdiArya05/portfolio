@@ -1733,15 +1733,7 @@
       .theme-transitioning, .theme-transitioning body, .theme-transitioning .gallery-wrap, .theme-transitioning .closing { transition:none !important; }
       #local-matrix { width:220px; }
       .time-zone-panel { padding:16px; }
-      .footer-discover { position:fixed; z-index:34; bottom:24px; left:calc((100vw - max(27.6vw,370px))/2); transform:translateX(-50%); display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:10px 17px 10px 12px; border:1px solid color-mix(in srgb,var(--ink) 6%,transparent); border-radius:999px; color:#65625c; background:#f1eee5; font:600 15px/1.2 -apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; letter-spacing:-.025em; white-space:nowrap; cursor:pointer; transition:opacity 200ms ease,background-color 200ms ease,color 200ms ease; }
-      html[data-theme="dark"] .footer-discover { color:#d5d1c8; background:#292925; }
-      .footer-discover:hover { background:#e8e4d9; color:var(--ink); }
-      html[data-theme="dark"] .footer-discover:hover { background:#35352f; }
-      .footer-discover .down-arrow { flex:none; width:23px; height:23px; }
-      .footer-discover:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
-      .footer-discover.is-hidden, body.modal-open .footer-discover { opacity:0; pointer-events:none; }
-      @media(max-width:900px) { .footer-discover { left:50%; } }
-      @media(max-width:700px) { #local-matrix { width:min(220px,calc(100vw - 190px)); } .time-zone-toggle { max-width:calc(100vw - 145px); padding:9px 8px; } .footer-discover { display:none; } }
+      @media(max-width:700px) { #local-matrix { width:min(220px,calc(100vw - 190px)); } .time-zone-toggle { max-width:calc(100vw - 145px); padding:9px 8px; } }
       @media(prefers-reduced-motion:reduce) { .theme-toggle::before { transition:none; } ::view-transition-old(root), ::view-transition-new(root) { animation:none; } }
     </style>
   <link rel="stylesheet" href="/typography.css?v=20261105-system" />
@@ -1759,12 +1751,13 @@
 
     <link rel="stylesheet" href="/design-selection.css?v=20261104-timed" />
     <script src="/design-selection.js?v=20261105-designing" defer></script>
-  <link rel="stylesheet" href="/portfolio-pages.css?v=25" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=27" />
+  <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
-  <script src="/portfolio-tabs.js?v=6" defer></script>
+  <script src="/portfolio-tabs.js?v=7" defer></script>
   <link rel="stylesheet" href="/motion-gallery.css?v=20261022-v8" />
   <script src="/motion-gallery.js?v=20261105-frame" defer></script>
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
@@ -1790,7 +1783,7 @@
     </header>
     <script src="/world-times.js?v=20261104-local-unique" defer></script>
 
-    <button class="footer-discover" id="footer-discover" type="button" aria-label="Scroll down to the Singapore skyline" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll down</span></button>
+    <button class="page-scroll-button footer-discover" id="footer-discover" type="button" aria-label="Scroll down to the Singapore skyline" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll down</span></button>
     <script src="/footer-discovery.js?v=20261019-v24" defer></script>
     <div class="motion-header-shield" aria-hidden="true"></div>
     <div class="portfolio-introduction">
@@ -1935,10 +1928,6 @@
 <article class="exploration" data-title="Soja welcome screen" data-case-study="/work/soja/">
     <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Soja welcome screen preview"><img class="card-media" src="/work/soja/media/final-welcome.webp" width="1920" height="1440" alt="Soja welcome screen" loading="lazy" decoding="async"></button>
     <div class="catalog-caption"><a class="catalog-title" href="/work/soja/">Soja welcome screen</a><time datetime="2026">2026</time></div>
-  </article>
-<article class="exploration" data-title="Catch icon collection" data-case-study="/work/catch/">
-    <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Catch icon collection preview"><img class="card-media" src="/media/catch-icon-collection-grey.webp" width="2400" height="1500" alt="Catch icon collection" loading="lazy" decoding="async"></button>
-    <div class="catalog-caption"><a class="catalog-title" href="/work/catch/">Catch icon collection</a><time datetime="2026">2026</time></div>
   </article>
     </section>
     <footer class="explorations-footer"><a class="back-link" href="#index">← Back to home</a><a href="#explorations">Back to top ↑</a></footer>

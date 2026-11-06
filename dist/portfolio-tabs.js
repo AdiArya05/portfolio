@@ -7,28 +7,18 @@
   const footerButton = document.querySelector('#footer-discover');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let current = 'index';
-  let animations = [];
-  function cancelEntrance() {
-    for (const animation of animations) animation.cancel();
-    animations = [];
-  }
+  let entrance;
+  let exitAnimation;
+
   function reveal(panel) {
     if (reduced.matches) return;
-    const easing = 'cubic-bezier(.22,1,.36,1)';
-    animations.push(panel.animate([
-      {opacity: 0, filter: 'blur(4px)'},
-      {opacity: 1, filter: 'blur(0px)'}
-    ], {duration: 380, easing}));
-    const items = [...panel.querySelectorAll('.exploration, .work-icon, .story-entry, .story-inner')]
-      .filter(item => item.getBoundingClientRect().top < innerHeight + 80);
-    for (const [index, item] of items.entries()) {
-      animations.push(item.animate([
-        {opacity: 0, transform: 'translateY(8px)'},
-        {opacity: 1, transform: 'translateY(0px)'}
-      ], {duration: 460, delay: Math.min(index * 35, 140), easing, fill: 'backwards'}));
-    }
+    entrance = panel.animate([
+      {opacity: 0, filter: 'blur(3px)', transform: 'translateY(4px)'},
+      {opacity: 1, filter: 'blur(0px)', transform: 'translateY(0px)'}
+    ], {duration: 460, easing: 'cubic-bezier(.25,.65,.3,1)'});
   }
-  reduced.addEventListener('change', cancelEntrance);
+
+  reduced.addEventListener('change', () => entrance?.cancel());
   const phone = matchMedia('(max-width:700px)');
   const content = document.querySelector('.portfolio-content');
   let fitFrame;
@@ -63,13 +53,33 @@
     video.src = video.dataset.src;
   }
 
-  function select(name, animate = true) {
-    if (!panels.has(name) || name === current) return;
-    cancelEntrance();
+  async function select(name, animate = true) {
+    if (!panels.has(name)) return;
+    exitAnimation?.cancel();
+    exitAnimation = undefined;
+    entrance?.cancel();
+    if (name === current) return;
+
+    const previous = panels.get(current);
+    if (name === 'work') warmWork();
+    if (animate && !reduced.matches) {
+      const leaving = previous.animate([
+        {opacity: 1, filter: 'blur(0px)'},
+        {opacity: 0, filter: 'blur(3px)'}
+      ], {duration: 180, easing: 'ease-in-out', fill: 'forwards'});
+      exitAnimation = leaving;
+      try {
+        await leaving.finished;
+      } catch {
+        return;
+      }
+      if (exitAnimation !== leaving) return;
+    }
     for (const popover of document.querySelectorAll(':popover-open')) popover.hidePopover();
     window.scrollTo({top: 0, left: 0, behavior: 'instant'});
-    panels.get(current).hidden = true;
-    if (name === 'work') warmWork();
+    previous.hidden = true;
+    exitAnimation?.cancel();
+    exitAnimation = undefined;
     const panel = panels.get(name);
     panel.hidden = false;
     footer.hidden = footerButton.hidden = name !== 'index';
@@ -93,7 +103,7 @@
       if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
       const name = link.dataset.portfolioTab;
-      if (name === current) return;
+      if (name === (location.hash.slice(1) || 'index')) return;
       history.pushState(null, '', name === 'index' ? '/' : '#' + name);
       select(name);
     });
