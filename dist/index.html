@@ -2,6 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <script>
+      const initialPanel = location.hash.slice(1);
+      if (['work', 'stories', 'icons'].includes(initialPanel)) {
+        document.documentElement.dataset.initialPanel = initialPanel;
+      }
+    </script>
+    <style>
+      html[data-initial-panel] [data-portfolio-panel="index"],
+      html[data-initial-panel] #singapore-footer,
+      html[data-initial-panel] #footer-discover { display: none !important; }
+      html[data-initial-panel="work"] [data-portfolio-panel="work"],
+      html[data-initial-panel="stories"] [data-portfolio-panel="stories"],
+      html[data-initial-panel="icons"] [data-portfolio-panel="icons"] { display: block !important; }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta
       name="description"
@@ -1768,7 +1782,7 @@
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
-  <script src="/portfolio-tabs.js?v=5" defer></script>
+  <script src="/portfolio-tabs.js?v=6" defer></script>
   <link rel="stylesheet" href="/motion-gallery.css?v=20261022-v8" />
   <script src="/motion-gallery.js?v=20261105-frame" defer></script>
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
@@ -1905,7 +1919,7 @@
         <div class="catalog-caption"><button class="catalog-title preview-label" type="button" aria-haspopup="dialog">Income slider</button><time datetime="2026">2026</time></div>
       </article>
       <article class="exploration" data-title="Catch Live Activity" data-description="The next bus, timing, and leave-now guidance at a glance." data-destination="" data-action="App Store" data-case-study="/work/catch/">
-        <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="eager" fetchpriority="high" decoding="async" src="/media/catch-live-detail-4k.webp" alt="Catch Live Activity showing the next bus and leave-now guidance" /></button>
+        <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open Catch Live Activity preview"><img class="card-media" width="3840" height="2880" style="aspect-ratio:1920/1440" loading="lazy" decoding="async" src="/media/catch-live-detail-4k.webp" alt="Catch Live Activity showing the next bus and leave-now guidance" /></button>
         <div class="catalog-caption"><a class="catalog-title" href="/work/catch/">Catch Live Activity</a><time datetime="2026">2026</time></div>
       </article>
       <article class="exploration" data-title="Sailorfy" data-description="A calmer way to navigate the maritime world." data-destination="https://sailorfy.framer.website/" data-action="Live site">

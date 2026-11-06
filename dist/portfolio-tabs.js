@@ -34,26 +34,34 @@
   let fitFrame;
 
   function fitIndex() {
-    cancelAnimationFrame(fitFrame);
-    fitFrame = requestAnimationFrame(() => {
-      content.style.removeProperty('--portfolio-copy-size');
-      if (!phone.matches || current !== 'index') return;
-      const available = window.visualViewport?.height || innerHeight;
-      const maximum = parseFloat(getComputedStyle(document.querySelector('#intro-heading')).fontSize);
-      let low = 12;
-      let high = maximum;
-      for (let step = 0; step < 10; step++) {
-        const size = (low + high) / 2;
-        content.style.setProperty('--portfolio-copy-size', size + 'px');
-        if (content.scrollHeight <= available + 1) low = size;
-        else high = size;
-      }
-      content.style.setProperty('--portfolio-copy-size', low + 'px');
-    });
+    content.style.removeProperty('--portfolio-copy-size');
+    if (!phone.matches || current !== 'index') return;
+    const intro = document.querySelector('#intro-heading');
+    const available = content.clientHeight;
+    const top = content.getBoundingClientRect().top;
+    let low = 12;
+    let high = parseFloat(getComputedStyle(intro).fontSize);
+    if (intro.getBoundingClientRect().bottom - top <= available - 12) return;
+    for (let step = 0; step < 10; step++) {
+      const size = (low + high) / 2;
+      content.style.setProperty('--portfolio-copy-size', size + 'px');
+      if (intro.getBoundingClientRect().bottom - top <= available - 12) low = size;
+      else high = size;
+    }
+    content.style.setProperty('--portfolio-copy-size', low + 'px');
   }
-  window.addEventListener('resize', fitIndex, {passive: true});
-  window.visualViewport?.addEventListener('resize', fitIndex, {passive: true});
-  document.fonts.ready.then(fitIndex);
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(fitFrame);
+    fitFrame = requestAnimationFrame(fitIndex);
+  }, {passive: true});
+
+  function warmWork() {
+    if (reduced.matches || navigator.connection?.saveData) return;
+    const video = panels.get('work').querySelector('.motion-stage video[data-src]');
+    if (!video || video.hasAttribute('src')) return;
+    video.preload = 'auto';
+    video.src = video.dataset.src;
+  }
 
   function select(name, animate = true) {
     if (!panels.has(name) || name === current) return;
@@ -61,6 +69,7 @@
     for (const popover of document.querySelectorAll(':popover-open')) popover.hidePopover();
     window.scrollTo({top: 0, left: 0, behavior: 'instant'});
     panels.get(current).hidden = true;
+    if (name === 'work') warmWork();
     const panel = panels.get(name);
     panel.hidden = false;
     footer.hidden = footerButton.hidden = name !== 'index';
@@ -75,6 +84,11 @@
   }
 
   for (const link of links) {
+    if (link.dataset.portfolioTab === 'work') {
+      for (const event of ['pointerenter', 'pointerdown', 'focus']) {
+        link.addEventListener(event, warmWork, {once: true, passive: true});
+      }
+    }
     link.addEventListener('click', event => {
       if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
@@ -89,5 +103,5 @@
   window.addEventListener('popstate', selectHash);
   select(location.hash.slice(1) || 'index', false);
   fitIndex();
-  requestAnimationFrame(() => reveal(panels.get(current)));
+  delete document.documentElement.dataset.initialPanel;
 })();

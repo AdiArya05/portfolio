@@ -66,6 +66,7 @@ const html = `<!doctype html>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Work — Aditya Arya</title>
+  <link rel="preload" as="image" href="/media/income-slider-iphone17pro.webp" />
   <meta name="description" content="Interfaces, websites and motion studies by Aditya Arya." />
   <meta name="theme-color" content="#fafafa" />
   <link rel="icon" href="/media/aditya-arya-icon.png" />
@@ -129,7 +130,8 @@ const panels = await Promise.all([
     .replace('<main ', `<main data-portfolio-panel="${name}" aria-label="${name[0].toUpperCase() + name.slice(1)}" hidden `)
     .replace(/<header class="explorations-header">[\s\S]*?<\/header>\s*/, '')
     .replace(/<h1>[^<]+<\/h1>\s*/, '')
-    .replace('href="/">← Back to home','href="#index">← Back to home');
+    .replace('href="/">← Back to home','href="#index">← Back to home')
+    .replaceAll('loading="eager" fetchpriority="high"', 'loading="lazy"');
   if (name !== 'work') return main;
   const dialog = page.match(/<dialog\b[\s\S]*?<\/dialog>/)[0].replaceAll('id="modal-', 'id="work-modal-');
   return `${main}\n    ${dialog}`;
