@@ -309,15 +309,22 @@
     }
   }
 
-  function isIslandGestureTarget(target) {
-    return !target.closest('.island-globe, .island-zone');
+  function isIslandGestureTarget(event) {
+    if (phone.matches || event.target.closest('.island-globe, .island-zone')) return false;
+    if (widget.contains(event.target)) return true;
+    const activePill = widget.classList.contains('is-spotify-open') ? spotify : button;
+    const primary = activePill.getBoundingClientRect();
+    const secondary = spotify.getBoundingClientRect();
+    const left = widget.classList.contains('is-open') ? primary.left : Math.min(primary.left, secondary.left);
+    return event.clientX >= left - 8 && event.clientX <= primary.right + 8 &&
+      event.clientY >= primary.top - 8 && event.clientY <= primary.bottom + 8;
   }
 
   let swipeStart;
   let suppressClick = false;
-  widget.addEventListener('pointerdown', event => {
+  document.addEventListener('pointerdown', event => {
     suppressClick = false;
-    if (!event.isPrimary || event.button !== 0 || !isIslandGestureTarget(event.target)) return;
+    if (!event.isPrimary || event.button !== 0 || !isIslandGestureTarget(event)) return;
     swipeStart = { id: event.pointerId, x: event.clientX, y: event.clientY };
   });
   window.addEventListener('pointerup', event => {
@@ -325,7 +332,7 @@
     const dx = event.clientX - swipeStart.x;
     const dy = event.clientY - swipeStart.y;
     swipeStart = undefined;
-    if (Math.abs(dx) < 42 || Math.abs(dx) < 1.5 * Math.abs(dy)) return;
+    if (Math.abs(dx) < 24 || Math.abs(dx) <= Math.abs(dy)) return;
     suppressClick = true;
     swipeIsland(dx);
   });
@@ -341,24 +348,35 @@
   let wheelDistance = 0;
   let lastWheel = 0;
   let wheelHandled = false;
-  widget.addEventListener('wheel', event => {
-    if (!isIslandGestureTarget(event.target) || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+  document.addEventListener('wheel', event => {
+    if (!isIslandGestureTarget(event)) return;
+    const horizontal = event.shiftKey && !event.deltaX ? event.deltaY : event.deltaX;
+    if (!horizontal || (!event.shiftKey && Math.abs(horizontal) <= Math.abs(event.deltaY))) return;
     if (event.cancelable) event.preventDefault();
     const now = performance.now();
-    if (now - lastWheel > 180) {
+    if (now - lastWheel > 160 || Math.sign(horizontal) !== Math.sign(wheelDistance)) {
       wheelDistance = 0;
       wheelHandled = false;
     }
     lastWheel = now;
     if (wheelHandled) return;
-    wheelDistance += event.deltaX * (event.deltaMode === 1 ? 16 : 1);
-    if (Math.abs(wheelDistance) < 42) return;
+    wheelDistance += horizontal * (event.deltaMode === 1 ? 16 : 1);
+    if (Math.abs(wheelDistance) < 18) return;
     wheelHandled = true;
     swipeIsland(-wheelDistance);
-  }, { passive: false });
+  }, { capture: true, passive: false });
+
+  widget.addEventListener('keydown', event => {
+    if (event.target !== button && event.target !== spotifyToggle) return;
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    swipeIsland(event.key === 'ArrowLeft' ? -1 : 1);
+    const control = widget.classList.contains('is-spotify-open') ? spotifyToggle : button;
+    control.focus({ preventScroll: true });
+  });
 
   document.addEventListener('pointerdown', event => {
-    if (!widget.contains(event.target)) {
+    if (!isIslandGestureTarget(event) && !widget.contains(event.target)) {
       setSpotifyOpen(false);
       cancelHold();
       setOpen(false);

@@ -499,15 +499,14 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   width: 100%;
   min-width: 0;
 }
-.clock-island #local-matrix time { font-size: 16px; font-weight: 500; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
-.island-seconds { display: inline-flex; vertical-align: bottom; }
+.clock-island #local-matrix time { display: inline-flex; align-items: center; font-size: 16px; font-weight: 500; line-height: 1.25; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.island-seconds { display: inline-flex; }
 .island-digit {
   display: grid;
   place-items: center;
   grid-template-columns: minmax(0, 1fr);
-  width: .7em;
+  width: max(1ch, .64em);
   overflow: hidden;
-  line-height: 1.25;
 }
 .island-digit > span { grid-area: 1 / 1; }
 .island-digit > span + span { opacity: 0; }
