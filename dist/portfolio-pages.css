@@ -241,7 +241,8 @@ button.catalog-title { display: block; padding: 0; border: 0; background: none; 
 .portfolio-index .intro .tools-sentence,
 .portfolio-index .intro .social-sentence { display: block; margin: .85em 0 0; }
 .portfolio-index .intro .achievement-sentence { display: block; margin-top: .45em; }
-.portfolio-index .intro :is(.project-icon[data-label="Catch"], .inline-link) {
+.portfolio-index .intro :is(.tool-stack, .social-icons) { display: inline; margin: 0; vertical-align: baseline; }
+.portfolio-index .intro :is(.tool, .project-icon, .inline-link) {
   display: inline;
   width: auto;
   height: auto;
@@ -255,9 +256,12 @@ button.catalog-title { display: block; padding: 0; border: 0; background: none; 
   text-decoration: underline 1px #d3d4d8;
   text-underline-offset: .16em;
 }
+.portfolio-index .intro :is(.tool, .project-icon)::after { display: none; }
+.intro-link-label { white-space: nowrap; }
+.portfolio-index .intro :is(.tool-stack, .social-icons) a { position: relative; inset: auto; }
 .portfolio-index .intro .design-selection-frame { opacity: 0; }
 .portfolio-index .intro:has(.design-selection-word:hover) .design-selection-frame { opacity: 1; }
-.portfolio-index .intro .punctuated-tools { display: inline-block; white-space: nowrap; }
+.portfolio-index .intro .punctuated-tools { display: inline; white-space: normal; }
 
 body.portfolio-index .shell { display: block; }
 .portfolio-index .gallery-wrap[hidden],
