@@ -10,21 +10,13 @@
     button.classList.toggle('is-hidden', scrollY <= Math.min(innerHeight * 0.4, 250));
   }
 
-  function goToTop(event) {
+  button.addEventListener('click', (event) => {
     if (event.detail === 0) {
       const nav = document.querySelector('.portfolio-nav');
       (nav?.querySelector('[aria-current="page"]') || nav?.querySelector('a'))?.focus({ preventScroll: true });
     }
     window.scrollTo({ top: 0, behavior: reduced.matches ? 'instant' : 'smooth' });
-  }
-  button.addEventListener('click', goToTop);
-  const explorationsActions = document.querySelector('.explorations-scroll-actions');
-  if (explorationsActions) {
-    const inlineButton = button.cloneNode(true);
-    inlineButton.className = 'page-scroll-button explorations-back-to-top';
-    inlineButton.addEventListener('click', goToTop);
-    explorationsActions.append(inlineButton);
-  }
+  });
   window.addEventListener('scroll', updateVisibility, { passive: true });
   window.addEventListener('resize', updateVisibility);
   window.addEventListener('pageshow', updateVisibility);

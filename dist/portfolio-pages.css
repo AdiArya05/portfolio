@@ -678,18 +678,6 @@ a[data-liquid-glass]:focus-visible {
     letter-spacing: -.025em;
     white-space: nowrap;
   }
-  .dismiss-key::before {
-    content: "×";
-    display: grid;
-    place-items: center;
-    width: 21px;
-    height: 21px;
-    flex: none;
-    border-radius: 50%;
-    background: #242424;
-    color: #fff;
-    font-size: 18px;
-  }
 }
 
 .clock-island .island-track,
@@ -706,13 +694,6 @@ a[data-liquid-glass]:focus-visible {
   line-height: var(--island-compact-height);
 }
 
-.explorations-scroll-actions { margin-top: 24px; }
-.explorations-back-to-top {
-  position: static;
-  transform: none;
-}
-.explorations-back-to-top .down-arrow { transform: rotate(180deg); }
-body:has(.explorations-scroll-actions):not(.portfolio-index) .back-to-top,
 body:has([data-portfolio-panel="stories"]:not([hidden])) .back-to-top { display: none; }
 
 .clock-island .island-track { min-width: 0; line-height: 1.1; }
