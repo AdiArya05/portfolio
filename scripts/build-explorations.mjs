@@ -94,7 +94,7 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=41" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=42" />
   <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
 </head>
@@ -107,7 +107,7 @@ const html = `<!doctype html>
     <section class="explorations-feed" aria-label="Interfaces, websites and motion studies">
       ${workFeed.join('\n      ')}
     </section>
-    <footer class="explorations-footer"><a class="back-link" href="/">← Back to home</a><a href="#explorations">Back to top ↑</a></footer>
+    <footer class="explorations-footer"><a class="back-link" data-liquid-glass href="/">← Back to home</a><a data-liquid-glass href="#explorations">Back to top ↑</a></footer>
   </main>
   <dialog id="media-viewer" aria-label="Media preview">
     <div class="viewer-stage"><img id="modal-image" alt="" hidden /><video id="modal-video" controls muted loop playsinline hidden aria-label="Animation playback"></video></div>
