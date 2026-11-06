@@ -482,7 +482,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   box-sizing: border-box;
   padding: 0 11px;
   border: 0;
-  color: #ff9f0a;
+  color: #a34b00;
   background: transparent;
   box-shadow: none;
   backdrop-filter: none;
@@ -521,7 +521,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   padding: 0;
   z-index: 0;
   border-radius: calc(var(--island-compact-height) / 2);
-  background: #000;
+  background: #fff;
   box-shadow: 0 2px 5px #0002;
   opacity: 1;
   visibility: visible;
@@ -569,7 +569,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 }
 .island-globe:active { cursor: grabbing; }
 .island-globe:focus-visible, button.island-zone:focus-visible {
-  outline: 1px solid #ff9f0a;
+  outline: 1px solid #a34b00;
   outline-offset: -2px;
 }
 .island-zone {
@@ -584,15 +584,15 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   border: 0;
   border-radius: 9px;
   background: transparent;
-  color: #e5e5e7;
+  color: #29292c;
   font: 500 12px/1.25 var(--font-sans);
   text-align: start;
 }
-.island-zone + .island-zone { border-top: 1px solid #ffffff1c; }
+.island-zone + .island-zone { border-top: 1px solid #00000012; }
 .island-zone span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 button.island-zone { cursor: pointer; }
-button.island-zone:is(:hover, [aria-pressed="true"]) { background: #ffffff15; }
-.island-zone time { color: #ff9f0a; font-size: 12px; font-variant-numeric: tabular-nums; }
+button.island-zone:is(:hover, [aria-pressed="true"]) { background: #00000009; }
+.island-zone time { color: #a34b00; font-size: 12px; font-variant-numeric: tabular-nums; }
 
 button:is(.page-scroll-button, .motion-toggle, .lightbox-close, .project-modal .modal-close, #media-viewer .modal-close),
 a[data-liquid-glass] {
@@ -690,8 +690,8 @@ a[data-liquid-glass]:focus-visible {
   height: var(--island-compact-height);
   overflow: hidden;
   border-radius: calc(var(--island-compact-height) / 2);
-  background: #000;
-  color: #75e89b;
+  background: #fff;
+  color: #168344;
   box-shadow: 0 2px 5px #0002;
   transform-origin: right center;
   touch-action: pan-y;
@@ -730,7 +730,7 @@ a[data-liquid-glass]:focus-visible {
   transition: background 180ms ease, transform 180ms var(--island-ease);
 }
 .clock-island .island-spotify-toggle svg { width: 18px; height: 18px; }
-.clock-island .island-spotify-toggle:hover { background: #ffffff16; }
+.clock-island .island-spotify-toggle:hover { background: #0000000a; }
 .clock-island .island-spotify-toggle:active { transform: scale(.88); }
 .clock-island .island-spotify :focus-visible { outline: 2px solid currentColor; outline-offset: -3px; }
 .clock-island .island-spotify.is-playing {
@@ -784,12 +784,13 @@ a[data-liquid-glass]:focus-visible {
   grid-column: 2;
   gap: 4px;
   min-width: 0;
-  color: #f4f4f4;
+  color: #202124;
   font: 600 16px/1.2 var(--font-sans);
   text-decoration: none;
 }
 .island-track span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.island-track span + span { color: #99999f; font-size: 14px; font-weight: 400; }
+.island-spotify:not(.is-playing) .island-track span { white-space: normal; }
+.island-track span + span { color: #65656b; font-size: 14px; font-weight: 400; }
 .island-timeline {
   grid-column: 1 / -1;
   display: grid;
@@ -797,16 +798,16 @@ a[data-liquid-glass]:focus-visible {
   align-items: center;
   gap: 8px;
   margin-inline-end: -29px;
-  color: #99999f;
+  color: #65656b;
   font: 11px/1 var(--font-sans);
   font-variant-numeric: tabular-nums;
 }
 .island-timeline[hidden] { display: none; }
 .island-timeline span:last-child { text-align: right; }
-.island-timeline progress { width: 100%; height: 5px; appearance: none; border: 0; border-radius: 5px; overflow: hidden; background: #29292c; color: #aaaab0; }
-.island-timeline progress::-webkit-progress-bar { background: #29292c; }
-.island-timeline progress::-webkit-progress-value { background: #aaaab0; }
-.island-timeline progress::-moz-progress-bar { background: #aaaab0; }
+.island-timeline progress { width: 100%; height: 5px; appearance: none; border: 0; border-radius: 5px; overflow: hidden; background: #e7e7eb; color: #777780; }
+.island-timeline progress::-webkit-progress-bar { background: #e7e7eb; }
+.island-timeline progress::-webkit-progress-value { background: #777780; }
+.island-timeline progress::-moz-progress-bar { background: #777780; }
 @media (prefers-reduced-motion: reduce) {
   .clock-island :is(.island-spotify, .island-spotify-toggle, .island-spotify-details) { transition: none; }
   .island-wave i { animation: none; }

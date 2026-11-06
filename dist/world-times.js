@@ -138,7 +138,7 @@
       timeline.hidden = true;
       return;
     }
-    const timeSinceSample = track.isPlaying === false ? 0 : Math.max(0, now - track.observedAt);
+    const timeSinceSample = Math.max(0, now - track.observedAt);
     const position = Math.min(track.durationMs, Math.max(0, track.progressMs + timeSinceSample));
     progress.value = position / track.durationMs;
     elapsed.textContent = formatTrackTime(position);
@@ -167,8 +167,9 @@
     } finally {
       checkingPlayback = false;
     }
+    if (track?.isPlaying === false) track = null;
     playingTrack = track;
-    spotify.classList.toggle('is-playing', Boolean(track && track.isPlaying !== false));
+    spotify.classList.toggle('is-playing', Boolean(track));
     if (!track?.artwork) {
       artwork.hidden = true;
       artwork.removeAttribute('src');
@@ -178,10 +179,7 @@
     }
     if (widget.classList.contains('is-spotify-open')) updateTimeline(Date.now());
     if (track) {
-      const artistLine = track.isPlaying === false
-        ? ['Paused', track.artist].filter(Boolean).join(' · ')
-        : track.artist;
-      if (trackArtist.textContent !== artistLine) trackArtist.textContent = artistLine;
+      if (trackArtist.textContent !== track.artist) trackArtist.textContent = track.artist;
       if (trackName.textContent !== track.name) {
         trackName.textContent = track.name;
         if (widget.classList.contains('is-spotify-open') && !reduceMotion.matches) {
@@ -190,7 +188,7 @@
         }
       }
     } else {
-      trackName.textContent = unavailable ? 'Spotify is temporarily unavailable' : 'Nothing playing on Spotify';
+      trackName.textContent = unavailable ? 'Spotify is temporarily unavailable' : 'Adi isn’t listening to anything right now.';
       trackArtist.textContent = '';
     }
   }
@@ -245,7 +243,7 @@
     dropdown.inert = !open;
     globe?.setActive(open);
     if (open && !globeLoading) {
-      globeLoading = import('/world-globe.mjs?v=3').then(({ createGlobe }) => {
+      globeLoading = import('/world-globe.mjs?v=4').then(({ createGlobe }) => {
         globe = createGlobe(canvas, pins, reduceMotion);
         globe.setActive(!dropdown.inert);
         return globe;
