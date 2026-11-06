@@ -88,13 +88,13 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
-  <script src="/world-times.js?v=20261106-text-face" defer></script>
+  <script src="/world-times.js?v=20261106-lens" defer></script>
   <script src="/explorations/explorations.js?v=20261106-intrinsic" defer></script>
   <script src="/motion-gallery.js?v=20261105-frame" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=43" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=44" />
   <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
 </head>
@@ -107,7 +107,7 @@ const html = `<!doctype html>
     <section class="explorations-feed" aria-label="Interfaces, websites and motion studies">
       ${workFeed.join('\n      ')}
     </section>
-    <footer class="explorations-footer"><a class="back-link" data-liquid-glass href="/">← Back to home</a><a data-liquid-glass href="#explorations">Back to top ↑</a></footer>
+    <footer class="explorations-footer"><a class="back-link" data-liquid-glass href="/"><svg class="glass-symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M17 12H7m4-4-4 4 4 4" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to home</a><a data-liquid-glass href="#explorations"><svg class="glass-symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 17V7m-4 4 4-4 4 4" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to top</a></footer>
   </main>
   <dialog id="media-viewer" aria-label="Media preview">
     <div class="viewer-stage"><img id="modal-image" alt="" hidden /><video id="modal-video" controls muted loop playsinline hidden aria-label="Animation playback"></video></div>
@@ -134,10 +134,10 @@ const panels = await Promise.all([
   ['icons', await fs.readFile(path.join(dist, 'icons/index.html'), 'utf8')],
 ].map(async ([name, page]) => {
   const main = page.match(/<main\b[\s\S]*?<\/main>/)[0]
-    .replace('<main ', `<main data-portfolio-panel="${name}" aria-label="${name === 'stories' ? 'Case Studies' : name[0].toUpperCase() + name.slice(1)}" hidden `)
+    .replace('<main ', `<main data-portfolio-panel="${name}" aria-label="${name === 'stories' ? 'Explorations' : name[0].toUpperCase() + name.slice(1)}" hidden `)
     .replace(/<header class="explorations-header">[\s\S]*?<\/header>\s*/, '')
     .replace(/<h1>[^<]+<\/h1>\s*/, '')
-    .replace('href="/">← Back to home','href="#index">← Back to home')
+    .replace('data-liquid-glass href="/">','data-liquid-glass href="#index">')
     .replaceAll('loading="eager" fetchpriority="high"', 'loading="lazy"');
   if (name !== 'work') return main;
   const dialog = page.match(/<dialog\b[\s\S]*?<\/dialog>/)[0].replaceAll('id="modal-', 'id="work-modal-');

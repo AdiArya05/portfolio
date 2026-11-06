@@ -20,7 +20,7 @@
   const visited = document.querySelector('#visited-time-zones');
   widget.classList.add('clock-island');
   face.classList.remove('matrix-row');
-  face.innerHTML = '<time><span></span><span class="island-seconds"><span class="island-digit"><span></span><span></span></span><span class="island-digit"><span></span><span></span></span></span></time>';
+  face.innerHTML = '<span class="island-lens" aria-hidden="true"></span><time><span></span><span class="island-seconds"><span class="island-digit"><span></span><span></span></span><span class="island-digit"><span></span><span></span></span></span></time>';
   const localTime = face.querySelector('time');
   const [localMinutes, localSeconds] = localTime.children;
   const digits = Array.from(localSeconds.children, digit => Array.from(digit.children));
