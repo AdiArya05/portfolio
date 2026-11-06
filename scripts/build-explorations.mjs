@@ -62,7 +62,9 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, al
 
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
 const [scrollControls, onboarding, overview, welcome] = extraFeed;
-const workFeed = catalogFeed.with(recoveryIndex, scrollControls);
+const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
+const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
+workFeed.splice(sailorfyIndex, 0, scrollControls);
 workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>
@@ -132,7 +134,7 @@ const panels = await Promise.all([
   ['icons', await fs.readFile(path.join(dist, 'icons/index.html'), 'utf8')],
 ].map(async ([name, page]) => {
   const main = page.match(/<main\b[\s\S]*?<\/main>/)[0]
-    .replace('<main ', `<main data-portfolio-panel="${name}" aria-label="${name[0].toUpperCase() + name.slice(1)}" hidden `)
+    .replace('<main ', `<main data-portfolio-panel="${name}" aria-label="${name === 'stories' ? 'Case studies' : name[0].toUpperCase() + name.slice(1)}" hidden `)
     .replace(/<header class="explorations-header">[\s\S]*?<\/header>\s*/, '')
     .replace(/<h1>[^<]+<\/h1>\s*/, '')
     .replace('href="/">← Back to home','href="#index">← Back to home')
