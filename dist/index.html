@@ -1806,7 +1806,7 @@
         <div class="story-inner">
           <div class="intro" id="intro-heading">
             <span class="design-selection-frame" aria-hidden="true" hidden><i></i><i></i><i></i><i></i><span class="design-selection-size"></span></span>
-            <span class="sentence"><span class="soft">I’m currently serving <span class="intro-craft">national service</span> in Singapore
+            <span class="sentence"><span class="soft">I’m currently serving <strong class="emphasis">national service</strong> in Singapore
             while</span> <strong class="intro-craft"><span class="design-selection-word" data-design-target="designing"><span class="design-selection-text">designing</span></span></strong> and <strong class="intro-craft">building</strong> projects of my own.</span>
             <span class="sentence"><span class="soft">I’m building</span>
             <a class="project-icon" data-label="Catch" href="https://apps.apple.com/sg/app/catch-sg-buses/id6777373130" aria-label="Catch SG Buses on the App Store"><img src="/media/catch-icon.webp" alt="" width="48" height="48" /></a>,
@@ -2063,9 +2063,32 @@
         githubMeta.textContent = `${calendar.total} contributions in the last year`;
       }
 
+      let githubSnapshot;
+      let githubLive = false;
+      function warmGithubCalendar() {
+        githubSnapshot ??= fetch('/github-contributions.json')
+          .then((response) => {
+            if (!response.ok) throw new Error('No cached calendar');
+            return response.json();
+          })
+          .then((calendar) => {
+            if (!githubLive) {
+              renderGithubCalendar(calendar, false);
+              githubStatus.title = `Last checked ${new Date(calendar.updatedAt).toLocaleDateString()}`;
+            }
+            return true;
+          })
+          .catch(() => {
+            githubSnapshot = undefined;
+            return false;
+          });
+        return githubSnapshot;
+      }
+
       async function loadGithubActivity() {
         if (githubLoaded) return;
         githubLoaded = true;
+        const snapshot = warmGithubCalendar();
 
         // Repository availability must never prevent the calendar from loading.
         fetch('https://api.github.com/users/AdiArya05/repos?sort=pushed&per_page=3', {
@@ -2088,20 +2111,18 @@
           const response = await fetch('/api/github-contributions', { signal: AbortSignal.timeout(10000) });
           if (!response.ok) throw new Error('GitHub calendar unavailable');
           renderGithubCalendar(await response.json(), true);
-        } catch (error) {
-          try {
-            const response = await fetch('/github-contributions.json');
-            if (!response.ok) throw new Error('No cached calendar');
-            const calendar = await response.json();
-            renderGithubCalendar(calendar, false);
-            githubStatus.title = `Last checked ${new Date(calendar.updatedAt).toLocaleDateString()}`;
-          } catch {
+          githubLive = true;
+          githubStatus.removeAttribute('title');
+        } catch {
+          if (!await snapshot) {
             githubStatus.textContent = 'unavailable';
             githubMeta.textContent = '@AdiArya05 · view profile';
-            githubLoaded = false;
           }
+          githubLoaded = false;
         }
       }
+
+      if (matchMedia('(min-width: 701px)').matches) warmGithubCalendar();
 
       githubLink.addEventListener('pointerenter', loadGithubActivity);
       githubLink.addEventListener('focus', loadGithubActivity);
