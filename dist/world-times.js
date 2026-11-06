@@ -2,14 +2,16 @@
   const widget = document.querySelector('#time-zones');
   const button = document.querySelector('#time-zone-toggle');
   const dropdown = document.querySelector('#time-zone-dropdown');
+  if (!widget) return;
+  const phone = matchMedia('(max-width: 700px)');
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
   const aliases = { 'Asia/Calcutta': 'Kolkata', 'UTC': 'UTC', 'Etc/UTC': 'UTC' };
   const localName = aliases[localZone] || localZone.split('/').pop().replaceAll('_', ' ');
   const places = [
-    ['Singapore', 'Asia/Singapore'],
-    ['NYC', 'America/New_York'],
-    ['Vancouver', 'America/Vancouver'],
-    ['India', 'Asia/Kolkata']
+    ['Singapore', 'Asia/Singapore', [1.35, 103.82]],
+    ['NYC', 'America/New_York', [40.71, -74.01]],
+    ['Vancouver', 'America/Vancouver', [49.28, -123.12]],
+    ['India', 'Asia/Kolkata', [22.57, 88.36]]
   ];
   const timeFormat = zone => new Intl.DateTimeFormat('en-GB', {timeZone: zone, hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23'});
   const offsetFormat = zone => new Intl.DateTimeFormat('en', {timeZone: zone, timeZoneName: 'shortOffset'});
@@ -31,9 +33,31 @@
   };
   const visitorZone = matchingZones[localZone] || localZone;
   const otherPlaces = places.filter(([, zone]) => zone !== visitorZone);
-  const rows = [[localName, localZone], ...otherPlaces].map(([name, zone]) => {
-    const row = document.createElement('div');
+  const panel = dropdown.querySelector('.time-zone-panel');
+  const canvas = document.createElement('canvas');
+  canvas.className = 'island-globe';
+  canvas.tabIndex = 0;
+  canvas.setAttribute('aria-label', 'World globe. Drag, scroll, or use the left and right arrow keys to rotate.');
+  panel.prepend(canvas);
+  let globe;
+  let globeLoading;
+  const localPlace = places.find(([, zone]) => zone === visitorZone);
+  const pins = [];
+  const rows = [[localName, localZone, localPlace?.[2]], ...otherPlaces].map(([name, zone, coordinates], index) => {
+    const row = document.createElement(coordinates ? 'button' : 'div');
     row.className = 'island-zone';
+    if (coordinates) {
+      row.type = 'button';
+      row.setAttribute('aria-pressed', 'false');
+      pins.push({ index, coordinates });
+      row.addEventListener('click', async () => {
+        const activeGlobe = await globeLoading;
+        if (!activeGlobe || dropdown.inert) return;
+        visited.querySelector('[aria-pressed="true"]')?.setAttribute('aria-pressed', 'false');
+        row.setAttribute('aria-pressed', 'true');
+        activeGlobe.select(index);
+      });
+    }
     const label = document.createElement('span');
     label.textContent = name;
     const time = document.createElement('time');
@@ -80,9 +104,18 @@
   }
 
   function setOpen(open) {
+    open = open && !phone.matches;
     widget.classList.toggle('is-open', open);
     button.setAttribute('aria-expanded', String(open));
     dropdown.inert = !open;
+    globe?.setActive(open);
+    if (open && !globeLoading) {
+      globeLoading = import('/world-globe.mjs?v=1').then(({ createGlobe }) => {
+        globe = createGlobe(canvas, pins, reduceMotion);
+        globe.setActive(!dropdown.inert);
+        return globe;
+      }).catch(() => { globeLoading = undefined; });
+    }
   }
 
   let hold;
@@ -129,12 +162,24 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') {
       cancelHold();
+      if (dropdown.contains(document.activeElement)) button.focus();
       setOpen(false);
     }
   });
+  let timer;
   function tick() {
     update();
-    setTimeout(tick, 1000 - Date.now() % 1000);
+    timer = setTimeout(tick, 1000 - Date.now() % 1000);
   }
-  tick();
+  function syncViewport() {
+    clearTimeout(timer);
+    if (phone.matches) {
+      cancelHold();
+      setOpen(false);
+    } else {
+      tick();
+    }
+  }
+  phone.addEventListener('change', syncViewport);
+  syncViewport();
 })();

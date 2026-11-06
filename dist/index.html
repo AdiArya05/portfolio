@@ -1690,11 +1690,11 @@
     <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
 
 
-    <link rel="stylesheet" href="/footer-layout.css?v=classic-rainbow-3" />
+    <link rel="stylesheet" href="/footer-layout.css?v=classic-rainbow-4" />
 
     <link rel="stylesheet" href="/design-selection.css?v=20261104-timed" />
     <script src="/design-selection.js?v=20261105-designing" defer></script>
-  <link rel="stylesheet" href="/portfolio-pages.css?v=33" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=34" />
   <script src="/back-to-top.js?v=1" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261105-viewer" />
@@ -1724,7 +1724,7 @@
       </div>
     </div>
     </header>
-    <script src="/world-times.js?v=20261106-island-responsive" defer></script>
+    <script src="/world-times.js?v=20261106-globe" defer></script>
 
     <button class="page-scroll-button footer-discover" id="footer-discover" type="button" aria-label="Scroll down to the footer" aria-controls="singapore-footer"><svg class="down-arrow" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 6.8v10.4m-4.2-4.1 4.2 4.2 4.2-4.2" fill="none" stroke="var(--paper)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scroll down</span></button>
     <script src="/footer-discovery.js?v=20261019-v24" defer></script>
@@ -1909,7 +1909,7 @@
         <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
       </div>
       <div class="rainbow-footer-copy">
-        <p>Thanks for visiting.<br />Made by Aditya Arya.</p>
+        <p>Thanks for visiting.<br />Made by <span class="name name-swap" tabindex="0" aria-label="Aditya Arya"><span class="name-cancel"><span class="name-full">Aditya</span><svg class="name-strike" aria-hidden="true" viewBox="0 0 132 28" preserveAspectRatio="none"><path pathLength="1" d="M2 21 L15 5 L10 22 L27 4 L21 22 L39 5 L33 23 L51 4 L45 22 L63 5 L57 23 L75 5 L69 22 L87 4 L81 22 L99 5 L93 22 L111 5 L105 21 L130 7"/><path pathLength="1" d="M3 8 L18 23 L14 6 L31 23 L27 5 L44 22 L40 6 L57 23 L53 5 L70 22 L66 6 L83 23 L79 5 L96 22 L92 6 L109 22 L105 7 L129 20"/><path pathLength="1" d="M2 14 C16 8 27 20 42 13 S69 19 84 12 S111 18 130 11"/></svg><span class="name-short" aria-hidden="true">adi</span></span> Arya</span>.</p>
       </div>
     </footer>
 
@@ -2311,9 +2311,10 @@
         }, 220);
       }
 
-      const nameSwap = document.querySelector('.name-swap');
-      nameSwap.addEventListener('pointerenter', playPencilScribble);
-      nameSwap.addEventListener('focus', playPencilScribble);
+      document.querySelectorAll('.name-swap').forEach(nameSwap => {
+        nameSwap.addEventListener('pointerenter', playPencilScribble);
+        nameSwap.addEventListener('focus', playPencilScribble);
+      });
 
       const hoverTickTargets = [...document.querySelectorAll('.tool, .social-icon, .project-icon:not(.social-icon)')];
       window.addEventListener('portfolio-clock-hover', playSplitFlapRefresh);
