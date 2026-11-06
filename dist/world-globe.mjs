@@ -25,7 +25,6 @@ export function createGlobe(canvas, pins, reducedMotion) {
   let last = 0;
   let active = false;
   let drag;
-  let resume = 0;
 
   function project({ y, radius: parallel, lon }) {
     const relative = lon - angle;
@@ -38,9 +37,9 @@ export function createGlobe(canvas, pins, reducedMotion) {
   }
 
   const ocean = context.createRadialGradient(64, 49, 6, center, center, radius);
-  ocean.addColorStop(0, '#333941');
-  ocean.addColorStop(.72, '#15181d');
-  ocean.addColorStop(1, '#0a0b0e');
+  ocean.addColorStop(0, '#434b58');
+  ocean.addColorStop(.60, '#222831');
+  ocean.addColorStop(1, '#0b0d12');
 
   function draw() {
     context.clearRect(0, 0, size, size);
@@ -48,10 +47,10 @@ export function createGlobe(canvas, pins, reducedMotion) {
     context.arc(center, center, radius, 0, Math.PI * 2);
     context.fillStyle = ocean;
     context.fill();
-    context.strokeStyle = '#ffffff26';
+    context.strokeStyle = '#ffffff36';
     context.stroke();
 
-    context.fillStyle = '#8f9ca9';
+    context.fillStyle = '#bcc8d7';
     for (const dot of land) {
       const { x, y, front } = project(dot);
       if (front <= 0) continue;
@@ -64,17 +63,26 @@ export function createGlobe(canvas, pins, reducedMotion) {
       const { x, y, front } = project(marker);
       if (front <= 0) continue;
       context.globalAlpha = Math.min(1, front * 5);
+      const pinSize = marker.index === selected ? 1.2 : 1;
+      context.save();
+      context.translate(x, y);
+      context.scale(pinSize, pinSize);
       context.beginPath();
-      context.arc(x, y, marker.index === selected ? 6 : 4.5, 0, Math.PI * 2);
-      context.fillStyle = '#16110c';
+      context.moveTo(0, 0);
+      context.bezierCurveTo(-2, -3, -5.5, -6, -5.5, -10);
+      context.arc(0, -10, 5.5, Math.PI, 0);
+      context.bezierCurveTo(5.5, -6, 2, -3, 0, 0);
+      context.closePath();
+      context.fillStyle = '#ff9f0a';
+      context.shadowColor = '#000b';
+      context.shadowBlur = 4;
       context.fill();
-      context.strokeStyle = '#ff9f0a';
-      context.lineWidth = 1.5;
-      context.stroke();
+      context.shadowBlur = 0;
       context.beginPath();
-      context.arc(x, y, 1.7, 0, Math.PI * 2);
-      context.fillStyle = '#ffbd60';
+      context.arc(0, -10, 2, 0, Math.PI * 2);
+      context.fillStyle = '#382109';
       context.fill();
+      context.restore();
     }
     context.globalAlpha = 1;
     context.lineWidth = 1;
@@ -90,8 +98,8 @@ export function createGlobe(canvas, pins, reducedMotion) {
         angle = target;
         target = undefined;
       }
-    } else if (!drag && now > resume) {
-      angle += elapsed * .00015;
+    } else if (drag === undefined) {
+      angle += elapsed * .00027;
     }
     draw();
     schedule();
@@ -104,7 +112,6 @@ export function createGlobe(canvas, pins, reducedMotion) {
   function rotate(delta) {
     target = undefined;
     angle += delta;
-    resume = performance.now() + 3500;
     draw();
   }
 
@@ -171,7 +178,6 @@ export function createGlobe(canvas, pins, reducedMotion) {
       selected = index;
       const difference = marker.lon - angle;
       target = angle + Math.atan2(Math.sin(difference), Math.cos(difference));
-      resume = performance.now() + 5500;
       if (reducedMotion.matches) {
         angle = target;
         target = undefined;

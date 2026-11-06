@@ -456,7 +456,11 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   --island-details: max(180px, calc(var(--island-rows) * 34px + 14px));
   --island-ease: cubic-bezier(.22, 1, .36, 1);
   isolation: isolate;
-  transition: transform 160ms ease-out;
+  padding-block-end: 0;
+  transition: transform 160ms ease-out, padding-block-end 440ms var(--island-ease);
+}
+:is(.index-toolbar, .reading-toolbar) .clock-island.is-open {
+  padding-block-end: calc(var(--island-details) + 12px);
 }
 .clock-island.is-pressing { transform: scale(.95); }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-toggle {
@@ -501,6 +505,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-dropdown {
   top: 0;
   width: var(--island-compact-width);
+  max-width: var(--island-width);
   height: var(--island-compact-height);
   max-height: none;
   overflow: hidden;
@@ -524,7 +529,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   position: absolute;
   inset: var(--island-compact-height) 0 auto auto;
   display: grid;
-  grid-template-columns: 166px minmax(0, 1fr);
+  grid-template-columns: min(166px, 38%) minmax(0, 1fr);
   align-items: center;
   gap: 12px;
   box-sizing: border-box;
@@ -599,7 +604,8 @@ button.island-zone:is(:hover, [aria-pressed="true"]) { background: #ffffff15; }
 /* The island expands toward the page from the original right-hand clock slot. */
 .index-toolbar .time-zones.clock-island,
 .reading-page .reading-toolbar .time-zones.clock-island {
-  align-self: center;
+  align-self: flex-start;
+  margin-block-start: 5px;
   margin-inline-start: auto;
   z-index: 4000;
 }
@@ -610,6 +616,12 @@ button.island-zone:is(:hover, [aria-pressed="true"]) { background: #ffffff15; }
 
 .portfolio-index .index-toolbar:has(.clock-island) {
   width: min(calc(100% - 2 * max(var(--portfolio-gutter), env(safe-area-inset-left), env(safe-area-inset-right))), 1200px);
+}
+
+@media (min-width: 701px) and (max-width: 900px) {
+  :is(.index-toolbar, .reading-toolbar) .clock-island {
+    --island-width: min(460px, calc(100vw - 385px));
+  }
 }
 
 @media (max-width: 700px) {
