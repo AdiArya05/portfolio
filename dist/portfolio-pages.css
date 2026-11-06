@@ -469,17 +469,15 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   width: 100%;
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(155deg, #fffffff5, #f5f6fbef 55%, #e1e5f0ee);
-  box-shadow: inset 0 0 0 1px #868da542, inset 0 2px 2px #fff, 0 3px 9px #252c451a;
-  backdrop-filter: blur(18px) saturate(145%);
-  -webkit-backdrop-filter: blur(18px) saturate(145%);
+  background: #000;
+  box-shadow: 0 2px 5px #0002;
   transition: width 440ms var(--island-ease), height 440ms var(--island-ease), border-radius 440ms var(--island-ease), transform 160ms ease-out;
 }
 .clock-island.is-open::before {
   width: var(--island-width);
   height: calc(100% + var(--island-details));
   border-radius: 32px;
-  box-shadow: inset 0 0 0 1px #868da542, inset 0 2px 2px #fff, 0 8px 24px #252c4526;
+  box-shadow: 0 8px 26px #0003;
 }
 .clock-island.is-pressing::before { transform: scale(.95); }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-toggle {
@@ -489,7 +487,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   box-sizing: border-box;
   padding: 0 11px;
   border: 0;
-  color: #28325f;
+  color: #ff9f0a;
   background: transparent;
   box-shadow: none;
   backdrop-filter: none;
@@ -538,11 +536,11 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   justify-content: space-between;
   height: var(--island-row-height);
   box-sizing: border-box;
-  border-top: 1px solid #28325f20;
-  color: var(--ink);
+  border-top: 1px solid #ffffff23;
+  color: #e5e5e7;
   font-size: 13px;
 }
-.island-zone time { color: #28325f; font-size: 14px; font-variant-numeric: tabular-nums; }
+.island-zone time { color: #ff9f0a; font-size: 14px; font-variant-numeric: tabular-nums; }
 
 .back-to-top {
   color: #242424;

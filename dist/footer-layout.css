@@ -34,7 +34,7 @@
 .rainbow-bands span {
   --peak: .69;
   height: 100%;
-  background: linear-gradient(to bottom, #f2f4ff00 6%, #eff2fc 23%, #d8dcf0 34%, #b3a6fa 48%, #819ef9 62%, #5569ef 77%, #3c2ae2 92%);
+  background: linear-gradient(to bottom, #ed30dd00 6%, #ed30dd 26%, #e64432 39%, #ffe05d 54%, #dbe6ee 72%, #447cba 88%, #2654e3 95%);
   transform-origin: bottom;
   transform: scaleY(var(--peak));
 }
