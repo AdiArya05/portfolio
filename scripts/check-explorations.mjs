@@ -50,7 +50,7 @@ for (const piece of pieces) {
   } else assert(piece.includes('muted loop playsinline') && piece.includes('preload="none"'));
 }
 for (const match of page.matchAll(/<(?:img|script|link|a|video)\b[^>]*?\b(?:src|href|data-src|poster)="([^"]+)"/g)) {
-  if (!match[1].startsWith('/')) continue;
+  if (!match[1].startsWith('/') || match[1].startsWith('/_vercel/')) continue;
   const file = path.join(dist,match[1].split('?')[0]);
   assert(fs.existsSync(file),`Missing phone-page destination ${file}`);
 }

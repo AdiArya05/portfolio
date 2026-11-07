@@ -182,7 +182,7 @@ for (const project of ['soja', 'catch']) {
   assert(!story.includes('figma-space') && !story.includes('project-facts') && !story.includes('contact-note'), 'Keep story pages minimal');
   for (const match of story.matchAll(/<(?:img|script|link|a)\b[^>]*?\b(?:src|href)="([^"]+)"/g)) {
     const url = new URL(match[1], origin + route);
-    if (url.origin !== origin) continue;
+    if (url.origin !== origin || url.pathname.startsWith('/_vercel/')) continue;
     const target = path.join(dist, decodeURIComponent(url.pathname));
     assert(fs.existsSync(target), `Missing story destination or asset: ${url.pathname}`);
     if (fs.statSync(target).isDirectory()) assert(fs.existsSync(path.join(target, 'index.html')));
