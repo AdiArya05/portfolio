@@ -58,9 +58,29 @@
 
   videos.forEach(video => {
     video.muted = true;
+    const stage = video.closest('.motion-stage');
+    if (stage.querySelector('.motion-poster')) {
+      let frameRequest;
+      video.addEventListener('playing', () => {
+        if (video.hasAttribute('data-frame-ready') || frameRequest !== undefined) return;
+        const reveal = () => {
+          frameRequest = undefined;
+          if (video.readyState >= 2 && !video.error) video.dataset.frameReady = '';
+        };
+        if (video.requestVideoFrameCallback) frameRequest = video.requestVideoFrameCallback(reveal);
+        else reveal();
+      });
+      const resetPoster = () => {
+        if (frameRequest !== undefined) video.cancelVideoFrameCallback(frameRequest);
+        frameRequest = undefined;
+        delete video.dataset.frameReady;
+      };
+      video.addEventListener('emptied', resetPoster);
+      video.addEventListener('error', resetPoster);
+    }
     video.addEventListener('playing', () => paint(video));
     video.addEventListener('pause', () => paint(video));
-    const button = video.closest('.motion-stage').querySelector('.motion-toggle');
+    const button = stage.querySelector('.motion-toggle');
     button.addEventListener('click', event => {
       event.stopPropagation();
       const state = choice(video);

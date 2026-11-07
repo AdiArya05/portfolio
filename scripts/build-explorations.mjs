@@ -22,7 +22,7 @@ const caption = (title, route) => {
 };
 const motionTile = (title, attributes, video, route = '') => `<article class="exploration" ${attributes}>
         <div class="motion-stage">
-          <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}</button>
+          <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}<img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === 'Income Slider' ? 'eager' : 'lazy'}" decoding="async" /></button>
           <button class="motion-toggle" type="button" aria-label="Play ${attribute(video, 'data-name')} preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></button>
         </div>
         ${caption(title, route)}
@@ -90,12 +90,12 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261107-shared-preview" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261107-poster" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261106-dark-idle" defer></script>
   <script src="/explorations/explorations.js?v=20261107-shared-preview" defer></script>
-  <script src="/motion-gallery.js?v=20261107-visibility" defer></script>
+  <script src="/motion-gallery.js?v=20261107-poster" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
