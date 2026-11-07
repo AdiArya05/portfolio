@@ -172,7 +172,7 @@ for (const project of ['soja', 'catch']) {
   assert(readingToolbar?.includes('class="portfolio-nav"') && readingToolbar.includes('id="time-zones"'), 'Keep reading controls in one header so content cannot scroll between them');
   assert(story.includes('viewport-fit=cover'), 'Account for iPhone safe areas in the story header');
   assert(!story.includes('class="icon-mockup"'), 'Remove phone icon mockups from case studies');
-  if (project === 'soja') assert.equal((story.match(/src="\/work\/soja\/media\/final-home.webp"/g) || []).length, 1, 'Show the final home screen only once');
+  if (project === 'soja') assert.equal((story.match(/src="\/work\/article-media\/soja-final-home-1200.webp"/g) || []).length, 1, 'Show the final home screen only once');
   assert.equal((story.match(/<h1\b/g) || []).length, 1);
   assert(!story.includes('noindex'), 'Approved published stories must be indexable');
   assert(story.includes(`<link rel="canonical" href="${origin}/work/${project}"`));
@@ -191,7 +191,17 @@ for (const project of ['soja', 'catch']) {
     const metadata = await sharp(path.join(dist, match[1])).metadata();
     assert.equal(Number(match[0].match(/width="(\d+)"/)[1]), metadata.width);
     assert.equal(Number(match[0].match(/height="(\d+)"/)[1]), metadata.height);
-    assert(/alt="[^"]+"/.test(match[0]), 'Describe story images');
+    assert(/alt="[^"]*"/.test(match[0]), 'Every story image needs an alt attribute');
+    if (!match[1].startsWith('/work/article-media/')) continue;
+    assert(/alt="[^"]+"/.test(match[0]), 'Describe project images');
+    const candidates = match[0].match(/srcset="([^"]+)"/)?.[1].split(', ') ?? [];
+    assert.equal(candidates.length, 2, 'Provide two responsive sizes for each article image');
+    for (const candidate of candidates) {
+      const [url, width] = candidate.split(' ');
+      const image = await sharp(path.join(dist, url)).metadata();
+      assert.equal(image.width, Number.parseInt(width, 10));
+      assert(Math.abs(image.width / image.height - metadata.width / metadata.height) < 0.01, 'Keep the same framing across sizes');
+    }
   }
 }
 for (const filename of ['case-study.js']) {

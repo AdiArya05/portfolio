@@ -12,9 +12,19 @@
     button.addEventListener('click', () => {
       if (matchMedia('(max-width:700px)').matches || lightbox.open) return;
       const image = button.querySelector('img');
-      enlarged.width = Number(image.getAttribute('width')) || image.naturalWidth;
+      const width = Number(image.getAttribute('width')) || image.naturalWidth;
+      enlarged.width = width;
+      enlarged.style.width = `${width}px`;
       enlarged.height = Number(image.getAttribute('height')) || image.naturalHeight;
-      enlarged.src = image.currentSrc || image.src;
+      const preview = image.currentSrc || image.src;
+      enlarged.src = preview;
+      if (preview !== image.src) {
+        const fullSize = new Image();
+        fullSize.src = image.src;
+        fullSize.decode().then(() => {
+          if (lightbox.open && opener === button && enlarged.src === preview) enlarged.src = fullSize.src;
+        }).catch(() => {});
+      }
       enlarged.alt = image.alt;
       opener = button;
       window.PortfolioSounds?.play('image', 'open');
