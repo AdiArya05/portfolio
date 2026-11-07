@@ -23,7 +23,7 @@ const caption = (title, route) => {
 const motionTile = (title, attributes, video, route = '') => `<article class="exploration" ${attributes}>
         <div class="motion-stage">
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}<img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === 'Income Slider' ? 'eager' : 'lazy'}" decoding="async" /></button>
-          <button class="motion-toggle" type="button" aria-label="Play ${attribute(video, 'data-name')} preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></button>
+          <button class="motion-toggle" type="button" aria-label="Play ${attribute(video, 'data-name')} preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5c0-1.1 1.2-1.8 2.15-1.23l11 6.5a1.43 1.43 0 0 1 0 2.46l-11 6.5C8.2 20.3 7 19.6 7 18.5v-13Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4h2.25c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5H6.5c-.83 0-1.5-.67-1.5-1.5v-13c0-.83.67-1.5 1.5-1.5Zm8.75 0h2.25c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5h-2.25c-.83 0-1.5-.67-1.5-1.5v-13c0-.83.67-1.5 1.5-1.5Z" fill="currentColor" /></svg></button>
         </div>
         ${caption(title, route)}
       </article>`;
@@ -112,11 +112,11 @@ const html = `<!doctype html>
     <section class="explorations-feed" aria-label="Interfaces, websites and motion studies">
       ${workFeed.join('\n      ')}
     </section>
-    <footer class="explorations-footer"><a class="back-link" data-liquid-glass href="/"><svg class="glass-symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M17 12H7m4-4-4 4 4 4" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to home</a><a data-liquid-glass href="#explorations"><svg class="glass-symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M12 17V7m-4 4 4-4 4 4" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to top</a></footer>
+    <footer class="explorations-footer"><a class="back-link" data-liquid-glass href="/"><svg class="glass-symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M17 12H7m4-4-4 4 4 4" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to home</a></footer>
   </main>
   <dialog id="media-viewer" aria-label="Media preview">
     <div class="viewer-stage"><img id="modal-image" alt="" hidden /><video id="modal-video" controls muted loop playsinline hidden aria-label="Animation playback"></video></div>
-    <button class="modal-close" data-liquid-glass type="button" aria-label="Close project preview"><span class="dismiss-key" aria-hidden="true">Escape to cancel</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
+    <button class="modal-close" data-liquid-glass type="button" aria-label="Close project preview"><span class="dismiss-key" aria-hidden="true">Esc to cancel</span><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg></button>
   </dialog>
 </body>
 </html>

@@ -34,7 +34,8 @@ const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?
 assert(toolbar?.includes('class="portfolio-nav"') && toolbar.includes('id="time-zones"'), 'Use the case studies opaque reading toolbar');
 assert(page.includes('/typography.css') && page.includes('/work/reading-toolbar.css') && page.includes('/interface-controls.css'));
 assert(page.includes('/interface-sounds.js') && page.includes('/world-times.js'));
-assert(page.includes('Back to home') && page.includes('Back to top'));
+const footer = page.match(/<footer class="explorations-footer"[^>]*>.*?<\/footer>/s)?.[0];
+assert(footer?.includes('Back to home') && !footer.includes('Back to top') && page.includes('/back-to-top.js'));
 assert(page.includes('<dialog') && page.includes('aria-label="Media preview"') && page.includes('id="modal-video"'));
 assert(page.includes('viewport-fit=cover'));
 assert(!page.includes('Previous Portfolio') && !page.includes('catch-live-board-motion') && !page.includes('soja-welcome.'));
