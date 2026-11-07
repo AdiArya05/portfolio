@@ -557,9 +557,11 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   --island-panel-end: 13px;
   --island-globe: 132px;
   --island-details: max(140px, calc(var(--island-rows) * var(--island-row-height) + 8px));
+  --island-duration: 440ms;
   --island-ease: cubic-bezier(.22, 1, .36, 1);
   isolation: isolate;
   padding-block-end: var(--island-details);
+  transform-origin: right top;
   transition: transform 160ms ease-out;
 }
 .clock-island.is-pressing { transform: scale(.95); }
@@ -589,13 +591,24 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   width: 100%;
   min-width: 0;
 }
-:is(.index-toolbar, .reading-toolbar) .clock-island.is-open .time-zone-toggle {
-  padding-inline-end: calc(var(--island-panel-end) + var(--island-row-padding));
+.clock-island #local-matrix time {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: 50%;
+  display: inline-flex;
+  align-items: center;
+  transform: translate(50%, -50%);
+  transition: inset-inline-end var(--island-duration) var(--island-ease), transform var(--island-duration) var(--island-ease);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
-:is(.index-toolbar, .reading-toolbar) .clock-island.is-open #local-matrix {
-  justify-content: flex-end;
+.clock-island.is-open #local-matrix time {
+  inset-inline-end: calc(var(--island-panel-end) + var(--island-row-padding));
+  transform: translate(0, -50%);
 }
-.clock-island #local-matrix time { display: inline-flex; align-items: center; font-size: 16px; font-weight: 500; line-height: 1.25; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .island-seconds { display: inline-flex; }
 .island-digit {
   display: grid;
@@ -622,7 +635,8 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   opacity: 1;
   visibility: visible;
   transform: none;
-  transition: width 440ms var(--island-ease), height 440ms var(--island-ease), border-radius 440ms var(--island-ease), box-shadow 440ms ease;
+  transition: width var(--island-duration) var(--island-ease), height var(--island-duration) var(--island-ease),
+    border-radius var(--island-duration) var(--island-ease), box-shadow var(--island-duration) ease;
 }
 :is(.index-toolbar, .reading-toolbar) .clock-island.is-open .time-zone-dropdown {
   width: var(--island-width);
@@ -705,6 +719,7 @@ a[data-liquid-glass]:is(:hover, :focus-visible) { background: linear-gradient(16
 
 @media (prefers-reduced-motion: reduce) {
   .clock-island,
+  .clock-island #local-matrix time,
   :is(.index-toolbar, .reading-toolbar) .clock-island :is(.time-zone-dropdown, .time-zone-panel),
   .clock-island.is-open .time-zone-dropdown .time-zone-panel { transition: none; }
 }
@@ -774,7 +789,7 @@ a[data-liquid-glass]:focus-visible {
   position: absolute;
   inset-block-start: 0;
   inset-inline-end: calc(100% + 6px);
-  z-index: 2;
+  z-index: 0;
   width: var(--island-compact-height);
   height: var(--island-compact-height);
   overflow: hidden;
@@ -787,11 +802,15 @@ a[data-liquid-glass]:focus-visible {
   user-select: none;
   transition: width 440ms var(--island-ease), height 440ms var(--island-ease),
     border-radius 440ms var(--island-ease), box-shadow 440ms var(--island-ease),
-    inset-inline-end 440ms var(--island-ease), opacity 150ms ease, visibility 150ms,
+    inset-inline-end 440ms var(--island-ease), opacity 120ms ease var(--island-duration), visibility 120ms var(--island-duration),
     transform 380ms var(--island-ease);
 }
 .clock-island .island-spotify.is-pressing { transform: scale(.92); }
-.clock-island.is-open .island-spotify { opacity: 0; visibility: hidden; }
+.clock-island.is-open .island-spotify {
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0s;
+}
 .clock-island.is-spotify-open :is(.time-zone-toggle, .time-zone-dropdown) { visibility: hidden; }
 .clock-island.is-spotify-open .island-spotify {
   inset-inline-end: 0;
