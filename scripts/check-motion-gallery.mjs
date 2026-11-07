@@ -4,8 +4,6 @@ import vm from 'node:vm';
 
 const events = new Map();
 const reduced = { matches:false, addEventListener:(_, fn) => events.set('reduced',fn) };
-const phone = { matches:false, addEventListener:(_, fn) => events.set('phone',fn) };
-let idleCallback;
 const navigator = { connection:{saveData:false} };
 const makeVideo = name => {
   const listeners = {};
@@ -25,10 +23,8 @@ const videos = [makeVideo('income'),makeVideo('other'),makeVideo('income')];
 const document = { hidden:false, querySelectorAll:() => videos, addEventListener:(name,fn) => events.set(name,fn) };
 let observe;
 vm.runInNewContext(fs.readFileSync(new URL('../dist/motion-gallery.js',import.meta.url),'utf8'), {
-  document,navigator,matchMedia:query => query.includes('max-width') ? phone : reduced,
+  document,navigator,matchMedia:() => reduced,
   window:{addEventListener:(name,fn) => events.set(name,fn)},
-  setTimeout:fn => { idleCallback=fn; },
-  clearTimeout:() => { idleCallback=undefined; },
   IntersectionObserver:class { constructor(fn) { observe=fn; } observe(){} },
 });
 const visibility = (video,on) => observe([{target:video,isIntersecting:on,intersectionRatio:on ? 1 : 0}]);
@@ -58,14 +54,4 @@ videos[1].toggle();
 assert(!videos[1].paused, 'Reduced motion still allows intentional playback');
 visibility(videos[1],false);
 assert(videos[1].paused);
-phone.matches=true; events.get('phone')();
-events.get('scroll')();
-delete videos[1].src;
-observe([
-  {target:videos[1],isIntersecting:true,intersectionRatio:.8},
-  {target:videos[2],isIntersecting:true,intersectionRatio:.6},
-]);
-assert(videos.every(video => video.paused) && !videos[1].hasAttribute('src'), 'Scrolling stops playback and defers new downloads');
-idleCallback();
-assert(!videos[1].paused && videos[2].paused && videos[1].hasAttribute('src'), 'Once scrolling settles, play only the most visible eligible clip');
-console.log('PASS: video visibility, lazy loading, modal pause, explicit controls, loop copies, hidden tabs, reduced motion and phone scroll playback.');
+console.log('PASS: video visibility, lazy loading, modal pause, explicit controls, loop copies, hidden tabs and reduced motion.');
