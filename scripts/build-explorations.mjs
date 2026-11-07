@@ -64,7 +64,7 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, al
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
 const [scrollControls, codexUsage, onboarding, overview, welcome] = extraFeed;
 const [worldClock, spotifyPlayer] = [['World Clock', 'world-clock-motion'], ['Spotify Player', 'spotify-player-motion']].map(([title, filename]) => {
-  const video = `<video class="card-media" width="3840" height="2880" poster="/media/${filename}.webp?v=4x3-4k" data-src="/media/${filename}.mp4?v=4x3-4k" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
+  const video = `<video class="card-media" width="3840" height="2880" poster="/media/${filename}.webp?v=4k-stream" data-src="/media/${filename}.mp4?v=4k-stream" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
   return motionTile(title, `data-title="${title}"`, video);
 });
 const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
@@ -95,7 +95,7 @@ const html = `<!doctype html>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261106-dark-idle" defer></script>
   <script src="/explorations/explorations.js?v=20261107-shared-preview" defer></script>
-  <script src="/motion-gallery.js?v=20261107-4k" defer></script>
+  <script src="/motion-gallery.js?v=20261107-scroll" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />

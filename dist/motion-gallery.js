@@ -22,10 +22,15 @@
   };
 
   const videos = [...document.querySelectorAll('.motion-stage video')];
+  const workVideos = videos.filter(video => video.closest('.explorations-feed'));
+  const phone = matchMedia('(max-width:700px)');
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
-  const visible = new Set();
+  const visibility = new Map();
   const choices = new Map();
   let modalOpen = false;
+  let scrolling = false;
+  let scrollTimer;
+  let activeWorkVideo;
 
   function choice(video) {
     if (!choices.has(video.dataset.src)) choices.set(video.dataset.src, { paused:false, explicit:false });
@@ -37,24 +42,62 @@
     button.dataset.playing = String(playing);
     button.setAttribute('aria-label', `${playing ? 'Pause' : 'Play'} ${video.dataset.name} preview`);
   }
-  function sync(video) {
+  function wantsPlayback(video) {
     const state = choice(video);
     const automatic = !reduced.matches && !navigator.connection?.saveData;
-    const shouldPlay = visible.has(video) && !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
+    return !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
+  }
+  function sync(video, shouldPlay) {
     if (shouldPlay) {
       if (!video.hasAttribute('src')) { video.src = video.dataset.src; }
-      if (video.paused) video.play().catch(() => paint(video));
-    } else video.pause();
-    paint(video);
+      if (video.paused) {
+        video.play().catch(() => paint(video));
+        paint(video);
+      }
+    } else if (!video.paused) video.pause();
   }
-  function syncAll() { videos.forEach(sync); }
+  function syncAll() {
+    let nextWorkVideo;
+    if (phone.matches && !scrolling) {
+      let bestRatio = .55;
+      for (const video of workVideos) {
+        const ratio = visibility.get(video) || 0;
+        if (ratio < bestRatio || (nextWorkVideo && ratio === bestRatio) || !wantsPlayback(video)) continue;
+        nextWorkVideo = video;
+        bestRatio = ratio;
+      }
+    }
+    if (activeWorkVideo !== nextWorkVideo && phone.matches) activeWorkVideo?.pause();
+    activeWorkVideo = nextWorkVideo;
+    for (const video of videos) {
+      const shouldPlay = phone.matches && workVideos.includes(video)
+        ? video === activeWorkVideo
+        : (visibility.get(video) || 0) >= .15 && wantsPlayback(video);
+      sync(video, shouldPlay);
+    }
+  }
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && entry.intersectionRatio >= .15) visible.add(entry.target);
-      else visible.delete(entry.target);
-      sync(entry.target);
+      if (entry.isIntersecting) visibility.set(entry.target, entry.intersectionRatio);
+      else visibility.delete(entry.target);
     });
-  }, { threshold:[0,.15] });
+    syncAll();
+  }, { threshold:[0,.15,.55,.75,1] });
+
+  if (workVideos.length) {
+    window.addEventListener('scroll', () => {
+      if (!phone.matches) return;
+      if (!scrolling) {
+        scrolling = true;
+        syncAll();
+      }
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        scrolling = false;
+        syncAll();
+      }, 150);
+    }, {passive:true});
+  }
 
   videos.forEach(video => {
     video.muted = true;
@@ -73,6 +116,7 @@
   });
   document.addEventListener('visibilitychange', syncAll);
   reduced.addEventListener('change', syncAll);
+  phone.addEventListener('change', syncAll);
   window.addEventListener('portfolio-media-state', event => {
     modalOpen = event.detail.open;
     syncAll();
