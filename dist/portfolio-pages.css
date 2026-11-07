@@ -394,6 +394,8 @@ body.portfolio-index .story {
   white-space: nowrap;
 }
 
+.name-short[data-nickname]::before { content: attr(data-nickname); }
+
 .name-swap:is(:hover, :focus-visible) {
   outline: none;
 }

@@ -48,9 +48,9 @@ const catalogFeed = phoneCards.map((card, index) => {
 
 const extraMedia = [
   ['Scroll controls', '/media/scroll-controls.webp', '', 'Glass Back to top and Scroll down buttons'],
-  ['Soja onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/'],
-  ['Soja recovery overview', '/work/soja/media/final-overview.webp', '/work/soja/'],
-  ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/']
+  ['Soja onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/', 'Soja onboarding on an iPhone, with an amber background and an Apple sign-in button'],
+  ['Soja recovery overview', '/work/soja/media/final-overview.webp', '/work/soja/', 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
+  ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/', 'Soja’s welcome screen with the app name, sleep tagline and sign-in options']
 ];
 const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, alt = title]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
