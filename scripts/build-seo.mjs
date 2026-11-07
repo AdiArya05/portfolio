@@ -12,8 +12,7 @@ const person = {
   alternateName: ['Adi Arya', 'adiarya05'],
   url: origin + '/',
   image: origin + '/media/aditya-avatar-4k.webp',
-  jobTitle: 'AI product builder',
-  description: 'Aditya Arya is an AI product builder based in Singapore, building Catch SG Buses, Soja and digital projects.',
+  description: 'Aditya Arya designs and builds apps and digital projects in Singapore, including Catch SG Buses and Soja.',
   homeLocation: { '@type': 'Place', name: 'Singapore' },
   knowsAbout: ['Artificial intelligence', 'Product development', 'Product design', 'iOS app development'],
   sameAs: [
@@ -34,9 +33,9 @@ const site = {
 const pages = [
   {
     route: '/', file: 'index.html', type: 'ProfilePage',
-    title: 'Aditya Arya — AI Product Builder in Singapore',
-    description: 'Aditya Arya is an AI product builder in Singapore. Explore Catch SG Buses, Soja, Maritime Fusion, and the design and development behind his digital projects.',
-    image: '/media/aditya-arya-social.jpg', imageAlt: 'Aditya Arya, AI product builder based in Singapore',
+    title: 'Aditya Arya — Portfolio',
+    description: 'Aditya Arya’s portfolio in Singapore. Explore Catch SG Buses, Soja and Maritime Fusion, with case studies on design, development and the tools behind the work.',
+    image: '/media/aditya-arya-social.jpg', imageAlt: 'Aditya Arya portfolio preview with the Singapore skyline',
   },
   {
     route: '/work', file: 'work/index.html', type: 'CollectionPage',
@@ -60,7 +59,7 @@ const pages = [
     route: '/work/catch', file: 'work/catch/index.html', type: 'Article',
     title: 'Designing Catch SG Buses — Aditya Arya',
     headline: 'Designing Catch',
-    description: 'How Aditya Arya designed and built Catch SG Buses, a Singapore bus timing app with nearby stops, leave-now guidance and iPhone Live Activities.',
+    description: 'How Aditya Arya designed Catch SG Buses in Figma and built and tested it with Codex, an AI coding tool. Explore bus timings, leave-now guidance and Live Activities.',
     image: '/media/catch-live-board.webp', imageAlt: 'Catch SG Buses arrival board designed by Aditya Arya',
   },
   {
