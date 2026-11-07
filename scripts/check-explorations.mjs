@@ -11,7 +11,7 @@ const page = read('work/index.html');
 const cards = [...catalog.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const pieces = [...page.matchAll(/<article class="exploration"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const title = html => html.match(/data-title="([^"]+)"/)[1];
-assert(cards.every(card => pieces.some(piece => title(piece) === title(card))), 'Work must include all catalog media');
+assert(cards.every(card => pieces.some(piece => title(piece).toLowerCase() === title(card).toLowerCase())), 'Work must include all catalog media');
 assert(pieces.length > cards.length && !page.includes('class="work-icon-grid"'), 'Work is a media-only collage');
 assert(!page.includes('/work/catch/media/current-home.webp') && !page.includes('/work/soja/media/onboarding.webp'));
 assert(page.includes('/media/soja-welcome-framed-4k.webp'));
@@ -26,7 +26,7 @@ assert.deepEqual([...iconFiles].sort(), [
   '/work/catch/media/icon-painted-orange.webp',
 ].sort());
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
-assert.equal(title(pieces[0]),'Income slider','Lead with the recording on phone');
+assert.equal(title(pieces[0]),'Income Slider','Lead with the recording on phone');
 assert.equal(title(cards[1]),'Income slider','Keep the recording second on desktop');
 assert.equal(title(pieces[1]),'Catch Live Activity');
 assert(pieces.every(piece => piece.includes('class="catalog-title') && piece.includes('<time datetime=')), 'Each Work tile has a preview title and year');

@@ -20,15 +20,15 @@ const caption = (title, route) => {
     : `<button class="catalog-title preview-label" type="button" aria-haspopup="dialog">${title}</button>`;
   return `<div class="catalog-caption">${control}<time datetime="2026">2026</time></div>`;
 };
-const motionTile = (title, attributes, video, route = '', ratio = '') => `<article class="exploration" ${attributes}>
-        <div class="motion-stage"${ratio ? ` style="aspect-ratio:${ratio}"` : ''}>
+const motionTile = (title, attributes, video, route = '') => `<article class="exploration" ${attributes}>
+        <div class="motion-stage">
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}</button>
           <button class="motion-toggle" type="button" aria-label="Play ${attribute(video, 'data-name')} preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></button>
         </div>
         ${caption(title, route)}
       </article>`;
 const catalogFeed = phoneCards.map((card, index) => {
-  const title = attribute(card, 'data-title');
+  const title = attribute(card, 'data-title').replace(/\b[a-z]/g, letter => letter.toUpperCase());
   const description = attribute(card, 'data-description');
   const route = attribute(card, 'data-case-study');
   const destination = route ? '' : attribute(card, 'data-link');
@@ -47,11 +47,11 @@ const catalogFeed = phoneCards.map((card, index) => {
 });
 
 const extraMedia = [
-  ['Scroll controls', '/media/scroll-controls.webp', '', 'Glass Back to top and Scroll down buttons'],
-  ['Codex Usage menu bar', '/media/codex-usage-menu-bar.webp', '', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover'],
-  ['Soja onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/', 'Soja onboarding on an iPhone, with an amber background and an Apple sign-in button'],
-  ['Soja recovery overview', '/work/soja/media/final-overview.webp', '/work/soja/', 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
-  ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/', 'Soja’s welcome screen with the app name, sleep tagline and sign-in options']
+  ['Scroll Controls', '/media/scroll-controls.webp', '', 'Glass Back to top and Scroll down buttons'],
+  ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', '', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover'],
+  ['Soja Onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/', 'Soja onboarding on an iPhone, with an amber background and an Apple sign-in button'],
+  ['Soja Recovery Overview', '/work/soja/media/final-overview.webp', '/work/soja/', 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
+  ['Soja Welcome Screen', '/work/soja/media/final-welcome.webp', '/work/soja/', 'Soja’s welcome screen with the app name, sleep tagline and sign-in options']
 ];
 const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, alt = title]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
@@ -63,14 +63,14 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, al
 
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
 const [scrollControls, codexUsage, onboarding, overview, welcome] = extraFeed;
-const islandMotion = [['World Clock', 'world-clock-motion'], ['Spotify Player', 'spotify-player-motion']].map(([title, filename]) => {
+const [worldClock, spotifyPlayer] = [['World Clock', 'world-clock-motion'], ['Spotify Player', 'spotify-player-motion']].map(([title, filename]) => {
   const video = `<video class="card-media" width="3840" height="2160" poster="/media/${filename}.webp" data-src="/media/${filename}.mp4" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
-  return motionTile(title, `data-title="${title}"`, video, '', '16 / 9');
+  return motionTile(title, `data-title="${title}"`, video);
 });
 const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, ...islandMotion, codexUsage);
-workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome, scrollControls);
+workFeed.splice(sailorfyIndex, 0, worldClock, codexUsage, spotifyPlayer, scrollControls);
+workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>
 <html lang="en">
