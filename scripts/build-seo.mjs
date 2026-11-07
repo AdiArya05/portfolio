@@ -33,7 +33,7 @@ const site = {
 const pages = [
   {
     route: '/', file: 'index.html', type: 'ProfilePage',
-    title: 'Aditya Arya | Design & iOS Apps',
+    title: 'Aditya Arya | Portfolio',
     description: 'I’m Aditya Arya. I design and build apps in Singapore, including Catch SG Buses for daily commutes and Soja for getting your sleep schedule back on track.',
     image: '/media/aditya-arya-social.jpg', imageAlt: 'Aditya Arya portfolio preview with the Singapore skyline',
   },

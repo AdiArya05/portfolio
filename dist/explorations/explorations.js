@@ -26,7 +26,6 @@
       const piece = button.closest('.exploration');
       const media = piece.querySelector('.card-media');
       const motion = media.tagName === 'VIDEO';
-      viewer.classList.toggle('is-fullscreen-video', piece.hasAttribute('data-landscape-video'));
       opener = button;
       const width = (motion ? media.videoWidth : media.naturalWidth) || Number(media.getAttribute('width'));
       const height = (motion ? media.videoHeight : media.naturalHeight) || Number(media.getAttribute('height'));
@@ -54,13 +53,6 @@
   } });
   viewer.addEventListener('close', () => {
     video.pause();
-    if (viewer.classList.contains('is-fullscreen-video')) {
-      const source = opener?.closest('.exploration')?.querySelector('video');
-      if (source?.readyState && video.readyState) source.currentTime = video.currentTime;
-      video.removeAttribute('src');
-      video.load();
-      viewer.classList.remove('is-fullscreen-video');
-    }
     image.removeAttribute('src');
     image.alt = '';
     window.dispatchEvent(new CustomEvent('portfolio-media-state',{detail:{open:false}}));

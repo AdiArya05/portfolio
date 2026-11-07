@@ -65,7 +65,7 @@ const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title')
 const [scrollControls, codexUsage, onboarding, overview, welcome] = extraFeed;
 const [worldClock, spotifyPlayer] = [['World Clock', 'world-clock-motion'], ['Spotify Player', 'spotify-player-motion']].map(([title, filename]) => {
   const video = `<video class="card-media" width="1920" height="1440" poster="/media/${filename}.webp?v=4x3" data-src="/media/${filename}.mp4?v=4x3" data-mobile-src="/media/${filename}-mobile.mp4" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
-  return motionTile(title, `data-title="${title}" data-landscape-video`, video);
+  return motionTile(title, `data-title="${title}"`, video);
 });
 const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
@@ -84,17 +84,17 @@ const html = `<!doctype html>
   <link rel="icon" href="/media/aditya-arya-icon.png" />
   <link rel="canonical" href="https://adiarya.vercel.app/work" />
   <script src="/media-motion.js?v=20261105-tabs" defer></script>
-  <script src="/media-dialog.js?v=20261107-landscape" defer></script>
+  <script src="/media-dialog.js?v=20261107-shared-preview" defer></script>
   <link rel="stylesheet" href="/typography.css?v=20261107-cursor" />
   <link rel="stylesheet" href="/work/case-study.css?v=20261104-neutral" />
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261107-4x3" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261107-shared-preview" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261106-dark-idle" defer></script>
-  <script src="/explorations/explorations.js?v=20261107-landscape" defer></script>
+  <script src="/explorations/explorations.js?v=20261107-shared-preview" defer></script>
   <script src="/motion-gallery.js?v=20261107-landscape" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
