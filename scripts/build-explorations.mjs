@@ -63,13 +63,13 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, al
 
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
 const [scrollControls, codexUsage, onboarding, overview, welcome] = extraFeed;
-const [worldClock, spotifyPlayer] = [['World Clock', 'world-clock-motion'], ['Spotify Player', 'spotify-player-motion']].map(([title, filename]) => {
+const [worldClock, musicPlayer] = [['World Clock', 'world-clock-motion'], ['Music Player', 'spotify-player-motion']].map(([title, filename]) => {
   const video = `<video class="card-media" width="3840" height="2880" poster="/media/${filename}.webp?v=4k-stream" data-src="/media/${filename}.mp4?v=4k-stream" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
   return motionTile(title, `data-title="${title}"`, video);
 });
 const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, worldClock, codexUsage, scrollControls, spotifyPlayer);
+workFeed.splice(sailorfyIndex, 0, worldClock, codexUsage, scrollControls, musicPlayer);
 workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>
