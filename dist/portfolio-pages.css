@@ -553,6 +553,8 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   --island-compact-width: 125px;
   --island-compact-height: 37px;
   --island-row-height: 26px;
+  --island-row-padding: 6px;
+  --island-panel-end: 13px;
   --island-globe: 132px;
   --island-details: max(140px, calc(var(--island-rows) * var(--island-row-height) + 8px));
   --island-ease: cubic-bezier(.22, 1, .36, 1);
@@ -586,6 +588,12 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   justify-content: center;
   width: 100%;
   min-width: 0;
+}
+:is(.index-toolbar, .reading-toolbar) .clock-island.is-open .time-zone-toggle {
+  padding-inline-end: calc(var(--island-panel-end) + var(--island-row-padding));
+}
+:is(.index-toolbar, .reading-toolbar) .clock-island.is-open #local-matrix {
+  justify-content: flex-end;
 }
 .clock-island #local-matrix time { display: inline-flex; align-items: center; font-size: 16px; font-weight: 500; line-height: 1.25; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .island-seconds { display: inline-flex; }
@@ -633,7 +641,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   width: var(--island-width);
   min-height: var(--island-details);
   margin: 0;
-  padding: 0 13px 8px 10px;
+  padding: 0 var(--island-panel-end) 8px 10px;
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -668,7 +676,7 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   width: 100%;
   min-height: var(--island-row-height);
   box-sizing: border-box;
-  padding: 1px 6px;
+  padding: 1px var(--island-row-padding);
   border: 0;
   border-radius: 9px;
   background: transparent;

@@ -99,7 +99,7 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=60" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=61" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
 </head>

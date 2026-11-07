@@ -749,18 +749,20 @@
       }
 
       .codex-preview {
-        --muted: #a3a3a3;
         display: grid;
         width: 10.8em;
         min-width: 270px;
         min-height: 161px;
         padding: 13px;
         gap: 10px;
+        border-color: var(--line);
         border-radius: 16px;
-        background: #000;
+        background: color-mix(in srgb, var(--paper) 94%, transparent);
+        color: var(--ink);
         font-size: 0.34em;
         font-weight: 500;
         line-height: 1.25;
+        backdrop-filter: blur(20px);
       }
 
       .contribution-grid.codex-grid {
@@ -773,12 +775,11 @@
         height: auto;
         aspect-ratio: 1;
         border-radius: 2.5px;
-        background: #303030;
       }
-      .codex-grid .contribution-day[data-level="1"] { background: #013566; }
-      .codex-grid .contribution-day[data-level="2"] { background: #004f99; }
-      .codex-grid .contribution-day[data-level="3"] { background: #0285ff; }
-      .codex-grid .contribution-day[data-level="4"] { background: #66b5ff; }
+      .codex-grid .contribution-day[data-level="1"] { background: #74c0fc; }
+      .codex-grid .contribution-day[data-level="2"] { background: #228be6; }
+      .codex-grid .contribution-day[data-level="3"] { background: #087fdb; }
+      .codex-grid .contribution-day[data-level="4"] { background: #07549a; }
 
       .codex-months {
         display: flex;
@@ -1595,7 +1596,7 @@
 
     <link rel="stylesheet" href="/design-selection.css?v=20261104-timed" />
     <script src="/design-selection.js?v=20261105-designing" defer></script>
-  <link rel="stylesheet" href="/portfolio-pages.css?v=60" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=61" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261107-poster" />
@@ -1678,7 +1679,7 @@
               <a class="tool" data-label="Arc" href="https://arc.net/" target="_blank" rel="noreferrer" aria-label="Visit Arc">
                 <span class="intro-link-label">Arc</span></a>, <a class="tool has-preview" data-label="Codex" href="https://chatgpt.com/codex" target="_blank" rel="noreferrer" aria-label="Open Aditya's Codex home">
                 <span class="intro-link-label">Codex</span><span class="tool-preview codex-preview" aria-hidden="true">
-                  <span class="github-activity-head"><strong>Codex activity</strong><span>7 Nov 2026</span></span>
+                  <span class="github-activity-head"><strong>Codex activity</strong></span>
                   <span class="contribution-grid codex-grid" id="codex-grid"></span>
                   <span class="codex-months"><span>Jul</span><span>Aug</span><span>Sept</span><span>Oct</span><span>Nov</span></span>
                 </span></a> and <a class="tool has-preview" data-label="Wispr Flow" href="https://wisprflow.ai/" target="_blank" rel="noreferrer" aria-label="Visit Wispr Flow">
