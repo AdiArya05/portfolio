@@ -792,7 +792,7 @@ a[data-liquid-glass]:focus-visible {
   border-radius: 31px;
   box-shadow: 0 12px 32px #0003;
 }
-.clock-island .island-spotify-toggle {
+.clock-island :is(.island-spotify-toggle, .island-spotify-profile) {
   position: absolute;
   inset: 0 0 auto auto;
   z-index: 1;
@@ -810,9 +810,9 @@ a[data-liquid-glass]:focus-visible {
   cursor: pointer;
   transition: background 180ms ease, transform 180ms var(--island-ease);
 }
-.clock-island .island-spotify-toggle svg { width: 18px; height: 18px; }
-.clock-island .island-spotify-toggle:hover { background: #ffffff16; }
-.clock-island .island-spotify-toggle:active { transform: scale(.88); }
+.clock-island :is(.island-spotify-toggle, .island-spotify-profile) svg { width: 18px; height: 18px; }
+.clock-island :is(.island-spotify-toggle, .island-spotify-profile):hover { background: #ffffff16; }
+.clock-island :is(.island-spotify-toggle, .island-spotify-profile):active { transform: scale(.88); }
 .clock-island .island-spotify :focus-visible { outline: 2px solid currentColor; outline-offset: -3px; }
 .clock-island .island-spotify.is-playing {
   width: calc(var(--island-compact-height) + 19px);
@@ -820,11 +820,12 @@ a[data-liquid-glass]:focus-visible {
 .clock-island.is-spotify-open .island-spotify.is-playing {
   width: min(355px, var(--island-width));
 }
-.clock-island.is-spotify-open .island-spotify-toggle {
+.clock-island:not(.is-spotify-open) .island-spotify-profile,
+.clock-island.is-spotify-open .island-spotify-toggle { display: none; }
+.clock-island.is-spotify-open .island-spotify-profile {
   inset: 16px 13px auto auto;
   width: 33px;
 }
-.clock-island.is-spotify-open .is-playing .island-spotify-toggle svg { display: none; }
 .island-wave { display: none; align-items: center; gap: 2px; height: 17px; }
 .is-playing .island-wave { display: inline-flex; }
 .island-wave i {
@@ -863,7 +864,7 @@ a[data-liquid-glass]:focus-visible {
 .clock-island.is-spotify-open .island-spotify:not(.is-playing) {
   height: 76px;
 }
-.clock-island.is-spotify-open .island-spotify:not(.is-playing) .island-spotify-toggle {
+.clock-island.is-spotify-open .island-spotify:not(.is-playing) .island-spotify-profile {
   inset-block-start: 19px;
 }
 .clock-island.is-spotify-open .island-spotify:not(.is-playing) .island-spotify-details {
@@ -906,7 +907,7 @@ a[data-liquid-glass]:focus-visible {
 .island-timeline progress::-webkit-progress-value { background: #aaaab0; }
 .island-timeline progress::-moz-progress-bar { background: #aaaab0; }
 @media (prefers-reduced-motion: reduce) {
-  .clock-island :is(.island-spotify, .island-spotify-toggle, .island-spotify-details) { transition: none; }
+  .clock-island :is(.island-spotify, .island-spotify-toggle, .island-spotify-profile, .island-spotify-details) { transition: none; }
   .island-wave i { animation: none; }
 }
 

@@ -79,6 +79,14 @@
   spotifyToggle.setAttribute('aria-expanded', 'false');
   spotifyToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.3a.75.75 0 0 1-1 .25c-2.8-1.7-6.3-2.1-10.45-1.16a.75.75 0 0 1-.33-1.46c4.53-1.04 8.4-.6 11.53 1.34.35.2.46.67.25 1.03Zm1.47-3.26a.94.94 0 0 1-1.29.31c-3.2-1.97-8.1-2.54-11.9-1.38a.94.94 0 0 1-.55-1.8c4.33-1.31 9.72-.68 13.43 1.59.44.27.58.85.31 1.28Zm.13-3.4C15.26 8.36 8.94 8.16 5.29 9.27a1.13 1.13 0 0 1-.66-2.16C8.83 5.84 15.79 6.08 20.25 8.73a1.12 1.12 0 1 1-1.15 1.92Z"/></svg>';
   const spotifyDetails = document.createElement('div');
+  const spotifyProfile = document.createElement('a');
+  spotifyProfile.className = 'island-spotify-profile';
+  spotifyProfile.href = 'https://open.spotify.com/user/iv9upf33icxg0mng3dfbmtwfh';
+  spotifyProfile.target = '_blank';
+  spotifyProfile.rel = 'noopener noreferrer';
+  spotifyProfile.draggable = false;
+  spotifyProfile.setAttribute('aria-label', 'Open Adi’s Spotify profile in a new tab');
+  spotifyProfile.append(spotifyToggle.firstElementChild.cloneNode(true));
   spotifyDetails.id = 'island-spotify-details';
   spotifyDetails.className = 'island-spotify-details';
   spotifyDetails.inert = true;
@@ -104,14 +112,17 @@
   timeline.innerHTML = '<span></span><progress max="1" value="0" aria-label="Track progress"></progress><span></span>';
   const [elapsed, progress, remaining] = timeline.children;
   spotifyDetails.append(artwork, trackInfo, timeline);
-  spotify.append(spotifyToggle, spotifyDetails);
+  spotify.append(spotifyToggle, spotifyProfile, spotifyDetails);
   widget.insertBefore(spotify, button);
 
   function setSpotifyOpen(open) {
+    const previousControl = open ? spotifyToggle : spotifyProfile;
+    const restoreFocus = document.activeElement === previousControl;
     widget.classList.toggle('is-spotify-open', open);
     button.inert = open;
     spotifyToggle.setAttribute('aria-expanded', String(open));
     spotifyDetails.inert = !open;
+    if (restoreFocus) (open ? spotifyProfile : spotifyToggle).focus({ preventScroll: true });
     if (open) updateTimeline(Date.now());
   }
 
@@ -344,6 +355,7 @@
   widget.addEventListener('click', event => {
     if (!suppressClick || event.detail === 0) return;
     suppressClick = false;
+    event.preventDefault();
     event.stopPropagation();
   }, true);
 
@@ -369,11 +381,11 @@
   }, { capture: true, passive: false });
 
   widget.addEventListener('keydown', event => {
-    if (event.target !== button && event.target !== spotifyToggle) return;
+    if (event.target !== button && event.target !== spotifyToggle && event.target !== spotifyProfile) return;
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
     event.preventDefault();
     swipeIsland(event.key === 'ArrowLeft' ? -1 : 1);
-    const control = widget.classList.contains('is-spotify-open') ? spotifyToggle : button;
+    const control = widget.classList.contains('is-spotify-open') ? spotifyProfile : button;
     control.focus({ preventScroll: true });
   });
 
