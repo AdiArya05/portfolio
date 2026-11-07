@@ -4,3 +4,9 @@ html,body { font-family:var(--font-sans); }
 body { font-size:16px; line-height:1.5; font-weight:400; }
 button,input,select,textarea { font-family:inherit; }
 html { scrollbar-gutter: stable; font-feature-settings: normal; font-variation-settings: normal; }
+
+@media (hover: hover) and (pointer: fine) {
+  html { cursor: url("/media/portfolio-cursor.svg") 3 2, auto; }
+  :where(p, h1, h2, h3, figcaption, .intro, button, input, select, textarea, [contenteditable="true"]) { cursor: auto; }
+  :where(a[href], summary) { cursor: pointer; }
+}

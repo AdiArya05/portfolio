@@ -14,6 +14,18 @@ Source: https://github.com/AdiArya05/portfolio
 - Run `npm ci` before testing a fresh checkout. `npm run optimize:images` regenerates the lossless WebP alternatives from the preserved PNG originals and verifies identical decoded pixels. Tests independently recheck gallery pixel equality and dimensions.
 - Never commit `.env` files, tokens, local Vercel credentials or dependencies.
 
+After each SEO release goes live, check the first page of Google results with Singapore selected and personalization off (`gl=sg&hl=en&pws=0`). Repeat these exact queries:
+
+- Aditya Arya
+- Aditya Arya AI
+- Aditya Arya Singapore
+- Aditya Arya portfolio
+- Aditya Arya Catch SG Buses
+- Aditya Arya Soja
+- Aditya Arya AI Engineer Singapore
+
+Record the first organic position of `linkedin.com/in/aditya-arya1` and `adiarya.vercel.app` for each query and compare with the previous run. Count the LinkedIn profile separately from posts. Run `site:adiarya.vercel.app` as a separate discovery check and use Search Console URL Inspection for indexing status.
+
 ## Release checks — 15 October 2026
 
 - Public page, robots.txt, sitemap.xml, social preview image, analytics script and GitHub calendar API returned HTTP 200.

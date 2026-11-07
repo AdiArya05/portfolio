@@ -48,6 +48,7 @@ const catalogFeed = phoneCards.map((card, index) => {
 
 const extraMedia = [
   ['Scroll controls', '/media/scroll-controls.webp', '', 'Glass Back to top and Scroll down buttons'],
+  ['Codex Usage menu bar', '/media/codex-usage-menu-bar.webp', '', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover'],
   ['Soja onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/', 'Soja onboarding on an iPhone, with an amber background and an Apple sign-in button'],
   ['Soja recovery overview', '/work/soja/media/final-overview.webp', '/work/soja/', 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
   ['Soja welcome screen', '/work/soja/media/final-welcome.webp', '/work/soja/', 'Soja’s welcome screen with the app name, sleep tagline and sign-in options']
@@ -61,10 +62,10 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, al
 }));
 
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
-const [scrollControls, onboarding, overview, welcome] = extraFeed;
+const [scrollControls, codexUsage, onboarding, overview, welcome] = extraFeed;
 const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, scrollControls);
+workFeed.splice(sailorfyIndex, 0, scrollControls, codexUsage);
 workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>
@@ -80,7 +81,7 @@ const html = `<!doctype html>
   <link rel="canonical" href="https://adiarya.vercel.app/work" />
   <script src="/media-motion.js?v=20261105-tabs" defer></script>
   <script src="/media-dialog.js?v=20261027-v2" defer></script>
-  <link rel="stylesheet" href="/typography.css?v=20261105-system" />
+  <link rel="stylesheet" href="/typography.css?v=20261107-cursor" />
   <link rel="stylesheet" href="/work/case-study.css?v=20261104-neutral" />
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />

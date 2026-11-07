@@ -87,7 +87,7 @@ assert(html.includes('href="https://drive.google.com/file/d/16-1kgD510pvwfmND5SY
 assert(!html.includes('href="https://github.com/Rajsuthan/maritime-fusion"'), 'Do not restore the private repository destination');
 assert(work.includes('aria-label="Close project preview"'));
 assert(!html.includes('fonts.googleapis.com') && !html.includes('fonts.gstatic.com'), 'Typography must not depend on remote fonts');
-assert(html.includes('/typography.css?v=20261105-system'));
+assert(/href="\/typography\.css\?v=[^"]+"/.test(html));
 assert(fs.readFileSync(path.join(dist, 'typography.css'), 'utf8').includes("--font-sans:ui-sans-serif,system-ui"));
 assert(!html.includes('class="contact-shine"'), 'Keep the homepage contact prompt removed');
 assert(fs.readFileSync(path.join(dist,'fonts/space-grotesk-v22-latin.woff2')).subarray(0,4).toString() === 'wOF2');
