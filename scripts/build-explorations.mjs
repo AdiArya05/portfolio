@@ -64,7 +64,7 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, al
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
 const [scrollControls, codexUsage, onboarding, overview, welcome] = extraFeed;
 const [worldClock, spotifyPlayer] = [['World Clock', 'world-clock-motion'], ['Spotify Player', 'spotify-player-motion']].map(([title, filename]) => {
-  const video = `<video class="card-media" width="3840" height="2160" poster="/media/${filename}.webp" data-src="/media/${filename}.mp4" data-mobile-src="/media/${filename}-720p.mp4" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
+  const video = `<video class="card-media" width="1920" height="1440" poster="/media/${filename}.webp?v=4x3" data-src="/media/${filename}.mp4?v=4x3" data-mobile-src="/media/${filename}-mobile.mp4" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
   return motionTile(title, `data-title="${title}" data-landscape-video`, video);
 });
 const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
@@ -90,7 +90,7 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261107-landscape" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261107-4x3" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261106-dark-idle" defer></script>
