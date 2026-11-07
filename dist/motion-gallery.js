@@ -1,6 +1,4 @@
 (() => {
-  const phone = matchMedia('(max-width:700px)');
-  const sourceFor = video => (phone.matches && video.dataset.mobileSrc) || video.dataset.src;
   window.PortfolioMotionVideo = {
     prepare(video, source) {
       video.width = Number(source.getAttribute('width')) || source.videoWidth;
@@ -17,7 +15,7 @@
         }
       }
       video.muted = true;
-      const url = sourceFor(source) || source.currentSrc || source.src;
+      const url = source.dataset.src || source.currentSrc || source.src;
       if (video.getAttribute('src') !== url) video.src = url;
       video.currentTime = source.currentTime || 0;
     }
@@ -44,7 +42,7 @@
     const automatic = !reduced.matches && !navigator.connection?.saveData;
     const shouldPlay = visible.has(video) && !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
     if (shouldPlay) {
-      if (!video.hasAttribute('src')) { video.src = sourceFor(video); }
+      if (!video.hasAttribute('src')) { video.src = video.dataset.src; }
       if (video.paused) video.play().catch(() => paint(video));
     } else video.pause();
     paint(video);
