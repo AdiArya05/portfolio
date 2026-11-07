@@ -20,6 +20,13 @@ const caption = (title, route) => {
     : `<button class="catalog-title preview-label" type="button" aria-haspopup="dialog">${title}</button>`;
   return `<div class="catalog-caption">${control}<time datetime="2026">2026</time></div>`;
 };
+const motionTile = (title, attributes, video, route = '', ratio = '') => `<article class="exploration" ${attributes}>
+        <div class="motion-stage"${ratio ? ` style="aspect-ratio:${ratio}"` : ''}>
+          <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}</button>
+          <button class="motion-toggle" type="button" aria-label="Play ${attribute(video, 'data-name')} preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M17 5v14" stroke="currentColor" stroke-width="4" stroke-linecap="round" /></svg></button>
+        </div>
+        ${caption(title, route)}
+      </article>`;
 const catalogFeed = phoneCards.map((card, index) => {
   const title = attribute(card, 'data-title');
   const description = attribute(card, 'data-description');
@@ -29,14 +36,7 @@ const catalogFeed = phoneCards.map((card, index) => {
   const attributes = `data-title="${title}" data-description="${description}" data-destination="${destination}" data-action="${label}"${route ? ` data-case-study="${route}"` : ''}`;
   if (card.includes('data-motion=')) {
     const video = card.match(/<video[^>]+><\/video>/)[0];
-    const toggle = card.match(/<button class="motion-toggle"[\s\S]*?<\/button>/)[0];
-    return `<article class="exploration" ${attributes}>
-        <div class="motion-stage">
-          <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}</button>
-          ${toggle}
-        </div>
-        ${caption(title, route)}
-      </article>`;
+    return motionTile(title, attributes, video, route);
   }
   let image = card.match(/<img class="card-media"[^>]+>/)[0].replaceAll('="media/', '="/media/');
   if (index < 2) image = image.replace('loading="lazy"', 'loading="eager" fetchpriority="high"');
@@ -67,6 +67,10 @@ const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
 workFeed.splice(sailorfyIndex, 0, scrollControls, codexUsage);
 workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
+for (const [title, filename] of [['World Clock', 'world-clock-motion'], ['Spotify Player', 'spotify-player-motion']]) {
+  const video = `<video class="card-media" width="3840" height="2160" poster="/media/${filename}.webp" data-src="/media/${filename}.mp4" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
+  workFeed.push(motionTile(title, `data-title="${title}"`, video, '', '16 / 9'));
+}
 
 const html = `<!doctype html>
 <html lang="en">
