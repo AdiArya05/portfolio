@@ -12,7 +12,7 @@ const person = {
   alternateName: ['Adi Arya', 'adiarya05'],
   url: origin + '/',
   image: origin + '/media/aditya-avatar-4k.webp',
-  description: 'Aditya Arya designs and builds apps in Singapore. His projects include Catch SG Buses and Soja.',
+  description: 'Aditya Arya designs and builds apps in Singapore, including Catch SG Buses.',
   homeLocation: { '@type': 'Place', name: 'Singapore' },
   knowsAbout: ['Artificial intelligence', 'Product development', 'Product design', 'iOS app development'],
   sameAs: [
@@ -33,8 +33,8 @@ const site = {
 const pages = [
   {
     route: '/', file: 'index.html', type: 'ProfilePage',
-    title: 'Aditya Arya | Portfolio',
-    description: 'I’m Aditya Arya. I design and build apps in Singapore, including Catch SG Buses for daily commutes and Soja for getting your sleep schedule back on track.',
+    title: 'Aditya Arya',
+    description: 'I’m Aditya Arya. I design and build apps in Singapore, including Catch SG Buses, a bus timing app.',
     image: '/media/aditya-arya-social.jpg', imageAlt: 'Aditya Arya portfolio preview with the Singapore skyline',
   },
   {
