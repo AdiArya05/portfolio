@@ -20,9 +20,11 @@ const caption = (title, route) => {
     : `<button class="catalog-title preview-label" type="button" aria-haspopup="dialog">${title}</button>`;
   return `<div class="catalog-caption">${control}<time datetime="2026">2026</time></div>`;
 };
+const dotTitle = 'What If Dot Replaced Siri?';
+const dotPoster = '/media/dot-iphone-concept.webp';
 const motionTile = (title, attributes, video, route = '') => `<article class="exploration" ${attributes}>
         <div class="motion-stage">
-          <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}<img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === 'Income Slider' ? 'eager' : 'lazy'}" decoding="async" /></button>
+          <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}<img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === dotTitle ? 'eager' : 'lazy'}" decoding="async" /></button>
           <button class="motion-toggle" type="button" aria-label="Play ${attribute(video, 'data-name')} preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5c0-1.1 1.2-1.8 2.15-1.23l11 6.5a1.43 1.43 0 0 1 0 2.46l-11 6.5C8.2 20.3 7 19.6 7 18.5v-13Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4h2.25c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5H6.5c-.83 0-1.5-.67-1.5-1.5v-13c0-.83.67-1.5 1.5-1.5Zm8.75 0h2.25c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5h-2.25c-.83 0-1.5-.67-1.5-1.5v-13c0-.83.67-1.5 1.5-1.5Z" fill="currentColor" /></svg></button>
         </div>
         ${caption(title, route)}
@@ -63,13 +65,18 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, al
 
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
 const [scrollControls, codexUsage, onboarding, overview, welcome] = extraFeed;
-const [worldClock, musicPlayer] = [['World Clock', 'world-clock-motion'], ['Music Player', 'spotify-player-motion']].map(([title, filename]) => {
-  const video = `<video class="card-media" width="3840" height="2880" poster="/media/${filename}.webp?v=4k-stream" data-src="/media/${filename}.mp4?v=4k-stream" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
+const landscapeMotionTile = (title, poster, source) => {
+  const video = `<video class="card-media" width="3840" height="2880" poster="${poster}" data-src="${source}" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
   return motionTile(title, `data-title="${title}"`, video);
-});
-const workFeed = catalogFeed.filter((_, index) => index !== recoveryIndex);
+};
+const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-concept-4k.mp4');
+const [worldClock, musicPlayer] = [['World Clock', 'world-clock-motion'], ['Music Player', 'spotify-player-motion']].map(([title, filename]) =>
+  landscapeMotionTile(title, `/media/${filename}.webp?v=4k-stream`, `/media/${filename}.mp4?v=4k-stream`)
+);
+const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
+const workFeed = [dot, ...remainingFeed];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, worldClock, codexUsage, scrollControls, musicPlayer);
+workFeed.splice(sailorfyIndex, 0, worldClock, codexUsage, incomeSlider, scrollControls, musicPlayer);
 workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>
@@ -78,7 +85,7 @@ const html = `<!doctype html>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Work — Aditya Arya</title>
-  <link rel="preload" as="image" href="/media/income-slider-iphone17pro.webp" />
+  <link rel="preload" as="image" href="${dotPoster}" />
   <meta name="description" content="Interfaces, websites and motion studies by Aditya Arya." />
   <meta name="theme-color" content="#fafafa" />
   <link rel="icon" href="/media/aditya-arya-icon.png" />
@@ -146,7 +153,7 @@ const panels = await Promise.all([
     .replaceAll('loading="eager" fetchpriority="high"', 'loading="lazy"');
   if (name !== 'work') return main;
   const dialog = page.match(/<dialog\b[\s\S]*?<\/dialog>/)[0].replaceAll('id="modal-', 'id="work-modal-');
-  return `${main}\n    ${dialog}`;
+  return `${main.replace('loading="eager"', 'loading="lazy"')}\n    ${dialog}`;
 }));
 await fs.writeFile(indexPath, index.replace(
   /<!-- portfolio-tabs:start -->[\s\S]*?<!-- portfolio-tabs:end -->/,

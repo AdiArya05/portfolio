@@ -26,9 +26,17 @@ assert.deepEqual([...iconFiles].sort(), [
   '/work/catch/media/icon-painted-orange.webp',
 ].sort());
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
-assert.equal(title(pieces[0]),'Income Slider','Lead with the recording on phone');
-assert.equal(title(cards[1]),'Income slider','Keep the recording second on desktop');
-assert.equal(title(pieces[1]),'Catch Live Activity');
+assert.deepEqual(pieces.slice(0, 7).map(title), [
+  'What If Dot Replaced Siri?',
+  'Catch Live Activity',
+  'World Clock',
+  'Codex Usage Menu Bar',
+  'Income Slider',
+  'Scroll Controls',
+  'Music Player',
+]);
+assert(pieces[0].includes('width="3840" height="2880"') && pieces[0].includes('/media/dot-iphone-concept-4k.mp4'));
+assert.equal(title(cards[1]),'Income slider','Keep the separate desktop reel order');
 assert(pieces.every(piece => piece.includes('class="catalog-title') && piece.includes('<time datetime=')), 'Each Work tile has a preview title and year');
 const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
 assert(toolbar?.includes('class="portfolio-nav"') && toolbar.includes('id="time-zones"'), 'Use the case studies opaque reading toolbar');
