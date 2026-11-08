@@ -20,10 +20,8 @@
   const visited = document.querySelector('#visited-time-zones');
   widget.classList.add('clock-island');
   face.classList.remove('matrix-row');
-  face.innerHTML = '<time><span></span><span class="island-seconds"><span class="island-digit"><span></span><span></span></span><span class="island-digit"><span></span><span></span></span></span></time>';
-  const localTime = face.querySelector('time');
-  const [localMinutes, localSeconds] = localTime.children;
-  const digits = Array.from(localSeconds.children, digit => Array.from(digit.children));
+  const localTime = document.createElement('time');
+  face.replaceChildren(localTime);
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const matchingZones = {
     'Asia/Calcutta': 'Asia/Kolkata',
@@ -157,8 +155,8 @@
     timeline.hidden = false;
   }
 
-  function updateClockLabel(now) {
-    const clockLabel = `${localName}, ${localMinutes.textContent.slice(0, -1)}, ${getOffset(localOffset, now)}. World times`;
+  function updateClockLabel(now, minutes) {
+    const clockLabel = `${localName}, ${minutes}, ${getOffset(localOffset, now)}. World times`;
     button.setAttribute('aria-label', clockLabel);
   }
 
@@ -215,30 +213,8 @@
     if (widget.classList.contains('is-spotify-open')) updateTimeline(now.getTime());
     const value = localFormatter.format(now);
     const minutes = value.slice(0, -3);
-    if (localMinutes.textContent !== minutes + ':') {
-      localMinutes.textContent = minutes + ':';
-      updateClockLabel(now);
-    }
-    const seconds = value.slice(-2);
-    digits.forEach(([current, previous], index) => {
-      const next = seconds[index];
-      if (current.textContent === next) return;
-
-      const outgoing = current.textContent;
-      current.textContent = next;
-      if (!outgoing || reduceMotion.matches || document.hidden) return;
-
-      previous.textContent = outgoing;
-      const timing = { duration: 330, easing: 'cubic-bezier(.22, .75, .24, 1)' };
-      previous.animate([
-        { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
-        { opacity: 0, transform: 'translateY(-.35em)' }
-      ], timing);
-      current.animate([
-        { opacity: .35, transform: 'translateY(.35em)' },
-        { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' }
-      ], timing);
-    });
+    if (localTime.textContent.slice(0, -3) !== minutes) updateClockLabel(now, minutes);
+    localTime.textContent = value;
     for (const { time, formatter } of rows) {
       const value = formatter.format(now);
       if (time.textContent !== value) time.textContent = value;

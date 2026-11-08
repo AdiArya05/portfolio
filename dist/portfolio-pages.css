@@ -609,16 +609,6 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   inset-inline-end: calc(var(--island-panel-end) + var(--island-row-padding));
   transform: translate(0, -50%);
 }
-.island-seconds { display: inline-flex; }
-.island-digit {
-  display: grid;
-  place-items: center;
-  grid-template-columns: minmax(0, 1fr);
-  width: max(1ch, .64em);
-  overflow: hidden;
-}
-.island-digit > span { grid-area: 1 / 1; }
-.island-digit > span + span { opacity: 0; }
 .clock-island .zone-chevron { display: none; }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-dropdown {
   top: 0;
