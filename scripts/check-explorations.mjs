@@ -27,7 +27,7 @@ assert.deepEqual([...iconFiles].sort(), [
 ].sort());
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
 assert.deepEqual(pieces.slice(0, 7).map(title), [
-  'Dot as an iPhone Assistant',
+  'Dot In The Dynamic Island',
   'Catch Live Activity',
   'World Clock',
   'Codex Usage Menu Bar',

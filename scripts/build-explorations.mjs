@@ -20,7 +20,7 @@ const caption = (title, route) => {
     : `<button class="catalog-title preview-label" type="button" aria-haspopup="dialog">${title}</button>`;
   return `<div class="catalog-caption">${control}<time datetime="2026">2026</time></div>`;
 };
-const dotTitle = 'Dot as an iPhone Assistant';
+const dotTitle = 'Dot In The Dynamic Island';
 const dotPoster = '/media/dot-iphone-assistant.webp';
 const motionTile = (title, attributes, video, route = '') => `<article class="exploration" ${attributes}>
         <div class="motion-stage">
