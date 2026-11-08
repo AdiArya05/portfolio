@@ -27,7 +27,7 @@ assert.deepEqual([...iconFiles].sort(), [
 ].sort());
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
 assert.deepEqual(pieces.slice(0, 7).map(title), [
-  'What If Dot Replaced Siri?',
+  'Dot as an iPhone Assistant',
   'Catch Live Activity',
   'World Clock',
   'Codex Usage Menu Bar',
@@ -35,7 +35,7 @@ assert.deepEqual(pieces.slice(0, 7).map(title), [
   'Scroll Controls',
   'Music Player',
 ]);
-assert(pieces[0].includes('width="3840" height="2880"') && pieces[0].includes('/media/dot-iphone-concept-4k.mp4'));
+assert(pieces[0].includes('width="3840" height="2880"') && pieces[0].includes('/media/dot-iphone-assistant-4k.mp4'));
 assert.equal(title(cards[1]),'Income slider','Keep the separate desktop reel order');
 assert(pieces.every(piece => piece.includes('class="catalog-title') && piece.includes('<time datetime=')), 'Each Work tile has a preview title and year');
 const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
@@ -56,7 +56,15 @@ for (const piece of pieces) {
     assert.equal(Number(image.match(/width="(\d+)"/)[1]),metadata.width);
     assert.equal(Number(image.match(/height="(\d+)"/)[1]),metadata.height);
     assert(!piece.includes('max-width:700px'),'Visible phone images must load real media');
-  } else assert(piece.includes('muted loop playsinline') && piece.includes('preload="none"'));
+  } else {
+    assert(piece.includes('muted loop playsinline') && piece.includes('preload="none"'));
+    const video = piece.match(/<video[^>]+>/)[0];
+    if (video.includes('width="3840" height="2880"')) {
+      const poster = video.match(/poster="([^"]+)"/)[1];
+      const {width, height} = await sharp(path.join(dist, poster)).metadata();
+      assert.deepEqual([width, height], [3840, 2880], `${title(piece)} should have a native 4K poster`);
+    }
+  }
 }
 for (const match of page.matchAll(/<(?:img|script|link|a|video)\b[^>]*?\b(?:src|href|data-src|poster)="([^"]+)"/g)) {
   if (!match[1].startsWith('/') || match[1].startsWith('/_vercel/')) continue;

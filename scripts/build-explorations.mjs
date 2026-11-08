@@ -20,8 +20,8 @@ const caption = (title, route) => {
     : `<button class="catalog-title preview-label" type="button" aria-haspopup="dialog">${title}</button>`;
   return `<div class="catalog-caption">${control}<time datetime="2026">2026</time></div>`;
 };
-const dotTitle = 'What If Dot Replaced Siri?';
-const dotPoster = '/media/dot-iphone-concept.webp';
+const dotTitle = 'Dot as an iPhone Assistant';
+const dotPoster = '/media/dot-iphone-assistant.webp';
 const motionTile = (title, attributes, video, route = '') => `<article class="exploration" ${attributes}>
         <div class="motion-stage">
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}<img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === dotTitle ? 'eager' : 'lazy'}" decoding="async" /></button>
@@ -69,9 +69,9 @@ const landscapeMotionTile = (title, poster, source) => {
   const video = `<video class="card-media" width="3840" height="2880" poster="${poster}" data-src="${source}" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
   return motionTile(title, `data-title="${title}"`, video);
 };
-const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-concept-4k.mp4');
+const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4');
 const [worldClock, musicPlayer] = [['World Clock', 'world-clock-motion'], ['Music Player', 'spotify-player-motion']].map(([title, filename]) =>
-  landscapeMotionTile(title, `/media/${filename}.webp?v=4k-stream`, `/media/${filename}.mp4?v=4k-stream`)
+  landscapeMotionTile(title, `/media/${filename}-4k.webp`, `/media/${filename}.mp4?v=4k-stream`)
 );
 const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const workFeed = [dot, ...remainingFeed];
