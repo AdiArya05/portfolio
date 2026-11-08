@@ -38,6 +38,36 @@ assert.deepEqual(pieces.slice(0, 7).map(title), [
 assert(pieces[0].includes('width="3840" height="2880"') && pieces[0].includes('/media/dot-iphone-assistant-4k.mp4'));
 assert.equal(title(cards[1]),'Income slider','Keep the separate desktop reel order');
 assert(pieces.every(piece => piece.includes('class="catalog-title') && piece.includes('<time datetime=')), 'Each Work tile has a preview title and year');
+const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
+const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
+const sojaSite = 'https://soja.framer.website/';
+const destinations = {
+  'Dot In The Dynamic Island': 'https://github.com/AdiArya05/dot-prototype',
+  'Catch Live Activity': catchApp,
+  'World Clock': portfolioRepo,
+  'Codex Usage Menu Bar': `${portfolioRepo}/blob/main/dist/media/codex-usage-menu-bar.webp`,
+  'Scroll Controls': `${portfolioRepo}/blob/main/dist/media/scroll-controls.webp`,
+  'Music Player': `${portfolioRepo}/blob/main/dist/world-times.js`,
+  'Sailorfy': 'https://sailorfy.framer.website/',
+  'Catch Live Board': catchApp,
+  'Soja Website': sojaSite,
+  'Catch Nearby': catchApp,
+  'Soja Onboarding': sojaSite,
+  'Soja Recovery': sojaSite,
+  'Soja Recovery Overview': sojaSite,
+  'Soja Welcome Screen': sojaSite,
+};
+for (const piece of pieces) {
+  const name = title(piece);
+  if (name === 'Income Slider') {
+    assert(piece.includes('<button class="catalog-title preview-label"'));
+  } else {
+    const link = piece.match(/<a class="catalog-title" href="([^"]+)"/)?.[1];
+    assert.equal(link, destinations[name], `Wrong title link for ${name}`);
+    assert(link, `Missing title link for ${name}`);
+  }
+  assert(piece.includes('<button class="preview-open"'), `Keep the media preview for ${name}`);
+}
 const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
 assert(toolbar?.includes('class="portfolio-nav"') && toolbar.includes('id="time-zones"'), 'Use the case studies opaque reading toolbar');
 assert(page.includes('/typography.css') && page.includes('/work/reading-toolbar.css') && page.includes('/interface-controls.css'));

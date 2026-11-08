@@ -14,64 +14,72 @@ const phoneCards = [
   ...phoneLeadTitles.map(title => cards.find(card => attribute(card, 'data-title') === title)),
   ...cards.filter(card => !phoneLeadTitles.includes(attribute(card, 'data-title'))),
 ];
-const caption = (title, route) => {
-  const control = route
-    ? `<a class="catalog-title" href="${route}">${title}</a>`
+const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
+const portfolioSource = `${portfolioRepo}/blob/main/dist`;
+const sojaSite = 'https://soja.framer.website/';
+const caption = (title, href) => {
+  const control = href
+    ? `<a class="catalog-title" href="${href}" target="_blank" rel="noopener">${title}</a>`
     : `<button class="catalog-title preview-label" type="button" aria-haspopup="dialog">${title}</button>`;
   return `<div class="catalog-caption">${control}<time datetime="2026">2026</time></div>`;
 };
 const dotTitle = 'Dot In The Dynamic Island';
 const dotPoster = '/media/dot-iphone-assistant.webp';
-const motionTile = (title, attributes, video, route = '') => `<article class="exploration" ${attributes}>
+const motionTile = (title, attributes, video, href = '') => `<article class="exploration" ${attributes}>
         <div class="motion-stage">
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${video}<img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === dotTitle ? 'eager' : 'lazy'}" decoding="async" /></button>
           <button class="motion-toggle" type="button" aria-label="Play ${attribute(video, 'data-name')} preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5c0-1.1 1.2-1.8 2.15-1.23l11 6.5a1.43 1.43 0 0 1 0 2.46l-11 6.5C8.2 20.3 7 19.6 7 18.5v-13Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4h2.25c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5H6.5c-.83 0-1.5-.67-1.5-1.5v-13c0-.83.67-1.5 1.5-1.5Zm8.75 0h2.25c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5h-2.25c-.83 0-1.5-.67-1.5-1.5v-13c0-.83.67-1.5 1.5-1.5Z" fill="currentColor" /></svg></button>
         </div>
-        ${caption(title, route)}
+        ${caption(title, href)}
       </article>`;
 const catalogFeed = phoneCards.map((card, index) => {
   const title = attribute(card, 'data-title').replace(/\b[a-z]/g, letter => letter.toUpperCase());
   const description = attribute(card, 'data-description');
   const route = attribute(card, 'data-case-study');
-  const destination = route ? '' : attribute(card, 'data-link');
+  const projectLink = attribute(card, 'data-link');
+  const destination = route ? '' : projectLink;
+  const href = route === '/work/soja/' ? sojaSite : projectLink;
   const label = attribute(card, 'data-link-label');
   const attributes = `data-title="${title}" data-description="${description}" data-destination="${destination}" data-action="${label}"${route ? ` data-case-study="${route}"` : ''}`;
   if (card.includes('data-motion=')) {
     const video = card.match(/<video[^>]+><\/video>/)[0];
-    return motionTile(title, attributes, video, route);
+    return motionTile(title, attributes, video, href);
   }
   let image = card.match(/<img class="card-media"[^>]+>/)[0].replaceAll('="media/', '="/media/');
   if (index < 2) image = image.replace('loading="lazy"', 'loading="eager" fetchpriority="high"');
   return `<article class="exploration" ${attributes}>
         <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${image}</button>
-        ${caption(title, route)}
+        ${caption(title, href)}
       </article>`;
 });
 
 const extraMedia = [
-  ['Scroll Controls', '/media/scroll-controls.webp', '', 'Glass Back to top and Scroll down buttons'],
-  ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', '', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover'],
-  ['Soja Onboarding', '/media/soja-welcome-framed-4k.webp', '/work/soja/', 'Soja onboarding on an iPhone, with an amber background and an Apple sign-in button'],
-  ['Soja Recovery Overview', '/work/soja/media/final-overview.webp', '/work/soja/', 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
-  ['Soja Welcome Screen', '/work/soja/media/final-welcome.webp', '/work/soja/', 'Soja’s welcome screen with the app name, sleep tagline and sign-in options']
+  ['Scroll Controls', '/media/scroll-controls.webp', `${portfolioSource}/media/scroll-controls.webp`, 'Glass Back to top and Scroll down buttons'],
+  ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', `${portfolioSource}/media/codex-usage-menu-bar.webp`, 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover'],
+  ['Soja Onboarding', '/media/soja-welcome-framed-4k.webp', sojaSite, 'Soja onboarding on an iPhone, with an amber background and an Apple sign-in button'],
+  ['Soja Recovery Overview', '/work/soja/media/final-overview.webp', sojaSite, 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
+  ['Soja Welcome Screen', '/work/soja/media/final-welcome.webp', sojaSite, 'Soja’s welcome screen with the app name, sleep tagline and sign-in options']
 ];
-const extraFeed = await Promise.all(extraMedia.map(async ([title, src, route, alt = title]) => {
+const extraFeed = await Promise.all(extraMedia.map(async ([title, src, href, alt]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
-  return `<article class="exploration" data-title="${title}"${route ? ` data-case-study="${route}"` : ''}>
+  return `<article class="exploration" data-title="${title}">
     <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview"><img class="card-media" src="${src}" width="${width}" height="${height}" alt="${alt}" loading="lazy" decoding="async"></button>
-    ${caption(title, route)}
+    ${caption(title, href)}
   </article>`;
 }));
 
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
 const [scrollControls, codexUsage, onboarding, overview, welcome] = extraFeed;
-const landscapeMotionTile = (title, poster, source) => {
+const landscapeMotionTile = (title, poster, source, href) => {
   const video = `<video class="card-media" width="3840" height="2880" poster="${poster}" data-src="${source}" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
-  return motionTile(title, `data-title="${title}"`, video);
+  return motionTile(title, `data-title="${title}"`, video, href);
 };
-const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4');
-const [worldClock, musicPlayer] = [['World Clock', 'world-clock-motion'], ['Music Player', 'spotify-player-motion']].map(([title, filename]) =>
-  landscapeMotionTile(title, `/media/${filename}-4k.webp`, `/media/${filename}.mp4?v=4k-stream`)
+const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://github.com/AdiArya05/dot-prototype');
+const [worldClock, musicPlayer] = [
+  ['World Clock', 'world-clock-motion', portfolioRepo],
+  ['Music Player', 'spotify-player-motion', `${portfolioSource}/world-times.js`],
+].map(([title, filename, href]) =>
+  landscapeMotionTile(title, `/media/${filename}-4k.webp`, `/media/${filename}.mp4?v=4k-stream`, href)
 );
 const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const workFeed = [dot, ...remainingFeed];
