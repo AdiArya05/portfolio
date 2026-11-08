@@ -609,6 +609,22 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   inset-inline-end: calc(var(--island-panel-end) + var(--island-row-padding));
   transform: translate(0, -50%);
 }
+.island-seconds { display: inline-flex; }
+.island-digit {
+  width: max(1ch, .64em);
+  height: .9em;
+  overflow: hidden;
+  text-align: center;
+}
+.island-digit-strip {
+  display: block;
+  transform: translateY(-50%);
+}
+.island-digit-strip > span {
+  display: block;
+  height: .9em;
+  line-height: .9;
+}
 .clock-island .zone-chevron { display: none; }
 :is(.index-toolbar, .reading-toolbar) .clock-island .time-zone-dropdown {
   top: 0;

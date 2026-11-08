@@ -21,7 +21,16 @@
   widget.classList.add('clock-island');
   face.classList.remove('matrix-row');
   const localTime = document.createElement('time');
+  localTime.innerHTML = `
+    <span></span>
+    <span class="island-seconds" aria-hidden="true">
+      <span class="island-digit"><span class="island-digit-strip"><span></span><span></span></span></span>
+      <span class="island-digit"><span class="island-digit-strip"><span></span><span></span></span></span>
+    </span>
+  `;
   face.replaceChildren(localTime);
+  const [localMinutes, localSeconds] = localTime.children;
+  const digitStrips = localSeconds.querySelectorAll('.island-digit-strip');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const matchingZones = {
     'Asia/Calcutta': 'Asia/Kolkata',
@@ -213,8 +222,27 @@
     if (widget.classList.contains('is-spotify-open')) updateTimeline(now.getTime());
     const value = localFormatter.format(now);
     const minutes = value.slice(0, -3);
-    if (localTime.textContent.slice(0, -3) !== minutes) updateClockLabel(now, minutes);
-    localTime.textContent = value;
+    if (localMinutes.textContent !== minutes + ':') {
+      localMinutes.textContent = minutes + ':';
+      updateClockLabel(now, minutes);
+    }
+    localTime.dateTime = value;
+    const seconds = value.slice(-2);
+    digitStrips.forEach((strip, index) => {
+      const [outgoing, current] = strip.children;
+      const next = seconds[index];
+      if (current.textContent === next) return;
+      strip.getAnimations().forEach(animation => animation.cancel());
+      outgoing.textContent = current.textContent;
+      current.textContent = next;
+      if (!outgoing.textContent || reduceMotion.matches || document.hidden) return;
+
+      // Keep the old and new glyphs on one strip so they move through the same window.
+      strip.animate([
+        { transform: 'translateY(0)' },
+        { transform: 'translateY(-50%)' }
+      ], { duration: 300, easing: 'cubic-bezier(.22, .75, .24, 1)' });
+    });
     for (const { time, formatter } of rows) {
       const value = formatter.format(now);
       if (time.textContent !== value) time.textContent = value;
