@@ -802,13 +802,14 @@ a[data-liquid-glass]:focus-visible {
   user-select: none;
   transition: width 440ms var(--island-ease), height 440ms var(--island-ease),
     border-radius 440ms var(--island-ease), box-shadow 440ms var(--island-ease),
-    inset-inline-end 440ms var(--island-ease), opacity 120ms ease var(--island-duration), visibility 120ms var(--island-duration),
-    transform 380ms var(--island-ease);
+    inset-inline-end 440ms var(--island-ease), opacity 200ms ease 150ms, visibility 200ms linear 150ms,
+    translate 300ms var(--island-ease) 120ms, transform 380ms var(--island-ease);
 }
 .clock-island .island-spotify.is-pressing { transform: scale(.92); }
 .clock-island.is-open .island-spotify {
   opacity: 0;
   visibility: hidden;
+  translate: 12px 0;
   transition-delay: 0s;
 }
 .clock-island.is-spotify-open :is(.time-zone-toggle, .time-zone-dropdown) { visibility: hidden; }

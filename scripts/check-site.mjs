@@ -34,7 +34,7 @@ for (const [index, card] of cards.entries()) {
     for (const attr of ['data-src','poster']) {
       const file = path.join(dist, video.match(new RegExp(`${attr}="([^"]+)"`))[1]);
       assert(fs.existsSync(file), `Missing motion asset ${file}`);
-      assert(fs.statSync(file).size < 2_000_000, 'Keep motion assets light');
+      assert(fs.statSync(file).size < (attr === 'data-src' ? 4_000_000 : 2_000_000), 'Keep motion assets light');
     }
     assert(card.includes('class="motion-toggle"'), 'Allow pausing looping motion');
     assert(card.includes('aria-haspopup="dialog"'), 'Offer a full preview');

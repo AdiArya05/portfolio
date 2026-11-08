@@ -45,7 +45,7 @@ const destinations = {
   'Dot In The Dynamic Island': 'https://github.com/AdiArya05/dot-prototype',
   'Catch Live Activity': catchApp,
   'World Clock': portfolioRepo,
-  'Codex Usage Menu Bar': `${portfolioRepo}/blob/main/dist/media/codex-usage-menu-bar.webp`,
+  'Codex Usage Menu Bar': 'https://github.com/AdiArya05/codex-usage-menu-bar',
   'Scroll Controls': `${portfolioRepo}/blob/main/dist/media/scroll-controls.webp`,
   'Music Player': `${portfolioRepo}/blob/main/dist/world-times.js`,
   'Sailorfy': 'https://sailorfy.framer.website/',
