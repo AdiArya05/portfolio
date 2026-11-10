@@ -78,7 +78,7 @@ const landscapeMotionTile = (title, poster, source, href) => {
   const video = `<video class="card-media" width="3840" height="2880" poster="${poster}" data-src="${source}" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
   return motionTile(title, `data-title="${title}"`, video, href);
 };
-const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://github.com/AdiArya05/dot-prototype');
+const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://x.com/adiarya05/status/2119647006507598210');
 const [worldClock, musicPlayer] = [
   ['World Clock', 'world-clock-motion', portfolioRepo],
   ['Music Player', 'spotify-player-motion', `${portfolioSource}/world-times.js`],

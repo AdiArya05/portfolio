@@ -42,7 +42,7 @@ const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
 const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
 const sojaSite = 'https://soja.framer.website/';
 const destinations = {
-  'Dot In The Dynamic Island': 'https://github.com/AdiArya05/dot-prototype',
+  'Dot In The Dynamic Island': 'https://x.com/adiarya05/status/2119647006507598210',
   'Catch Live Activity': catchApp,
   'World Clock': portfolioRepo,
   'Codex Usage Menu Bar': 'https://github.com/AdiArya05/codex-usage-menu-bar',
