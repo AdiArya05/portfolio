@@ -95,7 +95,7 @@ body.portfolio-index .story {
 :is(.explorations-view, .explorations-page) .explorations-feed .preview-open {
   aspect-ratio: 4 / 3;
   position: relative;
-  background: #efeff1;
+  background: #eff0f2;
 }
 :is(.explorations-view, .explorations-page) .explorations-feed .card-media {
   position: absolute;
