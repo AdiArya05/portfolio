@@ -533,14 +533,8 @@ html[data-theme="dark"] .page-scroll-button:hover { background:#35352f; }
 .page-scroll-button:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
 .page-scroll-button.is-hidden, body.modal-open .page-scroll-button { opacity:0; pointer-events:none; }
 .back-to-top {
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
   transition: opacity 260ms ease, translate 260ms ease, scale 260ms ease, visibility 260ms;
 }
-.back-to-top:hover { background: transparent !important; }
 .back-to-top.is-hidden {
   visibility: hidden;
   translate: 0 8px;

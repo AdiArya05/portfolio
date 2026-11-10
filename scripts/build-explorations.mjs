@@ -58,7 +58,7 @@ const catalogFeed = phoneCards.map((card, index) => {
 
 const extraMedia = [
   ['Scroll Controls', '/media/scroll-controls.webp', `${portfolioSource}/media/scroll-controls.webp`, 'Glass Back to top and Scroll down buttons'],
-  ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', 'https://github.com/AdiArya05/codex-usage-menu-bar', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover'],
+  ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', 'https://github.com/AdiArya05/codex-usage-menu-bar', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover', '/downloads/codex-usage-v1.0.0-macos.zip'],
   ['Soja Onboarding', '/media/soja-welcome-framed-4k.webp', sojaSite, 'Soja onboarding on an iPhone, with an amber background and an Apple sign-in button'],
   ['Soja Recovery Overview', '/work/soja/media/final-overview.webp', sojaSite, 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
   ['Soja Welcome Screen', '/work/soja/media/final-welcome.webp', sojaSite, 'Soja’s welcome screen with the app name, sleep tagline and sign-in options']
@@ -87,7 +87,7 @@ const [worldClock, musicPlayer] = [
 const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const workFeed = [dot, ...remainingFeed];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, worldClock, scrollControls, incomeSlider, codexUsage, musicPlayer);
+workFeed.splice(sailorfyIndex, 0, worldClock, codexUsage, incomeSlider, scrollControls, musicPlayer);
 workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>
@@ -117,7 +117,7 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=66" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=65" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
 </head>
