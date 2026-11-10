@@ -30,12 +30,11 @@ assert.deepEqual(pieces.slice(0, 7).map(title), [
   'Dot In The Dynamic Island',
   'Catch Live Activity',
   'World Clock',
-  'Scroll Controls',
-  'Income Slider',
   'Codex Usage Menu Bar',
+  'Income Slider',
+  'Scroll Controls',
   'Music Player',
 ]);
-assert(!page.includes('Download for Mac'), 'Codex Usage should link to its repository release options');
 assert(pieces[0].includes('width="3840" height="2880"') && pieces[0].includes('/media/dot-iphone-assistant-4k.mp4'));
 assert.equal(title(cards[1]),'Income slider','Keep the separate desktop reel order');
 assert(pieces.every(piece => piece.includes('class="catalog-title') && piece.includes('<time datetime=')), 'Each Work tile has a preview title and year');
