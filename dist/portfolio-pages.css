@@ -533,8 +533,14 @@ html[data-theme="dark"] .page-scroll-button:hover { background:#35352f; }
 .page-scroll-button:focus-visible { outline:2px solid var(--ink); outline-offset:4px; }
 .page-scroll-button.is-hidden, body.modal-open .page-scroll-button { opacity:0; pointer-events:none; }
 .back-to-top {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   transition: opacity 260ms ease, translate 260ms ease, scale 260ms ease, visibility 260ms;
 }
+.back-to-top:hover { background: transparent !important; }
 .back-to-top.is-hidden {
   visibility: hidden;
   translate: 0 8px;
@@ -945,23 +951,4 @@ a[data-liquid-glass]:focus-visible {
   .island-wave i { animation: none; }
 }
 
-.back-to-top {
-  color: #242424 !important;
-  border: 1px solid #ffffffa0 !important;
-  background: linear-gradient(160deg, #ffe2c2ed, #ffc167d9) !important;
-  box-shadow: inset 0 1px 1px #fff, inset 0 0 0 1px #ff962c65, 0 6px 20px #ffad4c60 !important;
-  backdrop-filter: blur(14px) saturate(140%) !important;
-  -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
-}
-.back-to-top:hover {
-  background: linear-gradient(160deg, #ffe9d2f5, #ffd18ae8) !important;
-  box-shadow: inset 0 1px 1px #fff, inset 0 0 0 1px #ff962c75, 0 7px 22px #ffad4c70 !important;
-}
-.footer-discover {
-  background: transparent !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-.footer-discover:hover { background: transparent !important; }
+body:has([data-portfolio-panel="stories"]:not([hidden])) .back-to-top { display: none; }
