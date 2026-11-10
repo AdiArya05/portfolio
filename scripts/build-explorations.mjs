@@ -17,14 +17,11 @@ const phoneCards = [
 const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
 const portfolioSource = `${portfolioRepo}/blob/main/dist`;
 const sojaSite = 'https://soja.framer.website/';
-const caption = (title, href, download) => {
+const caption = (title, href) => {
   const control = href
     ? `<a class="catalog-title" href="${href}" target="_blank" rel="noopener">${title}</a>`
     : `<button class="catalog-title preview-label" type="button" aria-haspopup="dialog">${title}</button>`;
-  const downloadLink = download
-    ? `<div><a class="catalog-title" href="${download}" download aria-label="Download Codex Usage for Mac">Download for Mac</a></div>`
-    : '';
-  return `<div class="catalog-caption">${control}${downloadLink}<time datetime="2026">2026</time></div>`;
+  return `<div class="catalog-caption">${control}<time datetime="2026">2026</time></div>`;
 };
 const dotTitle = 'Dot In The Dynamic Island';
 const dotPoster = '/media/dot-iphone-assistant.webp';
@@ -57,17 +54,21 @@ const catalogFeed = phoneCards.map((card, index) => {
 });
 
 const extraMedia = [
-  ['Scroll Controls', '/media/scroll-controls.webp', `${portfolioSource}/media/scroll-controls.webp`, 'Glass Back to top and Scroll down buttons'],
-  ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', 'https://github.com/AdiArya05/codex-usage-menu-bar', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover', '/downloads/codex-usage-v1.0.0-macos.zip'],
+  ['Scroll Controls', '/media/scroll-controls.webp', `${portfolioSource}/media/scroll-controls.webp`, 'Orange Back to top and clear glass Scroll down buttons on a gray background'],
+  ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', 'https://github.com/AdiArya05/codex-usage-menu-bar', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover', {linkMedia: true}],
   ['Soja Onboarding', '/media/soja-welcome-framed-4k.webp', sojaSite, 'Soja onboarding on an iPhone, with an amber background and an Apple sign-in button'],
   ['Soja Recovery Overview', '/work/soja/media/final-overview.webp', sojaSite, 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
   ['Soja Welcome Screen', '/work/soja/media/final-welcome.webp', sojaSite, 'Soja’s welcome screen with the app name, sleep tagline and sign-in options']
 ];
-const extraFeed = await Promise.all(extraMedia.map(async ([title, src, href, alt, download]) => {
+const extraFeed = await Promise.all(extraMedia.map(async ([title, src, href, alt, {linkMedia = false} = {}]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
+  const image = `<img class="card-media" src="${src}" width="${width}" height="${height}" alt="${alt}" loading="lazy" decoding="async">`;
+  const media = linkMedia
+    ? `<a class="catalog-media-link" href="${href}" target="_blank" rel="noopener" aria-label="View ${title} on GitHub">${image}</a>`
+    : `<button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${image}</button>`;
   return `<article class="exploration" data-title="${title}">
-    <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview"><img class="card-media" src="${src}" width="${width}" height="${height}" alt="${alt}" loading="lazy" decoding="async"></button>
-    ${caption(title, href, download)}
+    ${media}
+    ${caption(title, href)}
   </article>`;
 }));
 
@@ -87,7 +88,7 @@ const [worldClock, musicPlayer] = [
 const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const workFeed = [dot, ...remainingFeed];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, worldClock, codexUsage, incomeSlider, scrollControls, musicPlayer);
+workFeed.splice(sailorfyIndex, 0, worldClock, scrollControls, incomeSlider, codexUsage, musicPlayer);
 workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>
@@ -117,7 +118,7 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=65" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=20261110-work-links" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=4" defer></script>
 </head>

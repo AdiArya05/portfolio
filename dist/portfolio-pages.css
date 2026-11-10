@@ -88,11 +88,12 @@ body.portfolio-index .story {
   gap: clamp(16px, 3vw, 38px);
   align-items: start;
 }
-.explorations-feed .preview-open, .explorations-feed .motion-stage { border-radius: 8px; }
-.explorations-feed .preview-open:focus-visible { outline: 2px solid #005fd1; outline-offset: 4px; }
+.explorations-feed :is(.preview-open, .catalog-media-link, .motion-stage) { border-radius: 8px; }
+.explorations-feed :is(.preview-open, .catalog-media-link):focus-visible { outline: 2px solid #005fd1; outline-offset: 4px; }
+.explorations-feed .catalog-media-link { display: block; overflow: hidden; }
 .explorations-feed .motion-toggle { opacity: 1; }
 /* Work uses shared tile proportions so portrait and landscape media can sit together. */
-:is(.explorations-view, .explorations-page) .explorations-feed .preview-open {
+:is(.explorations-view, .explorations-page) .explorations-feed :is(.preview-open, .catalog-media-link) {
   aspect-ratio: 4 / 3;
   position: relative;
   background: #eff0f2;

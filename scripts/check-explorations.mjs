@@ -30,9 +30,9 @@ assert.deepEqual(pieces.slice(0, 7).map(title), [
   'Dot In The Dynamic Island',
   'Catch Live Activity',
   'World Clock',
-  'Codex Usage Menu Bar',
-  'Income Slider',
   'Scroll Controls',
+  'Income Slider',
+  'Codex Usage Menu Bar',
   'Music Player',
 ]);
 assert(pieces[0].includes('width="3840" height="2880"') && pieces[0].includes('/media/dot-iphone-assistant-4k.mp4'));
@@ -66,7 +66,12 @@ for (const piece of pieces) {
     assert.equal(link, destinations[name], `Wrong title link for ${name}`);
     assert(link, `Missing title link for ${name}`);
   }
-  assert(piece.includes('<button class="preview-open"'), `Keep the media preview for ${name}`);
+  if (name === 'Codex Usage Menu Bar') {
+    assert.equal(piece.match(/<a class="catalog-media-link" href="([^"]+)"/)?.[1], destinations[name]);
+    assert(!piece.includes('aria-haspopup="dialog"') && !piece.includes('Download for Mac'));
+  } else {
+    assert(piece.includes('<button class="preview-open"') && piece.includes('aria-haspopup="dialog"'), `Keep the media preview for ${name}`);
+  }
 }
 const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
 assert(toolbar?.includes('class="portfolio-nav"') && toolbar.includes('id="time-zones"'), 'Use the case studies opaque reading toolbar');
@@ -78,7 +83,6 @@ assert(page.includes('<dialog') && page.includes('aria-label="Media preview"') &
 assert(page.includes('viewport-fit=cover'));
 assert(!page.includes('Previous Portfolio') && !page.includes('catch-live-board-motion') && !page.includes('soja-welcome.'));
 for (const piece of pieces) {
-  assert(piece.includes('aria-haspopup="dialog"'));
   const image = piece.match(/<img class="card-media"[^>]+>/)?.[0];
   if (image) {
     const metadata = await sharp(path.join(dist,image.match(/src="([^"]+)"/)[1])).metadata();
