@@ -11,6 +11,11 @@
       "permanent": true
     },
     {
+      "source": "/downloads/codex-usage-v1.0.0-macos.zip",
+      "destination": "https://github.com/AdiArya05/codex-usage-menu-bar/releases/latest/download/Codex-Usage-macOS.zip",
+      "permanent": false
+    },
+    {
       "source": "/explorations",
       "destination": "/work",
       "permanent": true
