@@ -6,6 +6,7 @@
   --line: #2021241a;
 }
 .index-toolbar, .stories-toolbar, .reading-toolbar {
+  --portfolio-nav-height: 48px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -47,7 +48,7 @@
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 48px;
+  min-height: var(--portfolio-nav-height, 48px);
   padding-inline: var(--nav-link-inset);
   border-radius: 11px;
   color: var(--muted);
@@ -739,7 +740,7 @@ a[data-liquid-glass]:is(:hover, :focus-visible) { background: linear-gradient(16
 .index-toolbar .time-zones.clock-island,
 .reading-page .reading-toolbar .time-zones.clock-island {
   align-self: flex-start;
-  margin-block-start: 5px;
+  margin-block-start: calc((var(--portfolio-nav-height) - var(--island-compact-height)) / 2);
   margin-inline-start: auto;
   z-index: 4000;
 }
