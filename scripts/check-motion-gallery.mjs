@@ -5,12 +5,15 @@ import vm from 'node:vm';
 const events = new Map();
 const reduced = { matches:false, addEventListener:(_, fn) => events.set('reduced',fn) };
 const navigator = { connection:{saveData:false} };
-const makeVideo = name => {
+const makeVideo = (name, work = false) => {
   const listeners = {};
   const button = { dataset:{}, addEventListener:(name,fn) => listeners[`button.${name}`]=fn, setAttribute(){} };
   return {
-    dataset:{src:`/media/${name}.mp4`,name}, paused:true, muted:false, loads:0,
-    closest:() => ({querySelector:() => button}),
+    dataset:{src:`/media/${name}.mp4`,name}, paused:true, muted:false, loads:0, currentTime:0,
+    closest(selector) {
+      if (selector === '.motion-stage') return {querySelector:() => button};
+      return selector === 'main.explorations-page' && work ? {} : null;
+    },
     addEventListener:(name,fn) => listeners[name]=fn,
     hasAttribute(name) { return !!this[name]; },
     load() { this.loads++; },
@@ -19,13 +22,13 @@ const makeVideo = name => {
     toggle() { listeners['button.click']({stopPropagation(){}}); },
   };
 };
-const videos = [makeVideo('income'),makeVideo('other'),makeVideo('income')];
+const videos = [makeVideo('income'),makeVideo('other'),makeVideo('income',true)];
 const document = { hidden:false, querySelectorAll:() => videos, addEventListener:(name,fn) => events.set(name,fn) };
 let observe;
 vm.runInNewContext(fs.readFileSync(new URL('../dist/motion-gallery.js',import.meta.url),'utf8'), {
   document,navigator,matchMedia:() => reduced,
   window:{addEventListener:(name,fn) => events.set(name,fn)},
-  IntersectionObserver:class { constructor(fn) { observe=fn; } observe(){} },
+  IntersectionObserver:class { constructor(fn) { observe=fn; } observe(){} unobserve(){} },
 });
 const visibility = (video,on) => observe([{target:video,isIntersecting:on,intersectionRatio:on ? 1 : 0}]);
 assert(videos.every(video => !video.hasAttribute('src') && video.muted), 'No eager video downloads; always silent');
@@ -47,6 +50,12 @@ document.hidden=true; events.get('visibilitychange')();
 assert(videos.every(video=>video.paused));
 document.hidden=false; events.get('visibilitychange')();
 assert(!videos[2].paused);
+videos[0].currentTime = videos[2].currentTime = 3;
+events.get('portfolio-work-leave')();
+assert(videos[2].paused && videos[2].currentTime === 0, 'Leaving Work pauses and rewinds its video');
+assert.equal(videos[0].currentTime, 3, 'The separate reel keeps its playback position');
+visibility(videos[2],true);
+assert(!videos[2].paused && videos[2].currentTime === 0, 'Returning to Work plays from the beginning');
 reduced.matches=true; events.get('reduced')();
 visibility(videos[1],true);
 assert(videos[1].paused && !videos[1].hasAttribute('src'), 'Reduced motion starts with a static poster');

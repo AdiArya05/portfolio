@@ -82,6 +82,7 @@
     for (const popover of document.querySelectorAll(':popover-open')) popover.hidePopover();
     window.scrollTo({top: 0, left: 0, behavior: 'instant'});
     previous.hidden = true;
+    if (current === 'work') window.dispatchEvent(new Event('portfolio-work-leave'));
     exitAnimation?.cancel();
     exitAnimation = undefined;
     const panel = panels.get(name);

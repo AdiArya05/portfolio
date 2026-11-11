@@ -22,6 +22,7 @@
   };
 
   const videos = [...document.querySelectorAll('.motion-stage video')];
+  const workVideos = videos.filter(video => video.closest('main.explorations-page'));
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const visible = new Set();
   const choices = new Map();
@@ -40,7 +41,8 @@
   function sync(video) {
     const state = choice(video);
     const automatic = !reduced.matches && !navigator.connection?.saveData;
-    const shouldPlay = visible.has(video) && !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
+    const shouldPlay = visible.has(video) && !video.closest('[data-portfolio-panel][hidden]') &&
+      !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
     if (shouldPlay) {
       if (!video.hasAttribute('src')) { video.src = video.dataset.src; }
       if (video.paused) video.play().catch(() => paint(video));
@@ -55,6 +57,17 @@
       sync(entry.target);
     });
   }, { threshold:[0,.15] });
+
+  function rewindWork() {
+    for (const video of workVideos) {
+      visible.delete(video);
+      video.pause();
+      if (video.hasAttribute('src')) video.currentTime = 0;
+      observer.unobserve(video);
+      observer.observe(video);
+      paint(video);
+    }
+  }
 
   videos.forEach(video => {
     video.muted = true;
@@ -92,6 +105,8 @@
     paint(video);
   });
   document.addEventListener('visibilitychange', syncAll);
+  window.addEventListener('portfolio-work-leave', rewindWork);
+  window.addEventListener('pagehide', rewindWork);
   reduced.addEventListener('change', syncAll);
   window.addEventListener('portfolio-media-state', event => {
     modalOpen = event.detail.open;
