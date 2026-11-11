@@ -8,7 +8,6 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let current = 'index';
   let entrance;
-  let exitAnimation;
 
   function reveal(panel) {
     if (reduced.matches) return;
@@ -17,9 +16,9 @@
       return;
     }
     entrance = panel.animate([
-      {opacity: 0, filter: 'blur(3px)', transform: 'translateY(4px)'},
+      {opacity: .4, filter: 'blur(2px)', transform: 'translateY(4px)'},
       {opacity: 1, filter: 'blur(0px)', transform: 'translateY(0px)'}
-    ], {duration: 460, easing: 'cubic-bezier(.25,.65,.3,1)'});
+    ], {duration: 330, easing: 'cubic-bezier(.25,.65,.3,1)'});
   }
 
   reduced.addEventListener('change', () => entrance?.cancel());
@@ -57,34 +56,16 @@
     video.src = video.dataset.src;
   }
 
-  async function select(name, animate = true) {
-    if (!panels.has(name)) return;
-    exitAnimation?.cancel();
-    exitAnimation = undefined;
+  function select(name, animate = true) {
+    if (!panels.has(name) || name === current) return;
     entrance?.cancel();
-    if (name === current) return;
 
     const previous = panels.get(current);
     if (name === 'work') warmWork();
-    if (animate && !phone.matches && !reduced.matches) {
-      const leaving = previous.animate([
-        {opacity: 1, filter: 'blur(0px)'},
-        {opacity: 0, filter: 'blur(3px)'}
-      ], {duration: 180, easing: 'ease-in-out', fill: 'forwards'});
-      exitAnimation = leaving;
-      try {
-        await leaving.finished;
-      } catch {
-        return;
-      }
-      if (exitAnimation !== leaving) return;
-    }
     for (const popover of document.querySelectorAll(':popover-open')) popover.hidePopover();
     window.scrollTo({top: 0, left: 0, behavior: 'instant'});
     previous.hidden = true;
     if (current === 'work') window.dispatchEvent(new Event('portfolio-work-leave'));
-    exitAnimation?.cancel();
-    exitAnimation = undefined;
     const panel = panels.get(name);
     panel.hidden = false;
     footer.hidden = footerButton.hidden = name !== 'index';
