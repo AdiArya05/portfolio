@@ -79,7 +79,7 @@ const landscapeMotionTile = (title, poster, source, href) => {
   return motionTile(title, `data-title="${title}"`, video, href);
 };
 const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://x.com/adiarya05/status/2119647006507598210');
-const dotSplitScreen = landscapeMotionTile('Dot In Split Screen', '/media/dot-split-screen-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120342829897843144');
+const dotSplitScreen = landscapeMotionTile('Dot In Split Screen', '/media/dot-split-screen-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120347912890892565');
 const [worldClock, musicPlayer] = [
   ['World Clock', 'world-clock-motion', portfolioRepo],
   ['Music Player', 'spotify-player-motion', `${portfolioSource}/world-times.js`],

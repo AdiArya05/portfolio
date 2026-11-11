@@ -44,7 +44,7 @@ const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
 const sojaSite = 'https://soja.framer.website/';
 const destinations = {
   'Dot In The Dynamic Island': 'https://x.com/adiarya05/status/2119647006507598210',
-  'Dot In Split Screen': 'https://x.com/adiarya05/status/2120342829897843144',
+  'Dot In Split Screen': 'https://x.com/adiarya05/status/2120347912890892565',
   'Catch Live Activity': catchApp,
   'World Clock': portfolioRepo,
   'Codex Usage Menu Bar': 'https://github.com/AdiArya05/codex-usage-menu-bar',
