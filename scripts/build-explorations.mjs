@@ -79,6 +79,7 @@ const landscapeMotionTile = (title, poster, source, href) => {
   return motionTile(title, `data-title="${title}"`, video, href);
 };
 const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://x.com/adiarya05/status/2119647006507598210');
+const dotSplitScreen = landscapeMotionTile('Dot In Split Screen', '/media/dot-split-screen-4k.webp', '/media/dot-split-screen-4k60.mp4');
 const [worldClock, musicPlayer] = [
   ['World Clock', 'world-clock-motion', portfolioRepo],
   ['Music Player', 'spotify-player-motion', `${portfolioSource}/world-times.js`],
@@ -88,7 +89,7 @@ const [worldClock, musicPlayer] = [
 const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const workFeed = [dot, ...remainingFeed];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, worldClock, scrollControls, incomeSlider, codexUsage, musicPlayer);
+workFeed.splice(sailorfyIndex, 0, worldClock, dotSplitScreen, scrollControls, incomeSlider, codexUsage, musicPlayer);
 workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>

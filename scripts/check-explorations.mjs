@@ -26,10 +26,11 @@ assert.deepEqual([...iconFiles].sort(), [
   '/work/catch/media/icon-painted-orange.webp',
 ].sort());
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
-assert.deepEqual(pieces.slice(0, 7).map(title), [
+assert.deepEqual(pieces.slice(0, 8).map(title), [
   'Dot In The Dynamic Island',
   'Catch Live Activity',
   'World Clock',
+  'Dot In Split Screen',
   'Scroll Controls',
   'Income Slider',
   'Codex Usage Menu Bar',
@@ -59,7 +60,7 @@ const destinations = {
 };
 for (const piece of pieces) {
   const name = title(piece);
-  if (name === 'Income Slider') {
+  if (name === 'Income Slider' || name === 'Dot In Split Screen') {
     assert(piece.includes('<button class="catalog-title preview-label"'));
   } else {
     const link = piece.match(/<a class="catalog-title" href="([^"]+)"/)?.[1];
