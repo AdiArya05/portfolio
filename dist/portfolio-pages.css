@@ -29,6 +29,7 @@
 }
 .portfolio-nav {
   --nav-link-inset: clamp(11px, 1.4vw, 19px);
+  --nav-font-size: 1.125rem;
   position: relative;
   isolation: isolate;
   display: flex;
@@ -36,8 +37,11 @@
   gap: 5px;
   width: max-content;
 }
-@media (max-width: 360px) {
-  .portfolio-nav { --nav-link-inset: 8px; }
+@media (381px <= width <= 700px) {
+  .portfolio-nav { --nav-font-size: 1.25rem; }
+}
+@media (max-width: 380px) {
+  .portfolio-nav { --nav-link-inset: 6px; gap: 3px; }
 }
 .portfolio-nav a {
   position: relative;
@@ -47,7 +51,7 @@
   padding-inline: var(--nav-link-inset);
   border-radius: 11px;
   color: var(--muted);
-  font: 400 16px/1 var(--font-sans);
+  font: 400 var(--nav-font-size)/1.5 var(--font-sans);
   text-decoration: none;
 }
 .portfolio-nav a[aria-current="page"], .portfolio-nav a:is(:hover, :focus-visible) { color: var(--ink); }
