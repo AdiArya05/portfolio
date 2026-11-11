@@ -44,6 +44,7 @@ const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
 const sojaSite = 'https://soja.framer.website/';
 const destinations = {
   'Dot In The Dynamic Island': 'https://x.com/adiarya05/status/2119647006507598210',
+  'Dot In Split Screen': 'https://x.com/adiarya05/status/2120342829897843144',
   'Catch Live Activity': catchApp,
   'World Clock': portfolioRepo,
   'Codex Usage Menu Bar': 'https://github.com/AdiArya05/codex-usage-menu-bar',
@@ -60,7 +61,7 @@ const destinations = {
 };
 for (const piece of pieces) {
   const name = title(piece);
-  if (name === 'Income Slider' || name === 'Dot In Split Screen') {
+  if (name === 'Income Slider') {
     assert(piece.includes('<button class="catalog-title preview-label"'));
   } else {
     const link = piece.match(/<a class="catalog-title" href="([^"]+)"/)?.[1];
