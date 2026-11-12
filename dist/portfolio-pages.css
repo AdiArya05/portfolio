@@ -119,6 +119,8 @@ body.portfolio-index .story {
 .work-icon img { width: 65%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: 22%; }
 .work-icon > div > a { display: grid; place-items: center; width: 65%; border-radius: 22%; }
 .work-icon > div > a img { width: 100%; }
+.work-icon > div > a:has(.klicky-icon) { mix-blend-mode: multiply; }
+.work-icon .klicky-icon { border-radius: 0; transform: scale(1.17); }
 .catalog-caption { padding: 10px 8px 0; }
 .catalog-title {
   width: fit-content;
