@@ -19,8 +19,8 @@ const iconsPage = read('icons/index.html');
 const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div><img src="([^"]+)"/g)].map(match => match[1]);
 assert.deepEqual(iconFiles, [
   '/media/catch-icon.webp',
-  '/media/catch-icon-light.webp',
-  '/media/catch-icon-dark.webp',
+  '/media/waypoint-icon-light.webp',
+  '/media/waypoint-icon-dark.webp',
   '/media/soja-icon-1024.webp',
   '/work/soja/media/icon-peach.webp',
   '/work/catch/media/icon-painted-blue.webp',
