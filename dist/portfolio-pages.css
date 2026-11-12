@@ -120,6 +120,8 @@ body.portfolio-index .story {
 .work-icon { margin: 0; }
 .work-icon > div { aspect-ratio: 1; display: grid; place-items: center; border-radius: 4px; background: #f0f0f2; }
 .work-icon img { width: 65%; height: auto; aspect-ratio: 1; object-fit: contain; border-radius: 22%; }
+.work-icon > div > a { display: grid; place-items: center; width: 65%; border-radius: 22%; }
+.work-icon > div > a img { width: 100%; }
 .catalog-caption { padding: 10px 8px 0; }
 .catalog-title {
   width: fit-content;
