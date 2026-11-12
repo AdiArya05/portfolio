@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const dist = path.resolve(import.meta.dirname, '../dist');
-const origin = 'https://adiarya.vercel.app';
+const origin = 'https://adiarya.com';
 const personId = origin + '/#aditya';
 const siteId = origin + '/#website';
 const person = {

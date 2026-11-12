@@ -99,7 +99,7 @@ const html = `<!doctype html>
   <meta name="description" content="Interfaces, websites and motion studies by Aditya Arya." />
   <meta name="theme-color" content="#fafafa" />
   <link rel="icon" href="/media/aditya-arya-icon.png" />
-  <link rel="canonical" href="https://adiarya.vercel.app/work" />
+  <link rel="canonical" href="https://adiarya.com/work" />
   <script src="/media-motion.js?v=20261105-tabs" defer></script>
   <script src="/media-dialog.js?v=20261107-shared-preview" defer></script>
   <link rel="stylesheet" href="/typography.css?v=20261107-cursor" />

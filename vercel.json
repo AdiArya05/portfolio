@@ -7,7 +7,13 @@
     {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "portfolio-template-ochre-rho.vercel.app" }],
-      "destination": "https://adiarya.vercel.app/:path*",
+      "destination": "https://adiarya.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "adiarya.vercel.app" }],
+      "destination": "https://adiarya.com/:path*",
       "permanent": true
     },
     {

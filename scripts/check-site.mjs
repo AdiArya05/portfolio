@@ -8,7 +8,7 @@ import sharp from 'sharp';
 const root = path.resolve(import.meta.dirname, '..');
 const dist = path.join(root, 'dist');
 const html = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
-const origin = 'https://adiarya.vercel.app';
+const origin = 'https://adiarya.com';
 for (const route of ['index.html', 'work/index.html', 'stories/index.html', 'icons/index.html', 'work/catch/index.html', 'work/soja/index.html']) {
   const page = fs.readFileSync(path.join(dist, route), 'utf8');
   assert(!page.includes('id="theme-toggle"') && !page.includes('theme-init.js'), route + ' must remain light only');
@@ -105,6 +105,7 @@ for (const card of cards) {
 }
 const config = JSON.parse(fs.readFileSync(path.join(root,'vercel.json'),'utf8'));
 assert(config.redirects.some(rule => rule.destination === `${origin}/:path*` && rule.permanent && rule.has.some(condition => condition.type === 'host' && condition.value === 'portfolio-template-ochre-rho.vercel.app')));
+assert(config.redirects.some(rule => rule.destination === `${origin}/:path*` && rule.permanent && rule.has.some(condition => condition.type === 'host' && condition.value === 'adiarya.vercel.app')));
 const discovery = fs.readFileSync(path.join(dist, 'footer-discovery.js'), 'utf8');
 assert(!discovery.includes('preventDefault') && !/addEventListener\(['"](?:wheel|pointerdown)/.test(discovery),
   'Footer discovery must not intercept scrolling or require a hold gesture');

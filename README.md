@@ -1,6 +1,6 @@
 # Aditya Arya — portfolio
 
-Public site: https://adiarya.vercel.app/
+Public site: https://adiarya.com/
 
 Source: https://github.com/AdiArya05/portfolio
 
@@ -24,7 +24,7 @@ After each SEO release goes live, check the first page of Google results with Si
 - Aditya Arya Soja
 - Aditya Arya AI Engineer Singapore
 
-Record the first organic position of `linkedin.com/in/aditya-arya1` and `adiarya.vercel.app` for each query and compare with the previous run. Count the LinkedIn profile separately from posts. Run `site:adiarya.vercel.app` as a separate discovery check and use Search Console URL Inspection for indexing status.
+Record the first organic position of `linkedin.com/in/aditya-arya1` and `adiarya.com` for each query and compare with the previous run. Count the LinkedIn profile separately from posts. Run `site:adiarya.com` as a separate discovery check and use Search Console URL Inspection for indexing status.
 
 ## Release checks — 15 October 2026
 
@@ -46,7 +46,7 @@ These are browser and static checks, not a guarantee across every physical devic
 - The exact existing Space Grotesk v22 Latin font is self-hosted and preloaded (22,320 bytes), removing the Google Fonts stylesheet and third-party font connection. Its SIL Open Font License is included in `dist/fonts/`.
 - Project previews have a visible close button, forward/reverse keyboard focus cycling and safe focus restoration. Gallery auto-scrolling pauses while a keyboard user focuses a card. Theme switching works when local storage is blocked; invalid saved themes fall back to the system preference.
 - Small light-mode text has stronger contrast. The paragraph, gallery titles/descriptions, links, imagery and approved engraving geometry were preserved.
-- The former `portfolio-template-ochre-rho.vercel.app` host permanently redirects to the canonical `adiarya.vercel.app`, preserving paths. Basic MIME-sniffing protection and a cross-origin referrer policy are configured.
+- The former `adiarya.vercel.app` and `portfolio-template-ochre-rho.vercel.app` hosts permanently redirect to the canonical `adiarya.vercel.app`, preserving paths. Basic MIME-sniffing protection and a cross-origin referrer policy are configured.
 - During document scrolling, gallery work and decorative skyline motion pause, and the hover lens clears. Native scrolling remains untouched; effects resume on document `scrollend` (with a 160 ms quiet-period fallback). Nested gallery scroll-end events cannot resume them prematurely. Scene attachment is also postponed until scrolling settles. No scroll sound, resistance or hold gesture was added.
 
 ## Activity attribution
