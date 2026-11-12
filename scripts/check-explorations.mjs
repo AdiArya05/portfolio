@@ -18,14 +18,15 @@ assert(page.includes('/media/soja-welcome-framed-4k.webp'));
 const iconsPage = read('icons/index.html');
 const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div>(?:<a href="[^"]+">)?<img src="([^"]+)"/g)].map(match => match[1]);
 assert.deepEqual(iconFiles, [
+  '/media/catch-icon.webp',
   '/media/waypoint-icon-dark.webp',
   '/media/klicky-icon-4k.webp',
   '/media/waypoint-icon-light.webp',
-  '/media/catch-icon.webp',
   '/media/soja-icon-1024.webp',
   '/work/catch/media/icon-painted-blue.webp',
   '/work/soja/media/icon-peach.webp',
   '/work/catch/media/icon-painted-orange.webp',
+  '/work/soja/media/icon-blue.webp',
 ]);
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
 assert.deepEqual(pieces.slice(0, 8).map(title), [
