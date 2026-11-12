@@ -46,16 +46,17 @@ module.exports = async function handler(req, res) {
     if (!response.ok) throw new Error('Spotify playback unavailable (' + response.status + ')');
     const { is_playing, item, device, progress_ms } = await response.json();
     const url = item?.external_urls?.spotify;
-    if (device?.is_private_session || item?.type !== 'track' ||
+    if (is_playing !== true || device?.is_private_session || item?.type !== 'track' ||
         !item.name || !/^https:\/\/open\.spotify\.com\/track\/[a-zA-Z0-9]+$/.test(url)) {
       return res.status(200).json({ track: null });
     }
     const artist = (item.artists || []).map(entry => entry.name).filter(Boolean).join(', ');
     const artwork = item.album?.images?.find(image => image.width >= 120)?.url;
+    res.setHeader('Cache-Control', 'no-store');
     return res.status(200).json({ track: {
       name: item.name, artist, url,
       artwork: /^https:\/\/i\.scdn\.co\/image\/[a-zA-Z0-9]+$/.test(artwork) ? artwork : null,
-      isPlaying: is_playing === true,
+      isPlaying: true,
       progressMs: progress_ms,
       durationMs: item.duration_ms,
       observedAt: Date.now()
