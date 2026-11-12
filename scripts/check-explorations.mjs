@@ -24,9 +24,8 @@ assert.deepEqual(iconFiles, [
   '/media/waypoint-icon-light.webp',
   '/media/soja-icon-1024.webp',
   '/work/catch/media/icon-painted-blue.webp',
-  '/work/soja/media/icon-peach.webp',
   '/work/catch/media/icon-painted-orange.webp',
-  '/work/soja/media/icon-blue.webp',
+  '/work/soja/media/icon-peach.webp',
 ]);
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
 assert.deepEqual(pieces.slice(0, 8).map(title), [
