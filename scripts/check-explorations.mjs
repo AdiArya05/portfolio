@@ -16,16 +16,16 @@ assert(pieces.length > cards.length && !page.includes('class="work-icon-grid"'),
 assert(!page.includes('/work/catch/media/current-home.webp') && !page.includes('/work/soja/media/onboarding.webp'));
 assert(page.includes('/media/soja-welcome-framed-4k.webp'));
 const iconsPage = read('icons/index.html');
-const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div>(?:<a href="[^"]+">)?<img src="([^"]+)"/g)].map(match => match[1]);
+const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div><img src="([^"]+)"/g)].map(match => match[1]);
 assert.deepEqual(iconFiles, [
-  '/media/catch-icon.webp',
+  '/media/catch-blue-icon-4k.webp',
   '/media/waypoint-icon-dark.webp',
   '/media/klicky-icon-4k.webp',
   '/media/waypoint-icon-light.webp',
-  '/media/soja-icon-1024.webp',
-  '/work/catch/media/icon-painted-blue.webp',
-  '/work/catch/media/icon-painted-orange.webp',
-  '/work/soja/media/icon-peach.webp',
+  '/media/soja-orange-icon-4k.webp',
+  '/media/catch-painted-blue-icon-4k.webp',
+  '/media/catch-painted-orange-icon-4k.webp',
+  '/media/soja-peach-icon-4k.webp',
 ]);
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
 assert.deepEqual(pieces.slice(0, 8).map(title), [
