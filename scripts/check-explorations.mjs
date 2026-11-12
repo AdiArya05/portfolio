@@ -17,14 +17,16 @@ assert(!page.includes('/work/catch/media/current-home.webp') && !page.includes('
 assert(page.includes('/media/soja-welcome-framed-4k.webp'));
 const iconsPage = read('icons/index.html');
 const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div><img src="([^"]+)"/g)].map(match => match[1]);
-assert.deepEqual([...iconFiles].sort(), [
+assert.deepEqual(iconFiles, [
   '/media/catch-icon.webp',
+  '/media/catch-icon-light.webp',
+  '/media/catch-icon-dark.webp',
   '/media/soja-icon-1024.webp',
   '/work/soja/media/icon-peach.webp',
-  '/work/soja/media/icon-blue.webp',
   '/work/catch/media/icon-painted-blue.webp',
   '/work/catch/media/icon-painted-orange.webp',
-].sort());
+  '/work/soja/media/icon-blue.webp',
+]);
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
 assert.deepEqual(pieces.slice(0, 8).map(title), [
   'Dot In The Dynamic Island',
