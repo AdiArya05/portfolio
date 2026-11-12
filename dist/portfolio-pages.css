@@ -38,11 +38,8 @@
   gap: 5px;
   width: max-content;
 }
-@media (381px <= width <= 700px) {
-  .portfolio-nav { --nav-font-size: 1.25rem; }
-}
 @media (max-width: 380px) {
-  .portfolio-nav { --nav-link-inset: 6px; gap: 3px; }
+  .portfolio-nav { --nav-link-inset: 6px; --nav-font-size: 1.0625rem; gap: 3px; }
 }
 .portfolio-nav a {
   position: relative;
@@ -332,6 +329,16 @@ body.portfolio-index .story {
   padding-inline: 0;
 }
 :is(.portfolio-index .index-toolbar, .stories-toolbar, .reading-toolbar) .portfolio-nav { margin-inline-start: calc(-1 * var(--nav-link-inset)); }
+@media (max-width: 700px) {
+  :is(.portfolio-index .index-toolbar, .stories-toolbar, .reading-toolbar) .portfolio-nav {
+    margin-inline-start: 0;
+  }
+  body.editorial-story .reading-toolbar { width: min(576px, var(--portfolio-toolbar-width)); }
+  body.explorations-view main.explorations-page,
+  body > main.icons-index {
+    width: var(--portfolio-content-width);
+  }
+}
 .portfolio-content:has([data-portfolio-panel="index"]:not([hidden])) { min-height: 100svh; }
 .portfolio-introduction {
   margin: clamp(24px, 4vw, 48px) auto 0;
