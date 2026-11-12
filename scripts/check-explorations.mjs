@@ -20,6 +20,7 @@ const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div>(?:<a h
 assert.deepEqual(iconFiles, [
   '/media/catch-icon.webp',
   '/media/waypoint-icon-dark.webp',
+  '/media/klicky-icon-4k.webp',
   '/media/waypoint-icon-light.webp',
   '/media/soja-icon-1024.webp',
   '/work/soja/media/icon-peach.webp',
