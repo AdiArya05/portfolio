@@ -70,12 +70,8 @@ for (const piece of pieces) {
     assert.equal(link, destinations[name], `Wrong title link for ${name}`);
     assert(link, `Missing title link for ${name}`);
   }
-  if (name === 'Codex Usage Menu Bar') {
-    assert.equal(piece.match(/<a class="catalog-media-link" href="([^"]+)"/)?.[1], destinations[name]);
-    assert(!piece.includes('aria-haspopup="dialog"') && !piece.includes('Download for Mac'));
-  } else {
-    assert(piece.includes('<button class="preview-open"') && piece.includes('aria-haspopup="dialog"'), `Keep the media preview for ${name}`);
-  }
+  assert(piece.includes('<button class="preview-open"') && piece.includes('aria-haspopup="dialog"'), `Keep the media preview for ${name}`);
+  if (name === 'Codex Usage Menu Bar') assert(!piece.includes('Download for Mac'));
 }
 const toolbar = page.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
 assert(toolbar?.includes('class="portfolio-nav"') && toolbar.includes('id="time-zones"'), 'Use the case studies opaque reading toolbar');
