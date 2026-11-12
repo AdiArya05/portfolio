@@ -35,7 +35,7 @@ const pages = [
     route: '/', file: 'index.html', type: 'ProfilePage',
     title: 'Aditya Arya',
     description: 'I’m Aditya Arya. I design and build apps in Singapore, including Catch SG Buses, a bus timing app.',
-    image: '/media/aditya-arya-social.jpg', imageAlt: 'Aditya Arya portfolio preview with the Singapore skyline',
+    image: '/media/aditya-arya-building-with-intent.jpg', imageAlt: 'Aditya Arya, Building with Intent, with the Waypoint Dark and Klicky app icons',
   },
   {
     route: '/work', file: 'work/index.html', type: 'CollectionPage',
