@@ -330,9 +330,6 @@ body.portfolio-index .story {
 }
 :is(.portfolio-index .index-toolbar, .stories-toolbar, .reading-toolbar) .portfolio-nav { margin-inline-start: calc(-1 * var(--nav-link-inset)); }
 @media (max-width: 700px) {
-  :is(.portfolio-index .index-toolbar, .stories-toolbar, .reading-toolbar) .portfolio-nav {
-    margin-inline-start: 0;
-  }
   body.editorial-story .reading-toolbar { width: min(576px, var(--portfolio-toolbar-width)); }
   body.explorations-view main.explorations-page,
   body > main.icons-index {
