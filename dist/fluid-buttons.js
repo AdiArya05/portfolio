@@ -18,7 +18,7 @@
     link.prepend(icon);
   }
 
-  const selector = 'a[data-liquid-glass], button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.modal-close,.island-zone)';
+  const selector = 'a[data-liquid-glass], button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.modal-close)';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const sweeps = new WeakMap();
   function sweep(control) {

@@ -960,7 +960,7 @@ html[data-theme="dark"] {
   --fluid-edge: #ffffff30;
   --fluid-shadow: inset 0 1px 4px #ffffff24, 0 4px 14px #0005;
 }
-:is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)) {
+:is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close)) {
   isolation: isolate;
   overflow: hidden;
   border: 1px solid var(--fluid-edge);
@@ -999,19 +999,19 @@ html[data-theme="dark"] .work-contact-actions a[href^="https://cal.com/"] {
   -webkit-text-fill-color: transparent;
 }
 @media (hover: hover) and (pointer: fine) {
-  :is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)):hover {
+  :is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close)):hover {
     scale: 1.035;
   }
 }
-:is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)):active {
+:is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close)):active {
   scale: .96;
 }
-:is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)):focus-visible {
+:is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close)):focus-visible {
   outline: 2px solid var(--fluid-accent);
   outline-offset: 3px;
 }
 @media (prefers-reduced-motion: reduce) {
-  :is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)) {
+  :is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close)) {
     transition: none;
     scale: 1;
   }
