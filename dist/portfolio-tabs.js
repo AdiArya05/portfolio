@@ -75,6 +75,7 @@
       if (link.dataset.portfolioTab === name) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     }
+    window.PortfolioNav.selectCurrent();
     if (animate) reveal(panel);
   }
 
