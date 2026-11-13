@@ -133,6 +133,7 @@ const html = `<!doctype html>
       <p>That's the work. If you made it this far, let's talk.</p>
       <p>2 slots open this month for new projects.</p>
       <div class="work-contact-actions">
+        <a data-liquid-glass href="https://cal.com/aditya-arya/design">Book a call</a>
         <a data-liquid-glass href="mailto:adityaarya1021@gmail.com">Email</a>
         <a data-liquid-glass href="https://x.com/adiarya05">X</a>
       </div>
