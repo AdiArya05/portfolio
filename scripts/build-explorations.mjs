@@ -54,7 +54,6 @@ const catalogFeed = phoneCards.map((card, index) => {
 });
 
 const extraMedia = [
-  ['Scroll Controls', '/media/scroll-controls.webp', `${portfolioSource}/media/scroll-controls.webp`, 'Orange Back to top and clear glass Scroll down buttons on a gray background'],
   ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', 'https://github.com/AdiArya05/codex-usage-menu-bar', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover'],
   ['Soja Onboarding', '/media/soja-welcome-framed-4k.webp', sojaSite, 'Soja onboarding on an iPhone, with an amber background and an Apple sign-in button'],
   ['Soja Recovery Overview', '/work/soja/media/final-overview.webp', sojaSite, 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
@@ -70,13 +69,18 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, href, alt
 }));
 
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
-const [scrollControls, codexUsage, onboarding, overview, welcome] = extraFeed;
+const [codexUsage, onboarding, overview, welcome] = extraFeed;
 const landscapeMotionTile = (title, poster, source, href) => {
   const video = `<video class="card-media" width="3840" height="2880" poster="${poster}" data-src="${source}" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
   return motionTile(title, `data-title="${title}"`, video, href);
 };
 const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://x.com/adiarya05/status/2119647006507598210');
 const dotSplitScreen = landscapeMotionTile('Dot In Split Screen', '/media/dot-split-screen-poster-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120347912890892565');
+const liquidGlass = landscapeMotionTile(
+  'Liquid Glass Button Interaction',
+  '/media/liquid-glass-button-interaction-4k.webp',
+  '/media/liquid-glass-button-interaction-4k60.mp4',
+);
 const [worldClock, musicPlayer] = [
   ['World Clock', 'world-clock-motion', portfolioRepo],
   ['Music Player', 'spotify-player-motion', `${portfolioSource}/world-times.js`],
@@ -86,7 +90,7 @@ const [worldClock, musicPlayer] = [
 const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const workFeed = [dot, ...remainingFeed];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, worldClock, dotSplitScreen, scrollControls, incomeSlider, codexUsage, musicPlayer);
+workFeed.splice(sailorfyIndex, 0, worldClock, dotSplitScreen, liquidGlass, incomeSlider, codexUsage, musicPlayer);
 workFeed.push(onboarding, catalogFeed[recoveryIndex], overview, welcome);
 
 const html = `<!doctype html>

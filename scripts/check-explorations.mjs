@@ -33,7 +33,7 @@ assert.deepEqual(pieces.slice(0, 8).map(title), [
   'Catch Live Activity',
   'World Clock',
   'Dot In Split Screen',
-  'Scroll Controls',
+  'Liquid Glass Button Interaction',
   'Income Slider',
   'Codex Usage Menu Bar',
   'Music Player',
@@ -50,7 +50,6 @@ const destinations = {
   'Catch Live Activity': catchApp,
   'World Clock': portfolioRepo,
   'Codex Usage Menu Bar': 'https://github.com/AdiArya05/codex-usage-menu-bar',
-  'Scroll Controls': `${portfolioRepo}/blob/main/dist/media/scroll-controls.webp`,
   'Music Player': `${portfolioRepo}/blob/main/dist/world-times.js`,
   'Sailorfy': 'https://sailorfy.framer.website/',
   'Catch Live Board': catchApp,
@@ -63,7 +62,7 @@ const destinations = {
 };
 for (const piece of pieces) {
   const name = title(piece);
-  if (name === 'Income Slider') {
+  if (['Income Slider', 'Liquid Glass Button Interaction'].includes(name)) {
     assert(piece.includes('<button class="catalog-title preview-label"'));
   } else {
     const link = piece.match(/<a class="catalog-title" href="([^"]+)"/)?.[1];
