@@ -33,7 +33,7 @@ const site = {
 const pages = [
   {
     route: '/', file: 'index.html', type: 'ProfilePage',
-    title: 'Adi Arya (Aditya Arya) | Portfolio',
+    title: 'Aditya Arya',
     description: 'I’m Aditya Arya, also known as Adi Arya. Explore the apps I design and build in Singapore, including Catch SG Buses, Waypoint and Klicky.',
     image: '/media/aditya-arya-building-with-intent.jpg', imageAlt: 'Aditya Arya, Building with Intent, with the Waypoint Dark and Klicky app icons',
   },
