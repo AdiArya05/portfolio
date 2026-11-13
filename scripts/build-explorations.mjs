@@ -77,8 +77,8 @@ const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistan
 const dotSplitScreen = landscapeMotionTile('Dot In Split Screen', '/media/dot-split-screen-poster-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120347912890892565');
 const liquidGlass = landscapeMotionTile(
   'Liquid Glass Button Interaction',
-  '/media/liquid-glass-button-interaction-4k.webp',
-  '/media/liquid-glass-button-interaction-4k60.mp4',
+  '/media/liquid-glass-button-interaction-matched-4k.webp',
+  '/media/liquid-glass-button-interaction-4k60.mp4?v=matched-background',
 );
 const [worldClock, musicPlayer] = [
   ['World Clock', 'world-clock-motion', portfolioRepo],
