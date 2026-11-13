@@ -107,7 +107,7 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261113-text-sheen" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261113-button-alignment" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261108-roll-seconds" defer></script>
@@ -116,10 +116,10 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=20261113-text-sheen" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=20261113-button-alignment" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=6" defer></script>
-  <script src="/fluid-buttons.js?v=3" defer></script>
+  <script src="/fluid-buttons.js?v=4" defer></script>
 </head>
 <body class="reading-page explorations-view">
   ${toolbar.replace('href="/work/">Work', 'href="/work/" aria-current="page">Work').replace('href="/stories/" aria-current="page"','href="/stories/"')}
@@ -136,10 +136,10 @@ const html = `<!doctype html>
       <div class="work-contact-actions">
         <a data-liquid-glass href="https://cal.com/aditya-arya/design">Book a call</a>
         <a data-liquid-glass href="mailto:adityaarya1021@gmail.com">Email</a>
-        <a data-liquid-glass href="https://x.com/adiarya05">X</a>
+        <a data-liquid-glass href="https://x.com/adiarya05" aria-label="X"></a>
       </div>
     </section>
-    <footer class="explorations-footer"><a class="back-link" data-liquid-glass href="/"><svg class="glass-symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M17 12H7m4-4-4 4 4 4" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to home</a></footer>
+    <footer class="explorations-footer"><a class="back-link" data-liquid-glass href="/"><svg class="glass-symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M17 12H7m4-4-4 4 4 4" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Back to home</span></a></footer>
   </main>
   <dialog id="media-viewer" aria-label="Media preview">
     <div class="viewer-stage"><img id="modal-image" alt="" hidden /><video id="modal-video" controls muted loop playsinline hidden aria-label="Animation playback"></video></div>

@@ -1016,3 +1016,15 @@ html[data-theme="dark"] .work-contact-actions a[href^="https://cal.com/"] {
     scale: 1;
   }
 }
+
+.work-contact-actions a[aria-label="X"] {
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+}
+.explorations-footer .back-link {
+  justify-content: center;
+  align-items: center;
+  padding: 0 14px;
+}
+.explorations-footer .back-link .glass-symbol { display: block; }

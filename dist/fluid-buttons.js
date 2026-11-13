@@ -6,7 +6,7 @@
     X: 'M4 3h4.7l4.2 5.7L17.8 3h2.7l-6.3 7.4L21 21h-4.8l-4.6-6.4L6.1 21H3.4l6.9-8.2L4 3Zm3.6 2 9.7 14h1.2L8.8 5H7.6Z'
   };
   for (const link of document.querySelectorAll('.work-contact-actions a')) {
-    const path = paths[link.textContent.trim()];
+    const path = paths[link.getAttribute('aria-label') || link.textContent.trim()];
     if (!path) continue;
     const icon = document.createElementNS(svgNS, 'svg');
     icon.setAttribute('viewBox', '0 0 24 24');
@@ -21,7 +21,7 @@
   const selector = 'a[data-liquid-glass], button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.modal-close,.island-zone)';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const sweeps = new WeakMap();
-  function sweep(control, event) {
+  function sweep(control) {
     if (reduced.matches || control.disabled) return;
     for (const node of Array.from(control.childNodes)) {
       if (node.nodeType !== Node.TEXT_NODE || !node.textContent.trim()) continue;
@@ -34,13 +34,11 @@
       child.matches('span') && child.textContent.trim() && child.getClientRects().length);
     if (!label?.animate) return;
 
-    const bounds = label.getBoundingClientRect();
-    const forward = !event || event.clientX < bounds.left + bounds.width / 2;
     sweeps.get(label)?.cancel();
     label.classList.add('fluid-text-sheen');
     const animation = label.animate([
-      { backgroundPosition: forward ? '100% 0' : '0% 0' },
-      { backgroundPosition: forward ? '0% 0' : '100% 0' }
+      { backgroundPosition: '100% 0' },
+      { backgroundPosition: '0% 0' }
     ], { duration: 550, easing: 'cubic-bezier(.2,.65,.25,1)' });
     sweeps.set(label, animation);
     animation.finished.then(() => {
@@ -49,7 +47,7 @@
   }
   document.addEventListener('pointerover', event => {
     const control = event.target.closest(selector);
-    if (control && !control.contains(event.relatedTarget) && event.pointerType !== 'touch') sweep(control, event);
+    if (control && !control.contains(event.relatedTarget) && event.pointerType !== 'touch') sweep(control);
   });
   document.addEventListener('focusin', event => {
     const control = event.target.closest(selector);
@@ -57,6 +55,6 @@
   });
   document.addEventListener('click', event => {
     const control = event.target.closest(selector);
-    if (control) sweep(control, event.detail ? event : null);
+    if (control) sweep(control);
   }, { capture: true });
 })();
