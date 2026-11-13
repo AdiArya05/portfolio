@@ -107,7 +107,7 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261113-sheen" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261113-text-sheen" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261108-roll-seconds" defer></script>
@@ -116,10 +116,10 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=20261113-sheen" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=20261113-text-sheen" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=6" defer></script>
-  <script src="/fluid-buttons.js?v=2" defer></script>
+  <script src="/fluid-buttons.js?v=3" defer></script>
 </head>
 <body class="reading-page explorations-view">
   ${toolbar.replace('href="/work/">Work', 'href="/work/" aria-current="page">Work').replace('href="/stories/" aria-current="page"','href="/stories/"')}

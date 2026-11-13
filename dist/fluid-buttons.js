@@ -20,27 +20,32 @@
 
   const selector = 'a[data-liquid-glass], button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.modal-close,.island-zone)';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  function point(control, event) {
-    const bounds = control.getBoundingClientRect();
-    return event.detail === 0 ? [bounds.width / 2, bounds.height / 2] :
-      [event.clientX - bounds.left, event.clientY - bounds.top];
-  }
+  const sweeps = new WeakMap();
   function sweep(control, event) {
-    if (reduced.matches || !control.animate) return;
-    control.querySelector('.fluid-sheen')?.remove();
-    const sheen = document.createElement('span');
-    sheen.className = 'fluid-sheen';
-    sheen.setAttribute('aria-hidden', 'true');
-    const bounds = control.getBoundingClientRect();
-    const fromLeft = !event || event.clientX < bounds.left + bounds.width / 2;
-    const direction = fromLeft ? 1 : -1;
-    control.append(sheen);
-    const animation = sheen.animate([
-      { transform: `translateX(${-direction * 115}%)`, opacity: 0 },
-      { opacity: .52, offset: .46 },
-      { transform: `translateX(${direction * 115}%)`, opacity: 0 }
-    ], { duration: 560, easing: 'cubic-bezier(.2,.65,.25,1)' });
-    animation.finished.then(() => sheen.remove(), () => sheen.remove());
+    if (reduced.matches || control.disabled) return;
+    for (const node of Array.from(control.childNodes)) {
+      if (node.nodeType !== Node.TEXT_NODE || !node.textContent.trim()) continue;
+      const label = document.createElement('span');
+      label.className = 'fluid-label';
+      node.replaceWith(label);
+      label.append(node);
+    }
+    const label = [...control.children].find(child =>
+      child.matches('span') && child.textContent.trim() && child.getClientRects().length);
+    if (!label?.animate) return;
+
+    const bounds = label.getBoundingClientRect();
+    const forward = !event || event.clientX < bounds.left + bounds.width / 2;
+    sweeps.get(label)?.cancel();
+    label.classList.add('fluid-text-sheen');
+    const animation = label.animate([
+      { backgroundPosition: forward ? '100% 0' : '0% 0' },
+      { backgroundPosition: forward ? '0% 0' : '100% 0' }
+    ], { duration: 550, easing: 'cubic-bezier(.2,.65,.25,1)' });
+    sweeps.set(label, animation);
+    animation.finished.then(() => {
+      if (sweeps.get(label) === animation) label.classList.remove('fluid-text-sheen');
+    }, () => {});
   }
   document.addEventListener('pointerover', event => {
     const control = event.target.closest(selector);
@@ -52,18 +57,6 @@
   });
   document.addEventListener('click', event => {
     const control = event.target.closest(selector);
-    if (!control || reduced.matches || control.disabled || !control.animate) return;
-    const [x, y] = point(control, event);
-    const ripple = document.createElement('span');
-    ripple.className = 'fluid-ripple';
-    ripple.setAttribute('aria-hidden', 'true');
-    ripple.style.left = `${x}px`;
-    ripple.style.top = `${y}px`;
-    control.append(ripple);
-    const animation = ripple.animate([
-      { transform: 'translate(-50%, -50%) scale(.04)', opacity: .58 },
-      { transform: 'translate(-50%, -50%) scale(1)', opacity: 0 }
-    ], { duration: 490, easing: 'cubic-bezier(.2,.7,.25,1)' });
-    animation.finished.then(() => ripple.remove(), () => ripple.remove());
+    if (control) sweep(control, event.detail ? event : null);
   }, { capture: true });
 })();

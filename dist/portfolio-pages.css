@@ -950,14 +950,12 @@ body:has([data-portfolio-panel="stories"]:not([hidden])) .back-to-top { display:
 /* Independent glass capsules with a pointer-following highlight. */
 :root {
   --fluid-accent: #0068ec;
-  --fluid-glint: #ffffffed;
   --fluid-surface: linear-gradient(160deg,#fff9,#ffffff30 49%,#e4e4e45e);
   --fluid-edge: #ffffffd9;
   --fluid-shadow: inset 0 1px 3px #fff, inset 0 -1px 2px #fff9, 0 2px 5px #16161613, 0 9px 20px #16161614;
 }
 html[data-theme="dark"] {
   --fluid-accent: #78b4ff;
-  --fluid-glint: #ffffff3d;
   --fluid-surface: linear-gradient(145deg,#424246d9,#262629b8);
   --fluid-edge: #ffffff30;
   --fluid-shadow: inset 0 1px 4px #ffffff24, 0 4px 14px #0005;
@@ -976,16 +974,29 @@ html[data-theme="dark"] {
 }
 a[data-liquid-glass] { position: relative; }
 .fluid-symbol { width: 18px; height: 18px; flex: none; fill: currentColor; }
-.work-contact-actions a[href^="https://cal.com/"] { --fluid-foreground: var(--fluid-accent); --fluid-sheen: #9dcbff; }
-.work-contact-actions a[href^="mailto:"] { --fluid-foreground: #087b50; --fluid-sheen: #9de8c6; }
-html[data-theme="dark"] .work-contact-actions a[href^="mailto:"] { --fluid-foreground: #6bddab; }
-.fluid-sheen {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(105deg,transparent 20%,var(--fluid-sheen,#d3d7df) 48%,#fff 52%,transparent 76%);
-  pointer-events: none;
+.work-contact-actions a {
+  --fluid-foreground: #202124;
+  gap: 11px;
+  padding: 0 17px;
+  min-height: 44px;
+  font-weight: 600;
+}
+.work-contact-actions a[href^="https://cal.com/"] {
+  --fluid-foreground: #0068ec;
+  --fluid-sheen: #9dccff;
+}
+html[data-theme="dark"] .work-contact-actions a { --fluid-foreground: var(--ink); }
+html[data-theme="dark"] .work-contact-actions a[href^="https://cal.com/"] {
+  --fluid-foreground: var(--fluid-accent);
+}
+.fluid-text-sheen {
+  background: linear-gradient(103deg,
+    currentColor 38%, var(--fluid-sheen,#c5cbd4) 48%,
+    #fff 50%, var(--fluid-sheen,#c5cbd4) 52%, currentColor 62%);
+  background-size: 280% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 @media (hover: hover) and (pointer: fine) {
   :is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)):hover {
@@ -998,15 +1009,6 @@ html[data-theme="dark"] .work-contact-actions a[href^="mailto:"] { --fluid-foreg
 :is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)):focus-visible {
   outline: 2px solid var(--fluid-accent);
   outline-offset: 3px;
-}
-.fluid-ripple {
-  position: absolute;
-  z-index: -1;
-  width: 230%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--fluid-glint),transparent 66%);
-  pointer-events: none;
 }
 @media (prefers-reduced-motion: reduce) {
   :is(a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)) {
