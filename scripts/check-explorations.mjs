@@ -39,8 +39,8 @@ assert.deepEqual(pieces.slice(0, 9).map(title), [
   'Dot In Split Screen',
   'Liquid Glass Button Interaction',
   'Scroll Controls',
-  'Income Slider',
   'Codex Usage Menu Bar',
+  'Income Slider',
   'Music Player',
 ]);
 assert(pieces[0].includes('width="3840" height="2880"') && pieces[0].includes('/media/dot-iphone-assistant-4k.mp4'));
