@@ -818,7 +818,11 @@ a[data-liquid-glass]:focus-visible {
   translate: 12px 0;
   transition-delay: 0s;
 }
-.clock-island.is-spotify-open :is(.time-zone-toggle, .time-zone-dropdown) { visibility: hidden; }
+:is(.index-toolbar, .reading-toolbar) .clock-island.is-spotify-open :is(.time-zone-toggle, .time-zone-dropdown) {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
 .clock-island.is-spotify-open .island-spotify {
   inset-inline-end: 0;
   width: min(355px, var(--island-width));
