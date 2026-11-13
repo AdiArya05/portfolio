@@ -11,14 +11,15 @@
 
   function reveal(panel) {
     if (reduced.matches) return;
-    if (phone.matches) {
-      entrance = panel.animate([{opacity: .65}, {opacity: 1}], {duration: 200, easing: 'ease-out'});
-      return;
+    const frames = [
+      {opacity: .4, transform: 'translateY(4px)'},
+      {opacity: 1, transform: 'translateY(0px)'}
+    ];
+    if (!phone.matches) {
+      frames[0].filter = 'blur(2px)';
+      frames[1].filter = 'blur(0px)';
     }
-    entrance = panel.animate([
-      {opacity: .4, filter: 'blur(2px)', transform: 'translateY(4px)'},
-      {opacity: 1, filter: 'blur(0px)', transform: 'translateY(0px)'}
-    ], {duration: 330, easing: 'cubic-bezier(.25,.65,.3,1)'});
+    entrance = panel.animate(frames, {duration: 330, easing: 'cubic-bezier(.25,.65,.3,1)'});
   }
 
   reduced.addEventListener('change', () => entrance?.cancel());
