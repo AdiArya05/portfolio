@@ -844,7 +844,15 @@ a[data-liquid-glass]:focus-visible {
   cursor: pointer;
   transition: background 180ms ease, transform 180ms var(--island-ease);
 }
-.clock-island :is(.island-spotify-toggle, .island-spotify-profile) svg { width: 18px; height: 18px; }
+.clock-island :is(.island-spotify-toggle, .island-spotify-profile) svg { flex: none; width: 18px; height: 18px; }
+.clock-island .island-spotify-toggle svg {
+  position: absolute;
+  inset-inline-start: calc((var(--island-compact-height) - 18px) / 2);
+}
+.clock-island .island-spotify-toggle .island-wave {
+  position: absolute;
+  inset-inline-end: 7px;
+}
 .clock-island :is(.island-spotify-toggle, .island-spotify-profile):hover { background: #ffffff16; }
 .clock-island :is(.island-spotify-toggle, .island-spotify-profile):active { transform: scale(.88); }
 .clock-island .island-spotify :focus-visible { outline: 2px solid currentColor; outline-offset: -3px; }

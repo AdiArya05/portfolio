@@ -211,7 +211,10 @@
     }
   }
 
-  setInterval(checkPlayback, 2000);
+  setInterval(() => {
+    const needsLiveUpdates = playingTrack || widget.classList.contains('is-spotify-open');
+    if (needsLiveUpdates || Date.now() - lastPlaybackCheck >= 8000) checkPlayback();
+  }, 2000);
   document.addEventListener('visibilitychange', checkPlayback);
   phone.addEventListener('change', checkPlayback);
   checkPlayback();
@@ -419,10 +422,11 @@
       setSpotifyOpen(false);
       cancelHold();
       setOpen(false);
-    } else {
+    } else if (!document.hidden) {
       tick();
     }
   }
+  document.addEventListener('visibilitychange', syncViewport);
   phone.addEventListener('change', syncViewport);
   syncViewport();
 })();
