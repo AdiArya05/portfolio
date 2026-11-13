@@ -29,43 +29,28 @@
   -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
 .portfolio-nav {
-  --nav-link-inset: clamp(11px, 1.4vw, 19px);
-  --nav-font-size: 1.125rem;
-  position: relative;
-  isolation: isolate;
+  --nav-link-inset: 0px;
   display: flex;
-  flex: none;
-  gap: 5px;
-  width: max-content;
-}
-@media (max-width: 380px) {
-  .portfolio-nav { --nav-link-inset: 6px; --nav-font-size: 1.0625rem; gap: 3px; }
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
 }
 .portfolio-nav a {
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: var(--portfolio-nav-height, 48px);
-  padding-inline: var(--nav-link-inset);
-  border-radius: 11px;
-  color: var(--muted);
-  font: 400 var(--nav-font-size)/1.5 var(--font-sans);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  padding-inline: clamp(10px, 1.3vw, 16px);
+  font: 600 15px/1.2 var(--font-sans);
   text-decoration: none;
+  white-space: nowrap;
 }
-.portfolio-nav a[aria-current="page"], .portfolio-nav a:is(:hover, :focus-visible) { color: var(--ink); }
-.portfolio-nav:not(.glass-ready) a[aria-current="page"] { background: #e9e9ec; }
-.portfolio-nav .nav-glass {
-  position: absolute;
-  inset: 0 auto 0 0;
-  z-index: -1;
-  width: var(--glass-width, 0px);
-  opacity: 0;
-  transform: translateX(var(--glass-x, 0px));
-  transition: transform 270ms cubic-bezier(.2,.75,.25,1), width 270ms cubic-bezier(.2,.75,.25,1);
-  pointer-events: none;
+.portfolio-nav a[aria-current="page"] { --fluid-foreground: var(--fluid-accent); }
+@media (max-width: 520px) {
+  .portfolio-nav { gap: 5px; }
+  .portfolio-nav a { gap: 4px; padding-inline: 7px; font-size: 13px; }
+  .portfolio-nav .fluid-symbol { width: 14px; height: 14px; }
 }
-.portfolio-nav.glass-ready .nav-glass { opacity: 1; }
-.portfolio-nav a:focus-visible { outline: 2px solid #005fd1; outline-offset: 2px; }
 
 body.portfolio-index .shell { display: block; height: auto; min-height: 0; overflow: visible; }
 body.portfolio-index .story {
@@ -155,7 +140,7 @@ button.catalog-title { display: block; padding: 0; border: 0; background: none; 
   pointer-events: none;
   transition: transform 270ms cubic-bezier(.2,.75,.25,1), opacity 160ms ease;
 }
-.nav-glass, .story-glass {
+.story-glass {
   border-radius: 13px;
   border: 1px solid #a6a9b133;
   background: radial-gradient(ellipse at 28% 0%, #fff 8%, transparent 75%),
@@ -231,7 +216,6 @@ button.catalog-title { display: block; padding: 0; border: 0; background: none; 
   .index-toolbar .time-zones, .reading-page .reading-toolbar .time-zones { align-self: flex-end; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .portfolio-nav .nav-glass { transition: none; }
 }
 
 /* Quiet text links and short blocks keep the intro readable beside the reel. */
@@ -724,19 +708,6 @@ button.island-zone { cursor: pointer; }
 button.island-zone:is(:hover, [aria-pressed="true"]) { background: #ffffff15; }
 .island-zone time { color: #ff9f0a; font-size: 12px; font-variant-numeric: tabular-nums; }
 
-button:is(.page-scroll-button, .motion-toggle, .lightbox-close, .project-modal .modal-close, #media-viewer .modal-close),
-a[data-liquid-glass] {
-  color: #242424;
-  border-radius: 999px;
-  border: 1px solid #ffffffa0;
-  background: linear-gradient(160deg, #ffffff90, #dedede50);
-  box-shadow: inset 0 1px 1px #fff, inset 0 0 0 1px #77777740, 0 5px 16px #0002;
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-}
-button:is(.page-scroll-button, .motion-toggle, .lightbox-close, .project-modal .modal-close, #media-viewer .modal-close):hover,
-a[data-liquid-glass]:is(:hover, :focus-visible) { background: linear-gradient(160deg, #ffffffb8, #e7e7e76b); }
-
 @media (prefers-reduced-motion: reduce) {
   .clock-island,
   .clock-island #local-matrix time,
@@ -960,3 +931,62 @@ a[data-liquid-glass]:focus-visible {
 }
 
 body:has([data-portfolio-panel="stories"]:not([hidden])) .back-to-top { display: none; }
+
+/* Independent glass capsules with a pointer-following highlight. */
+:root {
+  --fluid-accent: #0068ec;
+  --fluid-glint: #ffffffed;
+  --fluid-surface: linear-gradient(145deg,#ffffffdb,#f3f3f3b5);
+  --fluid-edge: #ffffffd9;
+  --fluid-shadow: inset 0 1px 5px #fff, 0 2px 4px #1616160d, 0 8px 20px #16161612;
+}
+html[data-theme="dark"] {
+  --fluid-accent: #78b4ff;
+  --fluid-glint: #ffffff3d;
+  --fluid-surface: linear-gradient(145deg,#424246d9,#262629b8);
+  --fluid-edge: #ffffff30;
+  --fluid-shadow: inset 0 1px 4px #ffffff24, 0 4px 14px #0005;
+}
+:is(.portfolio-nav a, a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)) {
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--fluid-edge);
+  border-radius: 999px;
+  background: radial-gradient(ellipse 72px 50px at var(--fluid-x,50%) var(--fluid-y,0%), var(--fluid-glint),transparent 100%), var(--fluid-surface);
+  box-shadow: var(--fluid-shadow);
+  color: var(--fluid-foreground, var(--ink));
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  transition: scale 290ms cubic-bezier(.18,1.4,.34,1), color 180ms ease, box-shadow 220ms ease, opacity 180ms ease;
+}
+:is(.portfolio-nav a, a[data-liquid-glass]) { position: relative; }
+.fluid-symbol { width: 18px; height: 18px; flex: none; fill: currentColor; }
+.work-contact-actions a:first-child { --fluid-foreground: var(--fluid-accent); }
+@media (hover: hover) and (pointer: fine) {
+  :is(.portfolio-nav a, a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)):hover {
+    color: var(--fluid-accent);
+    scale: 1.045;
+  }
+}
+:is(.portfolio-nav a, a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)):active {
+  scale: .96;
+}
+:is(.portfolio-nav a, a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)):focus-visible {
+  outline: 2px solid var(--fluid-accent);
+  outline-offset: 3px;
+}
+.fluid-ripple {
+  position: absolute;
+  z-index: -1;
+  width: 230%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--fluid-accent),transparent 66%);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.portfolio-nav a, a[data-liquid-glass], .project-modal button.modal-close, #media-viewer button.modal-close, button:is(.page-scroll-button,.motion-toggle,.motion-open,.lightbox-close,.island-zone)) {
+    transition: none;
+    scale: 1;
+  }
+}
