@@ -974,6 +974,10 @@ html[data-theme="dark"] {
 }
 a[data-liquid-glass] { position: relative; }
 .fluid-symbol { width: 18px; height: 18px; flex: none; fill: currentColor; }
+.work-contact { margin-top:clamp(44px,8vw,72px); color:var(--ink); font-size:clamp(16px,3vw,22px); line-height:1.45; }
+.work-contact p { margin:0 0 12px; }
+.work-contact-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
+.work-contact-actions a { display:inline-flex; align-items:center; justify-content:center; min-height:44px; }
 .work-contact-actions a {
   --fluid-foreground: #202124;
   gap: 11px;
