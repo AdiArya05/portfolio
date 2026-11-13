@@ -107,7 +107,7 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
   <link rel="stylesheet" href="/work/reading-toolbar.css?v=20261019-v25" />
-  <link rel="stylesheet" href="/explorations/explorations.css?v=20261107-poster" />
+  <link rel="stylesheet" href="/explorations/explorations.css?v=20261113-contact" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261108-roll-seconds" defer></script>
@@ -128,6 +128,14 @@ const html = `<!doctype html>
     </header>
     <section class="explorations-feed" aria-label="Interfaces, websites and motion studies">
       ${workFeed.join('\n      ')}
+    </section>
+    <section class="work-contact" aria-label="Get in touch">
+      <p>That's the work. If you made it this far, let's talk.</p>
+      <p>2 slots open this month for new projects.</p>
+      <div class="work-contact-actions">
+        <a data-liquid-glass href="mailto:adityaarya1021@gmail.com">Email</a>
+        <a data-liquid-glass href="https://x.com/adiarya05">X</a>
+      </div>
     </section>
     <footer class="explorations-footer"><a class="back-link" data-liquid-glass href="/"><svg class="glass-symbol" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor"/><path d="M17 12H7m4-4-4 4 4 4" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to home</a></footer>
   </main>
