@@ -28,6 +28,7 @@
   const visible = new Set();
   const choices = new Map();
   let modalOpen = false;
+  let workScrolled = false;
 
   function choice(video) {
     if (!choices.has(video.dataset.src)) choices.set(video.dataset.src, { paused:false, explicit:false });
@@ -42,7 +43,8 @@
   function sync(video) {
     const state = choice(video);
     const automatic = !reduced.matches && !navigator.connection?.saveData;
-    const shouldPlay = visible.has(video) && !video.closest('[data-portfolio-panel][hidden]') &&
+    const waitingForScroll = phone.matches && video.dataset.phoneSrc && !workScrolled && !state.explicit;
+    const shouldPlay = !waitingForScroll && visible.has(video) && !video.closest('[data-portfolio-panel][hidden]') &&
       !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
     if (shouldPlay) {
       if (!video.hasAttribute('src')) {
@@ -62,9 +64,14 @@
   }, { threshold:[0,.15] });
 
   function rewindWork() {
+    workScrolled = false;
     for (const video of workVideos) {
       visible.delete(video);
       video.pause();
+      if (video.dataset.phoneSrc && phone.matches) {
+        delete video.dataset.frameReady;
+        choice(video).explicit = false;
+      }
       if (video.hasAttribute('src')) video.currentTime = 0;
       observer.unobserve(video);
       observer.observe(video);
@@ -107,6 +114,12 @@
     observer.observe(video);
     paint(video);
   });
+  window.addEventListener('scroll', () => {
+    if (workScrolled || !phone.matches || window.scrollY <= 0 ||
+        !workVideos.some(video => video.dataset.phoneSrc && !video.closest('[data-portfolio-panel][hidden]'))) return;
+    workScrolled = true;
+    syncAll();
+  }, {passive: true});
   document.addEventListener('visibilitychange', syncAll);
   window.addEventListener('portfolio-work-leave', rewindWork);
   window.addEventListener('pagehide', rewindWork);

@@ -27,10 +27,11 @@ const dotTitle = 'Dot In The Dynamic Island';
 const dotPoster = '/media/dot-iphone-assistant.webp';
 const motionTile = (title, attributes, video, href = '') => {
   const phoneSource = attribute(video, 'data-src').replace(/\.mp4(?:\?.*)?$/, '-phone.mp4');
+  const phonePoster = phoneSource.replace(/\.mp4$/, '-poster.webp');
   const previewVideo = video.replace('<video ', `<video data-phone-src="${phoneSource}" `);
   return `<article class="exploration" ${attributes}>
         <div class="motion-stage">
-          <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${previewVideo}<img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === dotTitle ? 'eager' : 'lazy'}" decoding="async" /></button>
+          <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${previewVideo}<picture><source media="(max-width: 700px)" srcset="${phonePoster}"><img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === dotTitle ? 'eager' : 'lazy'}" decoding="async" /></picture></button>
           <button class="motion-toggle" type="button" aria-label="Play ${attribute(video, 'data-name')} preview" data-playing="false"><svg class="motion-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5.5c0-1.1 1.2-1.8 2.15-1.23l11 6.5a1.43 1.43 0 0 1 0 2.46l-11 6.5C8.2 20.3 7 19.6 7 18.5v-13Z" fill="currentColor" /></svg><svg class="motion-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 4h2.25c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5H6.5c-.83 0-1.5-.67-1.5-1.5v-13c0-.83.67-1.5 1.5-1.5Zm8.75 0h2.25c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5h-2.25c-.83 0-1.5-.67-1.5-1.5v-13c0-.83.67-1.5 1.5-1.5Z" fill="currentColor" /></svg></button>
         </div>
         ${caption(title, href)}
@@ -119,7 +120,7 @@ const html = `<!doctype html>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261114-clock-roll" defer></script>
   <script src="/explorations/explorations.js?v=20261107-shared-preview" defer></script>
-  <script src="/motion-gallery.js?v=20261114-phone-playback" defer></script>
+  <script src="/motion-gallery.js?v=20261114-first-frame" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
