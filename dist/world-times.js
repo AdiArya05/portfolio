@@ -211,10 +211,7 @@
     }
   }
 
-  setInterval(() => {
-    const needsLiveUpdates = playingTrack || widget.classList.contains('is-spotify-open');
-    if (needsLiveUpdates || Date.now() - lastPlaybackCheck >= 8000) checkPlayback();
-  }, 2000);
+  setInterval(checkPlayback, 2000);
   document.addEventListener('visibilitychange', checkPlayback);
   phone.addEventListener('change', checkPlayback);
   checkPlayback();
