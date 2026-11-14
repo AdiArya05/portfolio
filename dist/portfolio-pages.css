@@ -627,11 +627,12 @@ body:has(dialog[open]) .back-to-top { visibility: hidden; }
   width: max(1ch, .64em);
   height: .9em;
   overflow: hidden;
+  clip-path: inset(0);
   text-align: center;
 }
 .island-digit-strip {
   display: block;
-  transform: translateY(-50%);
+  transform: translateY(-.9em);
 }
 .island-digit-strip > span {
   display: block;

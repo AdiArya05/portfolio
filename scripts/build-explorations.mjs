@@ -113,13 +113,13 @@ const html = `<!doctype html>
   <link rel="stylesheet" href="/explorations/explorations.css?v=20261113-button-alignment" />
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
-  <script src="/world-times.js?v=20261114-steady-seconds" defer></script>
+  <script src="/world-times.js?v=20261114-clock-roll" defer></script>
   <script src="/explorations/explorations.js?v=20261107-shared-preview" defer></script>
   <script src="/motion-gallery.js?v=20261111-rewind" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=20261113-clock-spotify" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=20261114-clock-roll" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=6" defer></script>
   <script src="/fluid-buttons.js?v=5" defer></script>
