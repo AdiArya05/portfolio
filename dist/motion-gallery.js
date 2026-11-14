@@ -23,6 +23,7 @@
 
   const videos = [...document.querySelectorAll('.motion-stage video')];
   const workVideos = videos.filter(video => video.closest('main.explorations-page'));
+  const phone = matchMedia('(max-width: 700px)');
   const reduced = matchMedia('(prefers-reduced-motion:reduce)');
   const visible = new Set();
   const choices = new Map();
@@ -44,7 +45,9 @@
     const shouldPlay = visible.has(video) && !video.closest('[data-portfolio-panel][hidden]') &&
       !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
     if (shouldPlay) {
-      if (!video.hasAttribute('src')) { video.src = video.dataset.src; }
+      if (!video.hasAttribute('src')) {
+        video.src = (phone.matches && video.dataset.phoneSrc) || video.dataset.src;
+      }
       if (video.paused) video.play().catch(() => paint(video));
     } else video.pause();
     paint(video);

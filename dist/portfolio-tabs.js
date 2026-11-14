@@ -50,7 +50,7 @@
   }, {passive: true});
 
   function warmWork() {
-    if (reduced.matches || navigator.connection?.saveData) return;
+    if (phone.matches || reduced.matches || navigator.connection?.saveData) return;
     const video = panels.get('work').querySelector('.motion-stage video[data-src]');
     if (!video || video.hasAttribute('src')) return;
     video.preload = 'auto';
