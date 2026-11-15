@@ -111,7 +111,7 @@ const html = `<!doctype html>
   <link rel="canonical" href="https://adiarya.com/work" />
   <script src="/media-motion.js?v=20261105-tabs" defer></script>
   <script src="/media-dialog.js?v=20261107-shared-preview" defer></script>
-  <link rel="stylesheet" href="/typography.css?v=20261107-cursor" />
+  <link rel="stylesheet" href="/typography.css?v=20261115-black-cursor" />
   <link rel="stylesheet" href="/work/case-study.css?v=20261104-neutral" />
   <link rel="stylesheet" href="/world-times.css?v=20261019-v17" />
   <link rel="stylesheet" href="/interface-controls.css?v=20261019-v26" />
