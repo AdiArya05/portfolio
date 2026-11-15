@@ -43,7 +43,8 @@
   function sync(video) {
     const state = choice(video);
     const automatic = !reduced.matches && !navigator.connection?.saveData;
-    const waitingForScroll = phone.matches && video.dataset.phoneSrc && !workScrolled && !state.explicit;
+    const waitingForScroll = phone.matches && video.dataset.phoneSrc && !video.hasAttribute('data-play-on-open') &&
+      !workScrolled && !state.explicit;
     const shouldPlay = !waitingForScroll && visible.has(video) && !video.closest('[data-portfolio-panel][hidden]') &&
       !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
     if (shouldPlay) {

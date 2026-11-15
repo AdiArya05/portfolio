@@ -28,7 +28,8 @@ const dotPoster = '/media/dot-iphone-assistant.webp';
 const motionTile = (title, attributes, video, href = '') => {
   const phoneSource = attribute(video, 'data-src').replace(/\.mp4(?:\?.*)?$/, '-phone.mp4');
   const phonePoster = phoneSource.replace(/\.mp4$/, '-poster.webp');
-  const previewVideo = video.replace('<video ', `<video data-phone-src="${phoneSource}" `);
+  const autoplayOnOpen = title === dotTitle ? ' data-play-on-open' : '';
+  const previewVideo = video.replace('<video ', `<video data-phone-src="${phoneSource}"${autoplayOnOpen} `);
   return `<article class="exploration" ${attributes}>
         <div class="motion-stage">
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${previewVideo}<picture><source media="(max-width: 700px)" srcset="${phonePoster}"><img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === dotTitle ? 'eager' : 'lazy'}" decoding="async" /></picture></button>
@@ -120,7 +121,7 @@ const html = `<!doctype html>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261114-clock-roll" defer></script>
   <script src="/explorations/explorations.js?v=20261107-shared-preview" defer></script>
-  <script src="/motion-gallery.js?v=20261114-first-frame" defer></script>
+  <script src="/motion-gallery.js?v=20261115-dot-on-open" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
