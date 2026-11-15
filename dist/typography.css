@@ -6,9 +6,7 @@ button,input,select,textarea { font-family:inherit; }
 html { scrollbar-gutter: stable; font-feature-settings: normal; font-variation-settings: normal; }
 
 @media (hover: hover) and (pointer: fine) {
-  html { cursor: url("/media/portfolio-cursor.png") 3 2, auto; }
-  :is(a[href], summary, button:not(:disabled)) {
-    cursor: url("/media/portfolio-cursor-action.png") 3 2, pointer !important;
-  }
-  :is(input, textarea, [contenteditable="true"]) { cursor: text; }
+  html { cursor: url("/media/portfolio-cursor.svg") 3 2, auto; }
+  :where(p, h1, h2, h3, figcaption, .intro, button, input, select, textarea, [contenteditable="true"]) { cursor: auto; }
+  :where(a[href], summary) { cursor: pointer; }
 }
