@@ -7,7 +7,7 @@ html { scrollbar-gutter: stable; font-feature-settings: normal; font-variation-s
 
 @media (hover: hover) and (pointer: fine) {
   html {
-    --portfolio-cursor: url("/media/portfolio-canvas-cursor.svg") 4 4, url("/media/portfolio-canvas-cursor-25.png") 4 4;
+    --portfolio-cursor: url("/media/portfolio-canvas-cursor.svg?v=thin") 4 4, url("/media/portfolio-canvas-cursor-25.png?v=thin") 4 4;
     cursor: var(--portfolio-cursor), auto;
   }
   :is(a[href], summary, button:not(:disabled)) {
