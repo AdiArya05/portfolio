@@ -130,7 +130,10 @@
     spotifyToggle.setAttribute('aria-expanded', String(open));
     spotifyDetails.inert = !open;
     if (restoreFocus) (open ? spotifyProfile : spotifyToggle).focus({ preventScroll: true });
-    if (open) updateTimeline(Date.now());
+    if (open) {
+      updateTimeline(Date.now());
+      showLastPlayed();
+    }
   }
 
   function toggleSpotify(open) {
@@ -144,6 +147,24 @@
   let checkingPlayback = false;
   let lastPlaybackCheck = 0;
   let playingTrack;
+  let lastPlayed;
+  let lastPlayedExpires = 0;
+
+  function showLastPlayed() {
+    if (playingTrack !== null || !widget.classList.contains('is-spotify-open')) return;
+    if (lastPlayed) trackName.textContent = `Last played — ${lastPlayed.name} · ${lastPlayed.artist}`;
+    if (Date.now() < lastPlayedExpires) return;
+    lastPlayedExpires = Date.now() + 30000;
+    fetch('/api/last-played', { signal: AbortSignal.timeout(8000) })
+      .then(response => response.ok ? response.json() : null)
+      .then(result => {
+        lastPlayed = result?.track;
+        if (lastPlayed && playingTrack === null && widget.classList.contains('is-spotify-open')) {
+          trackName.textContent = `Last played — ${lastPlayed.name} · ${lastPlayed.artist}`;
+        }
+      })
+      .catch(() => {});
+  }
 
   function formatTrackTime(ms) {
     const seconds = Math.floor(ms / 1000);
@@ -186,7 +207,7 @@
       checkingPlayback = false;
     }
     if (track?.isPlaying === false) track = null;
-    playingTrack = track;
+    playingTrack = unavailable ? undefined : track ?? null;
     spotify.classList.toggle('is-playing', Boolean(track));
     if (!track?.artwork) {
       artwork.hidden = true;
@@ -208,6 +229,7 @@
     } else {
       trackName.textContent = unavailable ? 'Spotify is temporarily unavailable' : 'Adi isn’t listening to anything right now.';
       trackArtist.textContent = '';
+      showLastPlayed();
     }
   }
 

@@ -1,27 +1,4 @@
-let accessToken;
-let expiresAt = 0;
-let refreshPending;
-
-function getAccessToken(id, secret, refreshToken) {
-  if (accessToken && Date.now() < expiresAt) return accessToken;
-  refreshPending ??= (async () => {
-    const response = await fetch('https://accounts.spotify.com/api/token', {
-      method: 'POST',
-      headers: {
-        Authorization: 'Basic ' + Buffer.from(id + ':' + secret).toString('base64'),
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refreshToken }),
-      signal: AbortSignal.timeout(5000)
-    });
-    if (!response.ok) throw new Error('Spotify authorization failed (' + response.status + ')');
-    const token = await response.json();
-    accessToken = token.access_token;
-    expiresAt = Date.now() + (token.expires_in - 60) * 1000;
-    return accessToken;
-  })().finally(() => { refreshPending = undefined; });
-  return refreshPending;
-}
+const { getAccessToken, invalidateAccessToken } = require('../lib/spotify-auth');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -42,7 +19,7 @@ module.exports = async function handler(req, res) {
       signal: AbortSignal.timeout(5000)
     });
     if (response.status === 204) return res.status(200).json({ track: null });
-    if (response.status === 401) expiresAt = 0;
+    if (response.status === 401) invalidateAccessToken();
     if (!response.ok) throw new Error('Spotify playback unavailable (' + response.status + ')');
     const { is_playing, item, device, progress_ms } = await response.json();
     const url = item?.external_urls?.spotify;
