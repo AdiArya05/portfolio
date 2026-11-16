@@ -50,6 +50,7 @@ const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
 const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
 const sojaSite = 'https://soja.framer.website/';
 const destinations = {
+  'Liquid Glass Button Interaction': 'https://x.com/adiarya05/status/2122124177226481913',
   'Dot In The Dynamic Island': 'https://x.com/adiarya05/status/2119647006507598210',
   'Dot In Split Screen': 'https://x.com/adiarya05/status/2120347912890892565',
   'Catch Live Activity': catchApp,
@@ -65,7 +66,7 @@ const destinations = {
 };
 for (const piece of pieces) {
   const name = title(piece);
-  if (['Income Slider', 'Liquid Glass Button Interaction'].includes(name)) {
+  if (name === 'Income Slider') {
     assert(piece.includes('<button class="catalog-title preview-label"'));
   } else {
     const link = piece.match(/<a class="catalog-title" href="([^"]+)"/)?.[1];
