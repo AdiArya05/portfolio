@@ -149,21 +149,25 @@
   let playingTrack;
   let lastPlayed;
   let lastPlayedExpires = 0;
+  let lastPlayedPending;
 
   function showLastPlayed() {
     if (playingTrack !== null || !widget.classList.contains('is-spotify-open')) return;
-    if (lastPlayed) trackName.textContent = `Last played — ${lastPlayed.name} · ${lastPlayed.artist}`;
-    if (Date.now() < lastPlayedExpires) return;
-    lastPlayedExpires = Date.now() + 30000;
-    fetch('/api/last-played', { signal: AbortSignal.timeout(8000) })
+    const label = lastPlayed
+      ? `Last played — ${lastPlayed.name} · ${lastPlayed.artist}`
+      : lastPlayed === null ? 'Adi isn’t listening to anything right now.' : 'Checking Spotify…';
+    if (trackName.textContent !== label) trackName.textContent = label;
+    if (lastPlayedPending || Date.now() < lastPlayedExpires) return;
+
+    lastPlayedPending = fetch('/api/last-played', { signal: AbortSignal.timeout(8000) })
       .then(response => response.ok ? response.json() : null)
+      .catch(() => null)
       .then(result => {
-        lastPlayed = result?.track;
-        if (lastPlayed && playingTrack === null && widget.classList.contains('is-spotify-open')) {
-          trackName.textContent = `Last played — ${lastPlayed.name} · ${lastPlayed.artist}`;
-        }
-      })
-      .catch(() => {});
+        lastPlayed = result?.track ?? null;
+        lastPlayedExpires = Date.now() + 30000;
+        lastPlayedPending = undefined;
+        showLastPlayed();
+      });
   }
 
   function formatTrackTime(ms) {
@@ -227,7 +231,7 @@
         }
       }
     } else {
-      trackName.textContent = unavailable ? 'Spotify is temporarily unavailable' : 'Adi isn’t listening to anything right now.';
+      if (unavailable) trackName.textContent = 'Spotify is temporarily unavailable';
       trackArtist.textContent = '';
       showLastPlayed();
     }
