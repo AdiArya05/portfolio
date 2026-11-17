@@ -50,3 +50,14 @@ window.PortfolioNav.bindStories = () => {
   }
 };
 window.PortfolioNav.bindStories();
+
+const touchName = matchMedia('(hover: none)');
+let tappedName;
+
+document.addEventListener('click', event => {
+  const name = touchName.matches ? event.target.closest('.name-swap') : null;
+  const next = name === tappedName ? null : name;
+  tappedName?.classList.remove('is-name-tapped');
+  next?.classList.add('is-name-tapped');
+  tappedName = next;
+});

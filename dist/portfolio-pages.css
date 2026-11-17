@@ -378,7 +378,7 @@ body.portfolio-index .story {
   fill: none;
   stroke: #ff3b30;
   stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+  stroke-dashoffset: var(--name-strike-offset, 1);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2.35;
@@ -399,9 +399,9 @@ body.portfolio-index .story {
   font-size: 0.78em;
   font-weight: 700;
   letter-spacing: -0.04em;
-  opacity: 0;
+  opacity: var(--name-short-opacity, 0);
   pointer-events: none;
-  transform: translate3d(-50%, 0.35em, 0) rotate(-7deg) scale(0.72);
+  transform: translate3d(-50%, var(--name-short-y, 0.35em), 0) rotate(-7deg) scale(var(--name-short-scale, 0.72));
   transform-origin: 50% 100%;
   transition: opacity 150ms ease 120ms, transform 360ms cubic-bezier(0.16, 1, 0.3, 1) 90ms;
   white-space: nowrap;
@@ -409,17 +409,20 @@ body.portfolio-index .story {
 
 .name-short[data-nickname]::before { content: attr(data-nickname); }
 
-.name-swap:is(:hover, :focus-visible) {
-  outline: none;
+.name-swap:is(:focus-visible, .is-name-tapped) {
+  --name-strike-offset: 0;
+  --name-short-opacity: 1;
+  --name-short-y: 0px;
+  --name-short-scale: 1;
 }
 
-.name-swap:is(:hover, :focus-visible) .name-strike path {
-  stroke-dashoffset: 0;
-}
-
-.name-swap:is(:hover, :focus-visible) .name-short {
-  opacity: 1;
-  transform: translate3d(-50%, 0, 0) rotate(-7deg) scale(1);
+@media (hover: hover) and (pointer: fine) {
+  .name-swap:hover {
+    --name-strike-offset: 0;
+    --name-short-opacity: 1;
+    --name-short-y: 0px;
+    --name-short-scale: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
