@@ -69,6 +69,13 @@ const pages = [
     description: 'How Aditya Arya designed and built Soja, a sleep recovery app that turns circadian timing into a clear daily plan. Explore prototypes, app screens and design decisions.',
     image: '/work/soja/media/final-home.webp', imageAlt: 'Soja sleep recovery app designed by Aditya Arya',
   },
+  {
+    route: '/work/wayauto', file: 'work/wayauto/index.html', type: 'Article',
+    title: 'Designing the WayAuto icon — Aditya Arya',
+    headline: 'Designing the WayAuto icon',
+    description: 'How Aditya Arya designed the WayAuto app icon, from aerial road studies to an editable Icon Composer project.',
+    image: '/work/wayauto/media/hero-mockup-1536.webp', imageAlt: 'WayAuto’s overhead car icon against a blue gradient',
+  },
 ];
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
 
@@ -130,4 +137,4 @@ for (const page of pages) {
   }
   await fs.writeFile(filename, html.replace('</head>', '  ' + metadata + '\n</head>'));
 }
-console.log('Updated search metadata and structured data for all six public pages.');
+console.log(`Updated search metadata and structured data for ${pages.length} public pages.`);

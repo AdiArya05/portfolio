@@ -1,0 +1,35 @@
+.wayauto-section h3 { font-size: 14px; font-weight: 500; margin: 38px 0 12px; }
+.wayauto-section :is(figure, .wayauto-pair) { margin-top: 24px; }
+.wayauto-section .wayauto-pair figure { margin-top: 0; min-width: 0; }
+.wayauto-section :is(figure, .wayauto-pair) + p { margin-top: 26px; }
+.wayauto-story .image-button { background: transparent; border-radius: 10px; }
+.wayauto-pair img { height: auto; }
+
+.wayauto-studies {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px 16px;
+  margin-block: 24px 32px;
+}
+
+.wayauto-section .wayauto-studies figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.wayauto-studies figcaption {
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+@media (max-width: 560px) {
+  .wayauto-studies {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
+  }
+}
+
+.wayauto-story .wayauto-hero-image {
+  border-radius: clamp(18px, 4vw, 28px);
+  overflow: hidden;
+}

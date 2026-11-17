@@ -165,7 +165,7 @@ button.catalog-title { display: block; padding: 0; border: 0; background: none; 
 .story-glass.is-visible { opacity: 1; }
 .story-glass:not(.is-visible) { transition: opacity 160ms ease; }
 .story-entry:focus-visible { outline: 2px solid #005fd1; outline-offset: -2px; }
-.story-visual { display: none; width: 100%; height: auto; border-radius: 12px; }
+.story-visual { display: none; width: 100%; height: auto; border-radius: 22px; }
 @media (min-width: 701px) {
   .story-glass, .story-visual { display: block; }
   .story-list { padding-right: 60%; }
