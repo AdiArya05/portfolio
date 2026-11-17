@@ -24,8 +24,8 @@ const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div><img sr
 assert.deepEqual(iconFiles, [
   '/media/catch-blue-icon-4k.webp',
   '/media/wayauto-icon-4k.webp',
-  '/media/klicky-icon-4k.webp',
   '/media/waypoint-icon-light-4k.webp',
+  '/media/klicky-icon-4k.webp',
   '/media/soja-orange-icon-4k.webp',
   '/media/catch-painted-blue-icon-4k.webp',
   '/media/catch-painted-orange-icon-4k.webp',
