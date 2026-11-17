@@ -53,9 +53,17 @@ window.PortfolioNav.bindStories();
 
 const touchName = matchMedia('(hover: none)');
 let tappedName;
+let touchStartName;
+
+document.addEventListener('pointerdown', event => {
+  touchStartName = event.pointerType === 'touch' ? event.target.closest('.name-swap') : null;
+});
+document.addEventListener('pointercancel', () => { touchStartName = null; });
 
 document.addEventListener('click', event => {
-  const name = touchName.matches ? event.target.closest('.name-swap') : null;
+  const target = event.target.closest('.name-swap');
+  const name = touchName.matches && target === touchStartName ? target : null;
+  touchStartName = null;
   const next = name === tappedName ? null : name;
   tappedName?.classList.remove('is-name-tapped');
   next?.classList.add('is-name-tapped');
