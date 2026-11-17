@@ -154,7 +154,7 @@ handlers.get('scroll')();
 assert(!classes.has('is-page-scrolling'),'Restore effects when scrollend is unsupported');
 assert(fs.readFileSync(path.join(dist, 'robots.txt'), 'utf8').includes(`Sitemap: ${origin}/sitemap.xml`));
 assert(fs.readFileSync(path.join(dist, 'sitemap.xml'), 'utf8').includes(`<loc>${origin}/</loc>`));
-const social = fs.readFileSync(path.join(dist, 'media/aditya-arya-building-with-intent.jpg'));
+const social = fs.readFileSync(path.join(dist, 'media/aditya-arya-building-with-intent-wayauto.jpg'));
 assert.equal(social.readUInt16BE(0), 0xffd8, 'Social preview must be a JPEG');
 const cached = JSON.parse(fs.readFileSync(path.join(dist, 'github-contributions.json'), 'utf8'));
 assert.equal(cached.username, 'AdiArya05');
