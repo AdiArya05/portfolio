@@ -740,6 +740,9 @@ button.island-zone:is(:hover, [aria-pressed="true"]) { background: #ffffff15; }
   z-index: 4000;
 }
 
+/* The Work clock expands over the grid without reserving space in the toolbar. */
+body.explorations-view .reading-toolbar .clock-island { padding-block-end: 0; }
+
 :is(.portfolio-index .index-toolbar, body.editorial-story .reading-toolbar) .clock-island {
   align-self: center;
   margin-block-start: 0;
