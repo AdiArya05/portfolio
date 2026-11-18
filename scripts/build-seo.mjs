@@ -60,21 +60,24 @@ const pages = [
     title: 'Designing Catch SG Buses — Aditya Arya',
     headline: 'Designing Catch',
     description: 'How Aditya Arya designed Catch SG Buses in Figma and built and tested it with Codex, an AI coding tool. Explore bus timings, leave-now guidance and Live Activities.',
-    image: '/media/catch-live-board.webp', imageAlt: 'Catch SG Buses arrival board designed by Aditya Arya',
+    image: '/media/catch-article-preview.jpg', imageAlt: 'Designing Catch by Aditya Arya, with its bus Live Activity on iPhone',
+    imageWidth: 1200, imageHeight: 630,
   },
   {
     route: '/work/soja', file: 'work/soja/index.html', type: 'Article',
     title: 'Designing Soja Sleep Recovery — Aditya Arya',
     headline: 'Designing Soja',
     description: 'How Aditya Arya designed and built Soja, a sleep recovery app that turns circadian timing into a clear daily plan. Explore prototypes, app screens and design decisions.',
-    image: '/work/soja/media/final-home.webp', imageAlt: 'Soja sleep recovery app designed by Aditya Arya',
+    image: '/media/soja-article-preview.jpg', imageAlt: 'Building Soja by Aditya Arya, with its recovery dashboard on iPhone',
+    imageWidth: 1200, imageHeight: 630,
   },
   {
     route: '/work/wayauto', file: 'work/wayauto/index.html', type: 'Article',
     title: 'Designing the WayAuto icon — Aditya Arya',
     headline: 'Designing the WayAuto icon',
     description: 'How Aditya Arya designed the WayAuto app icon, from aerial road studies to an editable Icon Composer project.',
-    image: '/work/wayauto/media/hero-mockup-1536.webp', imageAlt: 'WayAuto’s overhead car icon against a blue gradient',
+    image: '/media/wayauto-article-preview.jpg', imageAlt: 'Designing the WayAuto icon by Aditya Arya, with the icon and iPhone mockup',
+    imageWidth: 1200, imageHeight: 630,
   },
 ];
 const escape = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
@@ -117,6 +120,11 @@ for (const page of pages) {
     '<meta property="og:locale" content="en_SG" />',
     ...['title', 'description', 'url', 'image'].map(key =>
       `<meta property="og:${key}" content="${escape(key === 'url' ? url : key === 'image' ? origin + page.image : page[key])}" />`),
+    ...(page.imageWidth ? [
+      `<meta property="og:image:width" content="${page.imageWidth}" />`,
+      `<meta property="og:image:height" content="${page.imageHeight}" />`,
+      '<meta property="og:image:type" content="image/jpeg" />',
+    ] : []),
     `<meta property="og:image:alt" content="${escape(page.imageAlt)}" />`,
     '<meta name="twitter:card" content="summary_large_image" />',
     '<meta name="twitter:creator" content="@adiarya05" />',
