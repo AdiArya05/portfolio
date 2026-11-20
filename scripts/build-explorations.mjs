@@ -99,7 +99,7 @@ const [worldClock, musicPlayer] = [
 const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const workFeed = [dot, ...remainingFeed.filter(card => attribute(card, 'data-title') !== 'Soja Website')];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, chatHomeConcept, worldClock, dotSplitScreen, liquidGlass, scrollControls, codexUsage, incomeSlider, musicPlayer);
+workFeed.splice(sailorfyIndex, 0, worldClock, dotSplitScreen, liquidGlass, scrollControls, chatHomeConcept, codexUsage, incomeSlider, musicPlayer);
 workFeed.push(catalogFeed[recoveryIndex]);
 
 const html = `<!doctype html>

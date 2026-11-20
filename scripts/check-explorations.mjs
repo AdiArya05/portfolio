@@ -35,11 +35,11 @@ for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Miss
 assert.deepEqual(pieces.slice(0, 10).map(title), [
   'Dot In The Dynamic Island',
   'Catch Live Activity',
-  'ChatGPT Home Concept',
   'World Clock',
   'Split Screen on iPhone',
   'Liquid Glass Button Interaction',
   'Scroll Controls',
+  'ChatGPT Home Concept',
   'Codex Usage Menu Bar',
   'Income Slider',
   'Music Player',
