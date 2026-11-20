@@ -83,7 +83,7 @@ const landscapeMotionTile = (title, poster, source, href) => {
   return motionTile(title, `data-title="${title}"`, video, href);
 };
 const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://x.com/adiarya05/status/2119647006507598210');
-const dotSplitScreen = landscapeMotionTile('Dot In Split Screen', '/media/dot-split-screen-poster-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120347912890892565');
+const dotSplitScreen = landscapeMotionTile('Split Screen on iPhone', '/media/dot-split-screen-poster-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120347912890892565');
 const liquidGlass = landscapeMotionTile(
   'Liquid Glass Button Interaction',
   '/media/liquid-glass-button-interaction-matched-4k.webp',
@@ -124,7 +124,7 @@ const html = `<!doctype html>
   <script src="/media-sounds.js?v=20261021-v28" defer></script>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261116-last-played-loading" defer></script>
-  <script src="/explorations/explorations.js?v=20261107-shared-preview" defer></script>
+  <script src="/explorations/explorations.js?v=20261120-full-resolution" defer></script>
   <script src="/motion-gallery.js?v=20261115-dot-on-open" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />

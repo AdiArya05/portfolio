@@ -37,7 +37,7 @@ assert.deepEqual(pieces.slice(0, 10).map(title), [
   'Catch Live Activity',
   'ChatGPT Home Concept',
   'World Clock',
-  'Dot In Split Screen',
+  'Split Screen on iPhone',
   'Liquid Glass Button Interaction',
   'Scroll Controls',
   'Codex Usage Menu Bar',
@@ -53,7 +53,7 @@ const sojaSite = 'https://soja.framer.website/';
 const destinations = {
   'Liquid Glass Button Interaction': 'https://x.com/adiarya05/status/2122124177226481913',
   'Dot In The Dynamic Island': 'https://x.com/adiarya05/status/2119647006507598210',
-  'Dot In Split Screen': 'https://x.com/adiarya05/status/2120347912890892565',
+  'Split Screen on iPhone': 'https://x.com/adiarya05/status/2120347912890892565',
   'Catch Live Activity': catchApp,
   'World Clock': portfolioRepo,
   'Codex Usage Menu Bar': 'https://github.com/AdiArya05/codex-usage-menu-bar',

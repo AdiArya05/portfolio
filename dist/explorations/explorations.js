@@ -37,8 +37,16 @@
       } else {
         image.width = width;
         image.height = height;
-        image.src = media.currentSrc || media.src;
+        const preview = media.currentSrc || media.src;
+        image.src = preview;
         image.alt = media.alt;
+        if (preview !== media.src) {
+          const fullSize = new Image();
+          fullSize.src = media.src;
+          fullSize.decode().then(() => {
+            if (viewer.open && opener === button && image.src === preview) image.src = fullSize.src;
+          }).catch(() => {});
+        }
       }
       window.dispatchEvent(new CustomEvent('portfolio-media-state',{detail:{open:true}}));
       dialogMotion.open(media);
