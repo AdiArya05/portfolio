@@ -18,7 +18,7 @@ assert(cards.filter(card => title(card).toLowerCase() !== 'soja website').every(
 assert(pieces.every(piece => !excludedWorkTitles.includes(title(piece))), 'Work must omit the three removed Soja entries');
 assert(pieces.length > cards.length && !page.includes('class="work-icon-grid"'), 'Work is a media-only collage');
 assert(!page.includes('/work/catch/media/current-home.webp') && !page.includes('/work/soja/media/onboarding.webp'));
-assert(page.includes('/media/soja-welcome-framed-4k.webp'));
+assert(!page.includes('/media/soja-welcome-framed-4k.webp'));
 const iconsPage = read('icons/index.html');
 const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div><img src="([^"]+)"/g)].map(match => match[1]);
 assert.deepEqual(iconFiles, [
@@ -32,9 +32,10 @@ assert.deepEqual(iconFiles, [
   '/media/soja-peach-icon-4k.webp',
 ]);
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
-assert.deepEqual(pieces.slice(0, 9).map(title), [
+assert.deepEqual(pieces.slice(0, 10).map(title), [
   'Dot In The Dynamic Island',
   'Catch Live Activity',
+  'ChatGPT Home Concept',
   'World Clock',
   'Dot In Split Screen',
   'Liquid Glass Button Interaction',
@@ -66,7 +67,7 @@ const destinations = {
 };
 for (const piece of pieces) {
   const name = title(piece);
-  if (name === 'Income Slider') {
+  if (['Income Slider', 'ChatGPT Home Concept'].includes(name)) {
     assert(piece.includes('<button class="catalog-title preview-label"'));
   } else {
     const link = piece.match(/<a class="catalog-title" href="([^"]+)"/)?.[1];
