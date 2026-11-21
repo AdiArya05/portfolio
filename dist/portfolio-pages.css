@@ -1055,3 +1055,43 @@ html[data-theme="dark"] .work-contact-actions a[href^="https://cal.com/"] {
   padding: 0 14px;
 }
 .explorations-footer .back-link .glass-symbol { display: block; }
+
+/* Content softens as it passes the bottom edge of the viewport. */
+.scroll-blur {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 30;
+  height: calc(104px + env(safe-area-inset-bottom));
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--paper) 55%, transparent));
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000);
+  mask-image: linear-gradient(to bottom, transparent, #000);
+}
+.scroll-blur span {
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 65%);
+  mask-image: linear-gradient(to bottom, transparent, #000 65%);
+}
+.scroll-blur span:nth-child(2) {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 25%, #000 85%);
+  mask-image: linear-gradient(to bottom, transparent 25%, #000 85%);
+}
+.scroll-blur span:nth-child(3) {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 50%, #000);
+  mask-image: linear-gradient(to bottom, transparent 50%, #000);
+}
+body:has(dialog[open]) .scroll-blur { visibility: hidden; }
+@media (max-width: 700px) {
+  .scroll-blur { height: calc(72px + env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .scroll-blur { display: none; }
+}
