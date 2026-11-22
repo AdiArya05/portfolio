@@ -20,7 +20,7 @@ assert(pieces.length > cards.length && !page.includes('class="work-icon-grid"'),
 assert(!page.includes('/work/catch/media/current-home.webp') && !page.includes('/work/soja/media/onboarding.webp'));
 assert(!page.includes('/media/soja-welcome-framed-4k.webp'));
 const iconsPage = read('icons/index.html');
-const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div><img src="([^"]+)"/g)].map(match => match[1]);
+const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div>(?:<a[^>]*>)?<img src="([^"]+)"/g)].map(match => match[1]);
 assert.deepEqual(iconFiles, [
   '/media/catch-blue-icon-4k.webp',
   '/media/wayauto-icon-4k.webp',

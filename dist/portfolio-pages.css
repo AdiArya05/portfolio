@@ -1095,3 +1095,6 @@ body:has(dialog[open]) .scroll-blur { visibility: hidden; }
 @media (prefers-reduced-transparency: reduce) {
   .scroll-blur { display: none; }
 }
+
+.work-icon .icon-store-link { display: grid; place-items: center; width: 100%; height: 100%; border-radius: inherit; }
+.work-icon .icon-store-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
