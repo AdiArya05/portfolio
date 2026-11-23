@@ -32,10 +32,11 @@ assert.deepEqual(iconFiles, [
   '/media/soja-peach-icon-4k.webp',
 ]);
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
-assert.deepEqual(pieces.slice(0, 10).map(title), [
+assert.deepEqual(pieces.slice(0, 11).map(title), [
   'Dot In The Dynamic Island',
   'Catch Live Activity',
   'World Clock',
+  'Liquid Glass Water Slider',
   'Split Screen on iPhone',
   'Liquid Glass Button Interaction',
   'Scroll Controls',
@@ -51,6 +52,7 @@ const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
 const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
 const sojaSite = 'https://soja.framer.website/';
 const destinations = {
+  'Liquid Glass Water Slider': 'https://liquid-glass-water-slider.vercel.app/',
   'Liquid Glass Button Interaction': 'https://x.com/adiarya05/status/2122124177226481913',
   'Dot In The Dynamic Island': 'https://x.com/adiarya05/status/2119647006507598210',
   'Split Screen on iPhone': 'https://x.com/adiarya05/status/2120347912890892565',
