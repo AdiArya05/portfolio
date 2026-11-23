@@ -28,8 +28,9 @@ const dotPoster = '/media/dot-iphone-assistant.webp';
 const motionTile = (title, attributes, video, href = '') => {
   const phoneSource = attribute(video, 'data-src').replace(/\.mp4(?:\?.*)?$/, '-phone.mp4');
   const phonePoster = phoneSource.replace(/\.mp4$/, '-poster.webp');
+  const playbackSource = title === 'Liquid Glass Water Slider' ? attribute(video, 'data-src') : phoneSource;
   const autoplayOnOpen = title === dotTitle ? ' data-play-on-open' : '';
-  const previewVideo = video.replace('<video ', `<video data-phone-src="${phoneSource}"${autoplayOnOpen} `);
+  const previewVideo = video.replace('<video ', `<video data-phone-src="${playbackSource}"${autoplayOnOpen} `);
   return `<article class="exploration" ${attributes}>
         <div class="motion-stage">
           <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${previewVideo}<picture><source media="(max-width: 700px)" srcset="${phonePoster}"><img class="motion-poster" src="${attribute(video, 'poster')}" alt="" loading="${title === dotTitle ? 'eager' : 'lazy'}" decoding="async" /></picture></button>
@@ -60,7 +61,7 @@ const catalogFeed = phoneCards.map((card, index) => {
 });
 
 const extraMedia = [
-  ['ChatGPT Home Concept', '/media/chatgpt-home-concept-3840.webp', '', 'ChatGPT home interface concept with a blue gradient, translucent controls, and Ready when you are on a neutral gray background'],
+  ['ChatGPT Home Concept', '/media/chatgpt-home-concept-3840.webp', 'https://x.com/adiarya05/status/2123719176288374971?a=tBvr7WMoqc8e53GH3nY&amp;s=20', 'ChatGPT home interface concept with a blue gradient, translucent controls, and Ready when you are on a neutral gray background'],
   ['Scroll Controls', '/media/scroll-controls.webp', `${portfolioSource}/media/scroll-controls.webp`, 'Orange Back to top and clear glass Scroll down buttons on a gray background'],
   ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', 'https://github.com/AdiArya05/codex-usage-menu-bar', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover'],
 ];
@@ -79,11 +80,12 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, href, alt
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
 const [chatHomeConcept, scrollControls, codexUsage] = extraFeed;
 const landscapeMotionTile = (title, poster, source, href, width = 3840, height = 2880) => {
-  const video = `<video class="card-media" width="${width}" height="${height}" poster="${poster}" data-src="${source}" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
+  const compatibility = title === 'Liquid Glass Water Slider' ? ' data-fallback-src="/media/liquid-glass-water-slider-4k60.mp4" data-codec="hvc1"' : '';
+  const video = `<video${compatibility} class="card-media" width="${width}" height="${height}" poster="${poster}" data-src="${source}" data-name="${title}" preload="none" muted loop playsinline disablepictureinpicture tabindex="-1" aria-hidden="true"></video>`;
   return motionTile(title, `data-title="${title}"`, video, href);
 };
 const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://x.com/adiarya05/status/2119647006507598210');
-const liquidWaterSlider = landscapeMotionTile('Liquid Glass Water Slider', '/media/liquid-glass-water-slider-neutral-poster-4k.webp', '/media/liquid-glass-water-slider-neutral-4k60.mp4', 'https://liquid-glass-water-slider.vercel.app/', 3840, 2160);
+const liquidWaterSlider = landscapeMotionTile('Liquid Glass Water Slider', '/media/liquid-glass-water-slider-original-poster-4k.webp', '/media/liquid-glass-water-slider-original-8k60.mp4', 'https://liquid-glass-water-slider.vercel.app/', 7680, 4320);
 const dotSplitScreen = landscapeMotionTile('Split Screen on iPhone', '/media/dot-split-screen-poster-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120347912890892565');
 const liquidGlass = landscapeMotionTile(
   'Liquid Glass Button Interaction',
@@ -126,11 +128,11 @@ const html = `<!doctype html>
   <script src="/interface-sounds.js?v=20261022-v28" defer></script>
   <script src="/world-times.js?v=20261116-last-played-loading" defer></script>
   <script src="/explorations/explorations.js?v=20261120-full-resolution" defer></script>
-  <script src="/motion-gallery.js?v=20261115-dot-on-open" defer></script>
+  <script src="/motion-gallery.js?v=20261123-original-source" defer></script>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=20261123-water-slider-neutral" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=20261123-original-slider-hover" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=20261117-name-visibility" defer></script>
   <script src="/fluid-buttons.js?v=5" defer></script>

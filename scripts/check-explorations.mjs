@@ -52,6 +52,7 @@ const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
 const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
 const sojaSite = 'https://soja.framer.website/';
 const destinations = {
+  'ChatGPT Home Concept': 'https://x.com/adiarya05/status/2123719176288374971?a=tBvr7WMoqc8e53GH3nY&amp;s=20',
   'Liquid Glass Water Slider': 'https://liquid-glass-water-slider.vercel.app/',
   'Liquid Glass Button Interaction': 'https://x.com/adiarya05/status/2122124177226481913',
   'Dot In The Dynamic Island': 'https://x.com/adiarya05/status/2119647006507598210',
@@ -69,7 +70,7 @@ const destinations = {
 };
 for (const piece of pieces) {
   const name = title(piece);
-  if (['Income Slider', 'ChatGPT Home Concept'].includes(name)) {
+  if (['Income Slider'].includes(name)) {
     assert(piece.includes('<button class="catalog-title preview-label"'));
   } else {
     const link = piece.match(/<a class="catalog-title" href="([^"]+)"/)?.[1];
