@@ -11,12 +11,14 @@ assert(!html.includes('reel-preview') && !html.includes('previewGallery('),'Remo
 assert(!html.includes('project-notes-heading'),'Keep the two project tabs without a heading');
 const match=html.match(/      function updateProgress\([^)]*\) \{[\s\S]*?\n      \}/);
 assert(match);
-const starts=[0,400,870,1270,1690,2100,2510];
+const starts=[0,400,870,1270,1690,2100];
+const loopStart=500, loopPoint=2510;
+const last=starts.length - 1;
 const dots=cards.map(()=>({classes:new Set(),classList:{toggle(name,on){on?this.owner.classes.add(name):this.owner.classes.delete(name);}}}));
 dots.forEach(dot=>dot.classList.owner=dot);
-const context=vm.createContext({loopStart:500,loopPoint:2870,galleryCardStarts:starts,galleryActiveIndex:-1,progressDots:dots,gallery:{scrollTop:500}});
+const context=vm.createContext({loopStart,loopPoint,galleryCardStarts:starts,galleryActiveIndex:-1,progressDots:dots,gallery:{scrollTop:500}});
 vm.runInContext(match[0],context);
-for(const [top,index] of [[500,0],[1370,2],[1770,3],[3010,6],[3370,0],[499,6],[5880,6]]){
+for(const [top,index] of [[loopStart,0],[1370,2],[1770,3],[loopStart+starts[last],last],[loopStart+loopPoint,0],[loopStart-1,last],[loopStart+loopPoint*2-1,last]]){
  context.gallery.scrollTop=top;context.updateProgress();
  assert.equal(context.galleryActiveIndex,index);
  assert.equal(dots.filter(dot=>dot.classes.has('is-active')).length,1);

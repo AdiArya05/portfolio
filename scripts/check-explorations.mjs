@@ -11,11 +11,11 @@ const page = read('work/index.html');
 const cards = [...catalog.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const pieces = [...page.matchAll(/<article class="exploration"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const title = html => html.match(/data-title="([^"]+)"/)[1];
-const excludedWorkTitles = ['Soja Website', 'Soja Recovery Overview', 'Soja Welcome Screen'];
+const excludedWorkTitles = ['Soja Website', 'Soja Recovery Overview', 'Soja Welcome Screen', 'Catch Nearby'];
 assert(cards.filter(card => title(card).toLowerCase() !== 'soja website').every(card =>
   pieces.some(piece => title(piece).toLowerCase() === title(card).toLowerCase())
 ), 'Work must include the remaining catalog media');
-assert(pieces.every(piece => !excludedWorkTitles.includes(title(piece))), 'Work must omit the three removed Soja entries');
+assert(pieces.every(piece => !excludedWorkTitles.includes(title(piece))), 'Work must omit the removed entries');
 assert(pieces.length > cards.length && !page.includes('class="work-icon-grid"'), 'Work is a media-only collage');
 assert(!page.includes('/work/catch/media/current-home.webp') && !page.includes('/work/soja/media/onboarding.webp'));
 assert(!page.includes('/media/soja-welcome-framed-4k.webp'));
@@ -32,11 +32,12 @@ assert.deepEqual(iconFiles, [
   '/media/soja-peach-icon-4k.webp',
 ]);
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
-assert.deepEqual(pieces.slice(0, 11).map(title), [
+assert.deepEqual(pieces.slice(0, 12).map(title), [
   'Dot In The Dynamic Island',
   'Catch Live Activity',
   'World Clock',
   'Liquid Glass Water Slider',
+  'Catch Live Board',
   'Split Screen on iPhone',
   'Liquid Glass Button Interaction',
   'Scroll Controls',
@@ -64,7 +65,6 @@ const destinations = {
   'Sailorfy': 'https://sailorfy.framer.website/',
   'Catch Live Board': catchApp,
   'Scroll Controls': `${portfolioRepo}/blob/main/dist/media/scroll-controls.webp`,
-  'Catch Nearby': catchApp,
   'Soja Onboarding': sojaSite,
   'Soja Recovery': sojaSite,
 };

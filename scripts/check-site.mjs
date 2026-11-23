@@ -18,8 +18,8 @@ assert(html.includes('<article class="card"') && !html.includes('class="project-
 const catalog = fs.readFileSync(path.join(root, 'scripts/gallery-cards.html'), 'utf8');
 const work = fs.readFileSync(path.join(dist, 'work/index.html'), 'utf8');
 const cards = [...catalog.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(match => match[0]);
-assert.equal(cards.length, 7, 'Keep six stills plus the income motion study');
-assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, 7);
+assert.equal(cards.length, 6, 'Keep five stills plus the income motion study');
+assert.equal(new Set(cards.map(card => card.match(/data-title="([^"]+)"/)[1])).size, cards.length);
 assert(cards[1].includes('income-slider-motion'), 'Keep the income recording second');
 assert(!html.includes('catch-live-board-motion') && !html.includes('media/soja-welcome.'), 'Keep removed Catch recording and Soja welcome out of the reel');
 assert(!html.includes('data-framing=') && !html.includes('--media-zoom'), 'Keep stills at their original framing');
@@ -164,10 +164,10 @@ const { parseContributions } = require('../lib/github-contributions.js');
 assert.throws(() => parseContributions('<html>Temporarily unavailable</html>'), /Incomplete/);
 // Follow every story entry point to a real document and verify its local dependencies.
 const storyCards = cards.filter(card => card.includes('data-case-study='));
-assert.equal(storyCards.length, 5, 'Keep remaining project media story links');
+assert.equal(storyCards.length, 4, 'Keep remaining project media story links');
 for (const project of ['soja', 'catch']) {
   const route = `/work/${project}/`;
-  assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, project === 'catch' ? 3 : 2);
+  assert.equal(storyCards.filter(card => card.includes(`data-case-study="${route}"`)).length, 2);
   const story = fs.readFileSync(path.join(dist, route, 'index.html'), 'utf8');
   const readingToolbar = story.match(/<header class="reading-toolbar"[\s\S]*?<\/header>/)?.[0];
   assert(readingToolbar?.includes('class="portfolio-nav"') && readingToolbar.includes('id="time-zones"'), 'Keep reading controls in one header so content cannot scroll between them');
@@ -208,6 +208,6 @@ for (const project of ['soja', 'catch']) {
 for (const filename of ['case-study.js']) {
   new vm.Script(fs.readFileSync(path.join(dist, 'work', filename), 'utf8'), { filename });
 }
-console.log('PASS: five previewable gallery story links, personal Soja and Catch stories, local routes/assets, original image dimensions, image descriptions and shared script syntax.');
-console.log(`PASS: seven gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
+console.log('PASS: four previewable gallery story links, personal Soja and Catch stories, local routes/assets, original image dimensions, image descriptions and shared script syntax.');
+console.log(`PASS: six gallery cards, destinations, image dimensions, local assets, ${inlineCount} inline scripts, external scripts, SEO metadata, structured data, sitemap, robots, modal labels and calendar fallback.`);
 console.log('PASS: lossless image pixel equality, smaller assets, system typography, phone media guards, deferred footer, close control and canonical-host redirect.');

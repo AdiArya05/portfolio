@@ -100,9 +100,10 @@ const [worldClock, musicPlayer] = [
   landscapeMotionTile(title, `/media/${filename}-4k.webp`, `/media/${filename}.mp4?v=4k-stream`, href)
 );
 const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
-const workFeed = [dot, ...remainingFeed.filter(card => attribute(card, 'data-title') !== 'Soja Website')];
+const liveBoard = remainingFeed.find(card => attribute(card, 'data-title') === 'Catch Live Board');
+const workFeed = [dot, ...remainingFeed.filter(card => card !== liveBoard && attribute(card, 'data-title') !== 'Soja Website')];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, worldClock, liquidWaterSlider, dotSplitScreen, liquidGlass, scrollControls, chatHomeConcept, codexUsage, incomeSlider, musicPlayer);
+workFeed.splice(sailorfyIndex, 0, worldClock, liquidWaterSlider, liveBoard, dotSplitScreen, liquidGlass, scrollControls, chatHomeConcept, codexUsage, incomeSlider, musicPlayer);
 workFeed.push(catalogFeed[recoveryIndex]);
 
 const html = `<!doctype html>
