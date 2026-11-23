@@ -49,8 +49,10 @@
       !document.hidden && !modalOpen && !state.paused && (automatic || state.explicit);
     if (shouldPlay) {
       if (!video.hasAttribute('src')) {
-        const preferred = (phone.matches && video.dataset.phoneSrc) || video.dataset.src;
-        video.src = video.dataset.codec && !video.canPlayType(`video/mp4; codecs="${video.dataset.codec}"`) ? video.dataset.fallbackSrc : preferred;
+        const phoneSource = phone.matches && video.dataset.phoneSrc;
+        const needsFallback = video.dataset.codec &&
+          !video.canPlayType(`video/mp4; codecs="${video.dataset.codec}"`);
+        video.src = phoneSource || (needsFallback ? video.dataset.fallbackSrc : video.dataset.src);
       }
       if (video.paused) video.play().catch(() => paint(video));
     } else video.pause();
