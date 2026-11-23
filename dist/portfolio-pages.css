@@ -1098,36 +1098,3 @@ body:has(dialog[open]) .scroll-blur { visibility: hidden; }
 
 .work-icon .icon-store-link { display: grid; place-items: center; width: 100%; height: 100%; border-radius: inherit; }
 .work-icon .icon-store-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
-
-/* Keep a rounded, softly defocused leading edge while media scrolls away. */
-.scroll-edge-guide { position: fixed; top: max(12px, env(safe-area-inset-top)); width: 0; height: 0; pointer-events: none; }
-.scroll-edge-media { position: relative; }
-.scroll-edge-media.scroll-edge-active {
-  clip-path: inset(var(--scroll-edge-cut) 0 0 round var(--scroll-edge-radius) var(--scroll-edge-radius) var(--scroll-edge-bottom-right, 0px) var(--scroll-edge-bottom-left, 0px));
-}
-.scroll-edge-softness {
-  position: absolute;
-  z-index: 5;
-  inset: var(--scroll-edge-cut, 0px) 0 auto;
-  height: var(--scroll-edge-band, 22px);
-  opacity: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.scroll-edge-active > .scroll-edge-softness { opacity: var(--scroll-edge-strength, 0); }
-.scroll-edge-softness > span {
-  position: absolute;
-  inset: 0;
-  -webkit-backdrop-filter: blur(3px);
-  backdrop-filter: blur(3px);
-  -webkit-mask-image: linear-gradient(#000, transparent);
-  mask-image: linear-gradient(#000, transparent);
-}
-.scroll-edge-softness > span + span {
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  -webkit-mask-image: linear-gradient(#000, transparent 65%);
-  mask-image: linear-gradient(#000, transparent 65%);
-}
-body:has(dialog[open]) .scroll-edge-softness, body.modal-open .scroll-edge-softness { visibility: hidden; }
-@media (prefers-reduced-transparency: reduce) { .scroll-edge-softness { display: none; } }
