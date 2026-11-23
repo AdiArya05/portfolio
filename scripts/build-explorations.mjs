@@ -83,7 +83,7 @@ const landscapeMotionTile = (title, poster, source, href, width = 3840, height =
   return motionTile(title, `data-title="${title}"`, video, href);
 };
 const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://x.com/adiarya05/status/2119647006507598210');
-const liquidWaterSlider = landscapeMotionTile('Liquid Glass Water Slider', '/media/liquid-glass-water-slider-poster-4k.webp', '/media/liquid-glass-water-slider-4k60.mp4', 'https://liquid-glass-water-slider.vercel.app/', 3840, 2160);
+const liquidWaterSlider = landscapeMotionTile('Liquid Glass Water Slider', '/media/liquid-glass-water-slider-neutral-poster-4k.webp', '/media/liquid-glass-water-slider-neutral-4k60.mp4', 'https://liquid-glass-water-slider.vercel.app/', 3840, 2160);
 const dotSplitScreen = landscapeMotionTile('Split Screen on iPhone', '/media/dot-split-screen-poster-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120347912890892565');
 const liquidGlass = landscapeMotionTile(
   'Liquid Glass Button Interaction',
@@ -130,7 +130,7 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=20261123-water-slider" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=20261123-water-slider-neutral" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=20261117-name-visibility" defer></script>
   <script src="/fluid-buttons.js?v=5" defer></script>
