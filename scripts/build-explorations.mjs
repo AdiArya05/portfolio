@@ -102,7 +102,8 @@ const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index 
 const liveBoard = remainingFeed.find(card => attribute(card, 'data-title') === 'Catch Live Board');
 const workFeed = [dot, ...remainingFeed.filter(card => card !== liveBoard && attribute(card, 'data-title') !== 'Soja Website')];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
-workFeed.splice(sailorfyIndex, 0, worldClock, liquidWaterSlider, liveBoard, dotSplitScreen, liquidGlass, scrollControls, chatHomeConcept, codexUsage, incomeSlider, musicPlayer);
+const sailorfy = workFeed[sailorfyIndex];
+workFeed.splice(sailorfyIndex, 1, worldClock, liquidWaterSlider, sailorfy, liveBoard, dotSplitScreen, liquidGlass, scrollControls, chatHomeConcept, codexUsage, incomeSlider, musicPlayer);
 workFeed.push(catalogFeed[recoveryIndex]);
 
 const html = `<!doctype html>

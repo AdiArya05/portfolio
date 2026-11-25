@@ -32,11 +32,12 @@ assert.deepEqual(iconFiles, [
   '/media/soja-peach-icon-4k.webp',
 ]);
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
-assert.deepEqual(pieces.slice(0, 12).map(title), [
+assert.deepEqual(pieces.slice(0, 13).map(title), [
   'Dot In The Dynamic Island',
   'Catch Live Activity',
   'World Clock',
   'Liquid Glass Water Slider',
+  'Sailorfy',
   'Catch Live Board',
   'Split Screen on iPhone',
   'Liquid Glass Button Interaction',
