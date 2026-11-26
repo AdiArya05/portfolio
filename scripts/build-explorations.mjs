@@ -115,7 +115,7 @@ const sojaWebsite = remainingFeed.find(card => attribute(card, 'data-title') ===
 const workFeed = [dot, ...remainingFeed.filter(card => card !== liveBoard && card !== sojaWebsite)];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
 const sailorfy = workFeed[sailorfyIndex];
-workFeed.splice(sailorfyIndex, 1, worldClock, modelPicker, liquidWaterSlider, sailorfy, liveBoard, dotSplitScreen, liquidGlass, scrollControls, chatHomeConcept, codexUsage, incomeSlider, musicPlayer);
+workFeed.splice(sailorfyIndex, 1, worldClock, modelPicker, liquidWaterSlider, sailorfy, liveBoard, dotSplitScreen, liquidGlass, incomeSlider, chatHomeConcept, codexUsage, scrollControls, musicPlayer);
 workFeed.push(catalogFeed[recoveryIndex], sojaWebsite, ...restoredFeed);
 
 const html = `<!doctype html>
