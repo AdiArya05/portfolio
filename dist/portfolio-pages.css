@@ -109,6 +109,7 @@ body.portfolio-index .story {
   border: 0;
   border-radius: 0;
 }
+.explorations-feed .exploration[data-title="Soja Website"] .card-media { object-fit: cover; }
 :is(.explorations-view, .explorations-page) .explorations-feed .motion-stage { aspect-ratio: 4 / 3; }
 :is(.explorations-view, .explorations-page) .motion-stage .preview-open { background: #e4e4e4; }
 
