@@ -11,14 +11,10 @@ const page = read('work/index.html');
 const cards = [...catalog.matchAll(/<article class="card"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const pieces = [...page.matchAll(/<article class="exploration"[\s\S]*?<\/article>/g)].map(m => m[0]);
 const title = html => html.match(/data-title="([^"]+)"/)[1];
-const excludedWorkTitles = ['Soja Website', 'Soja Recovery Overview', 'Soja Welcome Screen', 'Catch Nearby'];
-assert(cards.filter(card => title(card).toLowerCase() !== 'soja website').every(card =>
+assert(cards.every(card =>
   pieces.some(piece => title(piece).toLowerCase() === title(card).toLowerCase())
 ), 'Work must include the remaining catalog media');
-assert(pieces.every(piece => !excludedWorkTitles.includes(title(piece))), 'Work must omit the removed entries');
 assert(pieces.length > cards.length && !page.includes('class="work-icon-grid"'), 'Work is a media-only collage');
-assert(!page.includes('/work/catch/media/current-home.webp') && !page.includes('/work/soja/media/onboarding.webp'));
-assert(!page.includes('/media/soja-welcome-framed-4k.webp'));
 const iconsPage = read('icons/index.html');
 const iconFiles = [...iconsPage.matchAll(/<figure class="work-icon"><div>(?:<a[^>]*>)?<img src="([^"]+)"/g)].map(match => match[1]);
 assert.deepEqual(iconFiles, [
@@ -32,10 +28,11 @@ assert.deepEqual(iconFiles, [
   '/media/soja-peach-icon-4k.webp',
 ]);
 for (const icon of iconFiles) assert(fs.existsSync(path.join(dist, icon)), 'Missing icon ' + icon);
-assert.deepEqual(pieces.slice(0, 13).map(title), [
+assert.deepEqual(pieces.map(title), [
   'Dot In The Dynamic Island',
   'Catch Live Activity',
   'World Clock',
+  'Model Picker',
   'Liquid Glass Water Slider',
   'Sailorfy',
   'Catch Live Board',
@@ -46,6 +43,25 @@ assert.deepEqual(pieces.slice(0, 13).map(title), [
   'Codex Usage Menu Bar',
   'Income Slider',
   'Music Player',
+  'Soja Recovery',
+  'Soja Website',
+  'Catch Nearby',
+  'Soja Onboarding',
+  'Soja Recovery Overview',
+  'Soja Welcome Screen',
+  'Catch Home Screen',
+  'Catch in the Dock',
+  'Catch Icon Collection',
+  'Catch · Blue',
+  'Soja · Orange',
+  'Catch · Black',
+  'Catch · Coral',
+  'Catch · Monochrome',
+  'Catch · Disco',
+  'Catch · Painted Blue',
+  'Catch · Painted Orange',
+  'Soja · Peach',
+  'Soja · Blue',
 ]);
 assert(pieces[0].includes('width="3840" height="2880"') && pieces[0].includes('/media/dot-iphone-assistant-4k.mp4'));
 assert.equal(title(cards[1]),'Income slider','Keep the separate desktop reel order');
@@ -68,10 +84,27 @@ const destinations = {
   'Scroll Controls': `${portfolioRepo}/blob/main/dist/media/scroll-controls.webp`,
   'Soja Onboarding': sojaSite,
   'Soja Recovery': sojaSite,
+  'Soja Website': sojaSite,
+  'Soja Recovery Overview': sojaSite,
+  'Soja Welcome Screen': sojaSite,
+  'Catch Nearby': catchApp,
+  'Catch Home Screen': '/work/catch/',
+  'Catch in the Dock': '/work/catch/',
+  'Catch Icon Collection': '/work/catch/',
+  'Catch · Blue': catchApp,
+  'Catch · Black': catchApp,
+  'Catch · Coral': catchApp,
+  'Catch · Monochrome': catchApp,
+  'Catch · Disco': catchApp,
+  'Catch · Painted Blue': catchApp,
+  'Catch · Painted Orange': catchApp,
+  'Soja · Orange': '/work/soja/',
+  'Soja · Peach': '/work/soja/',
+  'Soja · Blue': '/work/soja/',
 };
 for (const piece of pieces) {
   const name = title(piece);
-  if (['Income Slider'].includes(name)) {
+  if (['Income Slider', 'Model Picker'].includes(name)) {
     assert(piece.includes('<button class="catalog-title preview-label"'));
   } else {
     const link = piece.match(/<a class="catalog-title" href="([^"]+)"/)?.[1];
@@ -94,7 +127,7 @@ for (const piece of pieces) {
   const image = piece.match(/<img class="card-media"[^>]+>/)?.[0];
   if (image) {
     const metadata = await sharp(path.join(dist,image.match(/src="([^"]+)"/)[1])).metadata();
-    if (image.includes('-4k.webp')) assert.equal(metadata.width,3840);
+    if (image.includes('-4k.webp')) assert(metadata.width >= 3840, 'Keep 4K assets at their native width');
     assert.equal(Number(image.match(/width="(\d+)"/)[1]),metadata.width);
     assert.equal(Number(image.match(/height="(\d+)"/)[1]),metadata.height);
     assert(!piece.includes('max-width:700px'),'Visible phone images must load real media');

@@ -16,6 +16,9 @@ const phoneCards = [
 ];
 const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
 const portfolioSource = `${portfolioRepo}/blob/main/dist`;
+const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
+const catchStory = '/work/catch/';
+const sojaStory = '/work/soja/';
 const sojaSite = 'https://soja.framer.website/';
 const caption = (title, href) => {
   const control = href
@@ -64,7 +67,27 @@ const extraMedia = [
   ['Scroll Controls', '/media/scroll-controls.webp', `${portfolioSource}/media/scroll-controls.webp`, 'Orange Back to top and clear glass Scroll down buttons on a gray background'],
   ['Codex Usage Menu Bar', '/media/codex-usage-menu-bar.webp', 'https://github.com/AdiArya05/codex-usage-menu-bar', 'Codex Usage in the macOS menu bar, showing weekly usage and reset credits in a glass popover'],
 ];
-const extraFeed = await Promise.all(extraMedia.map(async ([title, src, href, alt]) => {
+// Earlier Work pieces, in their own group so the current lineup keeps its order.
+const restoredMedia = [
+  ['Catch Nearby', '/media/catch-map-4k.webp', catchApp, 'Catch nearby bus stops map on an iPhone'],
+  ['Soja Onboarding', '/media/soja-welcome-framed-4k.webp', sojaSite, 'Soja onboarding on an iPhone with an amber background and Apple sign-in'],
+  ['Soja Recovery Overview', '/work/soja/media/final-overview.webp', sojaSite, 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
+  ['Soja Welcome Screen', '/work/soja/media/final-welcome.webp', sojaSite, 'Soja’s welcome screen with the sleep tagline and sign-in options'],
+  ['Catch Home Screen', '/work/catch/media/current-home.webp', catchStory, 'Catch on the iPhone home screen'],
+  ['Catch in the Dock', '/media/catch-glass-dock.webp', catchStory, 'Blue Catch app icon in an iOS glass dock'],
+  ['Catch Icon Collection', '/media/catch-icon-collection-grey.webp', catchStory, 'The Catch app icon collection'],
+  ['Catch · Blue', '/media/catch-blue-icon-4k.webp', catchApp, 'Blue Catch app icon'],
+  ['Soja · Orange', '/media/soja-orange-icon-4k.webp', sojaStory, 'Orange Soja app icon'],
+  ['Catch · Black', '/work/catch/media/icon-black.webp', catchApp, 'Black Catch app icon'],
+  ['Catch · Coral', '/work/catch/media/icon-coral.webp', catchApp, 'Coral Catch app icon'],
+  ['Catch · Monochrome', '/work/catch/media/icon-monochrome.webp', catchApp, 'Monochrome Catch app icon'],
+  ['Catch · Disco', '/work/catch/media/icon-disco.webp', catchApp, 'Disco Catch app icon'],
+  ['Catch · Painted Blue', '/media/catch-painted-blue-icon-4k.webp', catchApp, 'Painted blue Catch app icon'],
+  ['Catch · Painted Orange', '/media/catch-painted-orange-icon-4k.webp', catchApp, 'Painted orange Catch app icon'],
+  ['Soja · Peach', '/media/soja-peach-icon-4k.webp', sojaStory, 'Peach Soja app icon'],
+  ['Soja · Blue', '/work/soja/media/icon-blue.webp', sojaStory, 'Blue Soja app icon'],
+];
+const stillTile = async ([title, src, href, alt]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
   const responsive = title === 'ChatGPT Home Concept'
     ? ' srcset="/media/chatgpt-home-concept-960.webp 960w, /media/chatgpt-home-concept-1920.webp 1920w, /media/chatgpt-home-concept-3840.webp 3840w" sizes="(max-width: 700px) 100vw, 600px"'
@@ -74,7 +97,9 @@ const extraFeed = await Promise.all(extraMedia.map(async ([title, src, href, alt
     <button class="preview-open" type="button" aria-haspopup="dialog" aria-label="Open ${title} preview">${image}</button>
     ${caption(title, href)}
   </article>`;
-}));
+};
+const extraFeed = await Promise.all(extraMedia.map(stillTile));
+const restoredFeed = await Promise.all(restoredMedia.map(stillTile));
 
 const recoveryIndex = phoneCards.findIndex(card => attribute(card, 'data-title') === 'Soja Recovery');
 const [chatHomeConcept, scrollControls, codexUsage] = extraFeed;
@@ -84,6 +109,7 @@ const landscapeMotionTile = (title, poster, source, href, width = 3840, height =
   return motionTile(title, `data-title="${title}"`, video, href);
 };
 const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://x.com/adiarya05/status/2119647006507598210');
+const modelPicker = landscapeMotionTile('Model Picker', '/media/model-picker-poster-4k.webp', '/media/model-picker-4k60.mp4', '', 3840, 2160);
 const liquidWaterSlider = landscapeMotionTile('Liquid Glass Water Slider', '/media/liquid-glass-water-slider-updated-poster-4k.webp', '/media/liquid-glass-water-slider-updated-8k60.mp4', 'https://liquid-glass-water-slider.vercel.app/', 7680, 4320);
 const dotSplitScreen = landscapeMotionTile('Split Screen on iPhone', '/media/dot-split-screen-poster-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120347912890892565');
 const liquidGlass = landscapeMotionTile(
@@ -100,11 +126,12 @@ const [worldClock, musicPlayer] = [
 );
 const [incomeSlider, ...remainingFeed] = catalogFeed.filter((_, index) => index !== recoveryIndex);
 const liveBoard = remainingFeed.find(card => attribute(card, 'data-title') === 'Catch Live Board');
-const workFeed = [dot, ...remainingFeed.filter(card => card !== liveBoard && attribute(card, 'data-title') !== 'Soja Website')];
+const sojaWebsite = remainingFeed.find(card => attribute(card, 'data-title') === 'Soja Website');
+const workFeed = [dot, ...remainingFeed.filter(card => card !== liveBoard && card !== sojaWebsite)];
 const sailorfyIndex = workFeed.findIndex(card => attribute(card, 'data-title') === 'Sailorfy');
 const sailorfy = workFeed[sailorfyIndex];
-workFeed.splice(sailorfyIndex, 1, worldClock, liquidWaterSlider, sailorfy, liveBoard, dotSplitScreen, liquidGlass, scrollControls, chatHomeConcept, codexUsage, incomeSlider, musicPlayer);
-workFeed.push(catalogFeed[recoveryIndex]);
+workFeed.splice(sailorfyIndex, 1, worldClock, modelPicker, liquidWaterSlider, sailorfy, liveBoard, dotSplitScreen, liquidGlass, scrollControls, chatHomeConcept, codexUsage, incomeSlider, musicPlayer);
+workFeed.push(catalogFeed[recoveryIndex], sojaWebsite, ...restoredFeed);
 
 const html = `<!doctype html>
 <html lang="en">
@@ -133,7 +160,7 @@ const html = `<!doctype html>
   <script src="/story-glass.js?v=20261019-v22" defer></script>
   <link rel="stylesheet" href="/media-dialog.css?v=20261022-v1" />
   <link rel="stylesheet" href="/media-motion.css?v=20261105-escape" />
-  <link rel="stylesheet" href="/portfolio-pages.css?v=20261123-slider-refresh" />
+  <link rel="stylesheet" href="/portfolio-pages.css?v=20261126-model-picker" />
   <script src="/back-to-top.js?v=3" defer></script>
   <script src="/portfolio-nav.js?v=20261117-name-visibility" defer></script>
   <script src="/fluid-buttons.js?v=5" defer></script>
