@@ -439,6 +439,11 @@
         display: none;
       }
 
+      a:is(.social-profile-card, .github-activity-card) {
+        color: var(--ink);
+        text-decoration: none;
+      }
+
       .social-profile-card {
         position: fixed;
         z-index: 2147483000;
@@ -1892,7 +1897,7 @@
       </div>
     </footer>
 
-    <div class="social-profile-card linkedin-profile-card" id="linkedin-profile-card" popover="manual" aria-hidden="true">
+    <a class="social-profile-card linkedin-profile-card" id="linkedin-profile-card" popover="manual" href="https://www.linkedin.com/in/aditya-arya1/" target="_blank" rel="noreferrer" tabindex="-1" aria-label="Visit LinkedIn">
       <span class="linkedin-cover"><img loading="lazy" decoding="async" src="/media/linkedin-cover-preview.webp" srcset="/media/linkedin-cover-preview.webp 1024w, /media/linkedin-cover-4k.webp 3840w" sizes="340px" width="3840" height="957" alt="" /></span>
       <span class="linkedin-body">
         <span class="linkedin-avatar"><img loading="lazy" decoding="async" src="/media/linkedin-profile-preview.webp" srcset="/media/linkedin-profile-preview.webp 384w, /media/linkedin-profile-4k.webp 3840w" sizes="78px" width="3840" height="3840" alt="" /></span>
@@ -1901,9 +1906,9 @@
         <span class="profile-location">Singapore</span>
         <span class="profile-stats"><span><strong>1.6K</strong> Followers</span><span><strong>500+</strong> Connections</span></span>
       </span>
-    </div>
+    </a>
 
-    <div class="social-profile-card x-profile-card" id="x-profile-card" popover="manual" aria-hidden="true">
+    <a class="social-profile-card x-profile-card" id="x-profile-card" popover="manual" href="https://x.com/adiarya05" target="_blank" rel="noreferrer" tabindex="-1" aria-label="Visit X">
       <span class="profile-card-cover"><img loading="lazy" decoding="async" src="/media/x-banner-preview.webp" srcset="/media/x-banner-preview.webp 1024w, /media/x-banner-4k.webp 3840w" sizes="340px" width="3840" height="1280" alt="" /></span>
       <span class="profile-card-body">
         <span class="profile-card-avatar"><img loading="lazy" decoding="async" src="/media/aditya-profile-preview.webp" srcset="/media/aditya-profile-preview.webp 512w, /media/aditya-profile-4k.webp 3024w" sizes="112px" width="3024" height="4032" alt="" /></span>
@@ -1913,14 +1918,14 @@
         <span class="x-profile-meta">Catch for Singapore buses · joined April 2023</span>
         <span class="profile-stats"><span><strong>343</strong> Following</span><span><strong>100+</strong> Followers</span></span>
       </span>
-    </div>
+    </a>
 
-    <span class="github-activity-card" id="github-activity-card" popover="manual" aria-hidden="true">
+    <a class="github-activity-card" id="github-activity-card" popover="manual" href="https://github.com/AdiArya05" target="_blank" rel="noreferrer" tabindex="-1" aria-label="Visit GitHub">
                   <span class="github-activity-head"><strong>GitHub activity</strong><span id="github-status">loading</span></span>
                   <span class="contribution-grid" id="github-grid"></span>
                   <span class="github-repos" id="github-repos"></span>
                   <span class="github-meta"><img src="media/github.svg" alt="" /><span id="github-meta">@AdiArya05 · public activity</span></span>
-                </span>
+    </a>
 
     <div class="focus-veil" id="focus-veil" popover="manual" aria-hidden="true"></div>
 
