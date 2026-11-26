@@ -17,8 +17,6 @@ const phoneCards = [
 const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
 const portfolioSource = `${portfolioRepo}/blob/main/dist`;
 const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
-const catchStory = '/work/catch/';
-const sojaStory = '/work/soja/';
 const sojaSite = 'https://soja.framer.website/';
 const caption = (title, href) => {
   const control = href
@@ -73,19 +71,6 @@ const restoredMedia = [
   ['Soja Onboarding', '/media/soja-welcome-framed-4k.webp', sojaSite, 'Soja onboarding on an iPhone with an amber background and Apple sign-in'],
   ['Soja Recovery Overview', '/work/soja/media/final-overview.webp', sojaSite, 'Soja’s daily recovery timeline with scheduled wake-up, bright light and first meal times'],
   ['Soja Welcome Screen', '/work/soja/media/final-welcome.webp', sojaSite, 'Soja’s welcome screen with the sleep tagline and sign-in options'],
-  ['Catch Home Screen', '/work/catch/media/current-home.webp', catchStory, 'Catch on the iPhone home screen'],
-  ['Catch in the Dock', '/media/catch-glass-dock.webp', catchStory, 'Blue Catch app icon in an iOS glass dock'],
-  ['Catch Icon Collection', '/media/catch-icon-collection-grey.webp', catchStory, 'The Catch app icon collection'],
-  ['Catch · Blue', '/media/catch-blue-icon-4k.webp', catchApp, 'Blue Catch app icon'],
-  ['Soja · Orange', '/media/soja-orange-icon-4k.webp', sojaStory, 'Orange Soja app icon'],
-  ['Catch · Black', '/work/catch/media/icon-black.webp', catchApp, 'Black Catch app icon'],
-  ['Catch · Coral', '/work/catch/media/icon-coral.webp', catchApp, 'Coral Catch app icon'],
-  ['Catch · Monochrome', '/work/catch/media/icon-monochrome.webp', catchApp, 'Monochrome Catch app icon'],
-  ['Catch · Disco', '/work/catch/media/icon-disco.webp', catchApp, 'Disco Catch app icon'],
-  ['Catch · Painted Blue', '/media/catch-painted-blue-icon-4k.webp', catchApp, 'Painted blue Catch app icon'],
-  ['Catch · Painted Orange', '/media/catch-painted-orange-icon-4k.webp', catchApp, 'Painted orange Catch app icon'],
-  ['Soja · Peach', '/media/soja-peach-icon-4k.webp', sojaStory, 'Peach Soja app icon'],
-  ['Soja · Blue', '/work/soja/media/icon-blue.webp', sojaStory, 'Blue Soja app icon'],
 ];
 const stillTile = async ([title, src, href, alt]) => {
   const {width, height} = await sharp(path.join(dist, src)).metadata();
@@ -109,7 +94,7 @@ const landscapeMotionTile = (title, poster, source, href, width = 3840, height =
   return motionTile(title, `data-title="${title}"`, video, href);
 };
 const dot = landscapeMotionTile(dotTitle, dotPoster, '/media/dot-iphone-assistant-4k.mp4', 'https://x.com/adiarya05/status/2119647006507598210');
-const modelPicker = landscapeMotionTile('Model Picker', '/media/model-picker-poster-4k.webp', '/media/model-picker-4k60.mp4', '', 3840, 2160);
+const modelPicker = landscapeMotionTile('Model Picker', '/media/model-picker-poster-4k.webp', '/media/model-picker-4k60.mp4', 'https://model-orbit.vercel.app/', 3840, 2160);
 const liquidWaterSlider = landscapeMotionTile('Liquid Glass Water Slider', '/media/liquid-glass-water-slider-updated-poster-4k.webp', '/media/liquid-glass-water-slider-updated-8k60.mp4', 'https://liquid-glass-water-slider.vercel.app/', 7680, 4320);
 const dotSplitScreen = landscapeMotionTile('Split Screen on iPhone', '/media/dot-split-screen-poster-4k.webp', '/media/dot-split-screen-4k60.mp4', 'https://x.com/adiarya05/status/2120347912890892565');
 const liquidGlass = landscapeMotionTile(

@@ -49,19 +49,6 @@ assert.deepEqual(pieces.map(title), [
   'Soja Onboarding',
   'Soja Recovery Overview',
   'Soja Welcome Screen',
-  'Catch Home Screen',
-  'Catch in the Dock',
-  'Catch Icon Collection',
-  'Catch · Blue',
-  'Soja · Orange',
-  'Catch · Black',
-  'Catch · Coral',
-  'Catch · Monochrome',
-  'Catch · Disco',
-  'Catch · Painted Blue',
-  'Catch · Painted Orange',
-  'Soja · Peach',
-  'Soja · Blue',
 ]);
 assert(pieces[0].includes('width="3840" height="2880"') && pieces[0].includes('/media/dot-iphone-assistant-4k.mp4'));
 assert.equal(title(cards[1]),'Income slider','Keep the separate desktop reel order');
@@ -70,6 +57,7 @@ const portfolioRepo = 'https://github.com/AdiArya05/portfolio';
 const catchApp = 'https://apps.apple.com/sg/app/catch-sg-buses/id6777373130';
 const sojaSite = 'https://soja.framer.website/';
 const destinations = {
+  'Model Picker': 'https://model-orbit.vercel.app/',
   'ChatGPT Home Concept': 'https://x.com/adiarya05/status/2123719176288374971?a=tBvr7WMoqc8e53GH3nY&amp;s=20',
   'Liquid Glass Water Slider': 'https://liquid-glass-water-slider.vercel.app/',
   'Liquid Glass Button Interaction': 'https://x.com/adiarya05/status/2122124177226481913',
@@ -88,23 +76,10 @@ const destinations = {
   'Soja Recovery Overview': sojaSite,
   'Soja Welcome Screen': sojaSite,
   'Catch Nearby': catchApp,
-  'Catch Home Screen': '/work/catch/',
-  'Catch in the Dock': '/work/catch/',
-  'Catch Icon Collection': '/work/catch/',
-  'Catch · Blue': catchApp,
-  'Catch · Black': catchApp,
-  'Catch · Coral': catchApp,
-  'Catch · Monochrome': catchApp,
-  'Catch · Disco': catchApp,
-  'Catch · Painted Blue': catchApp,
-  'Catch · Painted Orange': catchApp,
-  'Soja · Orange': '/work/soja/',
-  'Soja · Peach': '/work/soja/',
-  'Soja · Blue': '/work/soja/',
 };
 for (const piece of pieces) {
   const name = title(piece);
-  if (['Income Slider', 'Model Picker'].includes(name)) {
+  if (name === 'Income Slider') {
     assert(piece.includes('<button class="catalog-title preview-label"'));
   } else {
     const link = piece.match(/<a class="catalog-title" href="([^"]+)"/)?.[1];
