@@ -1099,10 +1099,10 @@ body:has(dialog[open]) .scroll-blur { visibility: hidden; }
 .work-icon .icon-store-link { display: grid; place-items: center; width: 100%; height: 100%; border-radius: inherit; }
 .work-icon .icon-store-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 
-/* The Model Picker recording fills its native frame. */
-.explorations-feed .exploration[data-title="Model Picker"] :is(.motion-stage, .preview-open) {
-  aspect-ratio: 16 / 9;
-  background: transparent;
+/* Fit the Model Picker to the gallery tile while keeping the full interface in view. */
+.explorations-feed .exploration[data-title="Model Picker"] :is(.motion-poster, .motion-stage video) {
+  object-fit: cover;
+  object-position: 20% center;
 }
 
 /* Blend the edges of the full widescreen render into the shared 4:3 tile. */
