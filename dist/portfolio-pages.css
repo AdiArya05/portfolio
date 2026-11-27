@@ -589,7 +589,7 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
 @media (prefers-reduced-motion: reduce) {
   .portfolio-feature-preview { --feature-preview-enter: none; translate: none; }
 }
-@media (max-width: 700px) and (max-height: 720px) {
+@media (max-width: 700px) and (max-height: 790px) {
   .portfolio-index .portfolio-content:has([data-portfolio-panel="index"]:not([hidden])) {
     --portfolio-copy-size: clamp(16px, min(5.4vw, 3.2svh), 22px);
   }
@@ -599,7 +599,7 @@ body.reading-page .reading-toolbar { position: relative; height: auto; }
   .portfolio-content:has([data-portfolio-panel="index"]:not([hidden])) .portfolio-introduction { margin-block-start: 13px; }
   body.portfolio-index .story { padding-block: 14px max(12px, env(safe-area-inset-bottom)); }
   .portfolio-index .intro { line-height: 1.42; }
-  .portfolio-index .intro .sentence + .sentence { margin-block-start: .52em; }
+  .portfolio-index .intro .sentence + .sentence { margin-block-start: .46em; }
 }
 
 .page-scroll-button { position:fixed; z-index:34; bottom:max(24px, env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); display:inline-flex; align-items:center; gap:9px; min-height:44px; padding:10px 17px 10px 12px; border:1px solid color-mix(in srgb,var(--ink) 6%,transparent); border-radius:999px; color:#65625c; background:#f1eee5; font:600 15px/1.2 -apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif; letter-spacing:-.025em; white-space:nowrap; cursor:pointer; transition:opacity 200ms ease,background-color 200ms ease,color 200ms ease; }
