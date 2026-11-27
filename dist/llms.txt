@@ -1,0 +1,18 @@
+# Aditya Arya
+
+> I’m currently serving in the Singapore Army. I’m also designing and building projects of my own.
+
+## Work
+
+- [Catch SG Buses](https://apps.apple.com/sg/app/catch-sg-buses/id6777373130): A bus timing app for Singapore.
+- [Designing Catch](https://adiarya.com/work/catch): The story behind Catch, including bus timings, leave-now guidance and Live Activities.
+- [Designing Soja](https://adiarya.com/work/soja): A sleep recovery app that turns circadian timing into a daily plan.
+- [Designing the WayAuto icon](https://adiarya.com/work/wayauto): An app icon for an automatic driving log, from aerial road studies to an editable Icon Composer project.
+- [Selected work](https://adiarya.com/work): Apps, interfaces, websites and motion studies.
+
+## Contact
+
+- [Email](mailto:adityaarya1021@gmail.com)
+- [LinkedIn](https://www.linkedin.com/in/aditya-arya1/)
+- [X](https://x.com/adiarya05)
+- [GitHub](https://github.com/AdiArya05)

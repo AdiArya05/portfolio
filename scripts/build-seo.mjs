@@ -101,7 +101,7 @@ for (const page of pages) {
   };
   const pagePerson = isHome ? {
     ...person,
-    description: 'I’m currently serving in the Singapore Army. I design and build projects of my own, including Catch, a bus timing app for Singapore.',
+    description: 'I’m currently serving in the Singapore Army. I’m also designing and building projects of my own.',
   } : person;
   const graph = [pagePerson, site, entity];
   if (page.route !== '/') {
