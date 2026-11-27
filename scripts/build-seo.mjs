@@ -5,6 +5,7 @@ const dist = path.resolve(import.meta.dirname, '../dist');
 const origin = 'https://adiarya.com';
 const personId = origin + '/#aditya';
 const siteId = origin + '/#website';
+const portfolioProfileLink = '<link rel="me" href="https://portfolios.here/aditya-arya">';
 const person = {
   '@type': 'Person',
   '@id': personId,
@@ -84,6 +85,7 @@ const escape = value => value.replaceAll('&', '&amp;').replaceAll('"', '&quot;')
 
 for (const page of pages) {
   await fs.access(path.join(dist, page.image));
+  const isHome = page.route === '/';
   const url = origin + page.route;
   const entity = {
     '@type': page.type,
@@ -97,7 +99,11 @@ for (const page of pages) {
     ...(page.type === 'ProfilePage' ? { mainEntity: { '@id': personId } } : { author: { '@id': personId } }),
     ...(page.type === 'Article' ? { headline: page.headline, mainEntityOfPage: url } : {}),
   };
-  const graph = [person, site, entity];
+  const pagePerson = isHome ? {
+    ...person,
+    description: 'I’m currently serving in the Singapore Army. I design and build projects of my own, including Catch, a bus timing app for Singapore.',
+  } : person;
+  const graph = [pagePerson, site, entity];
   if (page.route !== '/') {
     graph.push({
       '@type': 'BreadcrumbList',
@@ -115,6 +121,7 @@ for (const page of pages) {
     '<meta name="robots" content="index, follow, max-image-preview:large" />',
     '<meta name="author" content="Aditya Arya" />',
     `<link rel="canonical" href="${url}" />`,
+    ...(isHome ? [portfolioProfileLink] : []),
     `<meta property="og:type" content="${page.type === 'Article' ? 'article' : 'website'}" />`,
     '<meta property="og:site_name" content="Aditya Arya" />',
     '<meta property="og:locale" content="en_SG" />',
@@ -135,6 +142,7 @@ for (const page of pages) {
   ].join('\n  ');
   const filename = path.join(dist, page.file);
   let html = await fs.readFile(filename, 'utf8');
+  if (isHome) html = html.replaceAll(`\n  ${portfolioProfileLink}`, '');
   html = html
     .replace(/\s*<title>[\s\S]*?<\/title>/g, '')
     .replace(/\s*<meta\b(?=[^>]*(?:name="(?:description|robots|author|twitter:[^"]+)"|property="(?:og:|article:)[^"]+"))[^>]*>/g, '')
